@@ -91,5 +91,4 @@ public class Link {
   public boolean equals(Object object){
     return super.equals(object);
   }
-
 }
