@@ -27,10 +27,18 @@ public class Link {
     return text;
   }
 
+  /**
+   *
+   * @return
+   */
   public String getReference() {
     return reference;
   }
 
+  /**
+   *
+   * @param action
+   */
   public void addAction(Action action) {
     actions.add(action);
   }

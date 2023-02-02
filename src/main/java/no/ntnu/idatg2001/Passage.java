@@ -35,6 +35,7 @@ public class Passage
         return content;
     }
 
+    /**
     public boolean addLinks(Link link){
 
     }
@@ -63,4 +64,5 @@ public class Passage
     {
         return super.hashCode();
     }
+    */
 }
