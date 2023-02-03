@@ -4,9 +4,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
+ * @version 2023.02.02
+ */
 public class Story {
     private String title;
-    private Map<Link,Passage> passages;
+    private Map<Link, Passage> passages;
     private Passage openingPassage;
 
     /**
@@ -41,15 +46,18 @@ public class Story {
      * @param passage
      */
     public void addPassage(Passage passage){
-
+        this.openingPassage = passage;
+        Link link = new Link("Where do you want to start?", "Start");
+        passages.put(link,openingPassage);
     }
+
 
     /**
      *
      * @param link
      * @return
      */
-    public Passage getPassage(Link link){
+   /** public Passage getPassage(Link link){
         return link;
     }
 
@@ -57,7 +65,9 @@ public class Story {
      *
      * @return
      */
-    public Collection<Passage> getPassages(){
+   /** public Collection<Passage> getPassages(){
         passages.get();
     }
+
+    */
 }

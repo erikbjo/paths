@@ -2,6 +2,11 @@ package no.ntnu.idatg2001;
 
 import java.util.List;
 
+/**
+ *
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
+ * @version 2023.02.02
+ */
 public class Passage
 {
     private String title;
@@ -35,13 +40,20 @@ public class Passage
         return content;
     }
 
-    /**
-    public boolean addLinks(Link link){
 
+    public boolean addLinks(Link link){
+        if(links.size() >= 2){
+            links.add(link);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
+    /**
     public List<Link> getLinks(){
-        return links;
+        links.get();
     }
 
     public boolean hasLinks(){

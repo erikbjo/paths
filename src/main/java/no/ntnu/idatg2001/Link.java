@@ -3,6 +3,11 @@ package no.ntnu.idatg2001;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
+ * @version 2023.02.02
+ */
 public class Link {
   private String text;
   private String reference;
