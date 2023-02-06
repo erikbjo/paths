@@ -1,5 +1,7 @@
 package no.ntnu.idatg2001.goals;
 
+import no.ntnu.idatg2001.Player;
+
 /**
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
@@ -7,4 +9,5 @@ package no.ntnu.idatg2001.goals;
  */
 public interface Goal
 {
+    boolean isFulfilled(Player player);
 }
