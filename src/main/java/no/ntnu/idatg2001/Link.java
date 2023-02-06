@@ -2,6 +2,7 @@ package no.ntnu.idatg2001;
 
 import java.util.ArrayList;
 import java.util.List;
+import no.ntnu.idatg2001.actions.Action;
 
 /**
  * A class that makes it possible to move from one passage to another, by using links between the

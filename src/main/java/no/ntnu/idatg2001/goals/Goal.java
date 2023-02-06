@@ -1,4 +1,6 @@
-package no.ntnu.idatg2001;
+package no.ntnu.idatg2001.goals;
+
+import no.ntnu.idatg2001.Player;
 
 /**
  *
@@ -7,4 +9,5 @@ package no.ntnu.idatg2001;
  */
 public interface Goal
 {
+    boolean isFulfilled(Player player);
 }
