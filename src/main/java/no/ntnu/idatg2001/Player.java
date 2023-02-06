@@ -81,7 +81,14 @@ public class Player
      *
      * @param gold
      */
-    public void addGold(int gold){
+    public boolean addGold(int gold){
+        if(gold >= 0){
+            this.gold = gold;
+            return true;
+        }
+        else {
+            return false;
+        }
 
     }
 
