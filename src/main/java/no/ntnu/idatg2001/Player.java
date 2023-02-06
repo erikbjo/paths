@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * A class that represents a player with different actions that can be used in a story.
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  * @version 2023.02.03
@@ -17,11 +18,12 @@ public class Player
     private List<String> inventory;
 
     /**
+     * A constructor that initializes the declared fields name, health, score and gold.
      *
-     * @param name
-     * @param health
-     * @param score
-     * @param gold
+     * @param name represents the player's name.
+     * @param health represents the player's health.
+     * @param score represents the player's score.
+     * @param gold represents the player's gold.
      */
     public Player(String name, int health, int score, int gold){
         this.name = name;
