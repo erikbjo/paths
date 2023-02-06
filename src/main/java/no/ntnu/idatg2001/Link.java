@@ -89,7 +89,7 @@ public class Link {
    * @return
    */
   @Override
-  public boolean equals(Object object){
+  public boolean equals(Object object) {
     return super.equals(object);
   }
 }

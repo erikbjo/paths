@@ -11,12 +11,11 @@ public class HealthAction implements Action {
   private int health;
 
   public HealthAction(int health) {
-
+    this.health = health;
   }
 
   @Override
-  public void execute(Player player)
-  {
-
+  public void execute(Player player) {
+    player.addHealth(health);
   }
 }
