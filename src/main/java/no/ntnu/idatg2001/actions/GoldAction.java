@@ -11,13 +11,12 @@ public class GoldAction implements Action
 {
   private int gold;
 
-  public GoldAction(int gold){
-
+  public GoldAction(int gold) {
+    this.gold = gold;
   }
 
   @Override
-  public void execute(Player player)
-  {
+  public void execute(Player player) {
 
   }
 }
