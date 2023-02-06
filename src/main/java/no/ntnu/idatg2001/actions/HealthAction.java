@@ -1,7 +1,7 @@
 package no.ntnu.idatg2001.actions;
 
 import no.ntnu.idatg2001.Player;
-
+import no.ntnu.idatg2001.actions.Action;
 /**
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
