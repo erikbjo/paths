@@ -25,9 +25,9 @@ public class Player
      */
     public Player(String name, int health, int score, int gold){
         this.name = name;
-        this.health = health;
+        addHealth(health);
         this.score = score;
-        this.gold = gold;
+        addGold(gold);
         this.inventory = new ArrayList<>();
     }
 
@@ -44,11 +44,14 @@ public class Player
      *
      * @param health
      */
-    public void addHealth(int health){
+    public boolean addHealth(int health){
         if (health > 0){
             this.health = health;
+            return true;
         }
-
+        else{
+            return false;
+        }
     }
 
     /**
@@ -113,7 +116,7 @@ public class Player
      *
      * @return
      */
-   /** public List<String> getInventory(){
-        inventory.get();
-    }*/
+    public List<String> getInventory(){
+        return inventory;
+    }
 }
