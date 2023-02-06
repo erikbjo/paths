@@ -19,7 +19,7 @@ public class Story {
      * @param title
      * @param openingPassage
      */
-    public Story(String title, Passage openingPassage){
+    public Story(String title, Passage openingPassage) {
         this.title = title;
         this.openingPassage = openingPassage;
         this.passages = new HashMap<>();
@@ -29,7 +29,7 @@ public class Story {
      *
      * @return
      */
-    public String getTitle(){
+    public String getTitle() {
         return title;
     }
 
@@ -37,7 +37,7 @@ public class Story {
      *
      * @return
      */
-    public Passage getOpeningPassage(){
+    public Passage getOpeningPassage() {
         return openingPassage;
     }
 
@@ -45,29 +45,18 @@ public class Story {
      *
      * @param passage
      */
-    public void addPassage(Passage passage){
+    public void addPassage(Passage passage) {
         this.openingPassage = passage;
         Link link = new Link("Where do you want to start?", "Start");
         passages.put(link,openingPassage);
     }
 
-
     /**
-     *
-     * @param link
-     * @return
-     */
-   /** public Passage getPassage(Link link){
+   public Passage getPassage(Link link) {
         return link;
     }
 
-    /**
-     *
-     * @return
-     */
-   /** public Collection<Passage> getPassages(){
+   public Collection<Passage> getPassages() {
         passages.get();
-    }
-
-    */
+    } */
 }

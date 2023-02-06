@@ -2,8 +2,7 @@ package no.ntnu.idatg2001;
 
 import java.util.List;
 
-public class Game
-{
+public class Game {
     private Player player;
     private Story story;
     //private List<Goal> goals;
