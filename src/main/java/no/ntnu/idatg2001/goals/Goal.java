@@ -1,4 +1,5 @@
 package no.ntnu.idatg2001.goals;
+package no.ntnu.idatg2001.goals;
 
 import no.ntnu.idatg2001.Player;
 
