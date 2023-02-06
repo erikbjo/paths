@@ -18,7 +18,7 @@ public class Passage
      * @param title
      * @param content
      */
-    public Passage(String title, String content){
+    public Passage(String title, String content) {
         this.title = title;
         this.content = content;
     }
@@ -27,8 +27,7 @@ public class Passage
      *
      * @return
      */
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
@@ -36,17 +35,16 @@ public class Passage
      *
      * @return
      */
-    public String getContent(){
+    public String getContent() {
         return content;
     }
 
 
-    public boolean addLinks(Link link){
-        if(links.size() >= 2){
+    public boolean addLinks(Link link) {
+        if(links.size() >= 2) {
             links.add(link);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

@@ -1,4 +1,7 @@
 package no.ntnu.idatg2001.actions;
+package no.ntnu.idatg2001.actions;
+
+import no.ntnu.idatg2001.Player;
 
 /**
  *
@@ -7,4 +10,5 @@ package no.ntnu.idatg2001.actions;
  */
 public interface Action {
 
+  public void execute(Player player);
 }
