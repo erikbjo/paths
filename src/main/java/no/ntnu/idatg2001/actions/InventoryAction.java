@@ -9,16 +9,16 @@ import no.ntnu.idatg2001.units.Player;
  */
 public class InventoryAction implements Action {
   private String item;
-  private boolean positiveAction;
+  private boolean isAdditionToInventory;
 
-  public InventoryAction(String item, boolean positiveAction) {
+  public InventoryAction(String item, boolean isAdditionToInventory) {
     this.item = item;
-    this.positiveAction = positiveAction;
+    this.isAdditionToInventory = isAdditionToInventory;
   }
 
   @Override
   public void execute(Player player) {
-    if (positiveAction) {
+    if (isAdditionToInventory) {
       player.addToInventory(item);
     } else {
       if (player.getInventory().contains(item)) {
