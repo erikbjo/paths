@@ -1,9 +1,12 @@
 package no.ntnu.idatg2001.units;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
-abstract class Unit {
+public abstract class Unit {
 
+  private HashSet<Attributes> standardAttributes;
   // Information
   protected String name;
   private int score;
