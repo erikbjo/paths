@@ -1,6 +1,6 @@
 package no.ntnu.idatg2001;
 
-import java.util.List;
+import no.ntnu.idatg2001.units.Player;
 
 public class Game {
     private Player player;
