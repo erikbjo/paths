@@ -3,9 +3,9 @@ package no.ntnu.idatg2001.units.classes;
 import no.ntnu.idatg2001.units.Attributes;
 import no.ntnu.idatg2001.units.Unit;
 
-public class Warrior extends no.ntnu.idatg2001.units.Unit {
+public class Paladin extends no.ntnu.idatg2001.units.Unit {
 
-  public Warrior(String name, int score, int gold, int health, int mana, int energy, Attributes attributes) {
+  public Paladin(String name, int score, int gold, int health, int mana, int energy, Attributes attributes) {
     super.setName(name);
     super.setScore(score);
     super.setGold(gold);
@@ -16,6 +16,6 @@ public class Warrior extends no.ntnu.idatg2001.units.Unit {
   }
   @Override
   public void dialog() {
-    System.out.println("Yo I am a warrior");
+    System.out.println("Yo I am a paladin");
   }
 }

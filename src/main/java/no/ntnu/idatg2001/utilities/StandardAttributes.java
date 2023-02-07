@@ -1,4 +1,10 @@
-package no.ntnu.idatg2001.units.classes;
+package no.ntnu.idatg2001.utilities;
+
+/**
+ *  Placed in utilities for later usage
+ *  Not used for now
+
+import no.ntnu.idatg2001.units.Attributes;
 
 public enum StandardAttributes {
     WARRIOR (10,4,10,2,1,4,4),
@@ -27,5 +33,9 @@ public enum StandardAttributes {
       this.intelligence = intelligence;
       this.agility = agility;
       this.luck = luck;
+
+      Attributes test = new Attributes(this.strength, this.perception, this.endurance,
+          this.charisma, this.intelligence, this.agility, this.luck);
     }
 }
+ */

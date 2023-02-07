@@ -10,7 +10,17 @@ public class Attributes {
   private int agility;
   private int luck;
 
-  public int getStrength() {
+  public Attributes (
+      int strength, int perception, int endurance, int charisma, int intelligence, int agility, int luck) {
+    this.strength = strength;
+    this.perception = perception;
+    this.endurance = endurance;
+    this.charisma = charisma;
+    this.intelligence = intelligence;
+    this.agility = agility;
+    this.luck = luck;
+  }
+    public int getStrength() {
     return strength;
   }
 
