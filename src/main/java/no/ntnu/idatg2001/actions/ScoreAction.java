@@ -16,6 +16,6 @@ public class ScoreAction implements Action {
 
   @Override
   public void execute(Player player) {
-    player.addScore(points);
+    player.setScore(player.getScore() + points);
   }
 }
