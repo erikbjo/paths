@@ -23,6 +23,10 @@ abstract class Unit {
     return name;
   }
 
+  public void setName(String name) {
+    this.name = name;
+  }
+
   public int getScore() {
     return score;
   }
@@ -77,5 +81,9 @@ abstract class Unit {
 
   public Attributes getAttributes() {
     return this.attributes;
+  }
+
+  public void setAttributes(Attributes attributes) {
+    this.attributes = attributes;
   }
 }
