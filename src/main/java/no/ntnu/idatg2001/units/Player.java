@@ -13,8 +13,13 @@ public class Player extends Unit {
 
   public Player(
       String name, int score, int gold, int health, int mana, int energy, Attributes attributes) {
-    this.name = name;
-    this. =
+    super.setName(name);
+    super.setScore(score);
+    super.setGold(gold);
+    super.setHealth(health);
+    super.setMana(mana);
+    super.setEnergy(energy);
+    super.setAttributes(attributes);
   }
 
   public void dialog() {
