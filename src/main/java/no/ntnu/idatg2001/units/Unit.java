@@ -58,6 +58,10 @@ public abstract class Unit {
     inventory.add(item);
   }
 
+  public void removeFromInventory(String item) {
+    inventory.remove(item);
+  }
+
   public int getHealth() {
     return health;
   }
