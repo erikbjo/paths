@@ -1,6 +1,6 @@
 package no.ntnu.idatg2001.items;
 
-public interface BonusAttributes {
+public interface AttributeItem {
   int strength = 0;
   int perception = 0;
   int endurance = 0;

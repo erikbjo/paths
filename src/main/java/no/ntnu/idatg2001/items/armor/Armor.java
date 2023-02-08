@@ -1,10 +1,9 @@
 package no.ntnu.idatg2001.items.armor;
 
-import no.ntnu.idatg2001.items.BonusAttributes;
+import no.ntnu.idatg2001.items.AttributeItem;
 import no.ntnu.idatg2001.items.Item;
 
-public interface Armor extends Item, BonusAttributes
-{
+public abstract class Armor extends Item implements AttributeItem {
 
   int armorSlot = 0;
 }

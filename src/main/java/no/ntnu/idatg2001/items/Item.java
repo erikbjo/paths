@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import no.ntnu.idatg2001.units.Attributes;
 
-public interface Item {
+public abstract class Item {
   // Information
   String name = null;
   int itemScore = 0;

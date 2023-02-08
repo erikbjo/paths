@@ -20,7 +20,7 @@ public class Attributes {
     this.agility = agility;
     this.luck = luck;
   }
-    public int getStrength() {
+  public int getStrength() {
     return strength;
   }
 
@@ -74,5 +74,15 @@ public class Attributes {
 
   public void setLuck(int luck) {
     this.luck = luck;
+  }
+
+  public void addAttributes(Attributes attributes) {
+    this.setStrength(this.getStrength() + attributes.getStrength());
+    this.setPerception(this.getPerception() + attributes.getPerception());
+    this.setEndurance(this.getEndurance() + attributes.getEndurance());
+    this.setCharisma(this.getCharisma() + attributes.getCharisma());
+    this.setIntelligence(this.getIntelligence() + attributes.getIntelligence());
+    this.setAgility(this.getAgility() + attributes.getAgility());
+    this.setLuck(this.getLuck() + attributes.getLuck());
   }
 }
