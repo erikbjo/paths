@@ -26,9 +26,13 @@ public class Player extends Unit {
 
   }
 
+
   /**
+   * If the health is greater than 0, add it to the current health and return true. Otherwise, return
+   * false
    *
-   * @param health
+   * @param health The amount of health to add to the player.
+   * @return A boolean value.
    */
   public boolean addHealth(int health) {
     if (health > 0) {
@@ -39,6 +43,12 @@ public class Player extends Unit {
     }
   }
 
+  /**
+   * If the mana is greater than 0, add it to the current mana and return true. Otherwise, return false
+   *
+   * @param mana The amount of mana to add to the player.
+   * @return A boolean value.
+   */
   public boolean addMana(int mana) {
     if (mana > 0) {
       super.setMana(super.getMana() + mana);
@@ -48,6 +58,13 @@ public class Player extends Unit {
     }
   }
 
+  /**
+   * If the energy is greater than 0, add it to the current energy and return true. Otherwise, return
+   * false
+   *
+   * @param energy The amount of energy to add to the robot.
+   * @return The boolean value of the if statement.
+   */
   public boolean addEnergy(int energy) {
     if (energy > 0) {
       super.setEnergy(super.getEnergy() + energy);
@@ -57,9 +74,13 @@ public class Player extends Unit {
     }
   }
 
+
   /**
+   * If the gold is greater than or equal to zero, add the gold to the player's gold, and return true.
+   * Otherwise, return false
    *
-   * @param gold
+   * @param gold The amount of gold to add to the player's gold.
+   * @return A boolean value.
    */
   public boolean addGold(int gold) {
     if (gold >= 0) {
