@@ -2,7 +2,7 @@ package no.ntnu.idatg2001.goals;
 
 import java.util.ArrayList;
 import java.util.List;
-import no.ntnu.idatg2001.Player;
+import no.ntnu.idatg2001.units.Player;
 
 /**
  *
@@ -17,7 +17,7 @@ public class InventoryGoal implements Goal
         this.mandatoryItems = new ArrayList<>();
     }
 
-    /**
+
     @Override
     public boolean isFulfilled(Player player)
     {
@@ -28,5 +28,5 @@ public class InventoryGoal implements Goal
         {
             return true;
         }
-    }*/
+    }
 }

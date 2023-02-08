@@ -1,6 +1,5 @@
 package no.ntnu.idatg2001.actions;
 
-import no.ntnu.idatg2001.Player;
 import no.ntnu.idatg2001.units.Player;
 
 /**
