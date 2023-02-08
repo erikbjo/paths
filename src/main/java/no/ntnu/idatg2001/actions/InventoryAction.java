@@ -1,5 +1,6 @@
 package no.ntnu.idatg2001.actions;
 
+import no.ntnu.idatg2001.items.Item;
 import no.ntnu.idatg2001.units.Player;
 
 /**
@@ -8,10 +9,10 @@ import no.ntnu.idatg2001.units.Player;
  * @version 2023.02.06
  */
 public class InventoryAction implements Action {
-  private String item;
+  private Item item;
   private boolean isAdditionToInventory;
 
-  public InventoryAction(String item, boolean isAdditionToInventory) {
+  public InventoryAction(Item item, boolean isAdditionToInventory) {
     this.item = item;
     this.isAdditionToInventory = isAdditionToInventory;
   }

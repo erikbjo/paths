@@ -3,6 +3,7 @@ package no.ntnu.idatg2001.units;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import no.ntnu.idatg2001.items.Item;
 
 public abstract class Unit {
 
@@ -11,7 +12,7 @@ public abstract class Unit {
   protected String name;
   private int score;
   private int gold;
-  private List<String> inventory;
+  private List<Item> inventory;
 
   // Standard stats
   private int health;
@@ -46,19 +47,19 @@ public abstract class Unit {
     this.gold = gold;
   }
 
-  public List<String> getInventory() {
+  public List<Item> getInventory() {
     return inventory;
   }
 
-  public void setInventory(List<String> inventory) {
+  public void setInventory(List<Item> inventory) {
     this.inventory = inventory;
   }
 
-  public void addToInventory(String item) {
+  public void addToInventory(Item item) {
     inventory.add(item);
   }
 
-  public void removeFromInventory(String item) {
+  public void removeFromInventory(Item item) {
     inventory.remove(item);
   }
 
