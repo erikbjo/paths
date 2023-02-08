@@ -1,6 +1,7 @@
 package no.ntnu.idatg2001.actions;
 
 import no.ntnu.idatg2001.Player;
+import no.ntnu.idatg2001.units.Player;
 
 /**
  *
@@ -16,6 +17,6 @@ public class ScoreAction implements Action {
 
   @Override
   public void execute(Player player) {
-    player.addScore(points);
+    player.setScore(player.getScore() + points);
   }
 }

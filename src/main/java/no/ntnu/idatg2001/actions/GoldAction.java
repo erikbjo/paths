@@ -1,15 +1,14 @@
 package no.ntnu.idatg2001.actions;
 
 import no.ntnu.idatg2001.actions.Action;
-import no.ntnu.idatg2001.Player;
+import no.ntnu.idatg2001.units.Player;
 
 /**
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  * @version 2023.02.06
  */
-public class GoldAction implements Action
-{
+public class GoldAction implements Action {
   private int gold;
 
   public GoldAction(int gold) {
@@ -18,6 +17,6 @@ public class GoldAction implements Action
 
   @Override
   public void execute(Player player) {
-
+    player.addGold(gold);
   }
 }
