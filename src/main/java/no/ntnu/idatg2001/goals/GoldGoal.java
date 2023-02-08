@@ -1,11 +1,7 @@
 package no.ntnu.idatg2001.goals;
 
+import no.ntnu.idatg2001.goals.Goal;
 import no.ntnu.idatg2001.units.Player;
-
-public class GoldGoal implements Goal
-{
-
-    private int minimumGold;
 
 /**
  *
