@@ -39,6 +39,24 @@ public class Player extends Unit {
     }
   }
 
+  public boolean addMana(int mana) {
+    if (mana > 0) {
+      super.setMana(super.getMana() + mana);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean addEnergy(int energy) {
+    if (energy > 0) {
+      super.setEnergy(super.getEnergy() + energy);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   /**
    *
    * @param gold
