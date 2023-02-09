@@ -1,6 +1,6 @@
 package no.ntnu.idatg2001.units;
 
-public class Attributes {
+public abstract class Attributes implements SpecialAttributes {
   // S.P.E.C.I.A.L stats
   private int strength;
   private int perception;
@@ -76,7 +76,7 @@ public class Attributes {
     this.luck = luck;
   }
 
-  public void addAttributes(Attributes attributes) {
+  public void addAttributes(SpecialAttributes attributes) {
     this.setStrength(this.getStrength() + attributes.getStrength());
     this.setPerception(this.getPerception() + attributes.getPerception());
     this.setEndurance(this.getEndurance() + attributes.getEndurance());
@@ -84,5 +84,15 @@ public class Attributes {
     this.setIntelligence(this.getIntelligence() + attributes.getIntelligence());
     this.setAgility(this.getAgility() + attributes.getAgility());
     this.setLuck(this.getLuck() + attributes.getLuck());
+  }
+
+  public void subtractAttributes(SpecialAttributes attributes) {
+    this.setStrength(this.getStrength() - attributes.getStrength());
+    this.setPerception(this.getPerception() - attributes.getPerception());
+    this.setEndurance(this.getEndurance() - attributes.getEndurance());
+    this.setCharisma(this.getCharisma() - attributes.getCharisma());
+    this.setIntelligence(this.getIntelligence() - attributes.getIntelligence());
+    this.setAgility(this.getAgility() - attributes.getAgility());
+    this.setLuck(this.getLuck() - attributes.getLuck());
   }
 }

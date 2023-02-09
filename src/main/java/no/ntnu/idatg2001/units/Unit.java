@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import no.ntnu.idatg2001.items.Item;
+import no.ntnu.idatg2001.items.equipables.Equipable;
 
 public abstract class Unit {
 
@@ -13,6 +14,7 @@ public abstract class Unit {
   private int score;
   private int gold;
   private List<Item> inventory;
+  private List<Equipable> equippedItems;
 
   // Standard stats
   private int health;
@@ -61,6 +63,22 @@ public abstract class Unit {
 
   public void removeFromInventory(Item item) {
     inventory.remove(item);
+  }
+
+  public List<Equipable> getEquippedItems() {
+    return equippedItems;
+  }
+
+  public void setEquippedItems(List<Equipable> inventory) {
+    this.equippedItems = inventory;
+  }
+
+  public void addToEquippedItems(Equipable item) {
+    equippedItems.add(item);
+  }
+
+  public void removeFromEquippedItems(Equipable item) {
+    equippedItems.remove(item);
   }
 
   public int getHealth() {
