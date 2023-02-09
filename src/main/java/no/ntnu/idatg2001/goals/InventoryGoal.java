@@ -20,6 +20,7 @@ public class InventoryGoal implements Goal {
     @Override
     public boolean isFulfilled(Player player)
     {
+        /**
         int i = 0;
         String inventory = player.getInventory().get(i);
         mandatoryItems.add(inventory);
@@ -27,5 +28,7 @@ public class InventoryGoal implements Goal {
         {
             return true;
         }
+         */
+        return false;
     }
 }
