@@ -18,7 +18,7 @@ public class GoldGoal implements Goal
 
     public boolean isFulfilled(Player player)
     {
-        if (player.getGold() > 0)
+        if (player.getGold()> 0)
         {
             return true;
         } else
