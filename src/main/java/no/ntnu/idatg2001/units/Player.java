@@ -23,7 +23,6 @@ public class Player extends Unit {
   }
 
   public void dialog() {
-
   }
 
 

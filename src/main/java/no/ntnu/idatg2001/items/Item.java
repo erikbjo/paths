@@ -11,5 +11,6 @@ public abstract class Item {
     this.itemScore = itemScore;
     this.goldValue = goldValue;
   }
+
 }
 

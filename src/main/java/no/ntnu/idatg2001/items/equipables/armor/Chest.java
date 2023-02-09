@@ -7,4 +7,5 @@ public class Chest extends Attributes {
                int agility, int luck) {
     super(strength, perception, endurance, charisma, intelligence, agility, luck);
   }
+
 }
