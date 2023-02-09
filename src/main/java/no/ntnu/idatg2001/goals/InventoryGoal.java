@@ -9,8 +9,7 @@ import no.ntnu.idatg2001.units.Player;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen.
  * @version 2023.02.06
  */
-public class InventoryGoal implements Goal
-{
+public class InventoryGoal implements Goal {
     private List<String> mandatoryItems;
 
     public InventoryGoal(List<String> mandatoryItems){
