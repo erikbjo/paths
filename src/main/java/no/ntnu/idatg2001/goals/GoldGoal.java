@@ -1,5 +1,6 @@
 package no.ntnu.idatg2001.goals;
 
+import no.ntnu.idatg2001.goals.Goal;
 import no.ntnu.idatg2001.units.Player;
 
 /**
@@ -17,7 +18,7 @@ public class GoldGoal implements Goal
 
     public boolean isFulfilled(Player player)
     {
-        if (player. > 0)
+        if (player.getGold() > 0)
         {
             return true;
         } else
