@@ -8,7 +8,6 @@ import no.ntnu.idatg2001.items.equipables.Equipable;
 
 public abstract class Unit {
 
-  private HashSet<Attributes> standardAttributes;
   // Information
   protected String name;
   private int score;
