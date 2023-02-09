@@ -1,7 +1,7 @@
 package no.ntnu.idatg2001.units;
 
 public interface SpecialAttributes {
-  /**
+
   int strength = 0;
   int perception = 0;
   int endurance = 0;
@@ -9,7 +9,6 @@ public interface SpecialAttributes {
   int intelligence = 0;
   int agility = 0;
   int luck = 0;
-   */
 
   int getStrength();
   int getPerception();
