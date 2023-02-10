@@ -12,6 +12,23 @@ public class AttributePotion extends Potion implements SpecialAttributes, Consum
   private int agility;
   private int luck;
 
+  protected AttributePotion(String name, int itemScore, int goldValue)
+  {
+    super(name, itemScore, goldValue);
+  }
+
+  /**
+  public AttributePotion(int strength, int perception, int endurance,
+                         int charisma, int intelligence, int agility, int luck) {
+    this.strength = strength;
+    this.perception = perception;
+    this.endurance = endurance;
+    this.charisma = charisma;
+    this.intelligence = intelligence;
+    this.agility = agility;
+    this.luck = luck;
+  }*/
+
   @Override
   public int getStrength() {
     return strength;
@@ -76,17 +93,6 @@ public class AttributePotion extends Potion implements SpecialAttributes, Consum
   }
 
 
-
-  public AttributePotion(int strength, int perception, int endurance,
-                         int charisma, int intelligence, int agility, int luck) {
-    this.strength = strength;
-    this.perception = perception;
-    this.endurance = endurance;
-    this.charisma = charisma;
-    this.intelligence = intelligence;
-    this.agility = agility;
-    this.luck = luck;
-  }
 
   @Override
   public void use(Player player) {

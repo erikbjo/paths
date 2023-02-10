@@ -16,7 +16,11 @@ public class Story {
     private Map<Link, Passage> passages;
     private Passage openingPassage;
 
-
+    /**
+     *
+     * @param title
+     * @param openingPassage
+     */
     public Story(String title, Passage openingPassage) {
         this.title = title;
         this.openingPassage = openingPassage;
