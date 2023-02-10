@@ -5,14 +5,14 @@ import no.ntnu.idatg2001.units.Player;
 
 public class BasePotion extends Potion {
 
+  private String name;
   private int health;
   private int mana;
   private int energy;
 
-  public BasePotion(int health, int mana, int energy) {
-    this.health = health;
-    this.mana = mana;
-    this.energy = energy;
+  public BasePotion(String name, int health, int mana, int energy) {
+   super(name,health,mana);
+   this.energy = energy;
   }
 
   @Override

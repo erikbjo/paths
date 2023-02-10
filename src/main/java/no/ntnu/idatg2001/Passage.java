@@ -1,5 +1,6 @@
 package no.ntnu.idatg2001;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +22,7 @@ public class Passage
     public Passage(String title, String content) {
         this.title = title;
         this.content = content;
+        this.links = new ArrayList<>();
     }
 
     /**
