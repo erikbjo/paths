@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class PassageTest
+class PassageTest
 {
     @Test
     void addLinksShouldReturnTrue()
