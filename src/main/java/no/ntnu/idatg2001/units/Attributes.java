@@ -20,7 +20,13 @@ public abstract class Attributes implements SpecialAttributes {
     this.agility = agility;
     this.luck = luck;
   }
-  public int getStrength() {
+
+    public Attributes()
+    {
+
+    }
+
+    public int getStrength() {
     return strength;
   }
 

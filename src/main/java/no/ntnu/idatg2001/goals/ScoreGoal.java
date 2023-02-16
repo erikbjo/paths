@@ -19,8 +19,8 @@ public class ScoreGoal implements Goal
     @Override
     public boolean isFulfilled(Player player)
     {
-        if (player.getScore() > 0){
-            this.minimumPoints = minimumPoints;
+        minimumPoints = player.getScore();
+        if (minimumPoints > 0){
             return true;
         }
         else
