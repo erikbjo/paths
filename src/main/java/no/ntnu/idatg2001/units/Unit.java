@@ -1,7 +1,5 @@
 package no.ntnu.idatg2001.units;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import no.ntnu.idatg2001.items.Item;
 import no.ntnu.idatg2001.items.equipables.Equipable;
@@ -12,7 +10,7 @@ public abstract class Unit {
   protected String name;
   private int score;
   private int gold;
-  private List<Item> inventory;
+  private List<String> inventory;
   private List<Equipable> equippedItems;
 
   // Standard stats
@@ -48,19 +46,19 @@ public abstract class Unit {
     this.gold = gold;
   }
 
-  public List<Item> getInventory() {
+  public List<String> getInventory() {
     return inventory;
   }
 
-  public void setInventory(List<Item> inventory) {
+  public void setInventory(List<String> inventory) {
     this.inventory = inventory;
   }
 
-  public void addToInventory(Item item) {
+  public void addToInventory(String item) {
     inventory.add(item);
   }
 
-  public void removeFromInventory(Item item) {
+  public void removeFromInventory(String item) {
     inventory.remove(item);
   }
 
