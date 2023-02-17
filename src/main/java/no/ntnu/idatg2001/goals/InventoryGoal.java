@@ -16,19 +16,14 @@ public class InventoryGoal implements Goal {
         this.mandatoryItems = new ArrayList<>();
     }
 
-
     @Override
     public boolean isFulfilled(Player player)
     {
-        /**
-        int i = 0;
-        String inventory = player.getInventory().get(i);
-        mandatoryItems.add(inventory);
-        for (i; mandatoryItems.size(); i++)
-        {
-            return true;
+        for (String firstMandatoryItem : mandatoryItems){
+            if(!player.getInventory().contains(firstMandatoryItem)){
+                return false;
+            }
         }
-         */
-        return false;
+        return true;
     }
 }

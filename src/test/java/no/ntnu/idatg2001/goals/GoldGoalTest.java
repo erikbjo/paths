@@ -16,7 +16,7 @@ class GoldGoalTest
         {
         };
         GoldGoal goldGoal = new GoldGoal(2);
-        Player player = new Player("Emil", 2,7,9,6,
+        Player player = new Player("Test", 2,7,9,6,
             12,attributes);
         assertTrue(goldGoal.isFulfilled(player));
     }
@@ -24,26 +24,12 @@ class GoldGoalTest
     @Test
     void goldGoalIsNotFulfilled()
     {
-        /**
-        Exception thrown = assertThrows(Exception.class, () -> {
-            Attributes attributes = new Attributes()
-            {
-            };
-            GoldGoal goldGoal = new GoldGoal(-1);
-            Player player = new Player("Emil", 2,-1,9,6,
-                12,attributes);
-            goldGoal.isFulfilled(player);
-        }, "The expected error was thrown");
-        assertEquals(-1,-1, thrown.getMessage());
-         */
-
         Attributes attributes = new Attributes()
         {
         };
         GoldGoal goldGoal = new GoldGoal(0);
-        Player player = new Player("Emil", 2,-2,9,6,
+        Player player = new Player("Test", 2,-2,9,6,
             12,attributes);
         assertFalse(goldGoal.isFulfilled(player));
-
     }
 }
