@@ -1,6 +1,6 @@
 package no.ntnu.idatg2001.units;
 
-public abstract class Attributes implements SpecialAttributes {
+public class Attributes implements SpecialAttributes {
   // S.P.E.C.I.A.L stats
   private int strength;
   private int perception;
