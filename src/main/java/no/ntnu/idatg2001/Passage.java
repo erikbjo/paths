@@ -51,13 +51,12 @@ public class Passage
         }
     }
 
-    /**
+
     public List<Link> getLinks(){
-        links.get();
+        return links;
     }
-
     public boolean hasLinks(){
-
+        return !links.isEmpty();
     }
 
     @Override
@@ -76,5 +75,4 @@ public class Passage
     {
         return super.hashCode();
     }
-    */
 }

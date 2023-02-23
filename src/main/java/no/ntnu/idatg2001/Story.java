@@ -1,5 +1,6 @@
 package no.ntnu.idatg2001;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +42,7 @@ public class Story {
     /**
      * This function returns the opening passage of the story.
      *
-     * @return The opening passage of the room.
+     * @return The opening passage of the game.
      */
     public Passage getOpeningPassage() {
         return openingPassage;
@@ -55,16 +56,18 @@ public class Story {
      */
     public void addPassage(Passage passage) {
         this.openingPassage = passage;
-        Link link = new Link("Where do you want to start?", "Start");
+        Link link = new Link(passage.getTitle(), passage.getTitle());
         passages.put(link,openingPassage);
     }
 
-    /**
+
    public Passage getPassage(Link link) {
-        return link;
+        Passage passage = new Passage(link.getReference(),"Where do you want to start?");
+        return passage;
     }
 
+/**
    public Collection<Passage> getPassages() {
-        passages.get();
-    } */
+       return new ArrayList<>();
+    }*/
 }
