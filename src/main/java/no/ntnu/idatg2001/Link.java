@@ -70,8 +70,13 @@ public class Link {
    * @return
    */
   @Override
-  public int hashCode() {
-    return super.hashCode();
+  public final int hashCode() {
+    int result = 17;
+    // only using reference, because a passage can have multiple links
+    if (reference != null) {
+      result = reference.hashCode();
+    }
+    return result;
   }
 
   /**
@@ -84,13 +89,15 @@ public class Link {
   }
 
 
-  /**
-   *
-   * @param object
-   * @return
-   */
   @Override
-  public boolean equals(Object object) {
-    return super.equals(object);
+  public boolean equals(Object o) {
+    if (o == this)
+      return true;
+    if (!(o instanceof Link))
+      return false;
+    Link other = (Link) o;
+    // checking only for reference
+    return (this.getReference() == null && other.getReference() == null)
+        || (this.getReference() != null && this.getReference().equals(other.getReference()));
   }
 }

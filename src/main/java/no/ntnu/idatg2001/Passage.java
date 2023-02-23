@@ -8,8 +8,7 @@ import java.util.List;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  * @version 2023.02.02
  */
-public class Passage
-{
+public class Passage {
     private String title;
     private String content;
     private List<Link> links;
