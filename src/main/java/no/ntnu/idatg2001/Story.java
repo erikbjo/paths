@@ -59,12 +59,21 @@ public class Story {
         passages.put(link,openingPassage);
     }
 
-    /**
+    public void removePassage(Link link) {
+        // if passasjen ikke har noen link til seg -> remove
+        if (checkIfPassageHasLink())
+        passages.remove(link,openingPassage);
+    }
+
    public Passage getPassage(Link link) {
-        return link;
+       return passages.get(link);
     }
 
    public Collection<Passage> getPassages() {
-        passages.get();
-    } */
+        return passages.values();
+    }
+
+    public boolean checkIfLinkIsDead(Link link){
+        link.getReference();
+    }
 }
