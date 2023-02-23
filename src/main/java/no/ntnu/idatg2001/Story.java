@@ -30,9 +30,9 @@ public class Story {
 
 
     /**
-     * This function returns the title of the book
+     * This function returns the title of the game
      *
-     * @return The title of the book.
+     * @return The title of the game.
      */
     public String getTitle() {
         return title;
@@ -40,7 +40,7 @@ public class Story {
 
 
     /**
-     * This function returns the opening passage of the story.
+     * This function returns the opening passage of the game.
      *
      * @return The opening passage of the game.
      */
@@ -52,7 +52,7 @@ public class Story {
     /**
      * This function adds a passage to the game
      *
-     * @param passage The passage that you want to add to the story.
+     * @param passage The passage that gets added to the game.
      */
     public void addPassage(Passage passage) {
         this.openingPassage = passage;
@@ -62,7 +62,7 @@ public class Story {
 
 
    public Passage getPassage(Link link) {
-        Passage passage = new Passage(link.getReference(),"Where do you want to start?");
+        Passage passage = new Passage(link.getReference(),"What do you want to do?");
         return passage;
     }
 

@@ -51,7 +51,6 @@ public class Passage
         }
     }
 
-
     public List<Link> getLinks(){
         return links;
     }

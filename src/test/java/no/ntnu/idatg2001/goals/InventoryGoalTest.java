@@ -16,9 +16,8 @@ class InventoryGoalTest
     @Test
     void isInventoryGoalFulfilled()
     {
-        Attributes attributes = new Attributes()
-        {
-        };
+        Attributes attributes = new Attributes(1,1,1,1,
+            1,1,1);
         List<String> items = new ArrayList<>();
         items.add("Sword");
         items.add("Dagger");
@@ -33,9 +32,8 @@ class InventoryGoalTest
     @Test
     void inventoryGoalIsNotFulfilled()
     {
-        Attributes attributes = new Attributes()
-        {
-        };
+        Attributes attributes = new Attributes(1,1,1,1,
+            1,1,1);
         List<String> items = new ArrayList<>();
         InventoryGoal inventoryGoal = new InventoryGoal(items);
         Player player = new Player("Test", 9,7,9,6,

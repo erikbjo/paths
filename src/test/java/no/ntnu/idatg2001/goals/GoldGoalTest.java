@@ -12,9 +12,8 @@ class GoldGoalTest
     @Test
     void goldGoalIsFulfilled()
     {
-        Attributes attributes = new Attributes()
-        {
-        };
+        Attributes attributes = new Attributes(1,1,1,1,
+            1,1,1);
         GoldGoal goldGoal = new GoldGoal(2);
         Player player = new Player("Test", 2,7,9,6,
             12,attributes);
@@ -24,9 +23,8 @@ class GoldGoalTest
     @Test
     void goldGoalIsNotFulfilled()
     {
-        Attributes attributes = new Attributes()
-        {
-        };
+        Attributes attributes = new Attributes(1,1,1,1,
+            1,1,1);
         GoldGoal goldGoal = new GoldGoal(0);
         Player player = new Player("Test", 2,-2,9,6,
             12,attributes);

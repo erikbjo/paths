@@ -12,9 +12,8 @@ class ScoreGoalTest
     @Test
     void isScoreGoalFulfilled()
     {
-        Attributes attributes = new Attributes()
-        {
-        };
+        Attributes attributes = new Attributes(1,1,1,1,
+            1,1,1);
         ScoreGoal scoreGoal = new ScoreGoal(0);
         Player player = new Player("Test", 9,7,9,6,
             12,attributes);
@@ -24,9 +23,8 @@ class ScoreGoalTest
     @Test
     void scoreGoalIsNotFulfilled()
     {
-        Attributes attributes = new Attributes()
-        {
-        };
+        Attributes attributes = new Attributes(1,1,1,1,
+            1,1,1);
         ScoreGoal scoreGoal = new ScoreGoal(0);
         Player player = new Player("Test", -6,12,9,6,
             12,attributes);
