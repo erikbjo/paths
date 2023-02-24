@@ -1,8 +1,8 @@
 package no.ntnu.idatg2001;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -62,12 +62,17 @@ public class Story {
 
 
    public Passage getPassage(Link link) {
-        Passage passage = new Passage(link.getReference(),"What do you want to do?");
-        return passage;
+       return passages.get(link);
     }
 
-/**
    public Collection<Passage> getPassages() {
-       return new ArrayList<>();
-    }*/
+       Collection<Passage> passageCollection = new HashSet<>();
+       for (Link link: passages.keySet()) {
+           Passage passage = passages.get(link);
+           if (passage != null){
+               passageCollection.add(passage);
+           }
+       }
+      return passageCollection;
+    }
 }
