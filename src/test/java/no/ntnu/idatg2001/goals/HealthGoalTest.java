@@ -4,30 +4,35 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import no.ntnu.idatg2001.units.Attributes;
 import no.ntnu.idatg2001.units.Player;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class HealthGoalTest
 {
 
+    Attributes attributes;
+    Player playerTrue;
+    Player playerFalse;
+    HealthGoal healthGoal;
+    @BeforeEach
+    void setUp(){
+        attributes = new Attributes(1,1,1,1,
+            1,1,1);
+        healthGoal = new HealthGoal(0);
+        playerTrue = new Player("Test", 9,7,9,6,
+            12,attributes);
+        playerFalse = new Player("Test", 2,10,-10,6,
+            12,attributes);
+    }
     @Test
     void isHealthGoalFulfilled()
     {
-        Attributes attributes = new Attributes(1,1,1,1,
-            1,1,1);
-        HealthGoal healthGoal = new HealthGoal(0);
-        Player player = new Player("Test", 9,7,9,6,
-            12,attributes);
-        assertTrue(healthGoal.isFulfilled(player));
+        assertTrue(healthGoal.isFulfilled(playerTrue));
     }
 
     @Test
     void healthGoalIsNotFulfilled()
     {
-        Attributes attributes = new Attributes(1,1,1,1,
-            1,1,1);
-        HealthGoal healthGoal = new HealthGoal(0);
-        Player player = new Player("Test", 2,10,-10,6,
-            12,attributes);
-        assertFalse(healthGoal.isFulfilled(player));
+        assertFalse(healthGoal.isFulfilled(playerFalse));
     }
 }
