@@ -2,6 +2,7 @@ package no.ntnu.idatg2001;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -29,9 +30,9 @@ public class Story {
 
 
     /**
-     * This function returns the title of the book
+     * This function returns the title of the game
      *
-     * @return The title of the book.
+     * @return The title of the game.
      */
     public String getTitle() {
         return title;
@@ -39,9 +40,9 @@ public class Story {
 
 
     /**
-     * This function returns the opening passage of the story.
+     * This function returns the opening passage of the game.
      *
-     * @return The opening passage of the room.
+     * @return The opening passage of the game.
      */
     public Passage getOpeningPassage() {
         return openingPassage;
@@ -51,11 +52,11 @@ public class Story {
     /**
      * This function adds a passage to the game
      *
-     * @param passage The passage that you want to add to the story.
+     * @param passage The passage that gets added to the game.
      */
     public void addPassage(Passage passage) {
         this.openingPassage = passage;
-        Link link = new Link("Where do you want to start?", "Start");
+        Link link = new Link(passage.getTitle(), passage.getTitle());
         passages.put(link,openingPassage);
     }
 
@@ -69,8 +70,15 @@ public class Story {
        return passages.get(link);
     }
 
-   public Collection<Passage> getPassages() {
-        return passages.values();
+    public Collection<Passage> getPassages() {
+        Collection<Passage> passageCollection = new HashSet<>();
+        for (Link link: passages.keySet()) {
+            Passage passage = passages.get(link);
+            if (passage != null){
+                passageCollection.add(passage);
+            }
+        }
+        return passageCollection;
     }
 
     public boolean checkIfLinkIsDead(Link link){
