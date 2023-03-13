@@ -60,10 +60,10 @@ public class Story {
         passages.put(link,openingPassage);
     }
 
-
+    /**
     public void removePassage(Link link) {
         // if passasjen ikke har noen link til seg -> remove
-        if (checkIfPassageHasLink())
+        if (checkIfLinkIsDead())
         passages.remove(link,openingPassage);
     }
 
@@ -71,18 +71,18 @@ public class Story {
        return passages.get(link);
     }
 
-   public Collection<Passage> getPassages() {
-       Collection<Passage> passageCollection = new HashSet<>();
-       for (Link link: passages.keySet()) {
-           Passage passage = passages.get(link);
-           if (passage != null){
-               passageCollection.add(passage);
-           }
-       }
-      return passageCollection;
+    public Collection<Passage> getPassages() {
+        Collection<Passage> passageCollection = new HashSet<>();
+        for (Link link: passages.keySet()) {
+            Passage passage = passages.get(link);
+            if (passage != null){
+                passageCollection.add(passage);
+            }
+        }
+        return passageCollection;
     }
 
     public boolean checkIfLinkIsDead(Link link){
         link.getReference();
-    }
+    }*/
 }
