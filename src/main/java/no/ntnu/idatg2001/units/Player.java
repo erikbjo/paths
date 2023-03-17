@@ -25,7 +25,6 @@ public class Player extends Unit {
   public void dialog() {
   }
 
-
   /**
    * If the health is greater than 0, add it to the current health and return true. Otherwise, return
    * false
