@@ -3,7 +3,9 @@ package no.ntnu.idatg2001;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The Story class is a container for the story. It contains the title of the story, a map of all
@@ -17,11 +19,6 @@ public class Story {
     private Map<Link, Passage> passages;
     private Passage openingPassage;
 
-    /**
-     *
-     * @param title
-     * @param openingPassage
-     */
     public Story(String title, Passage openingPassage) {
         this.title = title;
         this.openingPassage = openingPassage;
@@ -60,15 +57,8 @@ public class Story {
         passages.put(link,openingPassage);
     }
 
-    /**
-    public void removePassage(Link link) {
-        // if passasjen ikke har noen link til seg -> remove
-        if (checkIfLinkIsDead())
-        passages.remove(link,openingPassage);
-    }
-
-   public Passage getPassage(Link link) {
-       return passages.get(link);
+    public Passage getPassage(Link link) {
+        return passages.get(link);
     }
 
     public Collection<Passage> getPassages() {
@@ -82,7 +72,20 @@ public class Story {
         return passageCollection;
     }
 
-    public boolean checkIfLinkIsDead(Link link){
-        link.getReference();
-    }*/
+
+    public void removePassage(Link link) {
+        boolean isLinkedToAPassage = passages.keySet().stream()
+            .filter(key -> !key.equals(link))
+            .anyMatch(key -> passages.get(key).getLinks().stream()
+                .anyMatch(l -> l.getReference().equals(link.getReference())));
+        if (!isLinkedToAPassage){
+            passages.remove(link);
+        }
+    }
+
+    public List<Link> getBrokenLinks(){
+        return  passages.keySet().stream()
+            .filter(link -> passages.get(link) == null)
+            .collect(Collectors.toList());
+    }
 }
