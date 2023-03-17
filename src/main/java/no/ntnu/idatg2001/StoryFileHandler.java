@@ -8,10 +8,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import no.ntnu.idatg2001.actions.Action;
-import no.ntnu.idatg2001.actions.GoldAction;
 import no.ntnu.idatg2001.units.Attributes;
 import no.ntnu.idatg2001.units.Player;
-import no.ntnu.idatg2001.units.Unit;
 
 public class StoryFileHandler {
   public static void writePathsFile(List<Story> stories, String filename) {

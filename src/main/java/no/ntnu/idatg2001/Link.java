@@ -65,10 +65,6 @@ public class Link {
     return actions;
   }
 
-  /**
-   *
-   * @return
-   */
   @Override
   public final int hashCode() {
     int result = 17;
@@ -79,10 +75,6 @@ public class Link {
     return result;
   }
 
-  /**
-   *
-   * @return
-   */
   @Override
   public String toString() {
     return super.toString();
