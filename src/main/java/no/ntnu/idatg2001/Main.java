@@ -1,6 +1,5 @@
 package no.ntnu.idatg2001;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +9,6 @@ public class Main
 
         List<Story> stories = new ArrayList<>();
         StoryFileHandler.writePathsFile(stories, "Stories.paths");
-        StoryFileHandler.readStoryFile("Stories.paths");
+        //StoryFileHandler.readStoryFile("Stories.paths");
     }
 }
