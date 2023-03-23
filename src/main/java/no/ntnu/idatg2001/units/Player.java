@@ -1,8 +1,5 @@
 package no.ntnu.idatg2001.units;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * A class that represents a player with different actions that can be used in a story.
  *
@@ -22,12 +19,11 @@ public class Player extends Unit {
     super.setAttributes(attributes);
   }
 
-  public void dialog() {
-  }
+  public void dialog() {}
 
   /**
-   * If the health is greater than 0, add it to the current health and return true. Otherwise, return
-   * false
+   * If the health is greater than 0, add it to the current health and return true. Otherwise,
+   * return false
    *
    * @param health The amount of health to add to the player.
    * @return A boolean value.
@@ -42,7 +38,8 @@ public class Player extends Unit {
   }
 
   /**
-   * If the mana is greater than 0, add it to the current mana and return true. Otherwise, return false
+   * If the mana is greater than 0, add it to the current mana and return true. Otherwise, return
+   * false
    *
    * @param mana The amount of mana to add to the player.
    * @return A boolean value.
@@ -57,8 +54,8 @@ public class Player extends Unit {
   }
 
   /**
-   * If the energy is greater than 0, add it to the current energy and return true. Otherwise, return
-   * false
+   * If the energy is greater than 0, add it to the current energy and return true. Otherwise,
+   * return false
    *
    * @param energy The amount of energy to add to the robot.
    * @return The boolean value of the if statement.
@@ -72,10 +69,9 @@ public class Player extends Unit {
     }
   }
 
-
   /**
-   * If the gold is greater than or equal to zero, add the gold to the player's gold, and return true.
-   * Otherwise, return false
+   * If the gold is greater than or equal to zero, add the gold to the player's gold, and return
+   * true. Otherwise, return false
    *
    * @param gold The amount of gold to add to the player's gold.
    * @return A boolean value.
@@ -87,7 +83,5 @@ public class Player extends Unit {
     } else {
       return false;
     }
-
   }
-
 }

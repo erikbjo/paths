@@ -12,15 +12,15 @@ import no.ntnu.idatg2001.actions.Action;
  * @version 2023.02.02
  */
 public class Link {
-  private String text;
-  private String reference;
-  private List<Action> actions;
+  private final String text;
+  private final String reference;
+  private final List<Action> actions;
 
   /**
    * A constructor that initializes the declared fields for text, reference and actions.
    *
-   * @param text A string value that indicates the choices the player can make at a certain point
-   *            in the story.
+   * @param text A string value that indicates the choices the player can make at a certain point in
+   *     the story.
    * @param reference A string value that represents a unique passage identifier.
    */
   public Link(String text, String reference) {
@@ -80,14 +80,10 @@ public class Link {
     return super.toString();
   }
 
-
   @Override
   public boolean equals(Object o) {
-    if (o == this)
-      return true;
-    if (!(o instanceof Link))
-      return false;
-    Link other = (Link) o;
+    if (o == this) return true;
+    if (!(o instanceof Link other)) return false;
     // checking only for reference
     return (this.getReference() == null && other.getReference() == null)
         || (this.getReference() != null && this.getReference().equals(other.getReference()));

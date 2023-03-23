@@ -1,7 +1,7 @@
 package no.ntnu.idatg2001.items.consumables;
 
-import no.ntnu.idatg2001.units.SpecialAttributes;
 import no.ntnu.idatg2001.units.Player;
+import no.ntnu.idatg2001.units.SpecialAttributes;
 
 public class AttributePotion extends Potion implements SpecialAttributes, Consumable {
   private int strength;
@@ -12,23 +12,16 @@ public class AttributePotion extends Potion implements SpecialAttributes, Consum
   private int agility;
   private int luck;
 
-  protected AttributePotion(String name, int itemScore, int goldValue)
-  {
+  protected AttributePotion(String name, int itemScore, int goldValue) {
     super(name, itemScore, goldValue);
   }
 
   /**
-  public AttributePotion(int strength, int perception, int endurance,
-                         int charisma, int intelligence, int agility, int luck) {
-    this.strength = strength;
-    this.perception = perception;
-    this.endurance = endurance;
-    this.charisma = charisma;
-    this.intelligence = intelligence;
-    this.agility = agility;
-    this.luck = luck;
-  }*/
-
+   * public AttributePotion(int strength, int perception, int endurance, int charisma, int
+   * intelligence, int agility, int luck) { this.strength = strength; this.perception = perception;
+   * this.endurance = endurance; this.charisma = charisma; this.intelligence = intelligence;
+   * this.agility = agility; this.luck = luck; }
+   */
   @Override
   public int getStrength() {
     return strength;
@@ -91,8 +84,6 @@ public class AttributePotion extends Potion implements SpecialAttributes, Consum
   public void setLuck(int luck) {
     this.luck = luck;
   }
-
-
 
   @Override
   public void use(Player player) {
