@@ -11,18 +11,30 @@ public interface SpecialAttributes {
   int luck = 0;
 
   int getStrength();
-  int getPerception();
-  int getEndurance();
-  int getCharisma();
-  int getIntelligence();
-  int getAgility();
-  int getLuck();
 
   void setStrength(int strength);
+
+  int getPerception();
+
   void setPerception(int perception);
+
+  int getEndurance();
+
   void setEndurance(int endurance);
+
+  int getCharisma();
+
   void setCharisma(int charisma);
+
+  int getIntelligence();
+
   void setIntelligence(int intelligence);
+
+  int getAgility();
+
   void setAgility(int agility);
+
+  int getLuck();
+
   void setLuck(int luck);
 }

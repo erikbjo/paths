@@ -1,4 +1,3 @@
 package no.ntnu.idatg2001.items.equipables.weapons;
 
-public class Dagger {
-}
+public class Dagger {}

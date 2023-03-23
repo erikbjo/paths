@@ -1,7 +1,6 @@
 package no.ntnu.idatg2001.units;
 
 import java.util.List;
-import no.ntnu.idatg2001.items.Item;
 import no.ntnu.idatg2001.items.equipables.Equipable;
 
 public abstract class Unit {

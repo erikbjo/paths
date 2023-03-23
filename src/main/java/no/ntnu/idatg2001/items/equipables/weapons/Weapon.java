@@ -6,6 +6,6 @@ import no.ntnu.idatg2001.units.SpecialAttributes;
 
 public abstract class Weapon extends Item implements SpecialAttributes, Equipable {
   public Weapon(String name, int itemScore, int goldValue) {
-    super(name,itemScore,goldValue);
+    super(name, itemScore, goldValue);
   }
 }

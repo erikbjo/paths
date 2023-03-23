@@ -1,6 +1,5 @@
 package no.ntnu.idatg2001.items.consumables;
 
-
 import no.ntnu.idatg2001.units.Player;
 
 public class BasePotion extends Potion {
@@ -8,11 +7,11 @@ public class BasePotion extends Potion {
   private String name;
   private int health;
   private int mana;
-  private int energy;
+  private final int energy;
 
   public BasePotion(String name, int health, int mana, int energy) {
-   super(name,health,mana);
-   this.energy = energy;
+    super(name, health, mana);
+    this.energy = energy;
   }
 
   @Override

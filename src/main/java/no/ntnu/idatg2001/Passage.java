@@ -10,8 +10,8 @@ import java.util.List;
  * @version 2023.02.02
  */
 public class Passage {
-    private String title;
-    private String content;
+  private final String title;
+    private final String content;
     private List<Link> links;
 
     public Passage(String title, String content) {
@@ -55,14 +55,6 @@ public class Passage {
         }
     }
 
-    public void setLinks(List<Link> links) {
-        if (links != null && links.size() >= 2){
-            this.links = new ArrayList<>(links.subList(0,2));
-        } else {
-            this.links = links;
-        }
-    }
-
     /**
      * This function returns a list of links.
      *
@@ -70,6 +62,14 @@ public class Passage {
      */
     public List<Link> getLinks(){
         return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        if (links != null && links.size() >= 2){
+            this.links = new ArrayList<>(links.subList(0,2));
+        } else {
+            this.links = links;
+        }
     }
 
     /**

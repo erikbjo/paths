@@ -10,9 +10,14 @@ public class Attributes implements SpecialAttributes {
   private int agility;
   private int luck;
 
-  public Attributes (
-      int strength, int perception, int endurance, int charisma, int intelligence,
-      int agility, int luck) {
+  public Attributes(
+      int strength,
+      int perception,
+      int endurance,
+      int charisma,
+      int intelligence,
+      int agility,
+      int luck) {
     this.strength = strength;
     this.perception = perception;
     this.endurance = endurance;
@@ -22,7 +27,7 @@ public class Attributes implements SpecialAttributes {
     this.luck = luck;
   }
 
-    public int getStrength() {
+  public int getStrength() {
     return strength;
   }
 

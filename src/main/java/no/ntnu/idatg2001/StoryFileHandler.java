@@ -7,9 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import no.ntnu.idatg2001.actions.Action;
-import no.ntnu.idatg2001.units.Attributes;
-import no.ntnu.idatg2001.units.Player;
 
 public class StoryFileHandler {
   public static void writePathsFile(List<Story> stories, String filename) {
@@ -26,15 +23,11 @@ public class StoryFileHandler {
           fileWriter.write("[" + text + "]" + "(" + reference + ")" + "\n");
 
           /**
-          List<Action> actions = link.getActions();
-          for (Action action : actions) {
-            Attributes attributes = new Attributes(1,1,1,
-                1,1,1,1);
-            Player player = new Player("Test", 9,7,9,6,
-                12,attributes);
-            action.execute(player);
-            fileWriter.write("<" + action.getClass().getSimpleName() + ">" + "\n");
-          }*/
+           * List<Action> actions = link.getActions(); for (Action action : actions) { Attributes
+           * attributes = new Attributes(1,1,1, 1,1,1,1); Player player = new Player("Test",
+           * 9,7,9,6, 12,attributes); action.execute(player); fileWriter.write("<" +
+           * action.getClass().getSimpleName() + ">" + "\n"); }
+           */
         }
         fileWriter.write("\n\n");
       }
@@ -48,11 +41,8 @@ public class StoryFileHandler {
     try (BufferedReader fileReader = Files.newBufferedReader(Path.of(filename))) {
       String lineOfText;
       /**
-      Story currentStory = null;
-      Passage currentPassage = null;
-      boolean isPassageContent = false;
-      */
-
+       * Story currentStory = null; Passage currentPassage = null; boolean isPassageContent = false;
+       */
       while ((lineOfText = fileReader.readLine()) != null) {
         String title = lineOfText.trim();
         fileReader.readLine();
@@ -60,49 +50,30 @@ public class StoryFileHandler {
         String openingPassageContent = fileReader.readLine();
         Passage openingPassage = new Passage(openingPassageTitle, openingPassageContent);
         List<Link> links = new ArrayList<>();
-        while ((lineOfText = fileReader.readLine()) != null && !lineOfText.isEmpty()){
+        while ((lineOfText = fileReader.readLine()) != null && !lineOfText.isEmpty()) {
           String[] stringParts = lineOfText.split("\\]\\(");
           String linkText = stringParts[0].substring(1);
-          String linkReference = stringParts[1].substring(0, stringParts[1].length() -1);
+          String linkReference = stringParts[1].substring(0, stringParts[1].length() - 1);
           Link link = new Link(linkText, linkReference);
           String nextLine;
 
-          /**
-          while ((nextLine = fileReader.readLine()) != null && nextLine.startsWith("<")){
-          }
-          */
+          /** while ((nextLine = fileReader.readLine()) != null && nextLine.startsWith("<")){ } */
           links.add(link);
         }
         openingPassage.setLinks(links);
         Story story = new Story(title, openingPassage);
         stories.add(story);
         /**
-        if (lineOfText.isEmpty()){
-          if (currentStory != null && currentPassage != null){
-            currentStory.addPassage(currentPassage);
-          }
-          currentPassage = null;
-        } else if (lineOfText.startsWith("::")) {
-          if (currentStory != null && currentPassage != null) {
-            currentStory.addPassage(currentPassage);
-          }
-          String passageTitle = lineOfText.substring(2);
-          currentPassage = new Passage(passageTitle, currentPassage.getContent());
-        }
-
-          if (currentStory == null){
-            currentStory = new Story()
-            stories.add(currentStory);
-          }
-          else if (){
-            currentStory.addPassage(currentPassage);
-          }
-          isPassageContent = true;
-        }else {
-          if (currentStory == null){
-            currentStory = new Story()
-          }
-        }*/
+         * if (lineOfText.isEmpty()){ if (currentStory != null && currentPassage != null){
+         * currentStory.addPassage(currentPassage); } currentPassage = null; } else if
+         * (lineOfText.startsWith("::")) { if (currentStory != null && currentPassage != null) {
+         * currentStory.addPassage(currentPassage); } String passageTitle = lineOfText.substring(2);
+         * currentPassage = new Passage(passageTitle, currentPassage.getContent()); }
+         *
+         * <p>if (currentStory == null){ currentStory = new Story() stories.add(currentStory); }
+         * else if (){ currentStory.addPassage(currentPassage); } isPassageContent = true; }else {
+         * if (currentStory == null){ currentStory = new Story() } }
+         */
       }
 
     } catch (IOException e) {
@@ -111,7 +82,7 @@ public class StoryFileHandler {
     return stories;
   }
 
-  private static void createAction(String actionName){
+  private static void createAction(String actionName) {
     //
   }
 }

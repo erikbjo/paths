@@ -21,7 +21,7 @@ public class Story {
 
     public Story(String title, Passage openingPassage) {
         this.title = title;
-        this.openingPassage = openingPassage;
+    this.openingPassage = openingPassage;
         this.passages = new HashMap<>();
     }
 

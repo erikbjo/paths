@@ -12,7 +12,5 @@ public class Belt extends Armor {
   }
 
   @Override
-  public void equip(Player player) {
-
-  }
+  public void equip(Player player) {}
 }
