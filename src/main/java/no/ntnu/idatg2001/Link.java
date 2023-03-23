@@ -2,6 +2,7 @@ package no.ntnu.idatg2001;
 
 import java.util.ArrayList;
 import java.util.List;
+import no.ntnu.idatg2001.actions.Action;
 
 /**
  * A class that makes it possible to move from one passage to another, by using links between the
@@ -64,31 +65,31 @@ public class Link {
     return actions;
   }
 
-  /**
-   *
-   * @return
-   */
   @Override
-  public int hashCode() {
-    return super.hashCode();
+  public final int hashCode() {
+    int result = 17;
+    // only using reference, because a passage can have multiple links
+    if (reference != null) {
+      result = reference.hashCode();
+    }
+    return result;
   }
 
-  /**
-   *
-   * @return
-   */
   @Override
   public String toString() {
     return super.toString();
   }
 
-  /**
-   *
-   * @param object
-   * @return
-   */
+
   @Override
-  public boolean equals(Object object){
-    return super.equals(object);
+  public boolean equals(Object o) {
+    if (o == this)
+      return true;
+    if (!(o instanceof Link))
+      return false;
+    Link other = (Link) o;
+    // checking only for reference
+    return (this.getReference() == null && other.getReference() == null)
+        || (this.getReference() != null && this.getReference().equals(other.getReference()));
   }
 }
