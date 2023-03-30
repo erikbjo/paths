@@ -78,6 +78,7 @@ public class PlayerInformationView extends Application {
     AnchorPane.setBottomAnchor(gridPane, 10.0);
 
     Scene scene = new Scene(anchorPane, 600, 600);
+    scene.getStylesheets().add("cssfiles/test.css");
     stage.setScene(scene);
     stage.show();
   }
