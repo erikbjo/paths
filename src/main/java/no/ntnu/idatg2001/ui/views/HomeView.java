@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.ui;
+package no.ntnu.idatg2001.ui.views;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
