@@ -14,6 +14,10 @@ import javafx.stage.Stage;
 
 public class PlayerInformationView extends Application {
 
+  // just for testing
+  public static void mainApp(String[] args) {
+    launch(args);
+  }
   @Override
   public void start(Stage stage) throws Exception {
     AnchorPane anchorPane = new AnchorPane();
@@ -56,9 +60,9 @@ public class PlayerInformationView extends Application {
     goalCreationGridPane.add(inventoryGoalText,0,2);
     goalCreationGridPane.add(scoreGoalText, 0,3);
     goalCreationGridPane.add(healthSpinner,1,0);
-    goalCreationGridPane.add(goldSpinner,0,1);
-    goalCreationGridPane.add(inventorySpinner,0,2);
-    goalCreationGridPane.add(scoreSpinner, 0,3);
+    goalCreationGridPane.add(goldSpinner,1,1);
+    goalCreationGridPane.add(inventorySpinner,1,2);
+    goalCreationGridPane.add(scoreSpinner, 1,3);
 
     Button startButton = new Button("Start");
 
