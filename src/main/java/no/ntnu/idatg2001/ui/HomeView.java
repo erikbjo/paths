@@ -2,10 +2,12 @@ package no.ntnu.idatg2001.ui;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -27,9 +29,15 @@ public class HomeView extends Application {
         VBox deadLinksVBox = new VBox();
         HBox middleHBox = new HBox();
 
+        storiesVBox.setSpacing(10);
+        deadLinksVBox.setSpacing(10);
+        middleHBox.setSpacing(10);
+
         Text pathsGameText = new Text("Paths Game");
         Text storiesText = new Text("Stories");
         Text deadLinksText = new Text("Dead links");
+
+    pathsGameText.setFont(Font.font("Comic sans", 50));
 
         TextArea storiesTextArea = new TextArea("storiesTextArea");
         TextArea deadLinksTextArea = new TextArea("deadLinksTextArea");
@@ -50,6 +58,8 @@ public class HomeView extends Application {
         gridPane.add(pathsGameText, 0,0);
         gridPane.add(middleHBox,0,1);
         gridPane.add(startNewGameButton,0,2);
+
+    gridPane.setAlignment(Pos.CENTER);
 
         anchorPane.getChildren().add(gridPane);
         AnchorPane.setTopAnchor(gridPane, 10.0);
