@@ -3,11 +3,8 @@ package no.ntnu.idatg2001.units;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import no.ntnu.idatg2001.units.Player;
+import no.ntnu.idatg2001.model.units.Attributes;import no.ntnu.idatg2001.model.units.Player;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PlayerTest {

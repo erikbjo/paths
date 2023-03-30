@@ -2,8 +2,9 @@ package no.ntnu.idatg2001.goals;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import no.ntnu.idatg2001.units.Attributes;
-import no.ntnu.idatg2001.units.Player;
+import no.ntnu.idatg2001.model.goals.ScoreGoal;
+import no.ntnu.idatg2001.model.units.Attributes;
+import no.ntnu.idatg2001.model.units.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
