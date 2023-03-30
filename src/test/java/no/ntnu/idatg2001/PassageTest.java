@@ -16,10 +16,10 @@ class PassageTest {
 
   @BeforeEach
   void setUp() {
-    passage = new Passage("test", "123");
-    links = new ArrayList<>();
-    links.add(new Link("test1", "1"));
-    links.add(new Link("test2", "2"));
+    this.passage = new Passage("test", "123");
+    this.links = new ArrayList<>();
+    this.links.add(new Link("test1", "1"));
+    this.links.add(new Link("test2", "2"));
   }
 
   @AfterEach
