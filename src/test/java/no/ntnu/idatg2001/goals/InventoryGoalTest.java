@@ -4,8 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import no.ntnu.idatg2001.units.Attributes;
-import no.ntnu.idatg2001.units.Player;
+import no.ntnu.idatg2001.model.goals.InventoryGoal;
+import no.ntnu.idatg2001.model.units.Attributes;
+import no.ntnu.idatg2001.model.units.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

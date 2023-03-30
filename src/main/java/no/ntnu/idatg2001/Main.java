@@ -2,6 +2,8 @@ package no.ntnu.idatg2001;
 
 import java.util.ArrayList;
 import java.util.List;
+import no.ntnu.idatg2001.model.Story;
+import no.ntnu.idatg2001.model.StoryFileHandler;
 import no.ntnu.idatg2001.ui.views.PlayerInformationView;
 
 public class Main {
