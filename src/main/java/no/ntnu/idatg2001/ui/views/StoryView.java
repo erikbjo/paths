@@ -19,31 +19,31 @@ public class StoryView extends Application {
   public void start(Stage stage) throws Exception {
     AnchorPane bottumAnchorPane = new AnchorPane();
 
-    SplitPane rootVerticalSplitPane = new SplitPane();
+    SplitPane rootHorizontalSplitPane = new SplitPane();
     AnchorPane leftAnchorPane = new AnchorPane();
     AnchorPane rightAnchorPane = new AnchorPane();
-    rootVerticalSplitPane.getItems().add(leftAnchorPane);
-    rootVerticalSplitPane.getItems().add(rightAnchorPane);
-    rootVerticalSplitPane.setOrientation(Orientation.VERTICAL);
+    rootHorizontalSplitPane.getItems().add(leftAnchorPane);
+    rootHorizontalSplitPane.getItems().add(rightAnchorPane);
+    rootHorizontalSplitPane.setOrientation(Orientation.HORIZONTAL);
     
-    bottumAnchorPane.getChildren().add(rootVerticalSplitPane);
+    bottumAnchorPane.getChildren().add(rootHorizontalSplitPane);
 
-    SplitPane horizontalSplitPane = new SplitPane();
+    SplitPane verticalSplitPane = new SplitPane();
     AnchorPane topRightAnchorPane = new AnchorPane();
     AnchorPane bottumRightAnchorPane = new AnchorPane();
-    horizontalSplitPane.getItems().add(topRightAnchorPane);
-    horizontalSplitPane.getItems().add(bottumRightAnchorPane);
-    horizontalSplitPane.setOrientation(Orientation.HORIZONTAL);
+    verticalSplitPane.getItems().add(topRightAnchorPane);
+    verticalSplitPane.getItems().add(bottumRightAnchorPane);
+    verticalSplitPane.setOrientation(Orientation.VERTICAL);
 
-    rightAnchorPane.getChildren().add(horizontalSplitPane);
+    rightAnchorPane.getChildren().add(verticalSplitPane);
 
-    VBox leftHBox = new VBox();
+    VBox leftVBox = new VBox();
     Text storyHeadlineText = new Text("storyHeadlineText");
     TextArea storyTextArea = new TextArea("storyTextArea");
 
-    leftHBox.getChildren().add(storyHeadlineText);
-    leftHBox.getChildren().add(storyTextArea);
-    leftAnchorPane.getChildren().add(leftHBox);
+    leftVBox.getChildren().add(storyHeadlineText);
+    leftVBox.getChildren().add(storyTextArea);
+    leftAnchorPane.getChildren().add(leftVBox);
 
     TextArea pathOneTextArea = new TextArea("path1");
     TextArea pathTwoTextArea = new TextArea("path2");
@@ -55,7 +55,7 @@ public class StoryView extends Application {
     
 
     Scene scene = new Scene(bottumAnchorPane, 600, 600);
-    scene.getStylesheets().add("cssfiles/test.css");
+    scene.getStylesheets().add("cssfiles/storyStyle.css");
     stage.setScene(scene);
     stage.show();
   }
