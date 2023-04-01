@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -50,10 +51,18 @@ public class PlayerInformationView extends Application {
     Text goldGoalText = new Text("Gold goal:");
     Text inventoryGoalText = new Text("Inventory goal:");
     Text scoreGoalText = new Text("Gold goal:");
+
+    SpinnerValueFactory<Integer> valueFactory =
+        new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0);
+
     Spinner<Integer> healthSpinner = new Spinner<>();
+    healthSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0));
     Spinner<Integer> goldSpinner = new Spinner<>();
+    goldSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0));
     Spinner<Integer> inventorySpinner = new Spinner<>();
+    inventorySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0));
     Spinner<Integer> scoreSpinner = new Spinner<>();
+    scoreSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0));
 
     goalCreationGridPane.add(healthGoalText, 0,0);
     goalCreationGridPane.add(goldGoalText,0,1);
