@@ -2,6 +2,7 @@ package no.ntnu.idatg2001.ui.views;
 
 import javafx.application.Application;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
@@ -22,9 +23,12 @@ public class StoryView extends Application {
     SplitPane rootHorizontalSplitPane = new SplitPane();
     AnchorPane leftAnchorPane = new AnchorPane();
     AnchorPane rightAnchorPane = new AnchorPane();
+
     rootHorizontalSplitPane.getItems().add(leftAnchorPane);
     rootHorizontalSplitPane.getItems().add(rightAnchorPane);
+
     rootHorizontalSplitPane.setOrientation(Orientation.HORIZONTAL);
+    rootHorizontalSplitPane.setDividerPosition(0,0.5);
     
     bottumAnchorPane.getChildren().add(rootHorizontalSplitPane);
 
@@ -38,6 +42,8 @@ public class StoryView extends Application {
     rightAnchorPane.getChildren().add(verticalSplitPane);
 
     VBox leftVBox = new VBox();
+    leftVBox.setAlignment(Pos.CENTER);
+    leftVBox.setPrefWidth(200);
     Text storyHeadlineText = new Text("storyHeadlineText");
     TextArea storyTextArea = new TextArea("storyTextArea");
 
@@ -47,6 +53,9 @@ public class StoryView extends Application {
 
     TextArea pathOneTextArea = new TextArea("path1");
     TextArea pathTwoTextArea = new TextArea("path2");
+
+    pathOneTextArea.setMaxWidth(200);
+    pathTwoTextArea.setMaxWidth(200);
 
     topRightAnchorPane.getChildren().add(pathOneTextArea);
     bottumRightAnchorPane.getChildren().add(pathTwoTextArea);
