@@ -46,6 +46,7 @@ public class StoryView extends Application {
     leftVBox.setPrefWidth(200);
     Text storyHeadlineText = new Text("storyHeadlineText");
     TextArea storyTextArea = new TextArea("storyTextArea");
+    storyTextArea.setEditable(false);
 
     leftVBox.getChildren().add(storyHeadlineText);
     leftVBox.getChildren().add(storyTextArea);
@@ -53,6 +54,9 @@ public class StoryView extends Application {
 
     TextArea pathOneTextArea = new TextArea("path1");
     TextArea pathTwoTextArea = new TextArea("path2");
+
+    pathOneTextArea.setEditable(false);
+    pathTwoTextArea.setEditable(false);
 
     pathOneTextArea.setMaxWidth(200);
     pathTwoTextArea.setMaxWidth(200);

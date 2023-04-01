@@ -12,6 +12,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javax.swing.*;
+import no.ntnu.idatg2001.ui.controllers.PlayerInformationController;
 
 public class PlayerInformationView extends Application {
 
@@ -21,6 +23,8 @@ public class PlayerInformationView extends Application {
   }
   @Override
   public void start(Stage stage)  {
+    PlayerInformationController controller = new PlayerInformationController();
+
     AnchorPane anchorPane = new AnchorPane();
     GridPane gridPane = new GridPane();
     gridPane.setPadding(new Insets(10));
@@ -46,14 +50,15 @@ public class PlayerInformationView extends Application {
             playerGoldText,
             playerGoldTextField);
 
+    controller.makeTextFieldNotStartWithSpace(playerNameTextField);
+    controller.makeTextFieldNumericOnly(playerGoldTextField);
+    controller.makeTextFieldNumericOnly(playerHealthTextField);
+    
     GridPane goalCreationGridPane = new GridPane();
     Text healthGoalText = new Text("Health goal:");
     Text goldGoalText = new Text("Gold goal:");
     Text inventoryGoalText = new Text("Inventory goal:");
     Text scoreGoalText = new Text("Gold goal:");
-
-    SpinnerValueFactory<Integer> valueFactory =
-        new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0);
 
     Spinner<Integer> healthSpinner = new Spinner<>();
     healthSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0));

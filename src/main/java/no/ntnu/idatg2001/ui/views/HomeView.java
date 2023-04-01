@@ -42,6 +42,9 @@ public class HomeView extends Application {
         TextArea storiesTextArea = new TextArea("storiesTextArea");
         TextArea deadLinksTextArea = new TextArea("deadLinksTextArea");
 
+        storiesTextArea.setEditable(false);
+        deadLinksTextArea.setEditable(false);
+
         storiesVBox.getChildren().add(storiesText);
         storiesVBox.getChildren().add(storiesTextArea);
 
