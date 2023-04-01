@@ -54,6 +54,11 @@ public class HomeView extends Application {
         Region fillerRegion = new Region();
 
         Button startNewGameButton = new Button("Start new game");
+        startNewGameButton.setOnAction(event -> {
+            // Launch the Player Information View in a new window
+            PlayerInformationView playerInfoView = new PlayerInformationView();
+            playerInfoView.start(primaryStage);
+        });
 
         gridPane.add(pathsGameText, 0,0);
         gridPane.add(middleHBox,0,1);

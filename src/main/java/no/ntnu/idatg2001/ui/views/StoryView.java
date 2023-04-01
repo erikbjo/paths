@@ -17,7 +17,7 @@ public class StoryView extends Application {
   }
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
     AnchorPane bottumAnchorPane = new AnchorPane();
 
     SplitPane rootHorizontalSplitPane = new SplitPane();

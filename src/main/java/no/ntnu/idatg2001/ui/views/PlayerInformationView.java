@@ -19,7 +19,7 @@ public class PlayerInformationView extends Application {
     launch(args);
   }
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage)  {
     AnchorPane anchorPane = new AnchorPane();
     GridPane gridPane = new GridPane();
     gridPane.setPadding(new Insets(10));
@@ -65,6 +65,12 @@ public class PlayerInformationView extends Application {
     goalCreationGridPane.add(scoreSpinner, 1,3);
 
     Button startButton = new Button("Start");
+    startButton.setOnAction(
+        event -> {
+          // Launch the Player Information View in a new window
+          StoryView storyView = new StoryView();
+          storyView.start(stage);
+        });
 
     gridPane.add(newPlayerText, 0, 0);
     gridPane.add(playerInformationVBox, 0, 1);
