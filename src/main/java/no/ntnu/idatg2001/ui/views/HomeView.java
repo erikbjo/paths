@@ -21,6 +21,9 @@ public class HomeView extends Application implements PropertyChangeListener {
   private SettingsController settingsController;
   private ResourceBundle resources;
   private Button startNewGameButton;
+  private Text pathsGameText;
+  private Text storiesText;
+  private Text deadLinksText;
 
   public static void mainApp(String[] args) {
     launch(args);
@@ -36,6 +39,7 @@ public class HomeView extends Application implements PropertyChangeListener {
 
   @Override
   public void start(Stage primaryStage) {
+    Database.addPropertyChangeListener(this::propertyChange);
     resources =
         ResourceBundle.getBundle(
             "home", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
@@ -55,9 +59,9 @@ public class HomeView extends Application implements PropertyChangeListener {
     deadLinksVBox.setSpacing(10);
     middleHBox.setSpacing(10);
 
-    Text pathsGameText = new Text(resources.getString("title"));
-    Text storiesText = new Text(resources.getString("storiesText"));
-    Text deadLinksText = new Text(resources.getString("deadLinksText"));
+    pathsGameText = new Text(resources.getString("title"));
+    storiesText = new Text(resources.getString("storiesText"));
+    deadLinksText = new Text(resources.getString("deadLinksText"));
 
     pathsGameText.setFont(Font.font("Comic sans", 50));
 
@@ -87,12 +91,7 @@ public class HomeView extends Application implements PropertyChangeListener {
     Button settingsButton = new Button("Settings");
     settingsButton.setOnAction(
         event -> {
-          settingsController = new SettingsController(event);
-          try {
-            wait();
-          } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-          }
+          updateLanguage();
         });
 
     gridPane.add(pathsGameText, 0, 0);
@@ -120,6 +119,9 @@ public class HomeView extends Application implements PropertyChangeListener {
         ResourceBundle.getBundle(
             "home", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
     startNewGameButton.setText(resources.getString("startNewGameButton"));
+    pathsGameText.setText(resources.getString("storiesText"));
+    storiesText.setText(resources.getString("storiesText"));
+    deadLinksText.setText(resources.getString("deadLinksText"));
   }
 
   @Override

@@ -22,15 +22,15 @@ public class Database {
   }
 
   public static void setCurrentLanguage(Languages currentLanguage) {
-    support.firePropertyChange("currentLanguage", getCurrentLanguage(), currentLanguage);
     Database.currentLanguage = currentLanguage;
+    support.firePropertyChange("currentLanguage", getCurrentLanguage(), currentLanguage);
   }
 
-  public void removePropertyChangeListener(PropertyChangeListener pcl) {
+  public static void removePropertyChangeListener(PropertyChangeListener pcl) {
     support.removePropertyChangeListener(pcl);
   }
 
-  public void addPropertyChangeListener(PropertyChangeListener pcl) {
+  public static void addPropertyChangeListener(PropertyChangeListener pcl) {
     support.addPropertyChangeListener(pcl);
   }
 
