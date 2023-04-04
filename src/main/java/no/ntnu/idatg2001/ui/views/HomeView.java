@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import no.ntnu.idatg2001.ui.controllers.SettingsController;
 
 public class HomeView extends Application {
 
@@ -58,10 +59,12 @@ public class HomeView extends Application {
 
         Button startNewGameButton = new Button("Start new game");
         startNewGameButton.setOnAction(event -> {
-            // Launch the Player Information View in a new window
-            PlayerInformationView playerInfoView = new PlayerInformationView();
-            playerInfoView.start(primaryStage);
+            SettingsController controller = new SettingsController();
         });
+            // Launch the Player Information View in a new window
+            //PlayerInformationView playerInfoView = new PlayerInformationView();
+            //playerInfoView.start(primaryStage);
+        //});
 
         gridPane.add(pathsGameText, 0,0);
         gridPane.add(middleHBox,0,1);

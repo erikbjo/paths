@@ -12,7 +12,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javax.swing.*;
 import no.ntnu.idatg2001.ui.controllers.PlayerInformationController;
 
 public class PlayerInformationView extends Application {
@@ -81,9 +80,8 @@ public class PlayerInformationView extends Application {
     Button startButton = new Button("Start");
     startButton.setOnAction(
         event -> {
-          // Launch the Player Information View in a new window
-          StoryView storyView = new StoryView();
-          storyView.start(stage);
+            StoryView storyView = new StoryView();
+            storyView.start(stage);
         });
 
     gridPane.add(newPlayerText, 0, 0);
