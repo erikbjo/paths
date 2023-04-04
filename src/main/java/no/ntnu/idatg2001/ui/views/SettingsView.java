@@ -2,13 +2,11 @@ package no.ntnu.idatg2001.ui.views;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import no.ntnu.idatg2001.model.Languages;
 import no.ntnu.idatg2001.ui.controllers.SettingsController;
 
 public class SettingsView {
@@ -16,6 +14,7 @@ public class SettingsView {
   private final Stage stage;
   private final SettingsController controller;
   private final TextField languageTextField;
+  private final ComboBox<Languages> languagesComboBox;
   private final Slider volumeSlider;
 
   public SettingsView(SettingsController controller) {
@@ -26,9 +25,15 @@ public class SettingsView {
 
     // Create controls
     Label languageLabel = new Label("Language:");
+    languagesComboBox = new ComboBox<>();
+    languagesComboBox.getItems().addAll(Languages.values());
     languageTextField = new TextField();
     Label volumeLabel = new Label("Volume:");
     volumeSlider = new Slider(0, 100, 50);
+
+    languagesComboBox.setValue(controller.getLanguage());
+    volumeSlider.setValue(controller.getVolume());
+
     Button saveButton = new Button("Save");
     saveButton.setOnAction(event -> controller.saveSettings());
 
@@ -37,7 +42,7 @@ public class SettingsView {
     layout.setPadding(new Insets(10));
     layout.setHgap(10);
     layout.setVgap(10);
-    layout.addRow(0, languageLabel, languageTextField);
+    layout.addRow(0, languageLabel, languagesComboBox);
     layout.addRow(1, volumeLabel, volumeSlider);
     layout.addRow(2, saveButton);
 
@@ -51,8 +56,8 @@ public class SettingsView {
     stage.close();
   }
 
-  public String getLanguage() {
-    return languageTextField.getText();
+  public Languages getLanguage() {
+    return languagesComboBox.getValue();
   }
 
   public int getVolume() {
