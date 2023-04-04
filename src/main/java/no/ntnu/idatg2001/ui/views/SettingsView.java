@@ -14,7 +14,7 @@ public class SettingsView {
   private final Stage stage;
   private final SettingsController controller;
   private final TextField languageTextField;
-  private final ComboBox<Languages> languagesComboBox;
+  private final ComboBox<String> languagesComboBox;
   private final Slider volumeSlider;
 
   public SettingsView(SettingsController controller) {
@@ -26,12 +26,17 @@ public class SettingsView {
     // Create controls
     Label languageLabel = new Label("Language:");
     languagesComboBox = new ComboBox<>();
-    languagesComboBox.getItems().addAll(Languages.values());
+    //languagesComboBox.getItems().addAll((Languages.values()));
+    for (Languages language : Languages.values()) {
+      languagesComboBox.getItems().add(language.getName());
+    }
     languageTextField = new TextField();
     Label volumeLabel = new Label("Volume:");
     volumeSlider = new Slider(0, 100, 50);
 
-    languagesComboBox.setValue(controller.getLanguage());
+    if (controller.getLanguage().getName() != null) {
+      languagesComboBox.setValue(controller.getLanguage().getName());
+    }
     volumeSlider.setValue(controller.getVolume());
 
     Button saveButton = new Button("Save");
@@ -57,7 +62,14 @@ public class SettingsView {
   }
 
   public Languages getLanguage() {
-    return languagesComboBox.getValue();
+    Languages reverseSearchedLanguage = Languages.ENGLISH;
+
+    for (Languages language : Languages.values()) {
+      if (language.getName() == languagesComboBox.getValue()){
+        reverseSearchedLanguage = language;
+      }
+    }
+    return reverseSearchedLanguage;
   }
 
   public int getVolume() {

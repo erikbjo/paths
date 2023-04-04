@@ -1,8 +1,8 @@
 package no.ntnu.idatg2001.model;
 
 public class Database {
-  private static int currentVolume;
-  private static Languages currentLanguage;
+  private static int currentVolume = 50;
+  private static Languages currentLanguage = Languages.ENGLISH;
 
   public static int getCurrentVolume() {
     return currentVolume;
