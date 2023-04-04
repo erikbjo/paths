@@ -5,12 +5,14 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import no.ntnu.idatg2001.ui.controllers.PlayerInformationController;
 
 public class PlayerInformationView extends Application {
 
@@ -19,7 +21,9 @@ public class PlayerInformationView extends Application {
     launch(args);
   }
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage)  {
+    PlayerInformationController controller = new PlayerInformationController();
+
     AnchorPane anchorPane = new AnchorPane();
     GridPane gridPane = new GridPane();
     gridPane.setPadding(new Insets(10));
@@ -45,15 +49,24 @@ public class PlayerInformationView extends Application {
             playerGoldText,
             playerGoldTextField);
 
+    controller.makeTextFieldNotStartWithSpace(playerNameTextField);
+    controller.makeTextFieldNumericOnly(playerGoldTextField);
+    controller.makeTextFieldNumericOnly(playerHealthTextField);
+    
     GridPane goalCreationGridPane = new GridPane();
     Text healthGoalText = new Text("Health goal:");
     Text goldGoalText = new Text("Gold goal:");
     Text inventoryGoalText = new Text("Inventory goal:");
     Text scoreGoalText = new Text("Gold goal:");
+
     Spinner<Integer> healthSpinner = new Spinner<>();
+    healthSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0));
     Spinner<Integer> goldSpinner = new Spinner<>();
+    goldSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0));
     Spinner<Integer> inventorySpinner = new Spinner<>();
+    inventorySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0));
     Spinner<Integer> scoreSpinner = new Spinner<>();
+    scoreSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0));
 
     goalCreationGridPane.add(healthGoalText, 0,0);
     goalCreationGridPane.add(goldGoalText,0,1);
@@ -65,6 +78,11 @@ public class PlayerInformationView extends Application {
     goalCreationGridPane.add(scoreSpinner, 1,3);
 
     Button startButton = new Button("Start");
+    startButton.setOnAction(
+        event -> {
+            StoryView storyView = new StoryView();
+            storyView.start(stage);
+        });
 
     gridPane.add(newPlayerText, 0, 0);
     gridPane.add(playerInformationVBox, 0, 1);
@@ -78,6 +96,7 @@ public class PlayerInformationView extends Application {
     AnchorPane.setBottomAnchor(gridPane, 10.0);
 
     Scene scene = new Scene(anchorPane, 600, 600);
+    scene.getStylesheets().add("cssfiles/test.css");
     stage.setScene(scene);
     stage.show();
   }

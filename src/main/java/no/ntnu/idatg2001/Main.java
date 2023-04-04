@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import no.ntnu.idatg2001.model.Story;
 import no.ntnu.idatg2001.model.StoryFileHandler;
-import no.ntnu.idatg2001.ui.views.PlayerInformationView;
+import no.ntnu.idatg2001.ui.views.HomeView;
 
 public class Main {
   public static void main(String[] args) {
@@ -13,6 +13,6 @@ public class Main {
     StoryFileHandler.writePathsFile(stories, "Stories.paths");
     // StoryFileHandler.readStoryFile("Stories.paths");
 
-    PlayerInformationView.mainApp(args);
+    HomeView.mainApp(args);
   }
 }
