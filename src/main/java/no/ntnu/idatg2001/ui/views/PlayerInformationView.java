@@ -28,26 +28,25 @@ public class PlayerInformationView extends Application {
   private Text playerNameText;
   private Text playerHealthText;
   private Text playerGoldText;
-private Text newPlayerText;
-private Button startButton;
-
-
+  private Text newPlayerText;
+  private Button startButton;
 
   // just for testing
   public static void mainApp(String[] args) {
     launch(args);
   }
+
   @Override
-  public void start(Stage stage)  {
+  public void start(Stage stage) {
     // Observes when the language in Database is changed, then calls updateLanguage()
-    Database.getObservableIntegerCounter().addListener((obs, oldValue, newValue) -> {
-      updateLanguage();
-    });
+    Database.getObservableIntegerCounter()
+        .addListener((obs, oldValue, newValue) -> updateLanguage());
 
     // gets the correct resource bundle, depending on the current language in database
     resources =
-            ResourceBundle.getBundle(
-                    "playerInformation", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
+        ResourceBundle.getBundle(
+            "playerInformation",
+            Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
 
     PlayerInformationController controller = new PlayerInformationController();
 
@@ -81,7 +80,7 @@ private Button startButton;
     controller.makeTextFieldNotStartWithSpace(playerNameTextField);
     controller.makeTextFieldNumericOnly(playerGoldTextField);
     controller.makeTextFieldNumericOnly(playerHealthTextField);
-    
+
     GridPane goalCreationGridPane = new GridPane();
     healthGoalText = new Text(resources.getString("healthGoal"));
     goldGoalText = new Text(resources.getString("goldGoal"));
@@ -97,26 +96,26 @@ private Button startButton;
     Spinner<Integer> scoreSpinner = new Spinner<>();
     scoreSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0));
 
-    goalCreationGridPane.add(healthGoalText, 0,0);
-    goalCreationGridPane.add(goldGoalText,0,1);
-    goalCreationGridPane.add(inventoryGoalText,0,2);
-    goalCreationGridPane.add(scoreGoalText, 0,3);
-    goalCreationGridPane.add(healthSpinner,1,0);
-    goalCreationGridPane.add(goldSpinner,1,1);
-    goalCreationGridPane.add(inventorySpinner,1,2);
-    goalCreationGridPane.add(scoreSpinner, 1,3);
+    goalCreationGridPane.add(healthGoalText, 0, 0);
+    goalCreationGridPane.add(goldGoalText, 0, 1);
+    goalCreationGridPane.add(inventoryGoalText, 0, 2);
+    goalCreationGridPane.add(scoreGoalText, 0, 3);
+    goalCreationGridPane.add(healthSpinner, 1, 0);
+    goalCreationGridPane.add(goldSpinner, 1, 1);
+    goalCreationGridPane.add(inventorySpinner, 1, 2);
+    goalCreationGridPane.add(scoreSpinner, 1, 3);
 
     startButton = new Button(resources.getString("start"));
     startButton.setOnAction(
         event -> {
-            StoryView storyView = new StoryView();
-            storyView.start(stage);
+          StoryView storyView = new StoryView();
+          storyView.start(stage);
         });
 
     gridPane.add(newPlayerText, 0, 0);
     gridPane.add(playerInformationVBox, 0, 1);
-    gridPane.add(goalCreationGridPane,1,1);
-    gridPane.add(startButton,1,2);
+    gridPane.add(goalCreationGridPane, 1, 1);
+    gridPane.add(startButton, 1, 2);
 
     anchorPane.getChildren().add(gridPane);
     anchorPane.getChildren().add(borderPane);
@@ -130,11 +129,13 @@ private Button startButton;
     stage.setScene(scene);
     stage.show();
   }
+
   public void updateLanguage() {
     // update resources
     resources =
-            ResourceBundle.getBundle(
-                    "playerInformation", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
+        ResourceBundle.getBundle(
+            "playerInformation",
+            Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
 
     // update text
     healthGoalText.setText(resources.getString("healthGoal"));

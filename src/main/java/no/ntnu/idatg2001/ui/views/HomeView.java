@@ -29,20 +29,11 @@ public class HomeView extends Application implements PropertyChangeListener {
     launch(args);
   }
 
-  public ResourceBundle getResources() {
-    return resources;
-  }
-
-  public void setResources(ResourceBundle resources) {
-    this.resources = resources;
-  }
-
   @Override
   public void start(Stage primaryStage) {
     // Observes when the language in Database is changed, then calls updateLanguage()
-    Database.getObservableIntegerCounter().addListener((obs, oldValue, newValue) -> {
-      updateLanguage();
-    });
+    Database.getObservableIntegerCounter()
+        .addListener((obs, oldValue, newValue) -> updateLanguage());
 
     // gets the correct resource bundle, depending on the current language in database
     resources =

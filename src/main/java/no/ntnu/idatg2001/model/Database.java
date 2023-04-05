@@ -6,6 +6,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class Database {
   private static int currentVolume = 50;
   private static IntegerProperty observableIntegerCounter = new SimpleIntegerProperty();
+
+  // standard language
   private static Languages currentLanguage = Languages.ENGLISH;
 
 
