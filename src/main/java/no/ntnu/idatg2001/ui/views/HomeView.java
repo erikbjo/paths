@@ -1,5 +1,9 @@
 package no.ntnu.idatg2001.ui.views;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,11 +13,17 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import no.ntnu.idatg2001.model.Database;
 import no.ntnu.idatg2001.ui.controllers.SettingsController;
 import no.ntnu.idatg2001.ui.standardObjects.StandardMenuBar;
 
-public class HomeView extends Application {
+public class HomeView extends Application implements PropertyChangeListener {
   private SettingsController settingsController;
+  private ResourceBundle resources;
+  private Button startNewGameButton;
+  private Text pathsGameText;
+  private Text storiesText;
+  private Text deadLinksText;
 
   public static void mainApp(String[] args) {
     launch(args);
@@ -21,6 +31,15 @@ public class HomeView extends Application {
 
   @Override
   public void start(Stage primaryStage) {
+    // Observes when the language in Database is changed, then calls updateLanguage()
+    Database.getObservableIntegerCounter()
+        .addListener((obs, oldValue, newValue) -> updateLanguage());
+
+    // gets the correct resource bundle, depending on the current language in database
+    resources =
+        ResourceBundle.getBundle(
+            "home", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
+
     BorderPane borderPane = new BorderPane();
     borderPane.setTop(new StandardMenuBar());
     AnchorPane anchorPane = new AnchorPane();
@@ -37,9 +56,9 @@ public class HomeView extends Application {
     deadLinksVBox.setSpacing(10);
     middleHBox.setSpacing(10);
 
-    Text pathsGameText = new Text("Paths Game");
-    Text storiesText = new Text("Stories");
-    Text deadLinksText = new Text("Dead links");
+    pathsGameText = new Text(resources.getString("title"));
+    storiesText = new Text(resources.getString("storiesText"));
+    deadLinksText = new Text(resources.getString("deadLinksText"));
 
     pathsGameText.setFont(Font.font("Comic sans", 50));
 
@@ -58,9 +77,7 @@ public class HomeView extends Application {
     middleHBox.getChildren().add(storiesVBox);
     middleHBox.getChildren().add(deadLinksVBox);
 
-    Region fillerRegion = new Region();
-
-    Button startNewGameButton = new Button("Start new game");
+    startNewGameButton = new Button(resources.getString("startNewGameButton"));
     startNewGameButton.setOnAction(
         event -> {
           // Launch the Player Information View in a new window
@@ -71,7 +88,7 @@ public class HomeView extends Application {
     Button settingsButton = new Button("Settings");
     settingsButton.setOnAction(
         event -> {
-          settingsController = new SettingsController();
+          updateLanguage();
         });
 
     gridPane.add(pathsGameText, 0, 0);
@@ -92,5 +109,21 @@ public class HomeView extends Application {
     Scene scene = new Scene(anchorPane, 600, 600);
     primaryStage.setScene(scene);
     primaryStage.show();
+  }
+
+  public void updateLanguage() {
+    resources =
+        ResourceBundle.getBundle(
+            "home", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
+    startNewGameButton.setText(resources.getString("startNewGameButton"));
+    pathsGameText.setText(resources.getString("storiesText"));
+    storiesText.setText(resources.getString("storiesText"));
+    deadLinksText.setText(resources.getString("deadLinksText"));
+  }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    System.out.println(evt.getNewValue());
+    updateLanguage();
   }
 }

@@ -1,5 +1,7 @@
 package no.ntnu.idatg2001.ui.views;
 
+import java.util.Objects;
+import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -9,29 +11,30 @@ import javafx.stage.Stage;
 import no.ntnu.idatg2001.model.Languages;
 import no.ntnu.idatg2001.ui.controllers.SettingsController;
 
-public class SettingsView {
+public class SettingsDialog {
 
   private final Stage stage;
   private final SettingsController controller;
   private final TextField languageTextField;
   private final ComboBox<String> languagesComboBox;
   private final Slider volumeSlider;
+  private final ResourceBundle resources;
 
-  public SettingsView(SettingsController controller) {
+  public SettingsDialog(SettingsController controller, ResourceBundle resources) {
     this.controller = controller;
+    this.resources = resources;
     stage = new Stage();
     stage.initModality(Modality.APPLICATION_MODAL);
-    stage.setTitle("Settings");
+    stage.setTitle(resources.getString("title"));
 
     // Create controls
-    Label languageLabel = new Label("Language:");
+    Label languageLabel = new Label(resources.getString("languageLabel"));
     languagesComboBox = new ComboBox<>();
-    //languagesComboBox.getItems().addAll((Languages.values()));
     for (Languages language : Languages.values()) {
       languagesComboBox.getItems().add(language.getName());
     }
     languageTextField = new TextField();
-    Label volumeLabel = new Label("Volume:");
+    Label volumeLabel = new Label(resources.getString("volumeLabel"));
     volumeSlider = new Slider(0, 100, 50);
 
     if (controller.getLanguage().getName() != null) {
@@ -39,7 +42,7 @@ public class SettingsView {
     }
     volumeSlider.setValue(controller.getVolume());
 
-    Button saveButton = new Button("Save");
+    Button saveButton = new Button(resources.getString("saveButton"));
     saveButton.setOnAction(event -> controller.saveSettings());
 
     // Add controls to layout
@@ -65,7 +68,7 @@ public class SettingsView {
     Languages reverseSearchedLanguage = Languages.ENGLISH;
 
     for (Languages language : Languages.values()) {
-      if (language.getName() == languagesComboBox.getValue()){
+      if (Objects.equals(language.getName(), languagesComboBox.getValue())) {
         reverseSearchedLanguage = language;
       }
     }

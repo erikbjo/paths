@@ -1,18 +1,25 @@
 package no.ntnu.idatg2001.ui.controllers;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javafx.event.Event;
 import no.ntnu.idatg2001.model.Database;
 import no.ntnu.idatg2001.model.Languages;
-import no.ntnu.idatg2001.ui.views.SettingsView;
+import no.ntnu.idatg2001.ui.views.SettingsDialog;
 
 public class SettingsController {
-  private final SettingsView view;
+  private final SettingsDialog view;
   private Languages language;
   private int volume;
 
-  public SettingsController() {
+  public SettingsController(Event event) {
     language = Database.getCurrentLanguage();
     volume = Database.getCurrentVolume();
-    view = new SettingsView(this);
+    ResourceBundle resources =
+        ResourceBundle.getBundle(
+            "messages", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
+    
+    view = new SettingsDialog(this, resources);
   }
 
   public Languages getLanguage() {
