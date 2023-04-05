@@ -118,8 +118,6 @@ public class HomeView extends Application implements PropertyChangeListener {
     Scene scene = new Scene(anchorPane, 600, 600);
     primaryStage.setScene(scene);
     primaryStage.show();
-
-    System.out.println("test");
   }
 
   public void updateLanguage() {

@@ -1,5 +1,7 @@
 package no.ntnu.idatg2001.ui.views;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -8,13 +10,28 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import no.ntnu.idatg2001.model.Database;
 import no.ntnu.idatg2001.ui.controllers.PlayerInformationController;
+import no.ntnu.idatg2001.ui.standardObjects.StandardMenuBar;
 
 public class PlayerInformationView extends Application {
+  private ResourceBundle resources;
+  private Text healthGoalText;
+  private Text goldGoalText;
+  private Text inventoryGoalText;
+  private Text scoreGoalText;
+  private Text playerNameText;
+  private Text playerHealthText;
+  private Text playerGoldText;
+private Text newPlayerText;
+private Button startButton;
+
+
 
   // just for testing
   public static void mainApp(String[] args) {
@@ -22,22 +39,34 @@ public class PlayerInformationView extends Application {
   }
   @Override
   public void start(Stage stage)  {
+    // Observes when the language in Database is changed, then calls updateLanguage()
+    Database.getObservableIntegerCounter().addListener((obs, oldValue, newValue) -> {
+      updateLanguage();
+    });
+
+    // gets the correct resource bundle, depending on the current language in database
+    resources =
+            ResourceBundle.getBundle(
+                    "playerInformation", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
+
     PlayerInformationController controller = new PlayerInformationController();
 
+    BorderPane borderPane = new BorderPane();
+    borderPane.setTop(new StandardMenuBar());
     AnchorPane anchorPane = new AnchorPane();
     GridPane gridPane = new GridPane();
     gridPane.setPadding(new Insets(10));
     gridPane.setHgap(10);
     gridPane.setVgap(10);
 
-    Text newPlayerText = new Text("New player");
+    newPlayerText = new Text(resources.getString("newPlayer"));
 
     VBox playerInformationVBox = new VBox();
-    Text playerNameText = new Text("Name:");
+    playerNameText = new Text(resources.getString("playerName"));
     TextField playerNameTextField = new TextField();
-    Text playerHealthText = new Text("Health: ");
+    playerHealthText = new Text(resources.getString("playerHealth"));
     TextField playerHealthTextField = new TextField();
-    Text playerGoldText = new Text("Gold:");
+    playerGoldText = new Text(resources.getString("playerGold"));
     TextField playerGoldTextField = new TextField();
     playerInformationVBox
         .getChildren()
@@ -54,10 +83,10 @@ public class PlayerInformationView extends Application {
     controller.makeTextFieldNumericOnly(playerHealthTextField);
     
     GridPane goalCreationGridPane = new GridPane();
-    Text healthGoalText = new Text("Health goal:");
-    Text goldGoalText = new Text("Gold goal:");
-    Text inventoryGoalText = new Text("Inventory goal:");
-    Text scoreGoalText = new Text("Gold goal:");
+    healthGoalText = new Text(resources.getString("healthGoal"));
+    goldGoalText = new Text(resources.getString("goldGoal"));
+    inventoryGoalText = new Text(resources.getString("inventoryGoal"));
+    scoreGoalText = new Text(resources.getString("scoreGoal"));
 
     Spinner<Integer> healthSpinner = new Spinner<>();
     healthSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0));
@@ -77,7 +106,7 @@ public class PlayerInformationView extends Application {
     goalCreationGridPane.add(inventorySpinner,1,2);
     goalCreationGridPane.add(scoreSpinner, 1,3);
 
-    Button startButton = new Button("Start");
+    startButton = new Button(resources.getString("start"));
     startButton.setOnAction(
         event -> {
             StoryView storyView = new StoryView();
@@ -90,6 +119,7 @@ public class PlayerInformationView extends Application {
     gridPane.add(startButton,1,2);
 
     anchorPane.getChildren().add(gridPane);
+    anchorPane.getChildren().add(borderPane);
     AnchorPane.setTopAnchor(gridPane, 10.0);
     AnchorPane.setLeftAnchor(gridPane, 10.0);
     AnchorPane.setRightAnchor(gridPane, 10.0);
@@ -99,5 +129,22 @@ public class PlayerInformationView extends Application {
     scene.getStylesheets().add("cssfiles/test.css");
     stage.setScene(scene);
     stage.show();
+  }
+  public void updateLanguage() {
+    // update resources
+    resources =
+            ResourceBundle.getBundle(
+                    "playerInformation", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
+
+    // update text
+    healthGoalText.setText(resources.getString("healthGoal"));
+    goldGoalText.setText(resources.getString("goldGoal"));
+    inventoryGoalText.setText(resources.getString("inventoryGoal"));
+    scoreGoalText.setText(resources.getString("scoreGoal"));
+    playerNameText.setText(resources.getString("playerName"));
+    playerHealthText.setText(resources.getString("playerHealth"));
+    playerGoldText.setText(resources.getString("playerGold"));
+    newPlayerText.setText(resources.getString("newPlayer"));
+    startButton.setText(resources.getString("start"));
   }
 }
