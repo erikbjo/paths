@@ -1,14 +1,18 @@
 package no.ntnu.idatg2001.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class Database {
   private static int currentVolume = 50;
+  private static IntegerProperty observableIntegerCounter = new SimpleIntegerProperty();
   private static Languages currentLanguage = Languages.ENGLISH;
 
-  private static PropertyChangeSupport support = new PropertyChangeSupport(Database.class);
 
+
+  public static IntegerProperty getObservableIntegerCounter() {
+    return observableIntegerCounter;
+  }
   public static int getCurrentVolume() {
     return currentVolume;
   }
@@ -23,15 +27,6 @@ public class Database {
 
   public static void setCurrentLanguage(Languages currentLanguage) {
     Database.currentLanguage = currentLanguage;
-    support.firePropertyChange("currentLanguage", getCurrentLanguage(), currentLanguage);
+    observableIntegerCounter.set(observableIntegerCounter.get() + 1);
   }
-
-  public static void removePropertyChangeListener(PropertyChangeListener pcl) {
-    support.removePropertyChangeListener(pcl);
-  }
-
-  public static void addPropertyChangeListener(PropertyChangeListener pcl) {
-    support.addPropertyChangeListener(pcl);
-  }
-
 }

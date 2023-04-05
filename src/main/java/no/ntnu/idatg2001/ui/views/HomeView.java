@@ -39,10 +39,16 @@ public class HomeView extends Application implements PropertyChangeListener {
 
   @Override
   public void start(Stage primaryStage) {
-    Database.addPropertyChangeListener(this::propertyChange);
+    // Observes when the language in Database is changed, then calls updateLanguage()
+    Database.getObservableIntegerCounter().addListener((obs, oldValue, newValue) -> {
+      updateLanguage();
+    });
+
+    // gets the correct resource bundle, depending on the current language in database
     resources =
         ResourceBundle.getBundle(
             "home", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
+
     BorderPane borderPane = new BorderPane();
     borderPane.setTop(new StandardMenuBar());
     AnchorPane anchorPane = new AnchorPane();
@@ -112,6 +118,8 @@ public class HomeView extends Application implements PropertyChangeListener {
     Scene scene = new Scene(anchorPane, 600, 600);
     primaryStage.setScene(scene);
     primaryStage.show();
+
+    System.out.println("test");
   }
 
   public void updateLanguage() {
@@ -126,6 +134,7 @@ public class HomeView extends Application implements PropertyChangeListener {
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
+    System.out.println(evt.getNewValue());
     updateLanguage();
   }
 }
