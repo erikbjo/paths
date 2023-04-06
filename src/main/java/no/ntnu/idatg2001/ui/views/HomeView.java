@@ -1,7 +1,5 @@
 package no.ntnu.idatg2001.ui.views;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
@@ -17,7 +15,7 @@ import no.ntnu.idatg2001.model.Database;
 import no.ntnu.idatg2001.ui.controllers.SettingsController;
 import no.ntnu.idatg2001.ui.standardObjects.StandardMenuBar;
 
-public class HomeView extends Application implements PropertyChangeListener {
+public class HomeView extends Application {
   private SettingsController settingsController;
   private ResourceBundle resources;
   private Button startNewGameButton;
@@ -85,16 +83,9 @@ public class HomeView extends Application implements PropertyChangeListener {
           playerInfoView.start(primaryStage);
         });
 
-    Button settingsButton = new Button("Settings");
-    settingsButton.setOnAction(
-        event -> {
-          updateLanguage();
-        });
-
     gridPane.add(pathsGameText, 0, 0);
     gridPane.add(middleHBox, 0, 1);
     gridPane.add(startNewGameButton, 0, 2);
-    gridPane.add(settingsButton, 0, 3);
 
     gridPane.setAlignment(Pos.CENTER);
 
@@ -119,11 +110,5 @@ public class HomeView extends Application implements PropertyChangeListener {
     pathsGameText.setText(resources.getString("storiesText"));
     storiesText.setText(resources.getString("storiesText"));
     deadLinksText.setText(resources.getString("deadLinksText"));
-  }
-
-  @Override
-  public void propertyChange(PropertyChangeEvent evt) {
-    System.out.println(evt.getNewValue());
-    updateLanguage();
   }
 }

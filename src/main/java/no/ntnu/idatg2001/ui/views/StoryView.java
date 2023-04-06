@@ -3,19 +3,23 @@ package no.ntnu.idatg2001.ui.views;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.model.Database;
+import no.ntnu.idatg2001.ui.standardObjects.StandardMenuBar;
 
 public class StoryView extends Application {
   private ResourceBundle resources;
+
   public static void mainApp(String[] args) {
     launch(args);
   }
@@ -28,24 +32,40 @@ public class StoryView extends Application {
 
     // gets the correct resource bundle, depending on the current language in database
     resources =
-            ResourceBundle.getBundle(
-                    "story",
-                    Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
-    
-    AnchorPane bottumAnchorPane = new AnchorPane();
+        ResourceBundle.getBundle(
+            "story", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
 
+    BorderPane borderPane = new BorderPane();
+    borderPane.setTop(new StandardMenuBar());
+    AnchorPane rootAnchorPane = new AnchorPane();
+
+    // Create a VBox to hold all the elements
+    VBox rootVBox = new VBox(100); // 100 pixels spacing between elements
+    rootVBox.setPadding(new Insets(50));
+    rootVBox.setAlignment(Pos.CENTER); // Center the elements vertically and horizontally
+
+    AnchorPane bottumAnchorPane = new AnchorPane();
+    
+    rootAnchorPane.getChildren().add(borderPane);
+    rootAnchorPane.getChildren().add(rootVBox);
+
+    Text storyHeadlineText = new Text("storyHeadlineText");
+    rootVBox.getChildren().add(storyHeadlineText);
+    rootVBox.getChildren().add(bottumAnchorPane);
+
+
+    // create the horizontal splitpane
     SplitPane rootHorizontalSplitPane = new SplitPane();
     AnchorPane leftAnchorPane = new AnchorPane();
     AnchorPane rightAnchorPane = new AnchorPane();
-
     rootHorizontalSplitPane.getItems().add(leftAnchorPane);
     rootHorizontalSplitPane.getItems().add(rightAnchorPane);
-
     rootHorizontalSplitPane.setOrientation(Orientation.HORIZONTAL);
-    rootHorizontalSplitPane.setDividerPosition(0,0.5);
+    rootHorizontalSplitPane.setDividerPosition(0, 0.5);
     
     bottumAnchorPane.getChildren().add(rootHorizontalSplitPane);
 
+    // create the vertical splitpane
     SplitPane verticalSplitPane = new SplitPane();
     AnchorPane topRightAnchorPane = new AnchorPane();
     AnchorPane bottumRightAnchorPane = new AnchorPane();
@@ -58,30 +78,24 @@ public class StoryView extends Application {
     VBox leftVBox = new VBox();
     leftVBox.setAlignment(Pos.CENTER);
     leftVBox.setPrefWidth(200);
-    Text storyHeadlineText = new Text("storyHeadlineText");
+    
     TextArea storyTextArea = new TextArea("storyTextArea");
     storyTextArea.setEditable(false);
-
-    leftVBox.getChildren().add(storyHeadlineText);
     leftVBox.getChildren().add(storyTextArea);
+    
     leftAnchorPane.getChildren().add(leftVBox);
 
     TextArea pathOneTextArea = new TextArea("path1");
-    TextArea pathTwoTextArea = new TextArea("path2");
-
     pathOneTextArea.setEditable(false);
-    pathTwoTextArea.setEditable(false);
-
     pathOneTextArea.setMaxWidth(200);
-    pathTwoTextArea.setMaxWidth(200);
-
     topRightAnchorPane.getChildren().add(pathOneTextArea);
+
+    TextArea pathTwoTextArea = new TextArea("path2");
+    pathTwoTextArea.setEditable(false);
+    pathTwoTextArea.setMaxWidth(200);
     bottumRightAnchorPane.getChildren().add(pathTwoTextArea);
 
-    
-    
-
-    Scene scene = new Scene(bottumAnchorPane, 600, 600);
+    Scene scene = new Scene(rootAnchorPane, 600, 600);
     scene.getStylesheets().add("cssfiles/storyStyle.css");
     stage.setScene(scene);
     stage.show();
@@ -91,7 +105,6 @@ public class StoryView extends Application {
     // update resources
     resources =
         ResourceBundle.getBundle(
-            "story",
-            Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
-    }
+            "story", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
+  }
 }
