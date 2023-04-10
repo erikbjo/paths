@@ -1,6 +1,5 @@
 package no.ntnu.idatg2001.model;
 
-import no.ntnu.idatg2001.model.Link;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +10,9 @@ import java.util.List;
  * @version 2023.02.02
  */
 public class Passage {
-  private final String title;
+    private final String title;
     private final String content;
-  private List<Link> links;
+    private List<Link> links;
 
     public Passage(String title, String content) {
         this.title = title;
@@ -48,7 +47,7 @@ public class Passage {
      * @return A boolean value.
      */
     public boolean addLinks(Link link) {
-        if(links.size() >= 2) {
+        if (links.size() >= 2) {
             links.add(link);
             return true;
         } else {
@@ -61,13 +60,13 @@ public class Passage {
      *
      * @return A list of links.
      */
-    public List<Link> getLinks(){
+    public List<Link> getLinks() {
         return links;
     }
 
     public void setLinks(List<Link> links) {
-        if (links != null && links.size() >= 2){
-            this.links = new ArrayList<>(links.subList(0,2));
+        if (links != null && links.size() >= 2) {
+            this.links = new ArrayList<>(links.subList(0, 2));
         } else {
             this.links = links;
         }
@@ -78,24 +77,22 @@ public class Passage {
      *
      * @return A boolean value.
      */
-    public boolean hasLinks(){
+    public boolean hasLinks() {
         return !links.isEmpty();
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return super.toString();
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         return super.equals(object);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return super.hashCode();
     }
 }
