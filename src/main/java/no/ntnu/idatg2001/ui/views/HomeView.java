@@ -103,7 +103,7 @@ public class HomeView extends Application {
     Scene scene = new Scene(anchorPane, 600, 600);
     primaryStage.setScene(scene);
     primaryStage.show();
-    playMusic("src/main/resources/relaxing-145038.mp3");
+    playMusic("src/main/resources/music/relaxing-145038.mp3");
   }
 
   public void updateLanguage() {
