@@ -8,32 +8,31 @@ import no.ntnu.idatg2001.model.units.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class GoldGoalTest
-{
-    Attributes attributes;
-    Player playerTrue;
-    Player playerFalse;
-    GoldGoal goldGoal;
+class GoldGoalTest {
+  Attributes attributes;
+  Player playerTrue;
+  Player playerFalse;
+  GoldGoal goldGoal;
 
-    @BeforeEach
-    void setUp(){
-        attributes = new Attributes(1,1,1,1,
-            1,1,1);
-        goldGoal = new GoldGoal(0);
-        playerTrue = new Player("Test", 2,7,9,6,
-            12,attributes);
-        playerFalse = new Player("Test", 2,-2,9,6,
-            12,attributes);
-    }
-    @Test
-    void goldGoalIsFulfilled()
-    {
-        assertTrue(goldGoal.isFulfilled(playerTrue));
-    }
+  @BeforeEach
+  void setUp() {
+    attributes = new Attributes(1, 1, 1, 1, 1, 1, 1);
+    goldGoal = new GoldGoal(0);
+    playerTrue = new Player.PlayerBuilder()
+            .withGold(5)
+            .build();
+    playerFalse = new Player.PlayerBuilder()
+            .withGold(-5)
+            .build();
+  }
 
-    @Test
-    void goldGoalIsNotFulfilled()
-    {
-        assertFalse(goldGoal.isFulfilled(playerFalse));
-    }
+  @Test
+  void goldGoalIsFulfilled() {
+    assertTrue(goldGoal.isFulfilled(playerTrue));
+  }
+
+  @Test
+  void goldGoalIsNotFulfilled() {
+    assertFalse(goldGoal.isFulfilled(playerFalse));
+  }
 }

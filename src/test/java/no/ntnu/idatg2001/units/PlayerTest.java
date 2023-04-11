@@ -3,21 +3,37 @@ package no.ntnu.idatg2001.units;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Field;
-import no.ntnu.idatg2001.model.units.Attributes;import no.ntnu.idatg2001.model.units.Player;
-
+import no.ntnu.idatg2001.model.units.Attributes;
+import no.ntnu.idatg2001.model.units.Player;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PlayerTest {
 
-  Attributes testAttributes = new Attributes(1,1,1,1,1,1,1);
-  Player testPlayer = new Player("Test", 5,5,5,5,5,testAttributes);
+  Attributes testAttributes;
+  Player testPlayer;
 
-
-
-
-  @Test
-  void dialog() {
+  @BeforeEach
+  void setUp() {
+     testAttributes = new Attributes(1,1,1,1,1,1,1);
+     testPlayer = new Player.PlayerBuilder()
+             .withName("Test")
+             .withScore(5)
+             .withGold(5)
+             .withHealth(5)
+             .withMana(5)
+             .withEnergy(5)
+             .withAttributes(testAttributes)
+             .build();
   }
+
+  @AfterEach
+  void tearDown() {
+
+  }
+  @Test
+  void dialog() {}
 
   @Test
   void addHealth_mustEndInPositiveHealth() throws Exception {
