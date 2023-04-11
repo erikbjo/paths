@@ -36,18 +36,21 @@ public class StoryView extends Application {
             "story", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
 
     BorderPane borderPane = new BorderPane();
-    borderPane.setTop(new StandardMenuBar());
+    StandardMenuBar menuBar = new StandardMenuBar();
+    borderPane.setTop(menuBar);
     AnchorPane rootAnchorPane = new AnchorPane();
 
     // Create a VBox to hold all the elements
     VBox rootVBox = new VBox(100); // 100 pixels spacing between elements
     rootVBox.setPadding(new Insets(50));
     rootVBox.setAlignment(Pos.CENTER); // Center the elements vertically and horizontally
+    AnchorPane anchorPaneForVBox = new AnchorPane();
 
     AnchorPane bottumAnchorPane = new AnchorPane();
     
     rootAnchorPane.getChildren().add(borderPane);
-    rootAnchorPane.getChildren().add(rootVBox);
+    anchorPaneForVBox.getChildren().add(rootVBox);
+    rootAnchorPane.getChildren().add(anchorPaneForVBox);
 
     Text storyHeadlineText = new Text("storyHeadlineText");
     rootVBox.getChildren().add(storyHeadlineText);
