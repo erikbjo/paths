@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import no.ntnu.idatg2001.model.actions.items.Item;
+import no.ntnu.idatg2001.model.actions.items.equipables.weapons.Dagger;
+import no.ntnu.idatg2001.model.actions.items.equipables.weapons.Sword;
 import no.ntnu.idatg2001.model.goals.InventoryGoal;
 import no.ntnu.idatg2001.model.units.Attributes;
 import no.ntnu.idatg2001.model.units.Player;
@@ -14,29 +17,47 @@ import org.junit.jupiter.api.Test;
 class InventoryGoalTest {
   Attributes attributes;
   Player player;
-  List<String> listWithAllMandatoryItems;
-  List<String> listWithoutAllMandatoryItems;
+  List<Item> listWithAllMandatoryItems;
+  List<Item> listWithoutAllMandatoryItems;
   InventoryGoal inventoryGoalAchieved;
   InventoryGoal inventoryGoalNotAchieved;
+  Dagger testDagger;
+  Item testSword;
+  Item testBelt;
+  Item testChest;
 
   @BeforeEach
   void setUp() {
     this.attributes = new Attributes(1, 1, 1, 1, 1, 1, 1);
-    this.player = new Player("Test", 9, 7, 9, 6, 12, attributes);
+    this.player =
+        new Player.PlayerBuilder()
+            .withName("John")
+            .withScore(5)
+            .withGold(100)
+            .withHealth(100)
+            .withMana(50)
+            .withEnergy(50)
+            .withAttributes(attributes)
+            .build();
     this.listWithAllMandatoryItems = new ArrayList<>();
     this.listWithoutAllMandatoryItems = new ArrayList<>();
-    listWithAllMandatoryItems.add("Sword");
-    listWithAllMandatoryItems.add("Dagger");
-    listWithAllMandatoryItems.add("Wand");
+
+    testDagger = new Dagger("dagger", 1, 1);
+    testSword = new Sword("sword", 1, 1);
+    listWithAllMandatoryItems.add(testDagger);
+    listWithAllMandatoryItems.add(testSword);
+
     this.inventoryGoalAchieved = new InventoryGoal(listWithAllMandatoryItems);
     this.inventoryGoalNotAchieved = new InventoryGoal(listWithoutAllMandatoryItems);
   }
 
   @Test
   void inventoryGoalIsFulfilled() {
-    player.getInventory().add("Sword");
-    player.getInventory().add("Dagger");
-    player.getInventory().add("Wand");
+    player.setInventory(listWithAllMandatoryItems);
+
+    System.out.println(player.getInventory());
+    System.out.println(listWithAllMandatoryItems);
+
     assertTrue(inventoryGoalAchieved.isFulfilled(player));
   }
 

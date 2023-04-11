@@ -9,37 +9,37 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ScoreGoalTest
-{
+class ScoreGoalTest {
 
-    Attributes attributes;
-    Player playerTrue;
-    Player playerFalse;
-    ScoreGoal scoreGoal;
-    @BeforeEach
-    void setUp(){
-     attributes = new Attributes(1,1,1,1,
-            1,1,1);
-     playerTrue = new Player("Test", 9,7,9,6,
-            12,attributes);
-     playerFalse = new Player("Test", -6,12,9,6,
-            12,attributes);
-     scoreGoal = new ScoreGoal(0);
+  Attributes attributes;
+  Player playerTrue;
+  Player playerFalse;
+  ScoreGoal scoreGoal;
 
-    }
-    @Test
-    void isScoreGoalFulfilled()
-    {
-        assertTrue(scoreGoal.isFulfilled(playerTrue));
-    }
+  @BeforeEach
+  void setUp() {
+    attributes = new Attributes(1, 1, 1, 1, 1, 1, 1);
+    playerTrue = new Player.PlayerBuilder()
+            .withName("Test")
+            .withScore(5)
+            .build();
+    playerFalse = new Player.PlayerBuilder()
+            .withName("Test")
+            .withScore(-5)
+            .build();
+    scoreGoal = new ScoreGoal(0);
+  }
 
-    @Test
-    void scoreGoalIsNotFulfilled()
-    {
-        assertFalse(scoreGoal.isFulfilled(playerFalse));
-    }
-    @AfterEach
-    void tearDown(){
+  @Test
+  void isScoreGoalFulfilled() {
+    assertTrue(scoreGoal.isFulfilled(playerTrue));
+  }
 
-    }
+  @Test
+  void scoreGoalIsNotFulfilled() {
+    assertFalse(scoreGoal.isFulfilled(playerFalse));
+  }
+
+  @AfterEach
+  void tearDown() {}
 }

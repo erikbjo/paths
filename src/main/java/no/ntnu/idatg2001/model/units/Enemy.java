@@ -2,17 +2,17 @@ package no.ntnu.idatg2001.model.units;
 
 public class Enemy extends Unit {
 
-  public Enemy(
-      String name, int score, int gold, int health, int mana, int energy, Attributes attributes) {
-    super.setName(name);
-    super.setScore(score);
-    super.setGold(gold);
-    super.setHealth(health);
-    super.setMana(mana);
-    super.setEnergy(energy);
-    super.setAttributes(attributes);
+  private Enemy(EnemyBuilder builder) {
+    super(builder);
   }
 
   @Override
   public void dialog() {}
+
+  public static class EnemyBuilder extends UnitBuilder<EnemyBuilder> {
+    @Override
+    public Enemy build() {
+      return new Enemy(this);
+    }
+  }
 }

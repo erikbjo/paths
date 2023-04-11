@@ -8,15 +8,8 @@ package no.ntnu.idatg2001.model.units;
  */
 public class Player extends Unit {
 
-  public Player(
-      String name, int score, int gold, int health, int mana, int energy, Attributes attributes) {
-    super.setName(name);
-    super.setScore(score);
-    super.setGold(gold);
-    super.setHealth(health);
-    super.setMana(mana);
-    super.setEnergy(energy);
-    super.setAttributes(attributes);
+  private Player(PlayerBuilder builder) {
+    super(builder);
   }
 
   public void dialog() {}
@@ -82,6 +75,13 @@ public class Player extends Unit {
       return true;
     } else {
       return false;
+    }
+  }
+
+  public static class PlayerBuilder extends UnitBuilder<PlayerBuilder> {
+    @Override
+    public Player build() {
+      return new Player(this);
     }
   }
 }
