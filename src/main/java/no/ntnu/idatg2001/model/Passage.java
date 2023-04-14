@@ -40,19 +40,15 @@ public class Passage {
 
 
     /**
-     * If the size of the links array is greater than or equal to 2, add the link to the array and
-     * return true. Otherwise, return false.
+     * Adds a link to an arrayList and
+     * return true.
      *
-     * @param link The link to be added to the node.
+     * @param link The link to be added to the list.
      * @return A boolean value.
      */
     public boolean addLinks(Link link) {
-        if (links.size() >= 2) {
-            links.add(link);
-            return true;
-        } else {
-            return false;
-        }
+        links.add(link);
+        return true;
     }
 
     /**
@@ -65,11 +61,13 @@ public class Passage {
     }
 
     public void setLinks(List<Link> links) {
-        if (links != null && links.size() >= 2) {
-            this.links = new ArrayList<>(links.subList(0, 2));
-        } else {
-            this.links = links;
-        }
+        this.links = links;
+        /**
+         if (links != null && links.size() >= 2) {
+         this.links = new ArrayList<>(links.subList(0, 2));
+         } else {
+         this.links = links;
+         }*/
     }
 
     /**
