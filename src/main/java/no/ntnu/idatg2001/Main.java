@@ -7,12 +7,12 @@ import no.ntnu.idatg2001.model.StoryFileHandler;
 import no.ntnu.idatg2001.ui.views.HomeView;
 
 public class Main {
-  public static void main(String[] args) {
+    public static void main(String[] args) {
 
-    List<Story> stories = new ArrayList<>();
-    StoryFileHandler.writePathsFile(stories, "Stories.paths");
-    // StoryFileHandler.readStoryFile("Stories.paths");
+        List<Story> stories = new ArrayList<>();
+        StoryFileHandler.writePathsFile(stories, "Story.paths");
+        // StoryFileHandler.readStoryFile("Story.paths");
 
-    HomeView.mainApp(args);
-  }
+        HomeView.mainApp(args);
+    }
 }

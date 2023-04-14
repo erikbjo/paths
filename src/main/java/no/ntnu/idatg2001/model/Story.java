@@ -1,8 +1,7 @@
 package no.ntnu.idatg2001.model;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,12 +15,12 @@ import java.util.stream.Collectors;
  */
 public class Story {
     private String title;
-  private Map<Link, Passage> passages;
+    private Map<Link, Passage> passages;
     private Passage openingPassage;
 
     public Story(String title, Passage openingPassage) {
         this.title = title;
-    this.openingPassage = openingPassage;
+        this.openingPassage = openingPassage;
         this.passages = new HashMap<>();
     }
 
@@ -54,37 +53,68 @@ public class Story {
     public void addPassage(Passage passage) {
         this.openingPassage = passage;
         Link link = new Link(passage.getTitle(), passage.getTitle());
-        passages.put(link,openingPassage);
+        passages.put(link, openingPassage);
     }
 
     public Passage getPassage(Link link) {
         return passages.get(link);
     }
 
-    public Collection<Passage> getPassages() {
-        Collection<Passage> passageCollection = new HashSet<>();
-        for (Link link: passages.keySet()) {
+    //Endre denne metoden til å ta en Story istedenfor en link, for å gjøre at passasjene ikke
+    //kommer hulter til bulter. Pga hashMap ikke sorterer slik som arrayList.
+
+    //gammel version
+    /**
+     * public Collection<Passage> getPassages() {
+     * Collection<Passage> passageCollection = new HashSet<>();
+     * for (Link link : passages.keySet()) {
+     * Passage passage = passages.get(link);
+     * if (passage != null) {
+     * passageCollection.add(passage);
+     * }
+     * }
+     * return passageCollection;
+     * }
+     */
+
+    //Ny version 1
+
+    /**
+     * public Collection<Passage> getPassages() {
+     * Collection<Passage> passageCollection = new HashSet<>();
+     * for (Passage passage : passages.values()) {
+     * if (passage != null) {
+     * passageCollection.add(passage);
+     * }
+     * }
+     * return passageCollection;
+     * }
+     */
+
+    //Ny version 2
+    public List<Passage> getPassages() {
+        List<Passage> passageList = new ArrayList<>();
+        for (Link link : passages.keySet()) {
             Passage passage = passages.get(link);
-            if (passage != null){
-                passageCollection.add(passage);
+            if (passage != null) {
+                passageList.add(passage);
             }
         }
-        return passageCollection;
+        return passageList;
     }
-
 
     public void removePassage(Link link) {
         boolean isLinkedToAPassage = passages.keySet().stream()
             .filter(key -> !key.equals(link))
             .anyMatch(key -> passages.get(key).getLinks().stream()
                 .anyMatch(l -> l.getReference().equals(link.getReference())));
-        if (!isLinkedToAPassage){
+        if (!isLinkedToAPassage) {
             passages.remove(link);
         }
     }
 
-    public List<Link> getBrokenLinks(){
-        return  passages.keySet().stream()
+    public List<Link> getBrokenLinks() {
+        return passages.keySet().stream()
             .filter(link -> passages.get(link) == null)
             .collect(Collectors.toList());
     }
