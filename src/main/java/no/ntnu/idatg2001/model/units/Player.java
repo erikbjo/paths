@@ -12,7 +12,9 @@ public class Player extends Unit {
     super(builder);
   }
 
-  public void dialog() {}
+  public String dialog() {
+    return "Hello, my name is " + super.getName();
+  }
 
   /**
    * If the health is greater than 0, add it to the current health and return true. Otherwise,
