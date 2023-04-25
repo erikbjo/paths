@@ -20,7 +20,7 @@ public class InventoryGoal implements Goal {
   @Override
   public boolean isFulfilled(Player player) {
     if (mandatoryItems.isEmpty()){
-      return false;
+      return true;
     }
     for (Item nthMandatoryItem : mandatoryItems) {
       if (!player.getInventory().contains(nthMandatoryItem)) {
