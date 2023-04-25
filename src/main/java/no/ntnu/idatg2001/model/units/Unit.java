@@ -33,7 +33,12 @@ public abstract class Unit {
     this.attributes = builder.attributes;
   }
 
-  public abstract void dialog();
+  /**
+   * Method to get the dialog of the unit.
+   *
+   * @return String with the dialog of the unit
+   */
+  public abstract String dialog();
 
 
   /**

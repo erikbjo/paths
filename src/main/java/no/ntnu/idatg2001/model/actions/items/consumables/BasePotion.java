@@ -4,6 +4,8 @@ import no.ntnu.idatg2001.model.units.Player;
 
 /**
  * The BasePotion class represents a potion that can be used by the player.
+ *
+ * @author Erik Bjørnsen
  */
 public class BasePotion extends Potion {
 
