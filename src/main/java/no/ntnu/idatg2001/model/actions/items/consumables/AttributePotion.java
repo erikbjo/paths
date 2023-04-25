@@ -5,6 +5,8 @@ import no.ntnu.idatg2001.model.units.Player;
 
 /**
  * The AttributePotion class represents a potion that can be used by the player.
+ *
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 public class AttributePotion extends Potion implements Consumable {
   private Attributes attributes;

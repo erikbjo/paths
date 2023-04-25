@@ -5,7 +5,7 @@ import no.ntnu.idatg2001.model.units.Player;
 /**
  * The Dagger class represents a dagger in the game. It extends the Weapon class.
  *
- * @author Erik Bjørnsen
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 public class Dagger extends Weapon {
 

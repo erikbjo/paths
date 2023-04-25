@@ -6,7 +6,7 @@ import no.ntnu.idatg2001.model.actions.items.Item;
  * The Potion class represents a potion in the game. It extends the Item class and implements the
  * consumable interface.
  *
- * @author Erik Bjørnsen
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 public abstract class Potion extends Item implements Consumable {
 

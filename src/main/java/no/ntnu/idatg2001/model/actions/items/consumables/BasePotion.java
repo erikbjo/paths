@@ -5,14 +5,14 @@ import no.ntnu.idatg2001.model.units.Player;
 /**
  * The BasePotion class represents a potion that can be used by the player.
  *
- * @author Erik Bjørnsen
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 public class BasePotion extends Potion {
 
   private final int energy;
+  private final int health;
+  private final int mana;
   private String name;
-  private int health;
-  private int mana;
 
   /**
    * Constructor for the BasePotion class.
@@ -30,7 +30,8 @@ public class BasePotion extends Potion {
     this.mana = mana;
     this.energy = energy;
   }
-/**
+  
+  /**
    * Use the potion.
    *
    * @param player the player that uses the potion

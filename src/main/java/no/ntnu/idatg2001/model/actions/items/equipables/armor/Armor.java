@@ -8,7 +8,7 @@ import no.ntnu.idatg2001.model.units.Attributes;
  * The Armor class represents an armor in the game. It extends the Item class and implements the
  * equipable interface.
  *
- * @author Erik Bjørnsen
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 public abstract class Armor extends Item implements Equipable {
 

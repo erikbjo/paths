@@ -5,9 +5,10 @@ import no.ntnu.idatg2001.model.units.Player;
 /**
  * The Sword class represents a sword in the game. It extends the Weapon class.
  *
- * @author Erik Bjørnsen
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 public class Sword extends Weapon {
+
   /**
    * Constructor for the Sword class.
    *
