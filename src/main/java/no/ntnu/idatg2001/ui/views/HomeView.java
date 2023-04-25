@@ -1,5 +1,6 @@
 package no.ntnu.idatg2001.ui.views;
 
+import java.io.File;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
@@ -8,6 +9,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -100,6 +103,7 @@ public class HomeView extends Application {
     Scene scene = new Scene(anchorPane, 600, 600);
     primaryStage.setScene(scene);
     primaryStage.show();
+    playMusic("src/main/resources/music/relaxing-145038.mp3");
   }
 
   public void updateLanguage() {
@@ -110,5 +114,18 @@ public class HomeView extends Application {
     pathsGameText.setText(resources.getString("storiesText"));
     storiesText.setText(resources.getString("storiesText"));
     deadLinksText.setText(resources.getString("deadLinksText"));
+  }
+
+
+  // Should maybe be static like Database
+  private void playMusic(String musicFilePath) {
+    try {
+      Media media = new Media(new File(musicFilePath).toURI().toString());
+      MediaPlayer mediaPlayer = new MediaPlayer(media);
+      mediaPlayer.setAutoPlay(true);
+      mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+    } catch (Exception e) {
+      System.out.println("Error playing music: " + e.getMessage());
+    }
   }
 }

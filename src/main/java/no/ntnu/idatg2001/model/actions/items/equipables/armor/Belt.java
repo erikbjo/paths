@@ -7,10 +7,13 @@ public class Belt extends Armor {
 
   private final int equipSlot = 2;
 
-  protected Belt(String name, int itemScore, int goldValue, Attributes attributes) {
+  public Belt(String name, int itemScore, int goldValue, Attributes attributes) {
     super(name, itemScore, goldValue, attributes);
   }
 
   @Override
-  public void equip(Player player) {}
+  public void equip(Player player) {
+    player.getInventory().remove(this);
+    player.getEquippedItems().add(this);
+  }
 }

@@ -8,5 +8,8 @@ public class Sword extends Weapon {
   }
 
   @Override
-  public void equip(Player player) {}
+  public void equip(Player player) {
+    player.getInventory().remove(this);
+    player.getEquippedItems().add(this);
+  }
 }
