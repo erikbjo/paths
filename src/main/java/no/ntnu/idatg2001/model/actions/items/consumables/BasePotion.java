@@ -4,13 +4,15 @@ import no.ntnu.idatg2001.model.units.Player;
 
 public class BasePotion extends Potion {
 
+  private final int energy;
   private String name;
   private int health;
   private int mana;
-  private final int energy;
 
-  public BasePotion(String name, int health, int mana, int energy) {
-    super(name, health, mana);
+  public BasePotion(String name, int itemScore, int goldValue ,int health, int mana, int energy) {
+    super(name, itemScore, goldValue);
+    this.health = health;
+    this.mana = mana;
     this.energy = energy;
   }
 

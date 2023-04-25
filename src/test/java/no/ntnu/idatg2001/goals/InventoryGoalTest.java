@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
 import no.ntnu.idatg2001.model.actions.items.Item;
+import no.ntnu.idatg2001.model.actions.items.equipables.armor.Belt;
+import no.ntnu.idatg2001.model.actions.items.equipables.armor.Chest;
 import no.ntnu.idatg2001.model.actions.items.equipables.weapons.Dagger;
 import no.ntnu.idatg2001.model.actions.items.equipables.weapons.Sword;
 import no.ntnu.idatg2001.model.goals.InventoryGoal;
@@ -47,6 +49,11 @@ class InventoryGoalTest {
     listWithAllMandatoryItems.add(testDagger);
     listWithAllMandatoryItems.add(testSword);
 
+    testBelt = new Belt("belt", 1, 1, attributes);
+    testChest = new Chest("chest", 1, 1, attributes);
+    listWithoutAllMandatoryItems.add(testBelt);
+    listWithoutAllMandatoryItems.add(testChest);
+
     this.inventoryGoalAchieved = new InventoryGoal(listWithAllMandatoryItems);
     this.inventoryGoalNotAchieved = new InventoryGoal(listWithoutAllMandatoryItems);
   }
@@ -64,7 +71,7 @@ class InventoryGoalTest {
   @Test
   void inventoryGoalIsNotFulfilled() {
     player.setInventory(listWithoutAllMandatoryItems);
-    assertFalse(inventoryGoalNotAchieved.isFulfilled(player));
+    assertFalse(inventoryGoalAchieved.isFulfilled(player));
   }
 
   @AfterEach
