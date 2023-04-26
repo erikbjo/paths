@@ -1,6 +1,5 @@
 package no.ntnu.idatg2001.model.actions.items.equipables.weapons;
 
-import no.ntnu.idatg2001.model.units.Player;
 
 /**
  * The Dagger class represents a dagger in the game. It extends the Weapon class.
@@ -16,18 +15,7 @@ public class Dagger extends Weapon {
    * @param itemScore the score of the item
    * @param goldValue the gold value of the item
    */
-  public Dagger(String name, int itemScore, int goldValue) {
-    super(name, itemScore, goldValue);
-  }
-
-  /**
-   * Equips the item to the player
-   *
-   * @param player the player who is equipping the item
-   */
-  @Override
-  public void equip(Player player) {
-    player.getInventory().remove(this);
-    player.getEquippedItems().add(this);
+  public Dagger(String name, int itemScore, int goldValue, int damage) {
+    super(name, itemScore, goldValue, damage);
   }
 }

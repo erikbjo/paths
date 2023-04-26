@@ -17,16 +17,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class InventoryGoalTest {
-  Attributes attributes;
-  Player player;
-  List<Item> listWithAllMandatoryItems;
-  List<Item> listWithoutAllMandatoryItems;
-  InventoryGoal inventoryGoalAchieved;
-  InventoryGoal inventoryGoalNotAchieved;
-  Dagger testDagger;
-  Item testSword;
-  Item testBelt;
-  Item testChest;
+  private Attributes attributes;
+  private Player player;
+  private List<Item> listWithAllMandatoryItems;
+  private List<Item> listWithoutAllMandatoryItems;
+  private InventoryGoal inventoryGoalAchieved;
+  private InventoryGoal inventoryGoalNotAchieved;
+  private Dagger testDagger;
+  private Item testSword;
+  private Item testBelt;
+  private Item testChest;
 
   @BeforeEach
   void setUp() {
@@ -44,8 +44,8 @@ class InventoryGoalTest {
     this.listWithAllMandatoryItems = new ArrayList<>();
     this.listWithoutAllMandatoryItems = new ArrayList<>();
 
-    testDagger = new Dagger("dagger", 1, 1);
-    testSword = new Sword("sword", 1, 1);
+    testDagger = new Dagger("dagger", 1, 1, 1);
+    testSword = new Sword("sword", 1, 1, 1);
     listWithAllMandatoryItems.add(testDagger);
     listWithAllMandatoryItems.add(testSword);
 

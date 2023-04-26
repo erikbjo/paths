@@ -16,4 +16,12 @@ public interface Equipable {
    * @param player the player who is equipping the item
    */
   void equip(Player player);
+
+
+  /**
+   * Uneqiups the item from the player.
+   *
+   * @param player the player who is unequipping the item
+   */
+  void unEquip(Player player);
 }

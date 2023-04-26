@@ -3,23 +3,21 @@ package no.ntnu.idatg2001.model.actions.items.equipables.armor;
 import no.ntnu.idatg2001.model.units.Attributes;
 
 /**
- * The Belt class represents a belt in the game. It extends the Armor class.
+ * The Pants class represents a pants in the game. It extends the Armor class.
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
-public class Belt extends Armor {
-
-  private final int equipSlot = 2;
+public class Pants extends Armor {
 
   /**
-   * Constructor for the Belt class.
+   * Constructor for the Pants class.
    *
    * @param name the name of the item
    * @param itemScore the score of the item
    * @param goldValue the gold value of the item
    * @param attributes the attributes of the item
    */
-  public Belt(String name, int itemScore, int goldValue, Attributes attributes) {
+  public Pants(String name, int itemScore, int goldValue, Attributes attributes) {
     super(name, itemScore, goldValue, attributes);
   }
 }
