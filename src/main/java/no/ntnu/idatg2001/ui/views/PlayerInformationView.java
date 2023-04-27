@@ -2,7 +2,6 @@ package no.ntnu.idatg2001.ui.views;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,7 +18,7 @@ import no.ntnu.idatg2001.model.Database;
 import no.ntnu.idatg2001.ui.controllers.PlayerInformationController;
 import no.ntnu.idatg2001.ui.standardObjects.StandardMenuBar;
 
-public class PlayerInformationView extends Application {
+public class PlayerInformationView {
   private ResourceBundle resources;
   private Text healthGoalText;
   private Text goldGoalText;
@@ -31,12 +30,6 @@ public class PlayerInformationView extends Application {
   private Text newPlayerText;
   private Button startButton;
 
-  // just for testing
-  public static void mainApp(String[] args) {
-    launch(args);
-  }
-
-  @Override
   public void start(Stage stage) {
     // Observes when the language in Database is changed, then calls updateLanguage()
     Database.getObservableIntegerCounter()

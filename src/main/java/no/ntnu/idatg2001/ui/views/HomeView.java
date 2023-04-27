@@ -1,6 +1,6 @@
 package no.ntnu.idatg2001.ui.views;
 
-import java.io.File;
+import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
@@ -27,7 +27,7 @@ public class HomeView extends Application {
   private Text deadLinksText;
 
   public static void mainApp(String[] args) {
-    launch(args);
+    launch();
   }
 
   @Override
@@ -103,7 +103,7 @@ public class HomeView extends Application {
     Scene scene = new Scene(anchorPane, 600, 600);
     primaryStage.setScene(scene);
     primaryStage.show();
-    playMusic("src/main/resources/music/relaxing-145038.mp3");
+    playMusic("/music/relaxing-145038.mp3");
   }
 
   public void updateLanguage() {
@@ -116,11 +116,12 @@ public class HomeView extends Application {
     deadLinksText.setText(resources.getString("deadLinksText"));
   }
 
-
   // Should maybe be static like Database
   private void playMusic(String musicFilePath) {
     try {
-      Media media = new Media(new File(musicFilePath).toURI().toString());
+      URL resource = getClass().getResource(musicFilePath);
+      Media media = new Media(resource.toString());
+      //Media media = new Media(new File(musicFilePath).toURI().toString());
       MediaPlayer mediaPlayer = new MediaPlayer(media);
       mediaPlayer.setAutoPlay(true);
       mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);

@@ -2,7 +2,6 @@ package no.ntnu.idatg2001.ui.views;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -17,14 +16,9 @@ import javafx.stage.Stage;
 import no.ntnu.idatg2001.model.Database;
 import no.ntnu.idatg2001.ui.standardObjects.StandardMenuBar;
 
-public class StoryView extends Application {
+public class StoryView {
   private ResourceBundle resources;
-
-  public static void mainApp(String[] args) {
-    launch(args);
-  }
-
-  @Override
+  
   public void start(Stage stage) {
     // Observes when the language in Database is changed, then calls updateLanguage()
     Database.getObservableIntegerCounter()
