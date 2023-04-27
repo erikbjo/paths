@@ -10,10 +10,18 @@ public class Game {
   private final Story story;
   private final List<Goal> goals;
 
+  /**
+   * Constructor for the Game class.
+   *
+   * @param player The player.
+   * @param story The story.
+   * @param goals The goals.
+   */
   public Game(Player player, Story story, List<Goal> goals) {
     this.player = player;
     this.story = story;
     this.goals = new ArrayList<>();
+    this.goals.addAll(goals);
   }
 
   public Player getPlayer() {

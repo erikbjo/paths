@@ -30,7 +30,7 @@ class PlayerTest {
     testAttributes = new Attributes(1, 1, 1, 1, 1, 1, 1);
     inventory = new ArrayList<>();
     equippedInventory = new ArrayList<>();
-    testDagger = new Dagger("test", 1, 1);
+    testDagger = new Dagger("test", 1, 1, 1);
     testChest = new Chest("test", 1, 1, testAttributes);
     testPlayer =
         new Player.PlayerBuilder()

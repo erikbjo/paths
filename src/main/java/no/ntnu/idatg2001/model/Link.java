@@ -59,6 +59,11 @@ public class Link {
         actions.add(action);
     }
 
+    /**
+     * A method that adds a path action to the path actions list.
+     *
+     * @param pathAction Represents the path action that gets added to the list of path actions.
+     */
     public void addPathAction(PathActions pathAction) {
         pathActions.add(pathAction);
     }

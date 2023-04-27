@@ -9,8 +9,6 @@ import no.ntnu.idatg2001.model.units.Attributes;
  */
 public class Belt extends Armor {
 
-  private final int equipSlot = 2;
-
   /**
    * Constructor for the Belt class.
    *
