@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.items.equipables;
+package no.ntnu.idatg2001.paths.items.equipables;
 
 import static org.junit.jupiter.api.Assertions.*;
 

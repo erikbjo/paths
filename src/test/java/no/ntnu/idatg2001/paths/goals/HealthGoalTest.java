@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.goals;
+package no.ntnu.idatg2001.paths.goals;
 
 import static org.junit.jupiter.api.Assertions.*;
 

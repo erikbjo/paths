@@ -1,38 +1,45 @@
-package no.ntnu.idatg2001.goals;
+package no.ntnu.idatg2001.paths.goals;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import no.ntnu.idatg2001.paths.model.goals.GoldGoal;
+import no.ntnu.idatg2001.paths.model.goals.ScoreGoal;
 import no.ntnu.idatg2001.paths.model.units.Attributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class GoldGoalTest {
+class ScoreGoalTest {
+
   Attributes attributes;
   Player playerTrue;
   Player playerFalse;
-  GoldGoal goldGoal;
+  ScoreGoal scoreGoal;
 
   @BeforeEach
   void setUp() {
     attributes = new Attributes(1, 1, 1, 1, 1, 1, 1);
-    goldGoal = new GoldGoal(0);
     playerTrue = new Player.PlayerBuilder()
-            .withGold(5)
+            .withName("Test")
+            .withScore(5)
             .build();
     playerFalse = new Player.PlayerBuilder()
-            .withGold(-5)
+            .withName("Test")
+            .withScore(-5)
             .build();
+    scoreGoal = new ScoreGoal(0);
   }
 
   @Test
-  void goldGoalIsFulfilled() {
-    assertTrue(goldGoal.isFulfilled(playerTrue));
+  void isScoreGoalFulfilled() {
+    assertTrue(scoreGoal.isFulfilled(playerTrue));
   }
 
   @Test
-  void goldGoalIsNotFulfilled() {
-    assertFalse(goldGoal.isFulfilled(playerFalse));
+  void scoreGoalIsNotFulfilled() {
+    assertFalse(scoreGoal.isFulfilled(playerFalse));
   }
+
+  @AfterEach
+  void tearDown() {}
 }
