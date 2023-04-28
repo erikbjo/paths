@@ -25,19 +25,19 @@ build-job:       # This job runs in the build stage, which runs first.
   stage: compile
   script:
     - echo "Compiling the code..."
-    -"mvn compile"
+    - mvn compile
     - echo "Compile complete."
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   script:
     - echo "Running unit tests... This will take about 100000000 seconds."
-    - "mvn test"
+    - mvn test
     - echo "Tests ran successfully I think"
 
 javafxrun-job:
   stage: javafx
   script:
     - echo "Running javafx"
-    -"mvn javafx:run -B"
+    - mvn javafx:run -B
     - echo "Javafx ran successfully"
