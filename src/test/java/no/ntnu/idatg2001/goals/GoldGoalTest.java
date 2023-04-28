@@ -2,9 +2,9 @@ package no.ntnu.idatg2001.goals;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import no.ntnu.idatg2001.model.goals.GoldGoal;
-import no.ntnu.idatg2001.model.units.Attributes;
-import no.ntnu.idatg2001.model.units.Player;
+import no.ntnu.idatg2001.paths.model.goals.GoldGoal;
+import no.ntnu.idatg2001.paths.model.units.Attributes;
+import no.ntnu.idatg2001.paths.model.units.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
