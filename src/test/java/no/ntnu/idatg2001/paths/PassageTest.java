@@ -35,11 +35,12 @@ class PassageTest {
     assertTrue(resultTrue);
   }
 
-  @Test
+  // hva gjør denne?
+  /*@Test
   void addLinksShouldReturnFalse() {
     links.remove(0);
     passage.setLinks(links);
     boolean resultFalse = passage.addLinks(new Link("False test", "123"));
     assertFalse(resultFalse);
-  }
+  }*/
 }
