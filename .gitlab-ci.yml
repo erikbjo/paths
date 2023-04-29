@@ -7,7 +7,6 @@ stages:
   - build
   - test
   - package
-  - deploy
 
 cache:
   paths:
@@ -21,7 +20,7 @@ build_job:
 
   script:
     - echo "Maven compile started"
-    - "mvn compile"
+    - mvn compile
 
 
 test_job:
@@ -31,7 +30,7 @@ test_job:
 
   script: 
     - echo "maven test started"
-    - "mvn test"
+    - mvn clean test
 
 
 package_job:
@@ -41,13 +40,4 @@ package_job:
 
   script:
     - echo "Maven packaging started"
-    - "mvn package"
-
-
-deploy_job:
-  stage: deploy
-  tags:
-    - docker
-
-  script:
-    - echo "Maven deploy started"
+    - mvn package
