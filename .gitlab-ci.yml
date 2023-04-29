@@ -1,7 +1,7 @@
 variables:
   MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
 
-image: maven:latest
+image: maven:3-jdk-11
 
 stages:
   - build
@@ -20,7 +20,7 @@ build_job:
 
   script:
     - echo "Maven compile started"
-    - mvn compile
+    - "mvn compile -B"
 
 
 test_job:
@@ -30,7 +30,7 @@ test_job:
 
   script: 
     - echo "maven test started"
-    - mvn clean test
+    - "mvn clean test -B"
 
 
 package_job:
@@ -40,4 +40,4 @@ package_job:
 
   script:
     - echo "Maven packaging started"
-    - mvn package
+    - "mvn package -B"
