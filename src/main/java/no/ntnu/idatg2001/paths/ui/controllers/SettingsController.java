@@ -5,6 +5,8 @@ import java.util.ResourceBundle;
 import javafx.event.Event;
 import no.ntnu.idatg2001.paths.model.Database;
 import no.ntnu.idatg2001.paths.model.Languages;
+import no.ntnu.idatg2001.paths.model.handlers.LanguageHandler;
+import no.ntnu.idatg2001.paths.model.handlers.VolumeHandler;
 import no.ntnu.idatg2001.paths.ui.views.SettingsDialog;
 
 public class SettingsController {
@@ -13,11 +15,11 @@ public class SettingsController {
   private int volume;
 
   public SettingsController(Event event) {
-    language = Database.getCurrentLanguage();
-    volume = Database.getCurrentVolume();
+    language = LanguageHandler.getCurrentLanguage();
+    volume = VolumeHandler.getCurrentVolume();
     ResourceBundle resources =
         ResourceBundle.getBundle(
-            "messages", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
+            "messages", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
     
     view = new SettingsDialog(this, resources);
   }
@@ -32,12 +34,11 @@ public class SettingsController {
 
 
   public void saveSettings() {
-    // Save settings here
     language = view.getLanguage();
     volume = view.getVolume();
-    // Do something with the language and volume settings
-    Database.setCurrentLanguage(language);
-    Database.setCurrentVolume(volume);
+
+    LanguageHandler.setCurrentLanguage(language);
+    VolumeHandler.setCurrentVolume(volume);
     view.close();
   }
 }
