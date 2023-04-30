@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.paths.model.actions.items.equipables;
+package no.ntnu.idatg2001.paths.model.items.equipables;
 
 import no.ntnu.idatg2001.paths.model.units.Player;
 

@@ -1,8 +1,8 @@
 package no.ntnu.idatg2001.paths.model.units;
 
 import java.util.List;
-import no.ntnu.idatg2001.paths.model.actions.items.Item;
-import no.ntnu.idatg2001.paths.model.actions.items.equipables.Equipable;
+import no.ntnu.idatg2001.paths.model.items.Item;
+import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
 
 /** The Unit class represents a unit in the game. */
 public abstract class Unit {

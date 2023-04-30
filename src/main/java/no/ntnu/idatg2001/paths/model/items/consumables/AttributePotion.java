@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.paths.model.actions.items.consumables;
+package no.ntnu.idatg2001.paths.model.items.consumables;
 
 import no.ntnu.idatg2001.paths.model.units.Attributes;
 import no.ntnu.idatg2001.paths.model.units.Player;

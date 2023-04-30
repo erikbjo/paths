@@ -1,6 +1,6 @@
 package no.ntnu.idatg2001.paths.model.actions;
 
-import no.ntnu.idatg2001.paths.model.actions.items.Item;
+import no.ntnu.idatg2001.paths.model.items.Item;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -24,6 +24,26 @@ public class InventoryAction implements Action {
   public InventoryAction(Item item, boolean isAdditionToInventory) {
     this.item = item;
     this.isAdditionToInventory = isAdditionToInventory;
+  }
+
+  /**
+   * Returns the item to perform the action on.
+   *
+   * @return the item to perform the action on
+   */
+  public Item getItem() {
+    return item;
+  }
+
+  /**
+   * Returns true if the action is an addition to the inventory, false if it is a removal from the
+   * inventory.
+   *
+   * @return true if the action is an addition to the inventory, false if it is a removal from the
+   *     inventory
+   */
+  public boolean getIsAdditionToInventory() {
+    return isAdditionToInventory;
   }
 
   /**

@@ -16,8 +16,6 @@ public class Link {
     private final String reference;
     private final List<Action> actions;
 
-    private final List<PathActions> pathActions;
-
     /**
      * A constructor that initializes the declared fields for text, reference and actions.
      *
@@ -29,7 +27,6 @@ public class Link {
         this.text = text;
         this.reference = reference;
         this.actions = new ArrayList<>();
-        this.pathActions = new ArrayList<>();
     }
 
     /**
@@ -60,25 +57,12 @@ public class Link {
     }
 
     /**
-     * A method that adds a path action to the path actions list.
-     *
-     * @param pathAction Represents the path action that gets added to the list of path actions.
-     */
-    public void addPathAction(PathActions pathAction) {
-        pathActions.add(pathAction);
-    }
-
-    /**
      * A method that returns the actions the makes it possible to influence the player's attributes.
      *
      * @return the actions in the actions list.
      */
     public List<Action> getActions() {
         return actions;
-    }
-
-    public List<PathActions> getPathActions() {
-        return pathActions;
     }
 
     @Override
@@ -93,7 +77,8 @@ public class Link {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Link{" + "text='" + text + '\'' + ", reference='" + reference + '\'' + ", actions="
+            + actions + '}';
     }
 
     @Override

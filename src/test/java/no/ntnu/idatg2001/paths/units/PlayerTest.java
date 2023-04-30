@@ -4,11 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import no.ntnu.idatg2001.paths.model.actions.items.Item;
-import no.ntnu.idatg2001.paths.model.actions.items.consumables.BasePotion;
-import no.ntnu.idatg2001.paths.model.actions.items.equipables.Equipable;
-import no.ntnu.idatg2001.paths.model.actions.items.equipables.armor.Chest;
-import no.ntnu.idatg2001.paths.model.actions.items.equipables.weapons.Dagger;
+import no.ntnu.idatg2001.paths.model.items.Item;
+import no.ntnu.idatg2001.paths.model.items.consumables.BasePotion;
+import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
+import no.ntnu.idatg2001.paths.model.items.equipables.armor.Chest;
+import no.ntnu.idatg2001.paths.model.items.equipables.weapons.Dagger;
 import no.ntnu.idatg2001.paths.model.units.Attributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import org.junit.jupiter.api.AfterEach;

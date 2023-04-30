@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.paths.model.actions.items;
+package no.ntnu.idatg2001.paths.model.items;
 
 /**
  * The Item class represents an item in the game.

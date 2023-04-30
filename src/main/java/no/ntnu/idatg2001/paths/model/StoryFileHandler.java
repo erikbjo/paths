@@ -1,3 +1,4 @@
+/*
 package no.ntnu.idatg2001.paths.model;
 
 import java.io.BufferedReader;
@@ -16,7 +17,8 @@ public class StoryFileHandler {
                 fileWriter.write("::" + story.getOpeningPassage().getTitle() + "\n");
                 fileWriter.write(story.getOpeningPassage().getContent() + "\n");
 
-                /**
+                */
+/**
                  List<Link> openingPassageLinks = story.getOpeningPassage().getLinks();
                  for (Link link : openingPassageLinks) {
                  String text = link.getText();
@@ -30,7 +32,8 @@ public class StoryFileHandler {
                  + "\n");
                  }
                  fileWriter.write("\n");
-                 }*/
+                 }*//*
+
 
                 for (Passage passage : story.getPassages()) {
                     List<Link> passageLinks = passage.getLinks();
@@ -41,7 +44,8 @@ public class StoryFileHandler {
                     writeLinks(fileWriter, passageLinks);
                     fileWriter.write("\n");
 
-                    /**
+                    */
+/**
                      List<Link> passageLinks = passage.getLinks();
                      for (Link passageLink : passageLinks) {
                      String text = passageLink.getText();
@@ -57,7 +61,8 @@ public class StoryFileHandler {
                      fileWriter.write("\n");
                      }
                      fileWriter.write("\n");
-                     */
+                     *//*
+
                 }
             }
         } catch (IOException e) {
@@ -116,7 +121,8 @@ public class StoryFileHandler {
                 openingPassage.setLinks(links);
                 Story story = new Story(title, openingPassage);
                 storyParts.add(story);
-                /**
+                */
+/**
                  if (lineOfText.isEmpty()){ if (currentStory != null && currentPassage != null){
                  currentStory.addPassage(currentPassage); } currentPassage = null; } else if
                  (lineOfText.startsWith("::")) { if (currentStory != null && currentPassage != null) {
@@ -126,7 +132,8 @@ public class StoryFileHandler {
                  <p>if (currentStory == null){ currentStory = new Story() stories.add(currentStory); }
                  else if (){ currentStory.addPassage(currentPassage); } isPassageContent = true; }else {
                  if (currentStory == null){ currentStory = new Story() } }
-                 */
+                 *//*
+
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -134,3 +141,4 @@ public class StoryFileHandler {
         return storyParts;
     }
 }
+*/
