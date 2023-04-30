@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Database;
+import no.ntnu.idatg2001.paths.model.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.controllers.PlayerInformationController;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
@@ -32,14 +33,14 @@ public class PlayerInformationView {
 
   public void start(Stage stage) {
     // Observes when the language in Database is changed, then calls updateLanguage()
-    Database.getObservableIntegerCounter()
+    LanguageHandler.getObservableIntegerCounter()
         .addListener((obs, oldValue, newValue) -> updateLanguage());
 
     // gets the correct resource bundle, depending on the current language in database
     resources =
         ResourceBundle.getBundle(
             "playerInformation",
-            Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
+            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
 
     PlayerInformationController controller = new PlayerInformationController();
 
@@ -128,7 +129,7 @@ public class PlayerInformationView {
     resources =
         ResourceBundle.getBundle(
             "playerInformation",
-            Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
+            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
 
     // update text
     healthGoalText.setText(resources.getString("healthGoal"));

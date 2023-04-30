@@ -8,7 +8,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
 public class Game {
   private final Player player;
   private final Story story;
-  private final List<Goal> goals;
+  private List<Goal> goals;
 
   /**
    * Constructor for the Game class.

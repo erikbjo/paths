@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Database;
+import no.ntnu.idatg2001.paths.model.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
 public class StoryView {
@@ -21,13 +22,13 @@ public class StoryView {
   
   public void start(Stage stage) {
     // Observes when the language in Database is changed, then calls updateLanguage()
-    Database.getObservableIntegerCounter()
+    LanguageHandler.getObservableIntegerCounter()
         .addListener((obs, oldValue, newValue) -> updateLanguage());
 
     // gets the correct resource bundle, depending on the current language in database
     resources =
         ResourceBundle.getBundle(
-            "story", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
+            "story", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
 
     BorderPane borderPane = new BorderPane();
     StandardMenuBar menuBar = new StandardMenuBar();
@@ -102,6 +103,6 @@ public class StoryView {
     // update resources
     resources =
         ResourceBundle.getBundle(
-            "story", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
+            "story", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
   }
 }

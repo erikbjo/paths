@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Database;
+import no.ntnu.idatg2001.paths.model.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
@@ -32,14 +33,14 @@ public class HomeView extends Application {
 
   @Override
   public void start(Stage primaryStage) {
-    // Observes when the language in Database is changed, then calls updateLanguage()
-    Database.getObservableIntegerCounter()
+    // Observes when the language is changed, then calls updateLanguage()
+    LanguageHandler.getObservableIntegerCounter()
         .addListener((obs, oldValue, newValue) -> updateLanguage());
 
     // gets the correct resource bundle, depending on the current language in database
     resources =
         ResourceBundle.getBundle(
-            "home", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
+            "home", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
 
     BorderPane borderPane = new BorderPane();
     borderPane.setTop(new StandardMenuBar());
@@ -109,7 +110,7 @@ public class HomeView extends Application {
   public void updateLanguage() {
     resources =
         ResourceBundle.getBundle(
-            "home", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
+            "home", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
     startNewGameButton.setText(resources.getString("startNewGameButton"));
     pathsGameText.setText(resources.getString("storiesText"));
     storiesText.setText(resources.getString("storiesText"));
