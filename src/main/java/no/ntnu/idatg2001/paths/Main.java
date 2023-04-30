@@ -1,11 +1,10 @@
 package no.ntnu.idatg2001.paths;
 
-import no.ntnu.idatg2001.paths.model.Game;
-import no.ntnu.idatg2001.paths.model.Link;
-import no.ntnu.idatg2001.paths.model.Passage;
-import no.ntnu.idatg2001.paths.model.Story;
+import no.ntnu.idatg2001.paths.model.*;
 import no.ntnu.idatg2001.paths.model.goals.Goal;
 import no.ntnu.idatg2001.paths.model.goals.GoldGoal;
+import no.ntnu.idatg2001.paths.model.goals.HealthGoal;
+import no.ntnu.idatg2001.paths.model.goals.ScoreGoal;
 import no.ntnu.idatg2001.paths.model.units.Attributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.views.HomeView;
@@ -43,8 +42,13 @@ public class Main {
     story.addPassage(secondPassage);
 
     GoldGoal goldGoal = new GoldGoal(100);
+    HealthGoal healthGoal = new HealthGoal(100);
+    ScoreGoal scoreGoal = new ScoreGoal(100);
+    List<Goal> goals = List.of(goldGoal, healthGoal, scoreGoal);
 
-    Game game = new Game(player, story, (List<Goal>) goldGoal);
+    Game game = new Game(player, story, goals);
+
+    Database.setCurrentGame(game);
 
     HomeView.mainApp(args);
   }
