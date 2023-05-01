@@ -1,5 +1,8 @@
 package no.ntnu.idatg2001.paths.model.actions;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -7,8 +10,10 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
+@Entity
 public class ScoreAction implements Action {
-  private final boolean isPositive;
+  private boolean isPositive;
+  @Id @GeneratedValue private Long id;
   private int points;
 
   /**
@@ -20,6 +25,8 @@ public class ScoreAction implements Action {
     this.points = points;
     this.isPositive = isPositive;
   }
+
+  public ScoreAction() {}
 
   /**
    * Returns whether the action is positive or not.

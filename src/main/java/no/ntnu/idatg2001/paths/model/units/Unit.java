@@ -11,8 +11,6 @@ public abstract class Unit {
   protected String name;
   private int score;
   private int gold;
-  private List<Item> inventory;
-  private List<Equipable> equippedItems;
 
   // Standard stats
   private int health;
@@ -25,12 +23,14 @@ public abstract class Unit {
     this.name = builder.name;
     this.score = builder.score;
     this.gold = builder.gold;
-    this.inventory = builder.inventory;
-    this.equippedItems = builder.equippedItems;
     this.health = builder.health;
     this.mana = builder.mana;
     this.energy = builder.energy;
     this.attributes = builder.attributes;
+  }
+
+  /** Used by DB */
+  protected Unit() {
   }
 
   /**
@@ -93,78 +93,6 @@ public abstract class Unit {
    */
   public void setGold(int gold) {
     this.gold = gold;
-  }
-
-  /**
-   * Gets the inventory.
-   *
-   * @return the inventory
-   */
-  public List<Item> getInventory() {
-    return inventory;
-  }
-
-  /**
-   * Sets the inventory.
-   *
-   * @param inventory the inventory
-   */
-  public void setInventory(List<Item> inventory) {
-    this.inventory = inventory;
-  }
-
-  /**
-   * Adds an item to the inventory.
-   *
-   * @param item the item to add
-   */
-  public void addToInventory(Item item) {
-    inventory.add(item);
-  }
-
-  /**
-   * Removes an item from the inventory.
-   *
-   * @param item the item to remove
-   */
-  public void removeFromInventory(Item item) {
-    inventory.remove(item);
-  }
-
-  /**
-   * Gets the equipped items.
-   *
-   * @return the equipped items
-   */
-  public List<Equipable> getEquippedItems() {
-    return equippedItems;
-  }
-
-  /**
-   * Sets the equipped items.
-   *
-   * @param inventory the equipped items
-   */
-  public void setEquippedItems(List<Equipable> inventory) {
-    this.equippedItems = inventory;
-  }
-
-  /**
-   * Adds an item to the equipped items.
-   *
-   * @param item the item to add
-   */
-  public void addToEquippedItems(Equipable item) {
-    equippedItems.add(item);
-  }
-
-  /**
-   * Removes an item from the equipped items.
-   *
-   * @param item the item to remove
-   */
-  public void removeFromEquippedItems(Equipable item) {
-    equippedItems.remove(item);
   }
 
   /**
@@ -249,8 +177,6 @@ public abstract class Unit {
     private String name;
     private int score;
     private int gold;
-    private List<Item> inventory;
-    private List<Equipable> equippedItems;
     private int health;
     private int mana;
     private int energy;
@@ -268,16 +194,6 @@ public abstract class Unit {
 
     public T withGold(int gold) {
       this.gold = gold;
-      return (T) this;
-    }
-
-    public T withInventory(List<Item> inventory) {
-      this.inventory = inventory;
-      return (T) this;
-    }
-
-    public T withEquippedItems(List<Equipable> equippedItems) {
-      this.equippedItems = equippedItems;
       return (T) this;
     }
 

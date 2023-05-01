@@ -1,15 +1,30 @@
 package no.ntnu.idatg2001.paths.model;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import no.ntnu.idatg2001.paths.model.goals.Goal;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
+@Entity(name = "Game")
+@Table(name = "game")
 public class Game {
-  private final Player player;
-  private final Story story;
-  private final List<Goal> goals;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private String id;
+
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  @JoinColumn(name = "game id")
+  private Player player = null;
+
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  @JoinColumn(name = "game id")
+  private Story story = null;
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  @JoinColumn(name = "game id")
+  private final List<Goal> goals = new ArrayList<>();
 
   /**
    * Constructor for the Game class.
@@ -21,9 +36,11 @@ public class Game {
   public Game(Player player, Story story, List<Goal> goals) {
     this.player = player;
     this.story = story;
-    this.goals = new ArrayList<>();
     this.goals.addAll(goals);
   }
+
+  /** Default constructor for the Game class. For DB */
+  public Game() {}
 
   public Player getPlayer() {
     return player;
@@ -56,6 +73,15 @@ public class Game {
     } else {
       return null;
     }
+  }
+
+  /**
+   * Returns the game id.
+   *
+   * @return the id as a String.
+   */
+  public String getId() {
+    return id;
   }
 
   @Override

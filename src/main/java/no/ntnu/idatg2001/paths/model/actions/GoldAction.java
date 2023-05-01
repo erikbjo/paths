@@ -1,5 +1,8 @@
 package no.ntnu.idatg2001.paths.model.actions;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -7,9 +10,13 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
+@Entity
 public class GoldAction implements Action {
+  private boolean isPositive;
+  @Id
+  @GeneratedValue
+  private Long id;
   private int gold;
-  private final boolean isPositive;
 
   /**
    * Constructor for the GoldAction class.
@@ -19,6 +26,10 @@ public class GoldAction implements Action {
   public GoldAction(int gold, boolean isPositive) {
     this.gold = gold;
     this.isPositive = isPositive;
+  }
+
+  public GoldAction() {
+    
   }
 
   /**

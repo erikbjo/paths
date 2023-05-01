@@ -1,5 +1,8 @@
 package no.ntnu.idatg2001.paths.model.actions;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -8,7 +11,11 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  * @version 2023.02.02
  */
+@Entity
 public interface Action {
+  @Id
+  @GeneratedValue
+  Long id = null;
 
   /**
    * Executes the action.

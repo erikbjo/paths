@@ -1,5 +1,8 @@
 package no.ntnu.idatg2001.paths.model.actions;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -7,9 +10,11 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
+@Entity
 public class HealthAction implements Action {
+  @Id @GeneratedValue private Long id;
   private int health;
-  private final boolean isPositive;
+  private boolean isPositive;
 
   /**
    * Constructor for the HealthAction class.
@@ -20,6 +25,8 @@ public class HealthAction implements Action {
     this.health = health;
     this.isPositive = isPositive;
   }
+
+  public HealthAction() {}
 
   /**
    * Returns whether the action is positive or not.

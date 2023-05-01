@@ -1,5 +1,6 @@
 package no.ntnu.idatg2001.paths.model;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import no.ntnu.idatg2001.paths.model.actions.Action;
@@ -11,86 +12,101 @@ import no.ntnu.idatg2001.paths.model.actions.Action;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  * @version 2023.02.02
  */
+@Entity
 public class Link {
-    private final String text;
-    private final String reference;
-    private final List<Action> actions;
+  @Id @GeneratedValue private Long id;
+  private String text;
+  private String reference;
 
-    /**
-     * A constructor that initializes the declared fields for text, reference and actions.
-     *
-     * @param text      A string value that indicates the choices the player can make at a certain point in
-     *                  the story.
-     * @param reference A string value that represents a unique passage identifier.
-     */
-    public Link(String text, String reference) {
-        this.text = text;
-        this.reference = reference;
-        this.actions = new ArrayList<>();
-    }
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "link id")
+  private List<Action> actions;
 
-    /**
-     * An accessor method that returns the text field's String value.
-     *
-     * @return the player's choices.
-     */
-    public String getText() {
-        return text;
-    }
+  /**
+   * A constructor that initializes the declared fields for text, reference and actions.
+   *
+   * @param text A string value that indicates the choices the player can make at a certain point in
+   *     the story.
+   * @param reference A string value that represents a unique passage identifier.
+   */
+  public Link(String text, String reference) {
+    this.text = text;
+    this.reference = reference;
+    this.actions = new ArrayList<>();
+  }
 
-    /**
-     * An accessor method that returns the reference field's string value.
-     *
-     * @return the string identifier for the chosen passage.
-     */
-    public String getReference() {
-        return reference;
-    }
+  public Link() {}
 
-    /**
-     * A method that adds a action to the actions list.
-     *
-     * @param action Represents the action that gets added to the list of actions.
-     */
-    public void addAction(Action action) {
-        actions.add(action);
-    }
+  /**
+   * An accessor method that returns the text field's String value.
+   *
+   * @return the player's choices.
+   */
+  public String getText() {
+    return text;
+  }
 
-    /**
-     * A method that returns the actions the makes it possible to influence the player's attributes.
-     *
-     * @return the actions in the actions list.
-     */
-    public List<Action> getActions() {
-        return actions;
-    }
+  /**
+   * An accessor method that returns the reference field's string value.
+   *
+   * @return the string identifier for the chosen passage.
+   */
+  public String getReference() {
+    return reference;
+  }
 
-    @Override
-    public final int hashCode() {
-        int result = 17;
-        // only using reference, because a passage can have multiple links
-        if (reference != null) {
-            result = reference.hashCode();
-        }
-        return result;
-    }
+  /**
+   * A method that adds a action to the actions list.
+   *
+   * @param action Represents the action that gets added to the list of actions.
+   */
+  public void addAction(Action action) {
+    actions.add(action);
+  }
 
-    @Override
-    public String toString() {
-        return "Link{" + "text='" + text + '\'' + ", reference='" + reference + '\'' + ", actions="
-            + actions + '}';
-    }
+  /**
+   * A method that returns the actions the makes it possible to influence the player's attributes.
+   *
+   * @return the actions in the actions list.
+   */
+  public List<Action> getActions() {
+    return actions;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-      if (o == this) {
-        return true;
-      }
-      if (!(o instanceof Link other)) {
-        return false;
-      }
-        // checking only for reference
-        return (this.getReference() == null && other.getReference() == null)
-            || (this.getReference() != null && this.getReference().equals(other.getReference()));
+  @Override
+  public final int hashCode() {
+    int result = 17;
+    // only using reference, because a passage can have multiple links
+    if (reference != null) {
+      result = reference.hashCode();
     }
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return "Link{"
+        + "text='"
+        + text
+        + '\''
+        + ", reference='"
+        + reference
+        + '\''
+        + ", actions="
+        + actions
+        + '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (!(o instanceof Link other)) {
+      return false;
+    }
+    // checking only for reference
+    return (this.getReference() == null && other.getReference() == null)
+        || (this.getReference() != null && this.getReference().equals(other.getReference()));
+  }
 }

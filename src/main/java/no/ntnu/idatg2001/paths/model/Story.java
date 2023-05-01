@@ -1,5 +1,6 @@
 package no.ntnu.idatg2001.paths.model;
 
+import jakarta.persistence.*;
 import java.util.*;
 
 /**
@@ -9,10 +10,24 @@ import java.util.*;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  * @version 2023.02.02
  */
+@Entity
 public class Story {
-  private final String title;
-  private final Map<Link, Passage[]> passages;
-  private final Passage openingPassage;
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "story id")
+  private Map<Link, Passage[]> passages;
+
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "story id")
+  private Passage openingPassage;
+
+  private String title;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private String id;
+
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "story id")
   private Passage currentPassage;
 
   public Story(String title, Passage openingPassage) {
@@ -22,6 +37,8 @@ public class Story {
     this.passages = new HashMap<>();
     addPassage(openingPassage);
   }
+
+  public Story() {}
 
   public Passage getCurrentPassage() {
     return currentPassage;
@@ -68,7 +85,8 @@ public class Story {
           throw new IllegalArgumentException("Passage already exists.");
         }
 
-        Passage[] updatedPassagesArray = Arrays.copyOf(oldPassagesArray, oldPassagesArray.length + 1);
+        Passage[] updatedPassagesArray =
+            Arrays.copyOf(oldPassagesArray, oldPassagesArray.length + 1);
         updatedPassagesArray[updatedPassagesArray.length - 1] = passage;
         passages.put(link, updatedPassagesArray);
       } else {

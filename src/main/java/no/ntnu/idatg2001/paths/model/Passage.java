@@ -1,5 +1,7 @@
 package no.ntnu.idatg2001.paths.model;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,10 +11,18 @@ import java.util.List;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  * @version 2023.02.02
  */
+@Entity
 public class Passage {
-  private final String title;
-  private final String content;
+
+  private String title;
+  private String content;
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "passage id")
   private List<Link> links;
+
+  @Id
+  @GeneratedValue
+  private Long id;
 
   /**
    * A constructor that initializes the declared fields for title, content and links.
@@ -25,6 +35,8 @@ public class Passage {
     this.content = content;
     this.links = new ArrayList<>();
   }
+
+  public Passage() {}
 
   /**
    * This function returns the title of the book
@@ -90,13 +102,7 @@ public class Passage {
 
   @Override
   public String toString() {
-    return "Passage{"
-        + "title='"
-        + title
-        + '\''
-        + ", content='"
-        + content
-        + '}';
+    return "Passage{" + "title='" + title + '\'' + ", content='" + content + '}';
   }
 
   // TODO: implement equals and hashCode
@@ -108,5 +114,9 @@ public class Passage {
   @Override
   public int hashCode() {
     return super.hashCode();
+  }
+
+  public Long getId() {
+    return id;
   }
 }

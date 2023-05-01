@@ -1,15 +1,24 @@
 package no.ntnu.idatg2001.paths.model.items;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 /**
  * The Item class represents an item in the game.
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
+@Entity
 public abstract class Item {
   // Information
   protected String name;
   protected int itemScore;
   protected int goldValue;
+
+  @Id
+  @GeneratedValue
+  private Long id;
 
   /**
    * Constructor for the Item class.
@@ -22,5 +31,9 @@ public abstract class Item {
     this.name = name;
     this.itemScore = itemScore;
     this.goldValue = goldValue;
+  }
+
+  /** Used by DB */
+  protected Item() {
   }
 }
