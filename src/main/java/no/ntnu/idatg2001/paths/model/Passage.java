@@ -50,7 +50,7 @@ public class Passage {
    * @param link The link to be added to the list.
    * @return A boolean value.
    */
-  public boolean addLinks(Link link) {
+  public boolean addLink(Link link) {
     boolean success = false;
     try {
       links.add(link);

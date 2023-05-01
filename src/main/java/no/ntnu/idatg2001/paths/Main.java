@@ -31,12 +31,12 @@ public class Main {
             .withScore(0)
             .build();
 
-    Passage firstPassage = new Passage("Start your journey.", "Choose your player class.");
-    Passage secondPassage = new Passage("Choose your player class.", "Which class do you choose?");
+    Passage firstPassage = new Passage("Start your journey.", "You standing in the middle of a forest");
+    Passage secondPassage = new Passage("Forest ruins.", "You see ruins of an old castle.");
 
-    Link link = new Link("I want to be normally", "firstLink");
-    firstPassage.addLinks(link);
-    secondPassage.addLinks(link);
+    Link link = new Link("Go to the forest ruins.", "goForestRuins");
+    firstPassage.addLink(link);
+    secondPassage.addLink(link);
 
     Story story = new Story("My first story", firstPassage);
     story.addPassage(secondPassage);

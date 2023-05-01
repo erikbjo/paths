@@ -11,20 +11,31 @@ import no.ntnu.idatg2001.paths.model.Link;
 public class StoryViewController {
   private final HBox linksHBox;
   private final Text storyHeadlineText;
-  private final TextArea storyTextArea;
+  private final Text passageTitleText;
+  private final TextArea passageContentTextArea;
 
-  public StoryViewController(HBox linksHBox, Text storyHeadlineText, TextArea storyTextArea) {
+  public StoryViewController(
+      HBox linksHBox,
+      Text storyHeadlineText,
+      Text passageTitleText,
+      TextArea passageContentTextArea) {
     this.linksHBox = linksHBox;
     this.storyHeadlineText = storyHeadlineText;
-    this.storyTextArea = storyTextArea;
+    this.passageTitleText = passageTitleText;
+    this.passageContentTextArea = passageContentTextArea;
   }
 
-  public void updateLinksHBox() {
+  private void updateLinksHBox() {
     linksHBox.getChildren().clear();
     List<Link> links =
         Database.getCurrentGame()
             .getStory()
             .getLinksConnectedWithPassage(Database.getCurrentGame().getStory().getCurrentPassage());
+    System.out.println(
+        "links connected to "
+            + Database.getCurrentGame().getStory().getCurrentPassage()
+            + ": "
+            + links);
     for (Link link : links) {
       Hyperlink hyperlink = new Hyperlink(link.getText());
       hyperlink.setOnAction(
@@ -36,17 +47,23 @@ public class StoryViewController {
     }
   }
 
-  public void setStoryHeadlineText() {
+  private void setStoryHeadlineText() {
     storyHeadlineText.setText(Database.getCurrentGame().getStory().getTitle());
   }
 
-  public void setStoryTextArea() {
-    storyTextArea.setText(Database.getCurrentGame().getStory().getCurrentPassage().getContent());
+  private void setPassageTitleText() {
+    passageTitleText.setText(Database.getCurrentGame().getStory().getCurrentPassage().getTitle());
   }
 
-  private void updateStoryViewToNewPath() {
+  private void setPassageContentTextArea() {
+    passageContentTextArea.setText(
+        Database.getCurrentGame().getStory().getCurrentPassage().getContent());
+  }
+
+  public void updateStoryViewToNewPath() {
     setStoryHeadlineText();
-    setStoryTextArea();
+    setPassageTitleText();
+    setPassageContentTextArea();
     updateLinksHBox();
   }
 }

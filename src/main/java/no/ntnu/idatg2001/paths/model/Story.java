@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class Story {
   private final String title;
   private final Map<Link, Passage> passages;
-  private Passage openingPassage;
+  private final Passage openingPassage;
   private Passage currentPassage;
 
   public Story(String title, Passage openingPassage) {
@@ -24,6 +24,7 @@ public class Story {
     this.openingPassage = openingPassage;
     this.currentPassage = openingPassage;
     this.passages = new HashMap<>();
+    addPassage(openingPassage);
   }
 
   public Passage getCurrentPassage() {
@@ -58,9 +59,15 @@ public class Story {
    * @param passage The passage that gets added to the game.
    */
   public void addPassage(Passage passage) {
-    this.openingPassage = passage;
-    Link link = new Link(passage.getTitle(), passage.getTitle());
-    passages.put(link, openingPassage);
+    if (passage == null) {
+      throw new IllegalArgumentException("Passage cannot be null.");
+    } else if (passages.containsValue(passage)) {
+      throw new IllegalArgumentException("Passage already exists in story.");
+    }
+    List<Link> links = passage.getLinks();
+    for (Link link : links) {
+      passages.put(link, passage);
+    }
   }
 
   public Passage getPassage(Link link) {
@@ -89,10 +96,15 @@ public class Story {
    * @return A list of all the passages connected to a link.
    */
   public List<Passage> getPassagesConnectedWithLink(Link link) {
-    return passages.entrySet().stream()
-            .filter(entry -> entry.getKey().equals(link))
-            .map(Map.Entry::getValue)
-            .toList();
+    List<Passage> passageList = new ArrayList<>();
+
+    for (Link link1 : passages.keySet()) {
+      if (link1.equals(link)) {
+        passageList.add(passages.get(link1));
+      }
+    }
+
+    return passageList;
   }
 
   // Endre denne metoden til å ta en Story istedenfor en link, for å gjøre at passasjene ikke
@@ -116,12 +128,12 @@ public class Story {
   // Ny version 2
   public List<Passage> getPassages() {
     List<Passage> passageList = new ArrayList<>();
-    for (Link link : passages.keySet()) {
-      Passage passage = passages.get(link);
-      if (passage != null) {
+    for (Passage passage : passages.values()) {
+      if (passage != null && !passageList.contains(passage)) {
         passageList.add(passage);
       }
     }
+
     return passageList;
   }
 

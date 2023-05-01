@@ -19,7 +19,7 @@ import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 public class StoryView {
   private ResourceBundle resources;
   private StoryViewController storyViewController;
-  
+
   public void start(Stage stage) {
     // Observes when the language in Database is changed, then calls updateLanguage()
     LanguageHandler.getObservableIntegerCounter()
@@ -43,8 +43,9 @@ public class StoryView {
 
     // Create a headline and a text area for the story
     Text storyHeadlineText = new Text("storyHeadlineText");
-    TextArea storyTextArea = new TextArea("storyTextArea");
-    storyTextArea.setEditable(false);
+    Text passageTitleText = new Text("passageTitleText");
+    TextArea passageContentTextArea = new TextArea("passageContentTextArea");
+    passageContentTextArea.setEditable(false);
 
     // HBox for the hyperlinks
     HBox linksHBox = new HBox(100);
@@ -52,7 +53,8 @@ public class StoryView {
 
     // Add all the elements to the root VBox
     rootVBox.getChildren().add(storyHeadlineText);
-    rootVBox.getChildren().add(storyTextArea);
+    rootVBox.getChildren().add(passageTitleText);
+    rootVBox.getChildren().add(passageContentTextArea);
     rootVBox.getChildren().add(linksHBox);
 
     // Add borderpane and rootVBox to rootAnchorPane
@@ -60,10 +62,11 @@ public class StoryView {
     rootAnchorPane.getChildren().add(rootVBox);
 
     // Initialize the controller with the dynamic elements
-    storyViewController = new StoryViewController(linksHBox, storyHeadlineText, storyTextArea);
-    storyViewController.updateLinksHBox();
-    storyViewController.setStoryHeadlineText();
-    storyViewController.setStoryTextArea();
+    storyViewController =
+        new StoryViewController(
+            linksHBox, storyHeadlineText, passageTitleText, passageContentTextArea);
+    storyViewController.updateStoryViewToNewPath();
+
 
     Scene scene = new Scene(rootAnchorPane, 600, 600);
     scene.getStylesheets().add("cssfiles/storyStyle.css");
