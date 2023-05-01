@@ -194,4 +194,8 @@ public class Story {
         + currentPassage
         + '}';
   }
+
+  public String getId() {
+    return id;
+  }
 }
