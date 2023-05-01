@@ -32,14 +32,21 @@ public class Main {
             .build();
 
     Passage firstPassage = new Passage("Start your journey.", "You standing in the middle of a forest");
-    Passage secondPassage = new Passage("Forest ruins.", "You see ruins of an old castle.");
+    Passage forestRuinsPassage = new Passage("Forest ruins.", "You see ruins of an old castle.");
+    Passage deepForestPassage = new Passage("Deep forest.", "You are deep in the forest.");
 
-    Link link = new Link("Go to the forest ruins.", "goForestRuins");
-    firstPassage.addLink(link);
-    secondPassage.addLink(link);
+    Link goForestRuinsLink = new Link("Go to the forest ruins.", "goForestRuins");
+    Link goDeeperInForestLink = new Link("Go deeper in the forest.", "goDeeperInForest");
+
+    firstPassage.addLink(goForestRuinsLink);
+    forestRuinsPassage.addLink(goForestRuinsLink);
+
+    forestRuinsPassage.addLink(goDeeperInForestLink);
+    deepForestPassage.addLink(goDeeperInForestLink);
 
     Story story = new Story("My first story", firstPassage);
-    story.addPassage(secondPassage);
+    story.addPassage(forestRuinsPassage);
+    story.addPassage(deepForestPassage);
 
     GoldGoal goldGoal = new GoldGoal(100);
     HealthGoal healthGoal = new HealthGoal(100);
@@ -47,6 +54,10 @@ public class Main {
     List<Goal> goals = List.of(goldGoal, healthGoal, scoreGoal);
 
     Game game = new Game(player, story, goals);
+
+    // sout for testings
+    System.out.println("Story: " + story);
+    System.out.println("Game: " + game);
 
     Database.setCurrentGame(game);
 

@@ -10,7 +10,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 class StoryTest {
   private Story story;
   private Passage passage1;
@@ -20,6 +19,7 @@ class StoryTest {
   private Player player;
   private Link link1;
   private Link link2;
+  private Link link3;
 
   @BeforeEach
   void setUp() {
@@ -32,12 +32,16 @@ class StoryTest {
 
     link1 = new Link("Link 1", "link1");
     link2 = new Link("Link 2", "link2");
+    link3 = new Link("Link 3", "link3");
 
     passage1.addLink(link1);
     passage2.addLink(link1);
+
     passage2.addLink(link2);
     passage3.addLink(link2);
-    passage4.addLink(link2);
+
+    passage2.addLink(link3);
+    passage4.addLink(link3);
 
     story = new Story("Test story", passage1);
     story.addPassage(passage2);
@@ -54,8 +58,13 @@ class StoryTest {
   }
 
   @Test
-  void testGetPassagesConnectedWithLinkIsGood() {
-    assertEquals(2,story.getPassagesConnectedWithLink(link1).size());
+  void testGetPassagesConnectedWithLink1IsGood() {
+    assertEquals(2, story.getPassagesConnectedWithLink(link1).size());
+  }
+
+  @Test
+  void testGetPassagesConnectedWithLink2IsGood() {
+    assertEquals(2, story.getPassagesConnectedWithLink(link2).size());
   }
 
   @Test

@@ -57,4 +57,16 @@ public class Game {
       return null;
     }
   }
+
+  @Override
+    public String toString() {
+        return "Game{"
+            + "player="
+            + player
+            + ", story="
+            + story
+            + ", goals="
+            + goals.stream().map(Goal::toString).collect(Collectors.joining(", "))
+            + '}';
+    }
 }

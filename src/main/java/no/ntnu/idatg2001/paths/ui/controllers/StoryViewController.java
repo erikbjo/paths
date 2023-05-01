@@ -13,6 +13,7 @@ public class StoryViewController {
   private final Text storyHeadlineText;
   private final Text passageTitleText;
   private final TextArea passageContentTextArea;
+  private Link previousLink = null;
 
   public StoryViewController(
       HBox linksHBox,
@@ -31,16 +32,26 @@ public class StoryViewController {
         Database.getCurrentGame()
             .getStory()
             .getLinksConnectedWithPassage(Database.getCurrentGame().getStory().getCurrentPassage());
-    System.out.println(
-        "links connected to "
-            + Database.getCurrentGame().getStory().getCurrentPassage()
-            + ": "
-            + links);
     for (Link link : links) {
-      Hyperlink hyperlink = new Hyperlink(link.getText());
+      Hyperlink hyperlink = new Hyperlink();
+
+      if (link == previousLink) {
+        hyperlink.setVisited(true);
+        if (Database.getCurrentGame().getStory().getCurrentPassage()
+            == Database.getCurrentGame().getStory().getOpeningPassage()) {
+          hyperlink.setText(link.getText());
+        } else {
+          hyperlink.setText("Go back");
+        }
+      } else {
+        hyperlink.setVisited(false);
+        hyperlink.setText(link.getText());
+      }
+
       hyperlink.setOnAction(
           event -> {
             Database.getCurrentGame().go(link);
+            previousLink = link;
             updateStoryViewToNewPath();
           });
       linksHBox.getChildren().add(hyperlink);

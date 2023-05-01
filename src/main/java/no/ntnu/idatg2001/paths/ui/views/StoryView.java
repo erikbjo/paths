@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -37,8 +38,8 @@ public class StoryView {
     AnchorPane rootAnchorPane = new AnchorPane();
 
     // Create a VBox to hold all the elements
-    VBox rootVBox = new VBox(100); // 100 pixels spacing between elements
-    rootVBox.setPadding(new Insets(50));
+    VBox rootVBox = new VBox(50); // 100 pixels spacing between elements
+    rootVBox.setPadding(new Insets(25));
     rootVBox.setAlignment(Pos.CENTER); // Center the elements vertically and horizontally
 
     // Create a headline and a text area for the story
@@ -48,7 +49,7 @@ public class StoryView {
     passageContentTextArea.setEditable(false);
 
     // HBox for the hyperlinks
-    HBox linksHBox = new HBox(100);
+    HBox linksHBox = new HBox(10);
     linksHBox.setAlignment(Pos.CENTER);
 
     // Add all the elements to the root VBox

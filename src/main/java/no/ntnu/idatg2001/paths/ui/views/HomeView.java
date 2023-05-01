@@ -4,17 +4,14 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import no.ntnu.idatg2001.paths.model.Database;
 import no.ntnu.idatg2001.paths.model.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
@@ -44,41 +41,83 @@ public class HomeView extends Application {
 
     BorderPane borderPane = new BorderPane();
     borderPane.setTop(new StandardMenuBar());
-    AnchorPane anchorPane = new AnchorPane();
-    GridPane gridPane = new GridPane();
-    gridPane.setPadding(new Insets(10));
-    gridPane.setHgap(10);
-    gridPane.setVgap(10);
 
+    AnchorPane rootAnchorPane = new AnchorPane();
+    rootAnchorPane.getChildren().add(borderPane);
+    VBox mainVBox = new VBox(50);
+
+    mainVBox.setAlignment(Pos.TOP_CENTER);
+    AnchorPane.setTopAnchor(mainVBox, 0.0);
+    AnchorPane.setBottomAnchor(mainVBox, 0.0);
+    AnchorPane.setLeftAnchor(mainVBox, 0.0);
+    AnchorPane.setRightAnchor(mainVBox, 0.0);
+
+    HBox storiesAndPlayersHBox = new HBox();
+    storiesAndPlayersHBox.setAlignment(Pos.CENTER);
+    HBox startNewGameHBox = new HBox();
+    startNewGameHBox.setAlignment(Pos.CENTER);
+    HBox deadLinksAndOngoingGamesHBox = new HBox();
+    deadLinksAndOngoingGamesHBox.setAlignment(Pos.CENTER);
+
+    // VBOXES
     VBox storiesVBox = new VBox();
+    VBox playersVBox = new VBox();
     VBox deadLinksVBox = new VBox();
-    HBox middleHBox = new HBox();
+    VBox ongoingGamesVBox = new VBox();
 
-    storiesVBox.setSpacing(10);
-    deadLinksVBox.setSpacing(10);
-    middleHBox.setSpacing(10);
+    // TABLEVIEWS
+    TableView<String> storiesTableView = new TableView<>();
+    TableColumn<String, String> storiesTableColumn = new TableColumn<>(resources.getString("storiesTableColumn"));
+    storiesTableView.getColumns().add(storiesTableColumn);
 
-    pathsGameText = new Text(resources.getString("title"));
-    storiesText = new Text(resources.getString("storiesText"));
-    deadLinksText = new Text(resources.getString("deadLinksText"));
+    TableView<String> playersTableView = new TableView<>();
+    TableColumn<String, String> playersTableColumn = new TableColumn<>(resources.getString("playersTableColumn"));
+    playersTableView.getColumns().add(playersTableColumn);
 
-    pathsGameText.setFont(Font.font("Comic sans", 50));
+    TableView<String> deadLinksTableView = new TableView<>();
+    TableColumn<String, String> deadLinksTableColumn = new TableColumn<>(resources.getString("deadLinksTableColumn"));
+    deadLinksTableView.getColumns().add(deadLinksTableColumn);
 
-    TextArea storiesTextArea = new TextArea("storiesTextArea");
-    TextArea deadLinksTextArea = new TextArea("deadLinksTextArea");
+    TableView<String> ongoingGamesTableView = new TableView<>();
+    TableColumn<String, String> ongoingGamesTableColumn = new TableColumn<>(resources.getString("ongoingGamesTableColumn"));
+    ongoingGamesTableView.getColumns().add(ongoingGamesTableColumn);
 
-    storiesTextArea.setEditable(false);
-    deadLinksTextArea.setEditable(false);
+    // TEXTS
+    Text pathsGameText = new Text(resources.getString("title"));
+    Text storiesText = new Text(resources.getString("storiesText"));
+    Text playersText = new Text(resources.getString("playersText"));
+    Text deadLinksText = new Text(resources.getString("deadLinksText"));
+    Text ongoingGamesText = new Text(resources.getString("ongoingGamesText"));
 
-    storiesVBox.getChildren().add(storiesText);
-    storiesVBox.getChildren().add(storiesTextArea);
+    // BUTTONS
+    Button editStoryButton = new Button(resources.getString("editStoryButton"));
+    Button newStoryButton = new Button(resources.getString("newStoryButton"));
+    HBox storiesButtonsHBox = new HBox(editStoryButton, newStoryButton);
 
-    deadLinksVBox.getChildren().add(deadLinksText);
-    deadLinksVBox.getChildren().add(deadLinksTextArea);
+    Button editPlayerButton = new Button(resources.getString("editPlayerButton"));
+    Button newPlayerButton = new Button(resources.getString("newPlayerButton"));
+    HBox playersButtonsHBox = new HBox(editPlayerButton, newPlayerButton);
 
-    middleHBox.getChildren().add(storiesVBox);
-    middleHBox.getChildren().add(deadLinksVBox);
+    Button deleteLinkButton = new Button(resources.getString("deleteLinkButton"));
+    HBox deadLinksButtonsHBox = new HBox(deleteLinkButton);
 
+    Button continueButton = new Button(resources.getString("continueButton"));
+    Button deleteButton = new Button(resources.getString("deleteButton"));
+    HBox ongoingGamesButtonsHBox = new HBox(continueButton, deleteButton);
+
+    // ADDING TO VBOXES
+    storiesVBox.getChildren().addAll(storiesText, storiesTableView, storiesButtonsHBox);
+    playersVBox.getChildren().addAll(playersText, playersTableView, playersButtonsHBox);
+    deadLinksVBox.getChildren().addAll(deadLinksText, deadLinksTableView, deadLinksButtonsHBox);
+    ongoingGamesVBox
+        .getChildren()
+        .addAll(ongoingGamesText, ongoingGamesTableView, ongoingGamesButtonsHBox);
+
+    // ADDING TO HBOXES
+    storiesAndPlayersHBox.getChildren().addAll(storiesVBox, playersVBox);
+    deadLinksAndOngoingGamesHBox.getChildren().addAll(deadLinksVBox, ongoingGamesVBox);
+
+    // START NEW GAME BUTTON
     startNewGameButton = new Button(resources.getString("startNewGameButton"));
     startNewGameButton.setOnAction(
         event -> {
@@ -87,21 +126,15 @@ public class HomeView extends Application {
           playerInfoView.start(primaryStage);
         });
 
-    gridPane.add(pathsGameText, 0, 0);
-    gridPane.add(middleHBox, 0, 1);
-    gridPane.add(startNewGameButton, 0, 2);
+    // ADD TO MAINVBOX
+    mainVBox
+        .getChildren()
+        .addAll(
+            pathsGameText, storiesAndPlayersHBox, startNewGameHBox, deadLinksAndOngoingGamesHBox);
 
-    gridPane.setAlignment(Pos.CENTER);
+    rootAnchorPane.getChildren().add(mainVBox);
 
-    anchorPane.getChildren().add(gridPane);
-    anchorPane.getChildren().add(borderPane);
-
-    AnchorPane.setTopAnchor(gridPane, 10.0);
-    AnchorPane.setLeftAnchor(gridPane, 10.0);
-    AnchorPane.setRightAnchor(gridPane, 10.0);
-    AnchorPane.setBottomAnchor(gridPane, 10.0);
-
-    Scene scene = new Scene(anchorPane, 600, 600);
+    Scene scene = new Scene(rootAnchorPane, 600, 600);
     primaryStage.setScene(scene);
     primaryStage.show();
     playMusic("/music/relaxing-145038.mp3");
@@ -122,7 +155,7 @@ public class HomeView extends Application {
     try {
       URL resource = getClass().getResource(musicFilePath);
       Media media = new Media(resource.toString());
-      //Media media = new Media(new File(musicFilePath).toURI().toString());
+      // Media media = new Media(new File(musicFilePath).toURI().toString());
       MediaPlayer mediaPlayer = new MediaPlayer(media);
       mediaPlayer.setAutoPlay(true);
       mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);

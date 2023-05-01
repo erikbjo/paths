@@ -96,9 +96,6 @@ public class Passage {
         + '\''
         + ", content='"
         + content
-        + '\''
-        + ", links="
-        + links
         + '}';
   }
 

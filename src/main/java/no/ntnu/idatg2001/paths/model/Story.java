@@ -1,10 +1,6 @@
 package no.ntnu.idatg2001.paths.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
  * The Story class is a container for the story. It contains the title of the story, a map of all
@@ -15,7 +11,7 @@ import java.util.stream.Collectors;
  */
 public class Story {
   private final String title;
-  private final Map<Link, Passage> passages;
+  private final Map<Link, Passage[]> passages;
   private final Passage openingPassage;
   private Passage currentPassage;
 
@@ -61,20 +57,27 @@ public class Story {
   public void addPassage(Passage passage) {
     if (passage == null) {
       throw new IllegalArgumentException("Passage cannot be null.");
-    } else if (passages.containsValue(passage)) {
-      throw new IllegalArgumentException("Passage already exists in story.");
     }
+
     List<Link> links = passage.getLinks();
     for (Link link : links) {
-      passages.put(link, passage);
+      if (passages.containsKey(link)) {
+        Passage[] oldPassagesArray = passages.get(link);
+
+        if (Arrays.asList(oldPassagesArray).contains(passage)) {
+          throw new IllegalArgumentException("Passage already exists.");
+        }
+
+        Passage[] updatedPassagesArray = Arrays.copyOf(oldPassagesArray, oldPassagesArray.length + 1);
+        updatedPassagesArray[updatedPassagesArray.length - 1] = passage;
+        passages.put(link, updatedPassagesArray);
+      } else {
+        passages.put(link, new Passage[] {passage});
+      }
     }
   }
 
-  public Passage getPassage(Link link) {
-    return passages.get(link);
-  }
-
-  public Map<Link, Passage> getPassagesHashMap() {
+  public Map<Link, Passage[]> getPassagesHashMap() {
     return passages;
   }
 
@@ -84,10 +87,15 @@ public class Story {
    * @return A list of all the links connected to a passage.
    */
   public List<Link> getLinksConnectedWithPassage(Passage passage) {
-    return passages.entrySet().stream()
-        .filter(entry -> entry.getValue().equals(passage))
-        .map(Map.Entry::getKey)
-        .toList();
+    List<Link> links = new ArrayList<>();
+
+    for (Map.Entry<Link, Passage[]> entry : passages.entrySet()) {
+      if (Arrays.asList(entry.getValue()).contains(passage)) {
+        links.add(entry.getKey());
+      }
+    }
+
+    return links;
   }
 
   /**
@@ -96,13 +104,7 @@ public class Story {
    * @return A list of all the passages connected to a link.
    */
   public List<Passage> getPassagesConnectedWithLink(Link link) {
-    List<Passage> passageList = new ArrayList<>();
-
-    for (Link link1 : passages.keySet()) {
-      if (link1.equals(link)) {
-        passageList.add(passages.get(link1));
-      }
-    }
+    List<Passage> passageList = new ArrayList<>(List.of(passages.get(link)));
 
     return passageList;
   }
@@ -124,17 +126,8 @@ public class Story {
    * HashSet<>(); for (Passage passage : passages.values()) { if (passage != null) {
    * passageCollection.add(passage); } } return passageCollection; }
    */
-
-  // Ny version 2
   public List<Passage> getPassages() {
-    List<Passage> passageList = new ArrayList<>();
-    for (Passage passage : passages.values()) {
-      if (passage != null && !passageList.contains(passage)) {
-        passageList.add(passage);
-      }
-    }
-
-    return passageList;
+    return passages.values().stream().flatMap(Arrays::stream).distinct().toList();
   }
 
   public void removePassage(Link link) {
@@ -143,16 +136,44 @@ public class Story {
             .filter(key -> !key.equals(link))
             .anyMatch(
                 key ->
-                    passages.get(key).getLinks().stream()
+                    Arrays.stream(passages.get(key))
+                        .map(Passage::getLinks)
+                        .flatMap(List::stream)
                         .anyMatch(l -> l.getReference().equals(link.getReference())));
+
     if (!isLinkedToAPassage) {
-      passages.remove(link);
+      Passage[] existingPassages = passages.get(link);
+      if (existingPassages != null) {
+        List<Passage> passageList =
+            Arrays.stream(existingPassages)
+                .filter(passage -> !passage.getLinks().contains(link))
+                .toList();
+
+        if (passageList.isEmpty()) {
+          passages.remove(link);
+        } else {
+          passages.put(link, passageList.toArray(new Passage[0]));
+        }
+      }
     }
   }
 
   public List<Link> getBrokenLinks() {
-    return passages.keySet().stream()
-        .filter(link -> passages.get(link) == null)
-        .collect(Collectors.toList());
+    return passages.keySet().stream().filter(link -> passages.get(link) == null).toList();
+  }
+
+  @Override
+  public String toString() {
+    return "Story{"
+        + "title='"
+        + title
+        + '\''
+        + ", passages="
+        + passages
+        + ", openingPassage="
+        + openingPassage
+        + ", currentPassage="
+        + currentPassage
+        + '}';
   }
 }
