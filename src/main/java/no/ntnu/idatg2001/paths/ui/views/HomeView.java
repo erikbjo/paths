@@ -1,24 +1,24 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
 import java.net.URL;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import no.ntnu.idatg2001.paths.model.Database;
+import no.ntnu.idatg2001.paths.ui.controllers.HomeController;
 import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
+import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
+/** The type Home view. */
 public class HomeView extends Application {
+  private HomeController homeController;
   private SettingsController settingsController;
   private ResourceBundle resources;
   private Button startNewGameButton;
@@ -32,53 +32,86 @@ public class HomeView extends Application {
 
   @Override
   public void start(Stage primaryStage) {
-    // Observes when the language in Database is changed, then calls updateLanguage()
-    Database.getObservableIntegerCounter()
-        .addListener((obs, oldValue, newValue) -> updateLanguage());
-
-    // gets the correct resource bundle, depending on the current language in database
-    resources =
-        ResourceBundle.getBundle(
-            "home", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
-
     BorderPane borderPane = new BorderPane();
     borderPane.setTop(new StandardMenuBar());
-    AnchorPane anchorPane = new AnchorPane();
-    GridPane gridPane = new GridPane();
-    gridPane.setPadding(new Insets(10));
-    gridPane.setHgap(10);
-    gridPane.setVgap(10);
 
+    AnchorPane rootAnchorPane = new AnchorPane();
+    rootAnchorPane.getChildren().add(borderPane);
+    VBox mainVBox = new VBox(50);
+
+    mainVBox.setAlignment(Pos.TOP_CENTER);
+    AnchorPane.setTopAnchor(mainVBox, 0.0);
+    AnchorPane.setBottomAnchor(mainVBox, 0.0);
+    AnchorPane.setLeftAnchor(mainVBox, 0.0);
+    AnchorPane.setRightAnchor(mainVBox, 0.0);
+
+    HBox storiesAndPlayersHBox = new HBox();
+    storiesAndPlayersHBox.setAlignment(Pos.CENTER);
+    HBox startNewGameHBox = new HBox();
+    startNewGameHBox.setAlignment(Pos.CENTER);
+    HBox deadLinksAndOngoingGamesHBox = new HBox();
+    deadLinksAndOngoingGamesHBox.setAlignment(Pos.CENTER);
+
+    // VBOXES
     VBox storiesVBox = new VBox();
+    VBox playersVBox = new VBox();
     VBox deadLinksVBox = new VBox();
-    HBox middleHBox = new HBox();
+    VBox ongoingGamesVBox = new VBox();
 
-    storiesVBox.setSpacing(10);
-    deadLinksVBox.setSpacing(10);
-    middleHBox.setSpacing(10);
+    // TABLEVIEWS
+    TableView<String> storiesTableView = new TableView<>();
+    TableColumn<String, String> storiesTableColumn = new TableColumn<>();
+    storiesTableView.getColumns().add(storiesTableColumn);
 
-    pathsGameText = new Text(resources.getString("title"));
-    storiesText = new Text(resources.getString("storiesText"));
-    deadLinksText = new Text(resources.getString("deadLinksText"));
+    TableView<String> playersTableView = new TableView<>();
+    TableColumn<String, String> playersTableColumn = new TableColumn<>();
+    playersTableView.getColumns().add(playersTableColumn);
 
-    pathsGameText.setFont(Font.font("Comic sans", 50));
+    TableView<String> deadLinksTableView = new TableView<>();
+    TableColumn<String, String> deadLinksTableColumn = new TableColumn<>();
+    deadLinksTableView.getColumns().add(deadLinksTableColumn);
 
-    TextArea storiesTextArea = new TextArea("storiesTextArea");
-    TextArea deadLinksTextArea = new TextArea("deadLinksTextArea");
+    TableView<String> ongoingGamesTableView = new TableView<>();
+    TableColumn<String, String> ongoingGamesTableColumn = new TableColumn<>();
+    ongoingGamesTableView.getColumns().add(ongoingGamesTableColumn);
 
-    storiesTextArea.setEditable(false);
-    deadLinksTextArea.setEditable(false);
+    // TEXTS
+    Text pathsGameText = new Text();
+    Text storiesText = new Text();
+    Text playersText = new Text();
+    Text deadLinksText = new Text();
+    Text ongoingGamesText = new Text();
 
-    storiesVBox.getChildren().add(storiesText);
-    storiesVBox.getChildren().add(storiesTextArea);
+    // BUTTONS
+    Button editStoryButton = new Button();
+    Button newStoryButton = new Button();
+    HBox storiesButtonsHBox = new HBox(editStoryButton, newStoryButton);
 
-    deadLinksVBox.getChildren().add(deadLinksText);
-    deadLinksVBox.getChildren().add(deadLinksTextArea);
+    Button editPlayerButton = new Button();
+    Button newPlayerButton = new Button();
+    HBox playersButtonsHBox = new HBox(editPlayerButton, newPlayerButton);
 
-    middleHBox.getChildren().add(storiesVBox);
-    middleHBox.getChildren().add(deadLinksVBox);
+    Button deleteLinkButton = new Button();
+    HBox deadLinksButtonsHBox = new HBox(deleteLinkButton);
 
-    startNewGameButton = new Button(resources.getString("startNewGameButton"));
+    Button continueButton = new Button();
+    Button deleteButton = new Button();
+    HBox ongoingGamesButtonsHBox = new HBox(continueButton, deleteButton);
+
+    // ADDING TO VBOXES
+    storiesVBox.getChildren().addAll(storiesText, storiesTableView, storiesButtonsHBox);
+    playersVBox.getChildren().addAll(playersText, playersTableView, playersButtonsHBox);
+    deadLinksVBox.getChildren().addAll(deadLinksText, deadLinksTableView, deadLinksButtonsHBox);
+    ongoingGamesVBox
+        .getChildren()
+        .addAll(ongoingGamesText, ongoingGamesTableView, ongoingGamesButtonsHBox);
+
+    // ADDING TO HBOXES
+    storiesAndPlayersHBox.getChildren().addAll(storiesVBox, playersVBox);
+    deadLinksAndOngoingGamesHBox.getChildren().addAll(deadLinksVBox, ongoingGamesVBox);
+
+    // START NEW GAME BUTTON
+    startNewGameButton = new Button();
     startNewGameButton.setOnAction(
         event -> {
           // Launch the Player Information View in a new window
@@ -86,47 +119,39 @@ public class HomeView extends Application {
           playerInfoView.start(primaryStage);
         });
 
-    gridPane.add(pathsGameText, 0, 0);
-    gridPane.add(middleHBox, 0, 1);
-    gridPane.add(startNewGameButton, 0, 2);
+    // ADD TO MAINVBOX
+    mainVBox
+        .getChildren()
+        .addAll(
+            pathsGameText, storiesAndPlayersHBox, startNewGameHBox, deadLinksAndOngoingGamesHBox);
 
-    gridPane.setAlignment(Pos.CENTER);
+    rootAnchorPane.getChildren().add(mainVBox);
 
-    anchorPane.getChildren().add(gridPane);
-    anchorPane.getChildren().add(borderPane);
+    // CONTROLLER
+    homeController =
+        new HomeController(
+            pathsGameText,
+            storiesText,
+            playersText,
+            deadLinksText,
+            ongoingGamesText,
+            editStoryButton,
+            newStoryButton,
+            editPlayerButton,
+            newPlayerButton,
+            deleteLinkButton,
+            continueButton,
+            deleteButton,
+            ongoingGamesTableColumn,
+            storiesTableColumn,
+            playersTableColumn,
+            deadLinksTableColumn);
 
-    AnchorPane.setTopAnchor(gridPane, 10.0);
-    AnchorPane.setLeftAnchor(gridPane, 10.0);
-    AnchorPane.setRightAnchor(gridPane, 10.0);
-    AnchorPane.setBottomAnchor(gridPane, 10.0);
+    homeController.updateLanguage();
 
-    Scene scene = new Scene(anchorPane, 600, 600);
+    Scene scene = new Scene(rootAnchorPane, 600, 600);
     primaryStage.setScene(scene);
     primaryStage.show();
-    playMusic("/music/relaxing-145038.mp3");
-  }
-
-  public void updateLanguage() {
-    resources =
-        ResourceBundle.getBundle(
-            "home", Locale.forLanguageTag(Database.getCurrentLanguage().getLocalName()));
-    startNewGameButton.setText(resources.getString("startNewGameButton"));
-    pathsGameText.setText(resources.getString("storiesText"));
-    storiesText.setText(resources.getString("storiesText"));
-    deadLinksText.setText(resources.getString("deadLinksText"));
-  }
-
-  // Should maybe be static like Database
-  private void playMusic(String musicFilePath) {
-    try {
-      URL resource = getClass().getResource(musicFilePath);
-      Media media = new Media(resource.toString());
-      //Media media = new Media(new File(musicFilePath).toURI().toString());
-      MediaPlayer mediaPlayer = new MediaPlayer(media);
-      mediaPlayer.setAutoPlay(true);
-      mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-    } catch (Exception e) {
-      System.out.println("Error playing music: " + e.getMessage());
-    }
+    MusicHandler.playMusic("/music/relaxing-145038.mp3");
   }
 }

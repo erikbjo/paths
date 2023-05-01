@@ -1,6 +1,7 @@
 package no.ntnu.idatg2001.paths.model.actions;
 
-import no.ntnu.idatg2001.paths.model.actions.items.Item;
+import jakarta.persistence.*;
+import no.ntnu.idatg2001.paths.model.items.Item;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -10,9 +11,13 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  * @version 2023.02.06
  */
+@Entity
 public class InventoryAction implements Action {
-  private final Item item;
-  private final boolean isAdditionToInventory;
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "inventory action item id")
+  private Item item;
+  private boolean isAdditionToInventory;
+  @Id @GeneratedValue private Long id;
 
   /**
    * Constructor for the InventoryAction class.
@@ -24,6 +29,28 @@ public class InventoryAction implements Action {
   public InventoryAction(Item item, boolean isAdditionToInventory) {
     this.item = item;
     this.isAdditionToInventory = isAdditionToInventory;
+  }
+
+  protected InventoryAction() {}
+
+  /**
+   * Returns the item to perform the action on.
+   *
+   * @return the item to perform the action on
+   */
+  public Item getItem() {
+    return item;
+  }
+
+  /**
+   * Returns true if the action is an addition to the inventory, false if it is a removal from the
+   * inventory.
+   *
+   * @return true if the action is an addition to the inventory, false if it is a removal from the
+   *     inventory
+   */
+  public boolean getIsAdditionToInventory() {
+    return isAdditionToInventory;
   }
 
   /**

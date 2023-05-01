@@ -31,7 +31,7 @@ class PassageTest {
   @Test
   void addLinksShouldReturnTrue() {
     passage.setLinks(links);
-    boolean resultTrue = passage.addLinks(new Link("test3", "3"));
+    boolean resultTrue = passage.addLink(new Link("test3", "3"));
     assertTrue(resultTrue);
   }
 

@@ -2,7 +2,7 @@ package no.ntnu.idatg2001.paths.model.goals;
 
 import java.util.ArrayList;
 import java.util.List;
-import no.ntnu.idatg2001.paths.model.actions.items.Item;
+import no.ntnu.idatg2001.paths.model.items.Item;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**

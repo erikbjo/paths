@@ -1,5 +1,7 @@
 package no.ntnu.idatg2001.paths.model;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,88 +11,112 @@ import java.util.List;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  * @version 2023.02.02
  */
+@Entity
 public class Passage {
-    private final String title;
-    private final String content;
-    private List<Link> links;
 
-    public Passage(String title, String content) {
-        this.title = title;
-        this.content = content;
-        this.links = new ArrayList<>();
+  private String title;
+  private String content;
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "passage id")
+  private List<Link> links;
+
+  @Id
+  @GeneratedValue
+  private Long id;
+
+  /**
+   * A constructor that initializes the declared fields for title, content and links.
+   *
+   * @param title the title of the passage, also works as a unique identifier.
+   * @param content the content of the passage, typically a part of the story.
+   */
+  public Passage(String title, String content) {
+    this.title = title;
+    this.content = content;
+    this.links = new ArrayList<>();
+  }
+
+  public Passage() {}
+
+  /**
+   * This function returns the title of the book
+   *
+   * @return The title of the book.
+   */
+  public String getTitle() {
+    return title;
+  }
+
+  /**
+   * This function returns the content of the message.
+   *
+   * @return The content of the message.
+   */
+  public String getContent() {
+    return content;
+  }
+
+  /**
+   * Adds a link to an arrayList and return true.
+   *
+   * @param link The link to be added to the list.
+   * @return A boolean value.
+   */
+  public boolean addLink(Link link) {
+    boolean success = false;
+    try {
+      links.add(link);
+      success = true;
+    } catch (Exception e) {
+      // TODO: replace sout
+      System.out.println("Error: " + e.getMessage());
     }
+    return success;
+  }
 
+  /**
+   * This function returns a list of links.
+   *
+   * @return A list of links.
+   */
+  public List<Link> getLinks() {
+    return links;
+  }
+
+  public void setLinks(List<Link> links) {
+    this.links = links;
     /**
-     * This function returns the title of the book
-     *
-     * @return The title of the book.
+     * if (links != null && links.size() >= 2) { this.links = new ArrayList<>(links.subList(0, 2));
+     * } else { this.links = links; }
      */
-    public String getTitle() {
-        return title;
-    }
+  }
 
-    /**
-     * This function returns the content of the message.
-     *
-     * @return The content of the message.
-     */
-    public String getContent() {
-        return content;
-    }
+  /**
+   * Returns true if the list of links is not empty.
+   *
+   * @return A boolean value.
+   */
+  public boolean hasLinks() {
+    return !links.isEmpty();
+  }
 
+  @Override
+  public String toString() {
+    return "Passage{" + "title='" + title + '\'' + ", content='" + content + '}';
+  }
 
-    /**
-     * Adds a link to an arrayList and
-     * return true.
-     *
-     * @param link The link to be added to the list.
-     * @return A boolean value.
-     */
-    public boolean addLinks(Link link) {
-        links.add(link);
-        return true;
-    }
+  // TODO: implement equals and hashCode
+  @Override
+  public boolean equals(Object object) {
+    return super.equals(object);
+  }
 
-    /**
-     * This function returns a list of links.
-     *
-     * @return A list of links.
-     */
-    public List<Link> getLinks() {
-        return links;
-    }
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
 
-    public void setLinks(List<Link> links) {
-        this.links = links;
-        /**
-         if (links != null && links.size() >= 2) {
-         this.links = new ArrayList<>(links.subList(0, 2));
-         } else {
-         this.links = links;
-         }*/
-    }
-
-    /**
-     * Returns true if the list of links is not empty.
-     *
-     * @return A boolean value.
-     */
-    public boolean hasLinks() {
-        return !links.isEmpty();
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        return super.equals(object);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
+  public Long getId() {
+    return id;
+  }
 }

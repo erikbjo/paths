@@ -1,5 +1,8 @@
-package no.ntnu.idatg2001.paths.model.actions.items.equipables;
+package no.ntnu.idatg2001.paths.model.items.equipables;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -7,8 +10,9 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
+@Entity
 public interface Equipable {
-  int equipSlot = 0;
+  @Id @GeneratedValue Long id = null;
 
   /**
    * Equips the item to the player.

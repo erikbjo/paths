@@ -1,6 +1,6 @@
-package no.ntnu.idatg2001.paths.model.actions.items.consumables;
+package no.ntnu.idatg2001.paths.model.items.consumables;
 
-import no.ntnu.idatg2001.paths.model.actions.items.Item;
+import no.ntnu.idatg2001.paths.model.items.Item;
 
 /**
  * The Potion class represents a potion in the game. It extends the Item class and implements the

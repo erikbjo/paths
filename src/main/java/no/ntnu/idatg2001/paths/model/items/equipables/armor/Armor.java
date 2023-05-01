@@ -1,7 +1,7 @@
-package no.ntnu.idatg2001.paths.model.actions.items.equipables.armor;
+package no.ntnu.idatg2001.paths.model.items.equipables.armor;
 
-import no.ntnu.idatg2001.paths.model.actions.items.Item;
-import no.ntnu.idatg2001.paths.model.actions.items.equipables.Equipable;
+import no.ntnu.idatg2001.paths.model.items.Item;
+import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
 import no.ntnu.idatg2001.paths.model.units.Attributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
