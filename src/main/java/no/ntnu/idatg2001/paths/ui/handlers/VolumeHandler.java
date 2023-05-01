@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.paths.model.handlers;
+package no.ntnu.idatg2001.paths.ui.handlers;
 
 public class VolumeHandler {
   private static int currentVolume = 50;

@@ -1,7 +1,6 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
 import java.net.URL;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -12,11 +11,13 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import no.ntnu.idatg2001.paths.model.handlers.LanguageHandler;
+import no.ntnu.idatg2001.paths.ui.controllers.HomeController;
 import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
+/** The type Home view. */
 public class HomeView extends Application {
+  private HomeController homeController;
   private SettingsController settingsController;
   private ResourceBundle resources;
   private Button startNewGameButton;
@@ -30,15 +31,6 @@ public class HomeView extends Application {
 
   @Override
   public void start(Stage primaryStage) {
-    // Observes when the language is changed, then calls updateLanguage()
-    LanguageHandler.getObservableIntegerCounter()
-        .addListener((obs, oldValue, newValue) -> updateLanguage());
-
-    // gets the correct resource bundle, depending on the current language in database
-    resources =
-        ResourceBundle.getBundle(
-            "home", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
-
     BorderPane borderPane = new BorderPane();
     borderPane.setTop(new StandardMenuBar());
 
@@ -67,42 +59,42 @@ public class HomeView extends Application {
 
     // TABLEVIEWS
     TableView<String> storiesTableView = new TableView<>();
-    TableColumn<String, String> storiesTableColumn = new TableColumn<>(resources.getString("storiesTableColumn"));
+    TableColumn<String, String> storiesTableColumn = new TableColumn<>();
     storiesTableView.getColumns().add(storiesTableColumn);
 
     TableView<String> playersTableView = new TableView<>();
-    TableColumn<String, String> playersTableColumn = new TableColumn<>(resources.getString("playersTableColumn"));
+    TableColumn<String, String> playersTableColumn = new TableColumn<>();
     playersTableView.getColumns().add(playersTableColumn);
 
     TableView<String> deadLinksTableView = new TableView<>();
-    TableColumn<String, String> deadLinksTableColumn = new TableColumn<>(resources.getString("deadLinksTableColumn"));
+    TableColumn<String, String> deadLinksTableColumn = new TableColumn<>();
     deadLinksTableView.getColumns().add(deadLinksTableColumn);
 
     TableView<String> ongoingGamesTableView = new TableView<>();
-    TableColumn<String, String> ongoingGamesTableColumn = new TableColumn<>(resources.getString("ongoingGamesTableColumn"));
+    TableColumn<String, String> ongoingGamesTableColumn = new TableColumn<>();
     ongoingGamesTableView.getColumns().add(ongoingGamesTableColumn);
 
     // TEXTS
-    Text pathsGameText = new Text(resources.getString("title"));
-    Text storiesText = new Text(resources.getString("storiesText"));
-    Text playersText = new Text(resources.getString("playersText"));
-    Text deadLinksText = new Text(resources.getString("deadLinksText"));
-    Text ongoingGamesText = new Text(resources.getString("ongoingGamesText"));
+    Text pathsGameText = new Text();
+    Text storiesText = new Text();
+    Text playersText = new Text();
+    Text deadLinksText = new Text();
+    Text ongoingGamesText = new Text();
 
     // BUTTONS
-    Button editStoryButton = new Button(resources.getString("editStoryButton"));
-    Button newStoryButton = new Button(resources.getString("newStoryButton"));
+    Button editStoryButton = new Button();
+    Button newStoryButton = new Button();
     HBox storiesButtonsHBox = new HBox(editStoryButton, newStoryButton);
 
-    Button editPlayerButton = new Button(resources.getString("editPlayerButton"));
-    Button newPlayerButton = new Button(resources.getString("newPlayerButton"));
+    Button editPlayerButton = new Button();
+    Button newPlayerButton = new Button();
     HBox playersButtonsHBox = new HBox(editPlayerButton, newPlayerButton);
 
-    Button deleteLinkButton = new Button(resources.getString("deleteLinkButton"));
+    Button deleteLinkButton = new Button();
     HBox deadLinksButtonsHBox = new HBox(deleteLinkButton);
 
-    Button continueButton = new Button(resources.getString("continueButton"));
-    Button deleteButton = new Button(resources.getString("deleteButton"));
+    Button continueButton = new Button();
+    Button deleteButton = new Button();
     HBox ongoingGamesButtonsHBox = new HBox(continueButton, deleteButton);
 
     // ADDING TO VBOXES
@@ -118,7 +110,7 @@ public class HomeView extends Application {
     deadLinksAndOngoingGamesHBox.getChildren().addAll(deadLinksVBox, ongoingGamesVBox);
 
     // START NEW GAME BUTTON
-    startNewGameButton = new Button(resources.getString("startNewGameButton"));
+    startNewGameButton = new Button();
     startNewGameButton.setOnAction(
         event -> {
           // Launch the Player Information View in a new window
@@ -134,20 +126,32 @@ public class HomeView extends Application {
 
     rootAnchorPane.getChildren().add(mainVBox);
 
+    // CONTROLLER
+    homeController =
+        new HomeController(
+            pathsGameText,
+            storiesText,
+            playersText,
+            deadLinksText,
+            ongoingGamesText,
+            editStoryButton,
+            newStoryButton,
+            editPlayerButton,
+            newPlayerButton,
+            deleteLinkButton,
+            continueButton,
+            deleteButton,
+            ongoingGamesTableColumn,
+            storiesTableColumn,
+            playersTableColumn,
+            deadLinksTableColumn);
+
+    homeController.updateLanguage();
+
     Scene scene = new Scene(rootAnchorPane, 600, 600);
     primaryStage.setScene(scene);
     primaryStage.show();
     playMusic("/music/relaxing-145038.mp3");
-  }
-
-  public void updateLanguage() {
-    resources =
-        ResourceBundle.getBundle(
-            "home", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
-    startNewGameButton.setText(resources.getString("startNewGameButton"));
-    pathsGameText.setText(resources.getString("storiesText"));
-    storiesText.setText(resources.getString("storiesText"));
-    deadLinksText.setText(resources.getString("deadLinksText"));
   }
 
   // Should maybe be static like Database

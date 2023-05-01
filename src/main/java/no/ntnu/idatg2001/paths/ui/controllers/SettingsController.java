@@ -3,10 +3,9 @@ package no.ntnu.idatg2001.paths.ui.controllers;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.event.Event;
-import no.ntnu.idatg2001.paths.model.Database;
 import no.ntnu.idatg2001.paths.model.Languages;
-import no.ntnu.idatg2001.paths.model.handlers.LanguageHandler;
-import no.ntnu.idatg2001.paths.model.handlers.VolumeHandler;
+import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
+import no.ntnu.idatg2001.paths.ui.handlers.VolumeHandler;
 import no.ntnu.idatg2001.paths.ui.views.SettingsDialog;
 
 public class SettingsController {

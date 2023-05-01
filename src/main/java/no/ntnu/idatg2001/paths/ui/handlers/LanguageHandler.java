@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.paths.model.handlers;
+package no.ntnu.idatg2001.paths.ui.handlers;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
