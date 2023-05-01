@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.ui.controllers.HomeController;
 import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
+import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
 /** The type Home view. */
@@ -151,20 +152,6 @@ public class HomeView extends Application {
     Scene scene = new Scene(rootAnchorPane, 600, 600);
     primaryStage.setScene(scene);
     primaryStage.show();
-    playMusic("/music/relaxing-145038.mp3");
-  }
-
-  // Should maybe be static like Database
-  private void playMusic(String musicFilePath) {
-    try {
-      URL resource = getClass().getResource(musicFilePath);
-      Media media = new Media(resource.toString());
-      // Media media = new Media(new File(musicFilePath).toURI().toString());
-      MediaPlayer mediaPlayer = new MediaPlayer(media);
-      mediaPlayer.setAutoPlay(true);
-      mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-    } catch (Exception e) {
-      System.out.println("Error playing music: " + e.getMessage());
-    }
+    MusicHandler.playMusic("/music/relaxing-145038.mp3");
   }
 }
