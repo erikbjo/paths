@@ -17,11 +17,21 @@ public class Story {
   private final String title;
   private final Map<Link, Passage> passages;
   private Passage openingPassage;
+  private Passage currentPassage;
 
   public Story(String title, Passage openingPassage) {
     this.title = title;
     this.openingPassage = openingPassage;
+    this.currentPassage = openingPassage;
     this.passages = new HashMap<>();
+  }
+
+  public Passage getCurrentPassage() {
+    return currentPassage;
+  }
+
+  public void setCurrentPassage(Passage passage) {
+    this.currentPassage = passage;
   }
 
   /**
@@ -71,6 +81,18 @@ public class Story {
         .filter(entry -> entry.getValue().equals(passage))
         .map(Map.Entry::getKey)
         .toList();
+  }
+
+  /**
+   * This function returns a list of all the passages connected to a link.
+   *
+   * @return A list of all the passages connected to a link.
+   */
+  public List<Passage> getPassagesConnectedWithLink(Link link) {
+    return passages.entrySet().stream()
+            .filter(entry -> entry.getKey().equals(link))
+            .map(Map.Entry::getValue)
+            .toList();
   }
 
   // Endre denne metoden til å ta en Story istedenfor en link, for å gjøre at passasjene ikke

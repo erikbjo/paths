@@ -9,9 +9,9 @@ import no.ntnu.idatg2001.paths.model.Database;
 import no.ntnu.idatg2001.paths.model.Link;
 
 public class StoryViewController {
-  private HBox linksHBox;
-  private Text storyHeadlineText;
-  private TextArea storyTextArea;
+  private final HBox linksHBox;
+  private final Text storyHeadlineText;
+  private final TextArea storyTextArea;
 
   public StoryViewController(HBox linksHBox, Text storyHeadlineText, TextArea storyTextArea) {
     this.linksHBox = linksHBox;
@@ -24,7 +24,7 @@ public class StoryViewController {
     List<Link> links =
         Database.getCurrentGame()
             .getStory()
-            .getLinksConnectedWithPassage(Database.getCurrentGame().getStory().getOpeningPassage());
+            .getLinksConnectedWithPassage(Database.getCurrentGame().getStory().getCurrentPassage());
     for (Link link : links) {
       Hyperlink hyperlink = new Hyperlink(link.getText());
       hyperlink.setOnAction(
@@ -41,7 +41,7 @@ public class StoryViewController {
   }
 
   public void setStoryTextArea() {
-    storyTextArea.setText(Database.getCurrentGame().getStory().getOpeningPassage().getContent());
+    storyTextArea.setText(Database.getCurrentGame().getStory().getCurrentPassage().getContent());
   }
 
   private void updateStoryViewToNewPath() {
