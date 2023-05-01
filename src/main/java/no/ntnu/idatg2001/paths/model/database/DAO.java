@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.paths.model.accountinformation;
+package no.ntnu.idatg2001.paths.model.database;
 
 import java.util.Iterator;
 import java.util.List;

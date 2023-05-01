@@ -4,6 +4,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
+import no.ntnu.idatg2001.paths.model.database.DAO;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
