@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A class that represents a Passage that contains a title, content, and a list of links.
@@ -14,10 +15,11 @@ import java.util.List;
 @Entity
 public class Passage {
 
+  @Column(unique = true)
   private String title;
   private String content;
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "passage id")
+  @JoinColumn(name = "passage_id")
   private List<Link> links;
 
   @Id
@@ -108,12 +110,15 @@ public class Passage {
   // TODO: implement equals and hashCode
   @Override
   public boolean equals(Object object) {
-    return super.equals(object);
+    if (this == object) return true;
+    if (object == null || getClass() != object.getClass()) return false;
+    Passage passage = (Passage) object;
+    return Objects.equals(id, passage.id);
   }
 
   @Override
   public int hashCode() {
-    return super.hashCode();
+    return Objects.hash(id);
   }
 
   public Long getId() {

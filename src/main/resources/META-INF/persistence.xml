@@ -2,17 +2,19 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-    <persistence-unit name="pathdb" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="pathDB" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <class>no.ntnu.idatg2001.paths.model.Game</class>
+        <class>no.ntnu.idatg2001.paths.model.units.Player</class>
+        <class>no.ntnu.idatg2001.paths.model.Story</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.apache.derby.iapi.jdbc.AutoloadedDriver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:derby:pathdb;create=true"/>
-            <property name="jakarta.persistence.jdbc.user" value="admin"/>
-            <property name="jakarta.persistence.jdbc.password" value="admin"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:derby:pathDB;create=true"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="create" />
             <property name="eclipselink.target-database" value="Derby"/>
             <property name="eclipselink.ddl-generation" value="create-tables"/>
-            <property name="eclipselink.logging.level" value="OFF"/>
+            <property name="eclipselink.logging.level" value="FINE"/>
+            <property name="eclipselink.ddl-generation.output-mode" value="database"/>
         </properties>
     </persistence-unit>
 </persistence>

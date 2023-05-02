@@ -15,7 +15,7 @@ public class StoryDAO implements DAO<Story> {
   private final EntityManager em;
 
   public StoryDAO() {
-    this.emf = Persistence.createEntityManagerFactory("storyDB");
+    this.emf = Persistence.createEntityManagerFactory("pathDB");
     this.em = this.emf.createEntityManager();
   }
 

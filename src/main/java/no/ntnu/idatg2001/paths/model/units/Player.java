@@ -20,11 +20,11 @@ public class Player extends Unit {
   private String id;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-  @JoinColumn(name = "player id")
+  @JoinColumn(name = "player_id")
   private List<Item> inventory;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-  @JoinColumn(name = "player id")
+  @JoinColumn(name = "player_id")
   private List<Equipable> equippedItems;
 
 

@@ -15,15 +15,15 @@ public class Game {
   private String id;
 
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-  @JoinColumn(name = "game id")
+  @JoinColumn(name = "player_id")
   private Player player = null;
 
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-  @JoinColumn(name = "game id")
+  @JoinColumn(name = "story_id")
   private Story story = null;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-  @JoinColumn(name = "game id")
+  @JoinColumn(name = "game_id")
   private final List<Goal> goals = new ArrayList<>();
 
   /**

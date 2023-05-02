@@ -15,7 +15,7 @@ public class PlayerDAO implements DAO<Player> {
   private final EntityManager em;
 
   public PlayerDAO() {
-    this.emf = Persistence.createEntityManagerFactory("playerDB");
+    this.emf = Persistence.createEntityManagerFactory("pathDB");
     this.em = this.emf.createEntityManager();
   }
 
