@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.paths.ui.dialogs;
+package no.ntnu.idatg2001.paths.ui.controllers;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

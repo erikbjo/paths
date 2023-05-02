@@ -5,9 +5,8 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
-import no.ntnu.idatg2001.paths.ui.dialogs.SettingsController;
+import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
 import no.ntnu.idatg2001.paths.ui.views.HomeView;
-import no.ntnu.idatg2001.paths.ui.views.StoryView;
 
 public class StandardMenuBar extends MenuBar {
 

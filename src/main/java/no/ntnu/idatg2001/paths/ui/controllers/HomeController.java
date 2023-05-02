@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Story;
+import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.alerts.ConfirmationAlert;
 import no.ntnu.idatg2001.paths.ui.alerts.ExceptionAlert;
@@ -171,6 +172,8 @@ public class HomeController {
                 // ADD PLAYER TO W/E
                 // UPDATE THIS W/E IN DB
                 // UPDATE VIEW
+                System.out.println(player);
+                PlayerDAO.getInstance().add(player);
               });
         });
 

@@ -9,6 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Languages;
+import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
 
 public class SettingsDialog {
 

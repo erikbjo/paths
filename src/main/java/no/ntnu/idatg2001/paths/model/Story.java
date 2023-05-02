@@ -13,6 +13,8 @@ import java.util.*;
 @Entity
 @Table(name = "story")
 public class Story {
+  @OneToMany(mappedBy = "story", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<LinkPassage> linkPassages;
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "story_id")
   private HashMap<Link, Passage> passages;
@@ -40,6 +42,21 @@ public class Story {
   }
 
   public Story() {}
+
+  // WIP
+  public HashMap<Link, Passage> getPassagesMap() {
+    HashMap<Link, Passage> passagesMap = new HashMap<>();
+    for (LinkPassage linkPassage : linkPassages) {
+      passagesMap.put(linkPassage.getLink(), linkPassage.getPassage());
+    }
+    return passagesMap;
+  }
+
+  public void addLinkPassage(Link link, Passage passage) {
+    LinkPassage linkPassage = new LinkPassage(link, passage);
+    linkPassages.add(linkPassage);
+  }
+
 
   public Passage getCurrentPassage() {
     return currentPassage;

@@ -2,6 +2,8 @@ package no.ntnu.idatg2001.paths;
 
 import no.ntnu.idatg2001.paths.model.*;
 import no.ntnu.idatg2001.paths.model.database.GameDAO;
+import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
+import no.ntnu.idatg2001.paths.model.database.StoryDAO;
 import no.ntnu.idatg2001.paths.model.goals.Goal;
 import no.ntnu.idatg2001.paths.model.goals.GoldGoal;
 import no.ntnu.idatg2001.paths.model.goals.HealthGoal;
@@ -62,6 +64,10 @@ public class Main {
     //
     //    Database.setCurrentGame(game);
     //    GameDAO.getInstance().add(game);
+
+    System.out.println("playerids: " + PlayerDAO.getInstance().getAllPlayerIDs());
+    System.out.println("gameids: " + GameDAO.getInstance().getAllGameIDs());
+    System.out.println("storyids: " + StoryDAO.getInstance().getAllStoryIDs());
 
     HomeView.mainApp(args);
   }

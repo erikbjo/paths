@@ -13,7 +13,7 @@ import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.controllers.HomeController;
-import no.ntnu.idatg2001.paths.ui.dialogs.SettingsController;
+import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
 import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
