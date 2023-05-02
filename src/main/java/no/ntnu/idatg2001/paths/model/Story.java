@@ -14,7 +14,7 @@ import java.util.*;
 public class Story {
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "story id")
-  private Map<Link, Passage[]> passages;
+  private HashMap<Link, Passage[]> passages;
 
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "story id")

@@ -1,14 +1,11 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
-import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.ui.controllers.HomeController;
@@ -16,7 +13,6 @@ import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
 import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
-/** The type Home view. */
 public class HomeView extends Application {
   private HomeController homeController;
   private SettingsController settingsController;
@@ -145,9 +141,11 @@ public class HomeView extends Application {
             ongoingGamesTableColumn,
             storiesTableColumn,
             playersTableColumn,
-            deadLinksTableColumn);
+            deadLinksTableColumn,
+            primaryStage);
 
     homeController.updateLanguage();
+    homeController.configureButtons();
 
     Scene scene = new Scene(rootAnchorPane, 600, 600);
     primaryStage.setScene(scene);
