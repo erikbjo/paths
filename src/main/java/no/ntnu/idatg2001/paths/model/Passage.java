@@ -13,6 +13,7 @@ import java.util.Objects;
  * @version 2023.02.02
  */
 @Entity
+@Table(name = "passage")
 public class Passage {
 
   @Column(unique = true)

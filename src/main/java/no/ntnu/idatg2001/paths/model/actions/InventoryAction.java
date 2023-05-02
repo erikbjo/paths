@@ -12,12 +12,12 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @version 2023.02.06
  */
 @Entity
-public class InventoryAction implements Action {
+public class InventoryAction extends Action {
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "inventory action item id")
+  @JoinColumn(name = "inventory_action_item_id")
   private Item item;
+
   private boolean isAdditionToInventory;
-  @Id @GeneratedValue private Long id;
 
   /**
    * Constructor for the InventoryAction class.

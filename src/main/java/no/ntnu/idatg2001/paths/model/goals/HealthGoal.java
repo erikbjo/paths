@@ -8,7 +8,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen.
  * @version 2023.02.06
  */
-public class HealthGoal implements Goal {
+public class HealthGoal extends Goal {
   private int minimumHealth;
 
 /**

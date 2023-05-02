@@ -11,11 +11,8 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 @Entity
-public class GoldAction implements Action {
+public class GoldAction extends Action {
   private boolean isPositive;
-  @Id
-  @GeneratedValue
-  private Long id;
   private int gold;
 
   /**

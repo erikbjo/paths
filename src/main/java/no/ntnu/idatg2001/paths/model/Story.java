@@ -1,6 +1,10 @@
 package no.ntnu.idatg2001.paths.model;
 
 import jakarta.persistence.*;
+
+import java.io.*;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -13,26 +17,25 @@ import java.util.*;
 @Entity
 @Table(name = "story")
 public class Story {
-  @OneToMany(mappedBy = "story", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<LinkPassage> linkPassages;
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "story_id")
-  private HashMap<Link, Passage> passages;
+  @Transient
+  private Map<Link, Passage> passages;
 
+  @Lob
+  @Column(name = "serialized_passages")
+  private Blob serializedPassages;
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "story_id")
   private Passage openingPassage;
-
-  private String title;
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private String id;
 
-  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "story_id")
+  @OneToOne
+  @JoinColumn(name = "story_id", insertable = false, updatable = false)
   private Passage currentPassage;
 
+  private String title;
   public Story(String title, Passage openingPassage) {
     this.title = title;
     this.openingPassage = openingPassage;
@@ -44,19 +47,39 @@ public class Story {
   public Story() {}
 
   // WIP
-  public HashMap<Link, Passage> getPassagesMap() {
-    HashMap<Link, Passage> passagesMap = new HashMap<>();
-    for (LinkPassage linkPassage : linkPassages) {
-      passagesMap.put(linkPassage.getLink(), linkPassage.getPassage());
+  @PrePersist
+  @PreUpdate
+  private void serializePassages() throws IOException, SQLException {
+    if (passages != null) {
+      try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+           ObjectOutputStream oos = new ObjectOutputStream(byteArrayOutputStream)) {
+        oos.writeObject(passages);
+        oos.flush();
+        byte[] data = byteArrayOutputStream.toByteArray();
+        this.serializedPassages = new javax.sql.rowset.serial.SerialBlob(data);
+      }
     }
-    return passagesMap;
   }
 
-  public void addLinkPassage(Link link, Passage passage) {
-    LinkPassage linkPassage = new LinkPassage(link, passage);
-    linkPassages.add(linkPassage);
+  @PostLoad
+  private void deserializePassages() throws IOException, ClassNotFoundException, SQLException {
+    if (serializedPassages != null) {
+      try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(serializedPassages.getBytes(1, (int) serializedPassages.length()));
+           ObjectInputStream ois = new ObjectInputStream(byteArrayInputStream)) {
+        passages = (Map<Link, Passage>) ois.readObject();
+      }
+    } else {
+      passages = new HashMap<>();
+    }
   }
 
+  public Map<Link, Passage> getPassagesHashMap() {
+    return passages;
+  }
+
+  public void setPassagesHashMap(Map<Link, Passage> passages) {
+    this.passages = passages;
+  }
 
   public Passage getCurrentPassage() {
     return currentPassage;
@@ -102,10 +125,6 @@ public class Story {
 
       passages.put(link, passage);
     }
-  }
-
-  public Map<Link, Passage> getPassagesHashMap() {
-    return passages;
   }
 
   /**

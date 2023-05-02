@@ -8,7 +8,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen.
  * @version 2023.02.06
  */
-public class GoldGoal implements Goal {
+public class GoldGoal extends Goal {
   private int minimumGold;
 
   /**

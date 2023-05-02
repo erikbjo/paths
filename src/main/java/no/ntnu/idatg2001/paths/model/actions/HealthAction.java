@@ -11,8 +11,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 @Entity
-public class HealthAction implements Action {
-  @Id @GeneratedValue private Long id;
+public class HealthAction extends Action {
   private int health;
   private boolean isPositive;
 

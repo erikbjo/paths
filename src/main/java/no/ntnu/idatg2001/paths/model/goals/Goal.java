@@ -1,8 +1,6 @@
 package no.ntnu.idatg2001.paths.model.goals;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -10,9 +8,10 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @version 2023.02.06
  */
 @Entity
-public interface Goal {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Goal {
   @Id
   @GeneratedValue
   Long id = null;
-  boolean isFulfilled(Player player);
+  public abstract boolean isFulfilled(Player player);
 }

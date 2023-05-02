@@ -1,5 +1,8 @@
 package no.ntnu.idatg2001.paths.model.items.equipables.armor;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import no.ntnu.idatg2001.paths.model.items.Item;
 import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
 import no.ntnu.idatg2001.paths.model.units.Attributes;
@@ -11,7 +14,9 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
-public abstract class Armor extends Item implements Equipable {
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Armor extends Equipable {
 
   private Attributes attributes;
 
@@ -27,6 +32,8 @@ public abstract class Armor extends Item implements Equipable {
     super(name, itemScore, goldValue);
     this.attributes = attributes;
   }
+
+  protected Armor() {}
 
   /**
    * Gets the attributes of the armor.
@@ -48,22 +55,18 @@ public abstract class Armor extends Item implements Equipable {
 
   /**
    * Adds attributes to the armor.
-   * 
+   *
    * @param attributes the attributes to add
    */
   protected void addAttributes(Attributes attributes) {
     this.attributes.addAttributes(attributes);
   }
 
-  /**
-   * Equips the item to the player.
-   *
-   * @param player the player who is equipping the item
-   */
   @Override
   public void equip(Player player) {
     player.getInventory().remove(this);
     player.getEquippedItems().add(this);
+    player.getAttributes().addAttributes(this.attributes);
   }
 
   /**
@@ -75,5 +78,6 @@ public abstract class Armor extends Item implements Equipable {
   public void unEquip(Player player) {
     player.getEquippedItems().remove(this);
     player.getInventory().add(this);
+    player.getAttributes().subtractAttributes(this.attributes);
   }
 }

@@ -1,8 +1,6 @@
 package no.ntnu.idatg2001.paths.model.items;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 /**
  * The Item class represents an item in the game.
@@ -10,6 +8,7 @@ import jakarta.persistence.Id;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Item {
   // Information
   protected String name;
