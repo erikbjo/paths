@@ -8,8 +8,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import no.ntnu.idatg2001.paths.model.Game;
+import no.ntnu.idatg2001.paths.model.Link;
+import no.ntnu.idatg2001.paths.model.Story;
+import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.controllers.HomeController;
-import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
+import no.ntnu.idatg2001.paths.ui.dialogs.SettingsController;
 import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
@@ -28,11 +32,9 @@ public class HomeView extends Application {
 
   @Override
   public void start(Stage primaryStage) {
-    BorderPane borderPane = new BorderPane();
-    borderPane.setTop(new StandardMenuBar());
+    BorderPane root = new BorderPane();
+    root.setTop(new StandardMenuBar());
 
-    AnchorPane rootAnchorPane = new AnchorPane();
-    rootAnchorPane.getChildren().add(borderPane);
     VBox mainVBox = new VBox(50);
 
     mainVBox.setAlignment(Pos.TOP_CENTER);
@@ -55,20 +57,20 @@ public class HomeView extends Application {
     VBox ongoingGamesVBox = new VBox();
 
     // TABLEVIEWS
-    TableView<String> storiesTableView = new TableView<>();
-    TableColumn<String, String> storiesTableColumn = new TableColumn<>();
+    TableView<Story> storiesTableView = new TableView<>();
+    TableColumn<Story, String> storiesTableColumn = new TableColumn<>();
     storiesTableView.getColumns().add(storiesTableColumn);
 
-    TableView<String> playersTableView = new TableView<>();
-    TableColumn<String, String> playersTableColumn = new TableColumn<>();
+    TableView<Player> playersTableView = new TableView<>();
+    TableColumn<Player, String> playersTableColumn = new TableColumn<>();
     playersTableView.getColumns().add(playersTableColumn);
 
-    TableView<String> deadLinksTableView = new TableView<>();
-    TableColumn<String, String> deadLinksTableColumn = new TableColumn<>();
+    TableView<Link> deadLinksTableView = new TableView<>();
+    TableColumn<Link, String> deadLinksTableColumn = new TableColumn<>();
     deadLinksTableView.getColumns().add(deadLinksTableColumn);
 
-    TableView<String> ongoingGamesTableView = new TableView<>();
-    TableColumn<String, String> ongoingGamesTableColumn = new TableColumn<>();
+    TableView<Game> ongoingGamesTableView = new TableView<>();
+    TableColumn<Game, String> ongoingGamesTableColumn = new TableColumn<>();
     ongoingGamesTableView.getColumns().add(ongoingGamesTableColumn);
 
     // TEXTS
@@ -121,7 +123,7 @@ public class HomeView extends Application {
         .addAll(
             pathsGameText, storiesAndPlayersHBox, startNewGameHBox, deadLinksAndOngoingGamesHBox);
 
-    rootAnchorPane.getChildren().add(mainVBox);
+    root.setCenter(mainVBox);
 
     // CONTROLLER
     homeController =
@@ -138,16 +140,20 @@ public class HomeView extends Application {
             deleteLinkButton,
             continueButton,
             deleteButton,
-            ongoingGamesTableColumn,
+            storiesTableView,
+            playersTableView,
+            deadLinksTableView,
+            ongoingGamesTableView,
             storiesTableColumn,
             playersTableColumn,
             deadLinksTableColumn,
+            ongoingGamesTableColumn,
             primaryStage);
 
     homeController.updateLanguage();
     homeController.configureButtons();
 
-    Scene scene = new Scene(rootAnchorPane, 600, 600);
+    Scene scene = new Scene(root, 600, 600);
     primaryStage.setScene(scene);
     primaryStage.show();
     MusicHandler.playMusic("/music/relaxing-145038.mp3");

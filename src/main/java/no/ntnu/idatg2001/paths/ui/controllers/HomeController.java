@@ -1,12 +1,21 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import no.ntnu.idatg2001.paths.model.Database;
+import no.ntnu.idatg2001.paths.model.Game;
+import no.ntnu.idatg2001.paths.model.Link;
+import no.ntnu.idatg2001.paths.model.Story;
+import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.alerts.ConfirmationAlert;
+import no.ntnu.idatg2001.paths.ui.alerts.WarningAlert;
 import no.ntnu.idatg2001.paths.ui.dialogs.NewPlayerDialog;
 import no.ntnu.idatg2001.paths.ui.dialogs.NewStoryDialog;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
@@ -29,11 +38,17 @@ public class HomeController {
   private final Button deleteLinkButton;
   private final Button continueButton;
   private final Button deleteButton;
+  // TABLE VIEWS
+
+  private final TableView<Story> storiesTableView;
+  private final TableView<Player> playersTableView;
+  private final TableView<Link> deadLinksTableView;
+  private final TableView<Game> ongoingGamesTableView;
   // TABLE COLUMNS
-  private final TableColumn<String, String> ongoingGamesTableColumn;
-  private final TableColumn<String, String> storiesTableColumn;
-  private final TableColumn<String, String> playersTableColumn;
-  private final TableColumn<String, String> deadLinksTableColumn;
+  private final TableColumn<Game, String> ongoingGamesTableColumn;
+  private final TableColumn<Story, String> storiesTableColumn;
+  private final TableColumn<Player, String> playersTableColumn;
+  private final TableColumn<Link, String> deadLinksTableColumn;
 
   private final Stage primaryStage;
   private ResourceBundle resources;
@@ -51,16 +66,23 @@ public class HomeController {
       Button deleteLinkButton,
       Button continueButton,
       Button deleteButton,
-      TableColumn<String, String> ongoingGamesTableColumn,
-      TableColumn<String, String> storiesTableColumn,
-      TableColumn<String, String> playersTableColumn,
-      TableColumn<String, String> deadLinksTableColumn,
+      TableView<Story> storiesTableView,
+      TableView<Player> playersTableView,
+      TableView<Link> deadLinksTableView,
+      TableView<Game> ongoingGamesTableView,
+      TableColumn<Story, String> storiesTableColumn,
+      TableColumn<Player, String> playersTableColumn,
+      TableColumn<Link, String> deadLinksTableColumn,
+      TableColumn<Game, String> ongoingGamesTableColumn,
       Stage primaryStage) {
+    // TEXTS
     this.pathsGameText = pathsGameText;
     this.storiesText = storiesText;
     this.playersText = playersText;
     this.deadLinksText = deadLinksText;
     this.ongoingGamesText = ongoingGamesText;
+
+    // BUTTONS
     this.editStoryButton = editStoryButton;
     this.newStoryButton = newStoryButton;
     this.editPlayerButton = editPlayerButton;
@@ -68,6 +90,14 @@ public class HomeController {
     this.deleteLinkButton = deleteLinkButton;
     this.continueButton = continueButton;
     this.deleteButton = deleteButton;
+
+    // TABLE VIEWS
+    this.storiesTableView = storiesTableView;
+    this.playersTableView = playersTableView;
+    this.deadLinksTableView = deadLinksTableView;
+    this.ongoingGamesTableView = ongoingGamesTableView;
+
+    // TABLE COLUMNS
     this.ongoingGamesTableColumn = ongoingGamesTableColumn;
     this.storiesTableColumn = storiesTableColumn;
     this.playersTableColumn = playersTableColumn;
@@ -106,27 +136,75 @@ public class HomeController {
     newPlayerButton.setOnAction(
         event -> {
           NewPlayerDialog newPlayerDialog = new NewPlayerDialog();
-          newPlayerDialog.showAndWait();
+          newPlayerDialog.initOwner(primaryStage);
+
+          Optional<Player> result = newPlayerDialog.showAndWait();
+          result.ifPresent(
+              player -> {
+                // ADD PLAYER TO W/E
+                // UPDATE THIS W/E IN DB
+                // UPDATE VIEW
+              });
         });
 
     deleteLinkButton.setOnAction(
         event -> {
-          ConfirmationAlert confirmationAlert =
-              new ConfirmationAlert("Delete Link", "Are you sure you want to delete this link?");
-          confirmationAlert.showAndWait();
+          if (deadLinksTableView
+              .getSelectionModel()
+              .isSelected(deadLinksTableView.getSelectionModel().getSelectedIndex())) {
+            Link deadLink =
+                deadLinksTableView
+                    .getItems()
+                    .get(deadLinksTableView.getSelectionModel().getSelectedIndex());
+
+            ConfirmationAlert confirmationAlert =
+                new ConfirmationAlert(
+                    "Delete link", "Are you sure you want to delete this link?\n" + deadLink);
+
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+              // Remove the link from the story
+              // @TODO Fix this
+              deadLinksTableView
+                  .getItems()
+                  .removeAll(deadLinksTableView.getSelectionModel().getSelectedItems());
+              // Remove the link from the database
+              // Or update the story in the database
+            } else {
+              confirmationAlert.close();
+            }
+          } else {
+            WarningAlert warningAlert = new WarningAlert("Please Select a item to Delete");
+            warningAlert.showAndWait();
+          }
         });
 
     continueButton.setOnAction(
         event -> {
+          // FIND SELECTED PLAYER
+          // FIND SELECTED STORY
+          // START GAME WITH SELECTED PLAYER AND STORY
+
+          Player selectedPlayer = playersTableView.getSelectionModel().getSelectedItem();
+          Story selectedStory = storiesTableView.getSelectionModel().getSelectedItem();
+          Game game = new Game(selectedPlayer, selectedStory, null);
+          Database.setCurrentGame(game);
+
           StoryView storyView = new StoryView();
           storyView.start(primaryStage);
         });
 
     deleteButton.setOnAction(
         event -> {
-          ConfirmationAlert confirmationAlert =
-              new ConfirmationAlert("Delete Game", "Are you sure you want to delete this game?");
-          confirmationAlert.showAndWait();
+          if (ongoingGamesTableView.getSelectionModel().isEmpty()) {
+            WarningAlert warningAlert =
+                new WarningAlert("Delete Game", "You must select a game to delete");
+            warningAlert.showAndWait();
+          } else {
+            ConfirmationAlert confirmationAlert =
+                new ConfirmationAlert("Delete Game", "Are you sure you want to delete this game?");
+            confirmationAlert.showAndWait();
+          }
         });
   }
 

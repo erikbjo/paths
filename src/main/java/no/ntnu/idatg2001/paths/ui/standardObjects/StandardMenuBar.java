@@ -4,7 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
+import no.ntnu.idatg2001.paths.ui.dialogs.SettingsController;
 
 public class StandardMenuBar extends MenuBar {
 
