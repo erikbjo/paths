@@ -31,6 +31,7 @@ public class PlayerInformationView {
   private Button startButton;
 
   public void start(Stage stage) {
+    stage.setTitle("Player Information");
     // Observes when the language in Database is changed, then calls updateLanguage()
     LanguageHandler.getObservableIntegerCounter()
         .addListener((obs, oldValue, newValue) -> updateLanguage());
@@ -44,10 +45,8 @@ public class PlayerInformationView {
     PlayerInformationController controller = new PlayerInformationController();
 
     BorderPane root = new BorderPane();
-    root.setTop(new StandardMenuBar());
+    root.setTop(new StandardMenuBar(stage));
 
-    BorderPane borderPane = new BorderPane();
-    borderPane.setTop(new StandardMenuBar());
     GridPane gridPane = new GridPane();
     gridPane.setPadding(new Insets(10));
     gridPane.setHgap(10);
@@ -114,7 +113,6 @@ public class PlayerInformationView {
 
     VBox vBox = new VBox();
     vBox.getChildren().add(gridPane);
-    vBox.getChildren().add(borderPane);
     root.setCenter(vBox);
 
     Scene scene = new Scene(root, 600, 600);

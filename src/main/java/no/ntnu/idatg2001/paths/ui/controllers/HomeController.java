@@ -9,7 +9,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import no.ntnu.idatg2001.paths.model.Database;
 import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Story;
@@ -185,10 +184,10 @@ public class HomeController {
           // FIND SELECTED STORY
           // START GAME WITH SELECTED PLAYER AND STORY
 
-          Player selectedPlayer = playersTableView.getSelectionModel().getSelectedItem();
-          Story selectedStory = storiesTableView.getSelectionModel().getSelectedItem();
-          Game game = new Game(selectedPlayer, selectedStory, null);
-          Database.setCurrentGame(game);
+          // Player selectedPlayer = playersTableView.getSelectionModel().getSelectedItem();
+          // Story selectedStory = storiesTableView.getSelectionModel().getSelectedItem();
+          // Game game = new Game(selectedPlayer, selectedStory, null);
+          // @TODO Fix this, add to DB and set active
 
           StoryView storyView = new StoryView();
           storyView.start(primaryStage);

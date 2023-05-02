@@ -8,8 +8,9 @@ import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
 public class EditStoryView {
   public void start(Stage primaryStage) {
+    primaryStage.setTitle("Edit Story");
     BorderPane root = new BorderPane();
-    root.setTop(new StandardMenuBar());
+    root.setTop(new StandardMenuBar(primaryStage));
 
     Scene scene = new Scene(root, 600, 600);
     primaryStage.setScene(scene);

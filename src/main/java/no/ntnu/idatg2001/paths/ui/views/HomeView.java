@@ -32,8 +32,9 @@ public class HomeView extends Application {
 
   @Override
   public void start(Stage primaryStage) {
+    primaryStage.setTitle("Home");
     BorderPane root = new BorderPane();
-    root.setTop(new StandardMenuBar());
+    root.setTop(new StandardMenuBar(primaryStage));
 
     VBox mainVBox = new VBox(50);
 

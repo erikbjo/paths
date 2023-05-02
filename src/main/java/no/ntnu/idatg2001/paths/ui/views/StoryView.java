@@ -21,6 +21,8 @@ public class StoryView {
   private StoryViewController storyViewController;
 
   public void start(Stage stage) {
+    stage.setTitle("Story");
+
     // Observes when the language in Database is changed, then calls updateLanguage()
     LanguageHandler.getObservableIntegerCounter()
         .addListener((obs, oldValue, newValue) -> updateLanguage());
@@ -32,7 +34,7 @@ public class StoryView {
 
     // Create a borderpane and a standard menubar
     BorderPane root = new BorderPane();
-    root.setTop(new StandardMenuBar());
+    root.setTop(new StandardMenuBar(stage));
     AnchorPane rootAnchorPane = new AnchorPane();
 
     // Create a VBox to hold all the elements
