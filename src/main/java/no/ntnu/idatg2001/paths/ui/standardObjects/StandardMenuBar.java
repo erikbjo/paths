@@ -21,9 +21,7 @@ public class StandardMenuBar extends MenuBar {
     aboutItem.setOnAction(actionEvent -> onAbout());
     MenuItem settingsItem = new MenuItem("Settings");
     settingsItem.setOnAction(
-        event -> {
-          settingsController = new SettingsController(event);
-        });
+        event -> settingsController = new SettingsController(event));
     MenuItem quitItem = new MenuItem("Quit");
     quitItem.setOnAction(actionEvent -> System.exit(0));
 

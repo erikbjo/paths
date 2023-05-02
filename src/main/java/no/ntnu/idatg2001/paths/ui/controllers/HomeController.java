@@ -14,6 +14,7 @@ import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.alerts.ConfirmationAlert;
+import no.ntnu.idatg2001.paths.ui.alerts.ExceptionAlert;
 import no.ntnu.idatg2001.paths.ui.alerts.WarningAlert;
 import no.ntnu.idatg2001.paths.ui.dialogs.NewPlayerDialog;
 import no.ntnu.idatg2001.paths.ui.dialogs.NewStoryDialog;
@@ -116,20 +117,47 @@ public class HomeController {
   public void configureButtons() {
     editStoryButton.setOnAction(
         event -> {
-          EditStoryView editStoryView = new EditStoryView();
-          editStoryView.start(primaryStage);
+          try {
+            Story story = storiesTableView.getSelectionModel().getSelectedItem();
+            if (story == null) {
+              throw new NullPointerException("No story selected");
+            }
+            EditStoryView editStoryView = new EditStoryView();
+            editStoryView.start(primaryStage, story);
+          } catch (NullPointerException e) {
+            ExceptionAlert exceptionAlert = new ExceptionAlert(e);
+            exceptionAlert.showAndWait();
+          }
         });
 
     newStoryButton.setOnAction(
         event -> {
           NewStoryDialog newStoryDialog = new NewStoryDialog();
-          newStoryDialog.showAndWait();
+          newStoryDialog.initOwner(primaryStage);
+
+          Optional<Story> result = newStoryDialog.showAndWait();
+          result.ifPresent(
+              story -> {
+                // @TODO: FIX THIS
+                // ADD STORY TO W/E
+                // UPDATE THIS W/E IN DB
+                // UPDATE VIEW
+              });
         });
 
     editPlayerButton.setOnAction(
         event -> {
-          EditPlayerView editPlayerView = new EditPlayerView();
-          editPlayerView.start(primaryStage);
+          try {
+            Player player = playersTableView.getSelectionModel().getSelectedItem();
+            if (player == null) {
+              throw new NullPointerException("No player selected");
+            }
+            EditPlayerView editPlayerView = new EditPlayerView();
+            editPlayerView.start(primaryStage, player);
+          } catch (NullPointerException e) {
+            ExceptionAlert exceptionAlert = new ExceptionAlert(e);
+            exceptionAlert.showAndWait();
+          }
         });
 
     newPlayerButton.setOnAction(
