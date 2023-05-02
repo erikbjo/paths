@@ -153,6 +153,8 @@ public class HomeView extends Application {
 
     homeController.updateLanguage();
     homeController.configureButtons();
+    homeController.configureTableColumns();
+    homeController.updateAllTables();
 
     Scene scene = new Scene(root, 600, 600);
     primaryStage.setScene(scene);

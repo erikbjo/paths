@@ -1,8 +1,13 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
@@ -12,7 +17,9 @@ import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Story;
+import no.ntnu.idatg2001.paths.model.database.GameDAO;
 import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
+import no.ntnu.idatg2001.paths.model.database.StoryDAO;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.alerts.ConfirmationAlert;
 import no.ntnu.idatg2001.paths.ui.alerts.ExceptionAlert;
@@ -163,6 +170,7 @@ public class HomeController {
 
     newPlayerButton.setOnAction(
         event -> {
+          System.out.println("players in db: " + PlayerDAO.getInstance().getAll());
           NewPlayerDialog newPlayerDialog = new NewPlayerDialog();
           newPlayerDialog.initOwner(primaryStage);
 
@@ -172,8 +180,8 @@ public class HomeController {
                 // ADD PLAYER TO W/E
                 // UPDATE THIS W/E IN DB
                 // UPDATE VIEW
-                System.out.println(player);
                 PlayerDAO.getInstance().add(player);
+                updatePlayerTable();
               });
         });
 
@@ -258,5 +266,55 @@ public class HomeController {
     storiesTableColumn.setText(resources.getString("storiesTableColumn"));
     playersTableColumn.setText(resources.getString("playersTableColumn"));
     deadLinksTableColumn.setText(resources.getString("deadLinksTableColumn"));
+  }
+
+  public void updateAllTables() {
+    updatePlayerTable();
+    updateStoryTable();
+    updateGameTable();
+    updateDeadLinkTable();
+  }
+
+  public void updatePlayerTable() {
+    List<Player> playerList = PlayerDAO.getInstance().getAll();
+    // turn playerList into observable list
+    ObservableList<Player> observablePlayerList = FXCollections.observableArrayList(playerList);
+    playersTableView.setItems(observablePlayerList);
+  }
+
+  public void updateStoryTable() {
+    List<Story> storyList = StoryDAO.getInstance().getAll();
+    // turn storyList into observable list
+    ObservableList<Story> observableStoryList = FXCollections.observableArrayList(storyList);
+    storiesTableView.setItems(observableStoryList);
+  }
+
+  public void updateGameTable() {
+    List<Game> gameList = GameDAO.getInstance().getAll();
+    // turn gameList into observable list
+    ObservableList<Game> observableGameList = FXCollections.observableArrayList(gameList);
+    ongoingGamesTableView.setItems(observableGameList);
+  }
+
+  public void updateDeadLinkTable() {
+    // do something
+  }
+
+  public void configureTableColumns() {
+    ongoingGamesTableColumn.setCellValueFactory(
+        cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getId()));
+    ongoingGamesTableColumn.setPrefWidth(250);
+
+    storiesTableColumn.setCellValueFactory(
+        cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getTitle()));
+    storiesTableColumn.setPrefWidth(250);
+
+    playersTableColumn.setCellValueFactory(
+        cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getName()));
+    playersTableColumn.setPrefWidth(250);
+
+    deadLinksTableColumn.setCellValueFactory(
+        cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().toString()));
+    deadLinksTableColumn.setPrefWidth(250);
   }
 }

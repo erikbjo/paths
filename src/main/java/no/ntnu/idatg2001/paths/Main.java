@@ -65,10 +65,6 @@ public class Main {
     //    Database.setCurrentGame(game);
     //    GameDAO.getInstance().add(game);
 
-    System.out.println("playerids: " + PlayerDAO.getInstance().getAllPlayerIDs());
-    System.out.println("gameids: " + GameDAO.getInstance().getAllGameIDs());
-    System.out.println("storyids: " + StoryDAO.getInstance().getAllStoryIDs());
-
     HomeView.mainApp(args);
   }
 }
