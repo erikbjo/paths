@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Game;
@@ -276,13 +277,16 @@ public class HomeController {
   }
 
   public void updatePlayerTable() {
+    playersTableView.getItems().clear();
     List<Player> playerList = PlayerDAO.getInstance().getAll();
     // turn playerList into observable list
     ObservableList<Player> observablePlayerList = FXCollections.observableArrayList(playerList);
+    System.out.println(observablePlayerList);
     playersTableView.setItems(observablePlayerList);
   }
 
   public void updateStoryTable() {
+    storiesTableView.getItems().clear();
     List<Story> storyList = StoryDAO.getInstance().getAll();
     // turn storyList into observable list
     ObservableList<Story> observableStoryList = FXCollections.observableArrayList(storyList);
@@ -290,6 +294,7 @@ public class HomeController {
   }
 
   public void updateGameTable() {
+    ongoingGamesTableView.getItems().clear();
     List<Game> gameList = GameDAO.getInstance().getAll();
     // turn gameList into observable list
     ObservableList<Game> observableGameList = FXCollections.observableArrayList(gameList);
@@ -297,24 +302,21 @@ public class HomeController {
   }
 
   public void updateDeadLinkTable() {
+    deadLinksTableView.getItems().clear();
     // do something
   }
 
   public void configureTableColumns() {
-    ongoingGamesTableColumn.setCellValueFactory(
-        cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getId()));
+    ongoingGamesTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
     ongoingGamesTableColumn.setPrefWidth(250);
 
-    storiesTableColumn.setCellValueFactory(
-        cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getTitle()));
+    storiesTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
     storiesTableColumn.setPrefWidth(250);
 
-    playersTableColumn.setCellValueFactory(
-        cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getName()));
+    playersTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
     playersTableColumn.setPrefWidth(250);
 
-    deadLinksTableColumn.setCellValueFactory(
-        cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().toString()));
+    deadLinksTableColumn.setCellValueFactory(new PropertyValueFactory<>("reference"));
     deadLinksTableColumn.setPrefWidth(250);
   }
 }

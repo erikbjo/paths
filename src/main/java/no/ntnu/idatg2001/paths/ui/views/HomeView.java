@@ -151,9 +151,10 @@ public class HomeView extends Application {
             ongoingGamesTableColumn,
             primaryStage);
 
-    homeController.updateLanguage();
     homeController.configureButtons();
     homeController.configureTableColumns();
+
+    homeController.updateLanguage();
     homeController.updateAllTables();
 
     Scene scene = new Scene(root, 600, 600);
