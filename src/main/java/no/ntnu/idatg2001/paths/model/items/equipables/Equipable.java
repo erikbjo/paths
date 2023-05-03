@@ -1,8 +1,7 @@
 package no.ntnu.idatg2001.paths.model.items.equipables;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import no.ntnu.idatg2001.paths.model.items.Item;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -11,21 +10,38 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 @Entity
-public interface Equipable {
-  @Id @GeneratedValue Long id = null;
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Equipable extends Item {
+  /**
+   * Constructor for the Item class.
+   *
+   * @param name the name of the item
+   * @param itemScore the score of the item
+   * @param goldValue the gold value of the item
+   */
+  public Equipable(String name, int itemScore, int goldValue) {
+    super(name, itemScore, goldValue);
+  }
+
+  protected Equipable() {}
 
   /**
    * Equips the item to the player.
    *
    * @param player the player who is equipping the item
    */
-  void equip(Player player);
-
+  public void equip(Player player) {
+    player.getInventory().remove(this);
+    player.getEquippedItems().add(this);
+  }
 
   /**
    * Uneqiups the item from the player.
    *
    * @param player the player who is unequipping the item
    */
-  void unEquip(Player player);
+  public void unEquip(Player player) {
+    player.getEquippedItems().remove(this);
+    player.getInventory().add(this);
+  }
 }

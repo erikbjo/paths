@@ -15,7 +15,7 @@ public class StoryDAO implements DAO<Story> {
   private final EntityManager em;
 
   public StoryDAO() {
-    this.emf = Persistence.createEntityManagerFactory("storyDB");
+    this.emf = Persistence.createEntityManagerFactory("pathDB");
     this.em = this.emf.createEntityManager();
   }
 
@@ -57,7 +57,7 @@ public class StoryDAO implements DAO<Story> {
   }
 
   @Override
-  public Optional<Story> find(String id) {
+  public Optional<Story> find(Long id) {
     return Optional.ofNullable(em.find(Story.class, id));
   }
 

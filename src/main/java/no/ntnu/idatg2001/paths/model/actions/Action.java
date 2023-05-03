@@ -1,8 +1,6 @@
 package no.ntnu.idatg2001.paths.model.actions;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -12,15 +10,16 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @version 2023.02.02
  */
 @Entity
-public interface Action {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Action {
   @Id
-  @GeneratedValue
-  Long id = null;
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
   /**
    * Executes the action.
    *
    * @param player the player who is performing the action
    */
-  void execute(Player player);
+  public abstract void execute(Player player);
 }

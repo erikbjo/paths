@@ -21,6 +21,8 @@ public class StoryView {
   private StoryViewController storyViewController;
 
   public void start(Stage stage) {
+    stage.setTitle("Story");
+
     // Observes when the language in Database is changed, then calls updateLanguage()
     LanguageHandler.getObservableIntegerCounter()
         .addListener((obs, oldValue, newValue) -> updateLanguage());
@@ -31,9 +33,8 @@ public class StoryView {
             "story", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
 
     // Create a borderpane and a standard menubar
-    BorderPane borderPane = new BorderPane();
-    StandardMenuBar menuBar = new StandardMenuBar();
-    borderPane.setTop(menuBar);
+    BorderPane root = new BorderPane();
+    root.setTop(new StandardMenuBar(stage));
     AnchorPane rootAnchorPane = new AnchorPane();
 
     // Create a VBox to hold all the elements
@@ -57,9 +58,8 @@ public class StoryView {
     rootVBox.getChildren().add(passageContentTextArea);
     rootVBox.getChildren().add(linksHBox);
 
-    // Add borderpane and rootVBox to rootAnchorPane
-    rootAnchorPane.getChildren().add(borderPane);
     rootAnchorPane.getChildren().add(rootVBox);
+    root.setCenter(rootAnchorPane);
 
     // Initialize the controller with the dynamic elements
     storyViewController =
@@ -68,7 +68,7 @@ public class StoryView {
     storyViewController.updateStoryViewToNewPath();
 
 
-    Scene scene = new Scene(rootAnchorPane, 600, 600);
+    Scene scene = new Scene(root, 600, 600);
     scene.getStylesheets().add("cssfiles/storyStyle.css");
     stage.setScene(scene);
     stage.show();

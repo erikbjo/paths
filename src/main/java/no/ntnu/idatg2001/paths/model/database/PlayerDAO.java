@@ -15,7 +15,7 @@ public class PlayerDAO implements DAO<Player> {
   private final EntityManager em;
 
   public PlayerDAO() {
-    this.emf = Persistence.createEntityManagerFactory("playerDB");
+    this.emf = Persistence.createEntityManagerFactory("pathDB");
     this.em = this.emf.createEntityManager();
   }
 
@@ -57,7 +57,7 @@ public class PlayerDAO implements DAO<Player> {
   }
 
   @Override
-  public Optional<Player> find(String id) {
+  public Optional<Player> find(Long id) {
     return Optional.ofNullable(em.find(Player.class, id));
   }
 

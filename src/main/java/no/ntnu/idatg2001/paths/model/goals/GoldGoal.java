@@ -1,5 +1,6 @@
 package no.ntnu.idatg2001.paths.model.goals;
 
+import jakarta.persistence.Entity;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -8,7 +9,8 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen.
  * @version 2023.02.06
  */
-public class GoldGoal implements Goal {
+@Entity
+public class GoldGoal extends Goal {
   private int minimumGold;
 
   /**
@@ -23,6 +25,8 @@ public class GoldGoal implements Goal {
     }
     this.minimumGold = minimumGold;
   }
+
+  protected GoldGoal() {}
 
   /**
    * Adds gold to the minimum gold the player must have to fulfill the goal.

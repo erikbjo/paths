@@ -1,6 +1,4 @@
-package no.ntnu.idatg2001.paths.actions;
-
-import static org.junit.jupiter.api.Assertions.*;
+package no.ntnu.idatg2001.paths.model.actions;
 
 import org.junit.jupiter.api.Test;
 

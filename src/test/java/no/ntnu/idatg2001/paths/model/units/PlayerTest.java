@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.paths.units;
+package no.ntnu.idatg2001.paths.model.units;
 
 import static org.junit.jupiter.api.Assertions.*;
 

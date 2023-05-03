@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.paths.ui.views;
+package no.ntnu.idatg2001.paths.ui.dialogs;
 
 import java.util.Objects;
 import java.util.ResourceBundle;

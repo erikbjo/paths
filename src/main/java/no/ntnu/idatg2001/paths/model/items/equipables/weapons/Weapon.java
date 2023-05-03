@@ -1,5 +1,8 @@
 package no.ntnu.idatg2001.paths.model.items.equipables.weapons;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import no.ntnu.idatg2001.paths.model.items.Item;
 import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
 import no.ntnu.idatg2001.paths.model.units.Player;
@@ -10,7 +13,9 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
-public abstract class Weapon extends Item implements Equipable {
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Weapon extends Equipable {
 
   private int damage;
 
@@ -19,6 +24,8 @@ public abstract class Weapon extends Item implements Equipable {
     super(name, itemScore, goldValue);
     this.damage = damage;
   }
+
+  protected Weapon() {}
 
   /**
    * Gets the damage of the weapon.
@@ -36,27 +43,5 @@ public abstract class Weapon extends Item implements Equipable {
    */
   protected void setDamage(int damage) {
     this.damage = damage;
-  }
-
-  /**
-   * Equips the item to the player
-   *
-   * @param player the player who is equipping the item
-   */
-  @Override
-  public void equip(Player player) {
-    player.getInventory().remove(this);
-    player.getEquippedItems().add(this);
-  }
-
-  /**
-   * Uneqiups the weapon from the player.
-   *
-   * @param player the player who is unequipping the weapon
-   */
-  @Override
-  public void unEquip(Player player) {
-    player.getEquippedItems().remove(this);
-    player.getInventory().add(this);
   }
 }

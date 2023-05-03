@@ -11,9 +11,8 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 @Entity
-public class ScoreAction implements Action {
+public class ScoreAction extends Action {
   private boolean isPositive;
-  @Id @GeneratedValue private Long id;
   private int points;
 
   /**

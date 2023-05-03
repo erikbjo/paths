@@ -6,7 +6,7 @@ import javafx.event.Event;
 import no.ntnu.idatg2001.paths.model.Languages;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.handlers.VolumeHandler;
-import no.ntnu.idatg2001.paths.ui.views.SettingsDialog;
+import no.ntnu.idatg2001.paths.ui.dialogs.SettingsDialog;
 
 public class SettingsController {
   private final SettingsDialog view;

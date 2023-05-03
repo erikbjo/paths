@@ -31,6 +31,7 @@ public class PlayerInformationView {
   private Button startButton;
 
   public void start(Stage stage) {
+    stage.setTitle("Player Information");
     // Observes when the language in Database is changed, then calls updateLanguage()
     LanguageHandler.getObservableIntegerCounter()
         .addListener((obs, oldValue, newValue) -> updateLanguage());
@@ -43,9 +44,9 @@ public class PlayerInformationView {
 
     PlayerInformationController controller = new PlayerInformationController();
 
-    BorderPane borderPane = new BorderPane();
-    borderPane.setTop(new StandardMenuBar());
-    AnchorPane anchorPane = new AnchorPane();
+    BorderPane root = new BorderPane();
+    root.setTop(new StandardMenuBar(stage));
+
     GridPane gridPane = new GridPane();
     gridPane.setPadding(new Insets(10));
     gridPane.setHgap(10);
@@ -110,14 +111,11 @@ public class PlayerInformationView {
     gridPane.add(goalCreationGridPane, 1, 1);
     gridPane.add(startButton, 1, 2);
 
-    anchorPane.getChildren().add(gridPane);
-    anchorPane.getChildren().add(borderPane);
-    AnchorPane.setTopAnchor(gridPane, 10.0);
-    AnchorPane.setLeftAnchor(gridPane, 10.0);
-    AnchorPane.setRightAnchor(gridPane, 10.0);
-    AnchorPane.setBottomAnchor(gridPane, 10.0);
+    VBox vBox = new VBox();
+    vBox.getChildren().add(gridPane);
+    root.setCenter(vBox);
 
-    Scene scene = new Scene(anchorPane, 600, 600);
+    Scene scene = new Scene(root, 600, 600);
     scene.getStylesheets().add("cssfiles/test.css");
     stage.setScene(scene);
     stage.show();

@@ -1,9 +1,17 @@
 package no.ntnu.idatg2001.paths.model.units;
 
-/**
- * The SpecialAttributes interface represents the special attributes of a unit.
- */
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+/** The SpecialAttributes interface represents the special attributes of a unit. */
+@Entity
 public class Attributes implements SpecialAttributes {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+
   // S.P.E.C.I.A.L stats
   private int strength;
   private int perception;
@@ -40,6 +48,8 @@ public class Attributes implements SpecialAttributes {
     this.agility = agility;
     this.luck = luck;
   }
+
+  protected Attributes() {}
 
   /**
    * Gets strength.
@@ -158,20 +168,20 @@ public class Attributes implements SpecialAttributes {
     return luck;
   }
 
-    /**
-     * Sets luck.
-     *
-     * @param luck the luck
-     */
+  /**
+   * Sets luck.
+   *
+   * @param luck the luck
+   */
   public void setLuck(int luck) {
     this.luck = luck;
   }
 
-    /**
-     * Merges two attributes together.
-     *
-     * @param attributes the attributes to merge
-     */
+  /**
+   * Merges two attributes together.
+   *
+   * @param attributes the attributes to merge
+   */
   public void addAttributes(SpecialAttributes attributes) {
     this.setStrength(this.getStrength() + attributes.getStrength());
     this.setPerception(this.getPerception() + attributes.getPerception());

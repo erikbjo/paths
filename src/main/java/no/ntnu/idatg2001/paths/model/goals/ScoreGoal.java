@@ -1,5 +1,6 @@
 package no.ntnu.idatg2001.paths.model.goals;
 
+import jakarta.persistence.Entity;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -8,7 +9,8 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen.
  * @version 2023.02.06
  */
-public class ScoreGoal implements Goal {
+@Entity
+public class ScoreGoal extends Goal {
   private int minimumPoints;
 
   /**
@@ -19,6 +21,8 @@ public class ScoreGoal implements Goal {
   public ScoreGoal(int minimumPoints) {
     this.minimumPoints = minimumPoints;
   }
+
+  protected ScoreGoal() {}
 
   /**
    * Adds points to the minimum points the player must have to fulfill the goal.

@@ -19,7 +19,7 @@ public class Link {
   private String reference;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "link id")
+  @JoinColumn(name = "link_id")
   private List<Action> actions;
 
   /**

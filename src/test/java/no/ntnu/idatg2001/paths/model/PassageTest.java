@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.paths;
+package no.ntnu.idatg2001.paths.model;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
