@@ -157,7 +157,8 @@ public class HomeView extends Application {
     homeController.updateLanguage();
     homeController.updateAllTables();
 
-    Scene scene = new Scene(root, 600, 600);
+    Scene scene = new Scene(root, 800, 800);
+    scene.getStylesheets().add("cssfiles/home.css");
     primaryStage.setScene(scene);
     primaryStage.show();
     MusicHandler.playMusic("Alabama.mp3");
