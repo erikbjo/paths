@@ -42,6 +42,7 @@ public class HomeController {
   // BUTTONS
   private final Button editStoryButton;
   private final Button newStoryButton;
+  private final Button deleteStoryButton;
   private final Button editPlayerButton;
   private final Button newPlayerButton;
   private final Button deletePlayerButton;
@@ -73,6 +74,7 @@ public class HomeController {
       Text ongoingGamesText,
       Button editStoryButton,
       Button newStoryButton,
+      Button deleteStoryButton,
       Button editPlayerButton,
       Button newPlayerButton,
       Button deletePlayerButton,
@@ -99,12 +101,17 @@ public class HomeController {
     // BUTTONS
     this.editStoryButton = editStoryButton;
     this.newStoryButton = newStoryButton;
+    this.deleteStoryButton = deleteStoryButton;
+
     this.editPlayerButton = editPlayerButton;
     this.newPlayerButton = newPlayerButton;
     this.deletePlayerButton = deletePlayerButton;
+
     this.deleteLinkButton = deleteLinkButton;
+
     this.continueButton = continueButton;
     this.deleteButton = deleteButton;
+
     this.startNewGameButton = startNewGameButton;
 
     // TABLE VIEWS
@@ -122,7 +129,7 @@ public class HomeController {
 
     // Observes when the language is changed, then calls updateLanguage()
     LanguageHandler.getObservableIntegerCounter()
-        .addListener((obs, oldValue, newValue) -> updateLanguage());
+        .addListener((a, b, c) -> updateLanguage());
 
     // gets the correct resource bundle, depending on the current language in database
     resources =
@@ -161,6 +168,48 @@ public class HomeController {
               });
         });
 
+    deleteStoryButton.setOnAction(
+            event -> {
+              if (storiesTableView
+                      .getSelectionModel()
+                      .isSelected(storiesTableView.getSelectionModel().getSelectedIndex())) {
+                Story selectedStory =
+                        storiesTableView
+                                .getItems()
+                                .get(storiesTableView.getSelectionModel().getSelectedIndex());
+
+                ConfirmationAlert confirmationAlert =
+                        new ConfirmationAlert(
+                                "Delete story",
+                                "Are you sure you want to delete this story?\n"
+                                        + selectedStory.getTitle()
+                                        + "\nThis will also delete any games this story is part of.");
+
+                Optional<ButtonType> result = confirmationAlert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                  storiesTableView
+                          .getItems()
+                          .removeAll(storiesTableView.getSelectionModel().getSelectedItems());
+                  StoryDAO.getInstance().remove(selectedStory);
+
+                  GameDAO.getInstance().getAll().stream()
+                          .filter(game -> game.getStory().equals(selectedStory))
+                          .forEach(game -> GameDAO.getInstance().remove(game));
+
+                  // @TODO: Maybe dont remove all games, but instead make the user chose a new story
+                  // next time he wants to continue the game
+
+                  updateStoryTable();
+                  updateGameTable();
+                } else {
+                  confirmationAlert.close();
+                }
+              } else {
+                WarningAlert warningAlert = new WarningAlert("Please Select a player to delete");
+                warningAlert.showAndWait();
+              }
+            });
+
     editPlayerButton.setOnAction(
         event -> {
           try {
@@ -178,23 +227,14 @@ public class HomeController {
 
     newPlayerButton.setOnAction(
         event -> {
-          System.out.println("players in db: " + PlayerDAO.getInstance().getAll());
           NewPlayerDialog newPlayerDialog = new NewPlayerDialog();
           newPlayerDialog.initOwner(primaryStage);
 
           Optional<Player> result = newPlayerDialog.showAndWait();
           result.ifPresent(
               player -> {
-                // ADD PLAYER TO W/E
-                // UPDATE THIS W/E IN DB
-                // UPDATE VIEW
                 PlayerDAO.getInstance().add(player);
-                PlayerDAO.getInstance().update(player);
                 updatePlayerTable();
-
-                // TESTING
-                // PRINT OUT ALL NAMES
-                PlayerDAO.getInstance().getAll().forEach(p -> System.out.println(p.getName()));
               });
         });
 
@@ -212,7 +252,7 @@ public class HomeController {
                 new ConfirmationAlert(
                     "Delete player",
                     "Are you sure you want to delete this player?\n"
-                        + selectedPlayer
+                        + selectedPlayer.getName()
                         + "\nThis will also delete any games this player is part of.");
 
             Optional<ButtonType> result = confirmationAlert.showAndWait();
@@ -224,15 +264,18 @@ public class HomeController {
 
               GameDAO.getInstance().getAll().stream()
                   .filter(game -> game.getPlayer().equals(selectedPlayer))
-                  .forEach(
-                      game -> GameDAO.getInstance().remove(game));
+                  .forEach(game -> GameDAO.getInstance().remove(game));
+
+              // @TODO: Maybe dont remove all games, but instead make the user chose a new player
+              // next time he wants to continue the game
 
               updatePlayerTable();
+              updateGameTable();
             } else {
               confirmationAlert.close();
             }
           } else {
-            WarningAlert warningAlert = new WarningAlert("Please Select a item to Delete");
+            WarningAlert warningAlert = new WarningAlert("Please Select a player to delete");
             warningAlert.showAndWait();
           }
         });

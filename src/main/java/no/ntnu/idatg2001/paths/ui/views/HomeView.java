@@ -84,7 +84,8 @@ public class HomeView extends Application {
     // BUTTONS
     Button editStoryButton = new Button();
     Button newStoryButton = new Button();
-    HBox storiesButtonsHBox = new HBox(editStoryButton, newStoryButton);
+    Button deleteStoryButton = new Button();
+    HBox storiesButtonsHBox = new HBox(editStoryButton, newStoryButton, deleteStoryButton);
 
     Button editPlayerButton = new Button();
     Button newPlayerButton = new Button();
@@ -132,6 +133,7 @@ public class HomeView extends Application {
             ongoingGamesText,
             editStoryButton,
             newStoryButton,
+            deleteStoryButton,
             editPlayerButton,
             newPlayerButton,
             deletePlayerButton,
