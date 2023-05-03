@@ -44,9 +44,12 @@ public class HomeController {
   private final Button newStoryButton;
   private final Button editPlayerButton;
   private final Button newPlayerButton;
+  private final Button deletePlayerButton;
   private final Button deleteLinkButton;
   private final Button continueButton;
   private final Button deleteButton;
+  private final Button startNewGameButton;
+
   // TABLE VIEWS
 
   private final TableView<Story> storiesTableView;
@@ -72,9 +75,11 @@ public class HomeController {
       Button newStoryButton,
       Button editPlayerButton,
       Button newPlayerButton,
+      Button deletePlayerButton,
       Button deleteLinkButton,
       Button continueButton,
       Button deleteButton,
+      Button startNewGameButton,
       TableView<Story> storiesTableView,
       TableView<Player> playersTableView,
       TableView<Link> deadLinksTableView,
@@ -96,9 +101,11 @@ public class HomeController {
     this.newStoryButton = newStoryButton;
     this.editPlayerButton = editPlayerButton;
     this.newPlayerButton = newPlayerButton;
+    this.deletePlayerButton = deletePlayerButton;
     this.deleteLinkButton = deleteLinkButton;
     this.continueButton = continueButton;
     this.deleteButton = deleteButton;
+    this.startNewGameButton = startNewGameButton;
 
     // TABLE VIEWS
     this.storiesTableView = storiesTableView;
@@ -191,6 +198,45 @@ public class HomeController {
               });
         });
 
+    deletePlayerButton.setOnAction(
+        event -> {
+          if (playersTableView
+              .getSelectionModel()
+              .isSelected(playersTableView.getSelectionModel().getSelectedIndex())) {
+            Player selectedPlayer =
+                playersTableView
+                    .getItems()
+                    .get(playersTableView.getSelectionModel().getSelectedIndex());
+
+            ConfirmationAlert confirmationAlert =
+                new ConfirmationAlert(
+                    "Delete player",
+                    "Are you sure you want to delete this player?\n"
+                        + selectedPlayer
+                        + "\nThis will also delete any games this player is part of.");
+
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+              playersTableView
+                  .getItems()
+                  .removeAll(playersTableView.getSelectionModel().getSelectedItems());
+              PlayerDAO.getInstance().remove(selectedPlayer);
+
+              GameDAO.getInstance().getAll().stream()
+                  .filter(game -> game.getPlayer().equals(selectedPlayer))
+                  .forEach(
+                      game -> GameDAO.getInstance().remove(game));
+
+              updatePlayerTable();
+            } else {
+              confirmationAlert.close();
+            }
+          } else {
+            WarningAlert warningAlert = new WarningAlert("Please Select a item to Delete");
+            warningAlert.showAndWait();
+          }
+        });
+
     deleteLinkButton.setOnAction(
         event -> {
           if (deadLinksTableView
@@ -265,9 +311,11 @@ public class HomeController {
     newStoryButton.setText(resources.getString("newStoryButton"));
     editPlayerButton.setText(resources.getString("editPlayerButton"));
     newPlayerButton.setText(resources.getString("newPlayerButton"));
+    deletePlayerButton.setText(resources.getString("deletePlayerButton"));
     deleteLinkButton.setText(resources.getString("deleteLinkButton"));
     continueButton.setText(resources.getString("continueButton"));
     deleteButton.setText(resources.getString("deleteButton"));
+    startNewGameButton.setText(resources.getString("startNewGameButton"));
     ongoingGamesTableColumn.setText(resources.getString("ongoingGamesTableColumn"));
     storiesTableColumn.setText(resources.getString("storiesTableColumn"));
     playersTableColumn.setText(resources.getString("playersTableColumn"));

@@ -88,7 +88,8 @@ public class HomeView extends Application {
 
     Button editPlayerButton = new Button();
     Button newPlayerButton = new Button();
-    HBox playersButtonsHBox = new HBox(editPlayerButton, newPlayerButton);
+    Button deletePlayerButton = new Button();
+    HBox playersButtonsHBox = new HBox(editPlayerButton, newPlayerButton, deletePlayerButton);
 
     Button deleteLinkButton = new Button();
     HBox deadLinksButtonsHBox = new HBox(deleteLinkButton);
@@ -111,12 +112,7 @@ public class HomeView extends Application {
 
     // START NEW GAME BUTTON
     startNewGameButton = new Button();
-    startNewGameButton.setOnAction(
-        event -> {
-          // Launch the Player Information View in a new window
-          PlayerInformationView playerInfoView = new PlayerInformationView();
-          playerInfoView.start(primaryStage);
-        });
+    startNewGameHBox.getChildren().add(startNewGameButton);
 
     // ADD TO MAINVBOX
     mainVBox
@@ -138,9 +134,11 @@ public class HomeView extends Application {
             newStoryButton,
             editPlayerButton,
             newPlayerButton,
+            deletePlayerButton,
             deleteLinkButton,
             continueButton,
             deleteButton,
+            startNewGameButton,
             storiesTableView,
             playersTableView,
             deadLinksTableView,
