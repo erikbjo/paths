@@ -11,7 +11,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Goal {
-  @Id @GeneratedValue Long id = null;
+  @Id @GeneratedValue Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "game_id")
