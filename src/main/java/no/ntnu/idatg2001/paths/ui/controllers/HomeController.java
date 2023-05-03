@@ -182,7 +182,12 @@ public class HomeController {
                 // UPDATE THIS W/E IN DB
                 // UPDATE VIEW
                 PlayerDAO.getInstance().add(player);
+                PlayerDAO.getInstance().update(player);
                 updatePlayerTable();
+
+                // TESTING
+                // PRINT OUT ALL NAMES
+                PlayerDAO.getInstance().getAll().forEach(p -> System.out.println(p.getName()));
               });
         });
 

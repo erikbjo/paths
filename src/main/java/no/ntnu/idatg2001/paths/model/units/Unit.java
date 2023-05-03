@@ -1,10 +1,14 @@
 package no.ntnu.idatg2001.paths.model.units;
 
 import java.util.List;
+
+import jakarta.persistence.*;
 import no.ntnu.idatg2001.paths.model.items.Item;
 import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
 
 /** The Unit class represents a unit in the game. */
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Unit {
 
   // Information
@@ -17,7 +21,13 @@ public abstract class Unit {
   private int mana;
   private int energy;
 
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "unit_attributes_id")
   private Attributes attributes;
+
+  @Id
+  @GeneratedValue
+  private Long id;
 
   protected Unit(UnitBuilder<?> builder) {
     this.name = builder.name;
@@ -165,6 +175,14 @@ public abstract class Unit {
    */
   public void setAttributes(Attributes attributes) {
     this.attributes = attributes;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   /**
