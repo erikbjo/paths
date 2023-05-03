@@ -42,11 +42,15 @@ public class HomeController {
   // BUTTONS
   private final Button editStoryButton;
   private final Button newStoryButton;
+  private final Button deleteStoryButton;
   private final Button editPlayerButton;
   private final Button newPlayerButton;
+  private final Button deletePlayerButton;
   private final Button deleteLinkButton;
   private final Button continueButton;
   private final Button deleteButton;
+  private final Button startNewGameButton;
+
   // TABLE VIEWS
 
   private final TableView<Story> storiesTableView;
@@ -70,11 +74,14 @@ public class HomeController {
       Text ongoingGamesText,
       Button editStoryButton,
       Button newStoryButton,
+      Button deleteStoryButton,
       Button editPlayerButton,
       Button newPlayerButton,
+      Button deletePlayerButton,
       Button deleteLinkButton,
       Button continueButton,
       Button deleteButton,
+      Button startNewGameButton,
       TableView<Story> storiesTableView,
       TableView<Player> playersTableView,
       TableView<Link> deadLinksTableView,
@@ -94,11 +101,18 @@ public class HomeController {
     // BUTTONS
     this.editStoryButton = editStoryButton;
     this.newStoryButton = newStoryButton;
+    this.deleteStoryButton = deleteStoryButton;
+
     this.editPlayerButton = editPlayerButton;
     this.newPlayerButton = newPlayerButton;
+    this.deletePlayerButton = deletePlayerButton;
+
     this.deleteLinkButton = deleteLinkButton;
+
     this.continueButton = continueButton;
     this.deleteButton = deleteButton;
+
+    this.startNewGameButton = startNewGameButton;
 
     // TABLE VIEWS
     this.storiesTableView = storiesTableView;
@@ -114,8 +128,7 @@ public class HomeController {
     this.primaryStage = primaryStage;
 
     // Observes when the language is changed, then calls updateLanguage()
-    LanguageHandler.getObservableIntegerCounter()
-        .addListener((obs, oldValue, newValue) -> updateLanguage());
+    LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> updateLanguage());
 
     // gets the correct resource bundle, depending on the current language in database
     resources =
@@ -154,6 +167,48 @@ public class HomeController {
               });
         });
 
+    deleteStoryButton.setOnAction(
+        event -> {
+          if (storiesTableView
+              .getSelectionModel()
+              .isSelected(storiesTableView.getSelectionModel().getSelectedIndex())) {
+            Story selectedStory =
+                storiesTableView
+                    .getItems()
+                    .get(storiesTableView.getSelectionModel().getSelectedIndex());
+
+            ConfirmationAlert confirmationAlert =
+                new ConfirmationAlert(
+                    "Delete story",
+                    "Are you sure you want to delete this story?\n"
+                        + selectedStory.getTitle()
+                        + "\nThis will also delete any games this story is part of.");
+
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+              storiesTableView
+                  .getItems()
+                  .removeAll(storiesTableView.getSelectionModel().getSelectedItems());
+              StoryDAO.getInstance().remove(selectedStory);
+
+              GameDAO.getInstance().getAll().stream()
+                  .filter(game -> game.getStory().equals(selectedStory))
+                  .forEach(game -> GameDAO.getInstance().remove(game));
+
+              // @TODO: Maybe dont remove all games, but instead make the user chose a new story
+              // next time he wants to continue the game
+
+              updateStoryTable();
+              updateGameTable();
+            } else {
+              confirmationAlert.close();
+            }
+          } else {
+            WarningAlert warningAlert = new WarningAlert("Please select a player to delete");
+            warningAlert.showAndWait();
+          }
+        });
+
     editPlayerButton.setOnAction(
         event -> {
           try {
@@ -171,19 +226,57 @@ public class HomeController {
 
     newPlayerButton.setOnAction(
         event -> {
-          System.out.println("players in db: " + PlayerDAO.getInstance().getAll());
           NewPlayerDialog newPlayerDialog = new NewPlayerDialog();
           newPlayerDialog.initOwner(primaryStage);
 
           Optional<Player> result = newPlayerDialog.showAndWait();
           result.ifPresent(
               player -> {
-                // ADD PLAYER TO W/E
-                // UPDATE THIS W/E IN DB
-                // UPDATE VIEW
                 PlayerDAO.getInstance().add(player);
                 updatePlayerTable();
               });
+        });
+
+    deletePlayerButton.setOnAction(
+        event -> {
+          if (playersTableView
+              .getSelectionModel()
+              .isSelected(playersTableView.getSelectionModel().getSelectedIndex())) {
+            Player selectedPlayer =
+                playersTableView
+                    .getItems()
+                    .get(playersTableView.getSelectionModel().getSelectedIndex());
+
+            ConfirmationAlert confirmationAlert =
+                new ConfirmationAlert(
+                    "Delete player",
+                    "Are you sure you want to delete this player?\n"
+                        + selectedPlayer.getName()
+                        + "\nThis will also delete any games this player is part of.");
+
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+              playersTableView
+                  .getItems()
+                  .removeAll(playersTableView.getSelectionModel().getSelectedItems());
+              PlayerDAO.getInstance().remove(selectedPlayer);
+
+              GameDAO.getInstance().getAll().stream()
+                  .filter(game -> game.getPlayer().equals(selectedPlayer))
+                  .forEach(game -> GameDAO.getInstance().remove(game));
+
+              // @TODO: Maybe dont remove all games, but instead make the user chose a new player
+              // next time he wants to continue the game
+
+              updatePlayerTable();
+              updateGameTable();
+            } else {
+              confirmationAlert.close();
+            }
+          } else {
+            WarningAlert warningAlert = new WarningAlert("Please select a player to delete");
+            warningAlert.showAndWait();
+          }
         });
 
     deleteLinkButton.setOnAction(
@@ -213,7 +306,7 @@ public class HomeController {
               confirmationAlert.close();
             }
           } else {
-            WarningAlert warningAlert = new WarningAlert("Please Select a item to Delete");
+            WarningAlert warningAlert = new WarningAlert("Please select a link to delete");
             warningAlert.showAndWait();
           }
         });
@@ -256,13 +349,20 @@ public class HomeController {
     playersText.setText(resources.getString("playersText"));
     deadLinksText.setText(resources.getString("deadLinksText"));
     ongoingGamesText.setText(resources.getString("ongoingGamesText"));
+
     editStoryButton.setText(resources.getString("editStoryButton"));
     newStoryButton.setText(resources.getString("newStoryButton"));
+    deleteStoryButton.setText(resources.getString("deleteStoryButton"));
+
     editPlayerButton.setText(resources.getString("editPlayerButton"));
     newPlayerButton.setText(resources.getString("newPlayerButton"));
+    deletePlayerButton.setText(resources.getString("deletePlayerButton"));
+
     deleteLinkButton.setText(resources.getString("deleteLinkButton"));
     continueButton.setText(resources.getString("continueButton"));
     deleteButton.setText(resources.getString("deleteButton"));
+    startNewGameButton.setText(resources.getString("startNewGameButton"));
+
     ongoingGamesTableColumn.setText(resources.getString("ongoingGamesTableColumn"));
     storiesTableColumn.setText(resources.getString("storiesTableColumn"));
     playersTableColumn.setText(resources.getString("playersTableColumn"));
@@ -281,7 +381,6 @@ public class HomeController {
     List<Player> playerList = PlayerDAO.getInstance().getAll();
     // turn playerList into observable list
     ObservableList<Player> observablePlayerList = FXCollections.observableArrayList(playerList);
-    System.out.println(observablePlayerList);
     playersTableView.setItems(observablePlayerList);
   }
 

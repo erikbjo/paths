@@ -1,8 +1,6 @@
 package no.ntnu.idatg2001.paths.model.items.equipables.armor;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
+import jakarta.persistence.*;
 import no.ntnu.idatg2001.paths.model.items.Item;
 import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
 import no.ntnu.idatg2001.paths.model.units.Attributes;
@@ -18,6 +16,8 @@ import no.ntnu.idatg2001.paths.model.units.Player;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Armor extends Equipable {
 
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "armor_attributes_id")
   private Attributes attributes;
 
   /**

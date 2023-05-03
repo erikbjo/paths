@@ -10,6 +10,7 @@ import no.ntnu.idatg2001.paths.model.goals.HealthGoal;
 import no.ntnu.idatg2001.paths.model.goals.ScoreGoal;
 import no.ntnu.idatg2001.paths.model.units.Attributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
+import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
 import no.ntnu.idatg2001.paths.ui.views.HomeView;
 
 import java.util.List;
@@ -65,8 +66,8 @@ public class Main {
     //    Database.setCurrentGame(game);
     //    GameDAO.getInstance().add(game);
 
-    System.out.println("players: " + PlayerDAO.getInstance().getAll());
 
+    MusicHandler.initialize();
     HomeView.mainApp(args);
   }
 }
