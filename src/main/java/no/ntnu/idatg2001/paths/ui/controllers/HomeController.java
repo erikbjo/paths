@@ -281,7 +281,6 @@ public class HomeController {
     List<Player> playerList = PlayerDAO.getInstance().getAll();
     // turn playerList into observable list
     ObservableList<Player> observablePlayerList = FXCollections.observableArrayList(playerList);
-    System.out.println(observablePlayerList);
     playersTableView.setItems(observablePlayerList);
   }
 

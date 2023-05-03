@@ -8,6 +8,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.controllers.EditPlayerController;
+import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
 public class EditPlayerView {
@@ -117,6 +118,7 @@ public class EditPlayerView {
     Scene scene = new Scene(root, 600, 600);
     primaryStage.setScene(scene);
     primaryStage.show();
+    MusicHandler.playMusic("Old_Man.mp3");
   }
 
   private VBox createLeftVBox() {

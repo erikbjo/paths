@@ -160,6 +160,6 @@ public class HomeView extends Application {
     Scene scene = new Scene(root, 600, 600);
     primaryStage.setScene(scene);
     primaryStage.show();
-    MusicHandler.playMusic("/music/relaxing-145038.mp3");
+    MusicHandler.playMusic("Alabama.mp3");
   }
 }
