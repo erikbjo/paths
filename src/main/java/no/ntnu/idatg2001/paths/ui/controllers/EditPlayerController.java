@@ -2,8 +2,11 @@ package no.ntnu.idatg2001.paths.ui.controllers;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
@@ -40,6 +43,8 @@ public class EditPlayerController {
   private final TextField luckTextField;
   private final Player player;
   private ResourceBundle resources;
+  private Button saveButton;
+  private Button cancelButton;
 
   public EditPlayerController(
       Text playerText,
@@ -72,7 +77,9 @@ public class EditPlayerController {
       TextField intelligenceTextField,
       TextField agilityTextField,
       TextField luckTextField,
-      Player player) {
+      Player player,
+      Button cancelButton,
+      Button saveButton) {
     this.playerText = playerText;
     this.cheatsText = cheatsText;
     this.editPlayerText = editPlayerText;
@@ -104,6 +111,8 @@ public class EditPlayerController {
     this.agilityTextField = agilityTextField;
     this.luckTextField = luckTextField;
     this.player = player;
+    this.cancelButton = cancelButton;
+    this.saveButton = saveButton;
 
     // Observes when the language is changed, then calls updateLanguage()
     LanguageHandler.getObservableIntegerCounter()
@@ -156,5 +165,55 @@ public class EditPlayerController {
     intelligenceTextField.setText(String.valueOf(player.getAttributes().getIntelligence()));
     agilityTextField.setText(String.valueOf(player.getAttributes().getAgility()));
     luckTextField.setText(String.valueOf(player.getAttributes().getLuck()));
+
+    cancelButton.setText(resources.getString("cancelButton"));
+    saveButton.setText(resources.getString("saveButton"));
+  }
+
+  public void savePlayer() {
+    if (assertAllFieldsValid()) {
+      player.setName(nameField.getText());
+
+      player.setHealth(Integer.parseInt(healthField.getText()));
+      player.setMana(Integer.parseInt(manaField.getText()));
+      player.setEnergy(Integer.parseInt(energyField.getText()));
+      player.setGold(Integer.parseInt(goldField.getText()));
+      player.setScore(Integer.parseInt(scoreField.getText()));
+
+      player.getAttributes().setStrength(Integer.parseInt(strengthTextField.getText()));
+      player.getAttributes().setPerception(Integer.parseInt(perceptionTextField.getText()));
+      player.getAttributes().setEndurance(Integer.parseInt(enduranceTextField.getText()));
+      player.getAttributes().setCharisma(Integer.parseInt(charismaTextField.getText()));
+      player.getAttributes().setIntelligence(Integer.parseInt(intelligenceTextField.getText()));
+      player.getAttributes().setAgility(Integer.parseInt(agilityTextField.getText()));
+      player.getAttributes().setLuck(Integer.parseInt(luckTextField.getText()));
+
+      PlayerDAO.getInstance().update(player);
+    }
+  }
+
+  private boolean assertAllFieldsValid() {
+
+    return assertTextFieldValid(nameField)
+        && assertIntegerFieldValid(healthField)
+        && assertIntegerFieldValid(manaField)
+        && assertIntegerFieldValid(energyField)
+        && assertIntegerFieldValid(goldField)
+        && assertIntegerFieldValid(scoreField)
+        && assertIntegerFieldValid(strengthTextField)
+        && assertIntegerFieldValid(perceptionTextField)
+        && assertIntegerFieldValid(enduranceTextField)
+        && assertIntegerFieldValid(charismaTextField)
+        && assertIntegerFieldValid(intelligenceTextField)
+        && assertIntegerFieldValid(agilityTextField)
+        && assertIntegerFieldValid(luckTextField);
+  }
+
+  private boolean assertTextFieldValid(TextField textField) {
+    return !textField.getText().isEmpty() && !textField.getText().isBlank();
+  }
+
+  private boolean assertIntegerFieldValid(TextField textField) {
+    return textField.getText().matches("[0-9]+");
   }
 }

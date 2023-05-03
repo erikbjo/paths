@@ -2,6 +2,7 @@ package no.ntnu.idatg2001.paths.ui.views;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
@@ -51,8 +52,13 @@ public class EditPlayerView {
   private TextField intelligenceTextField;
   private TextField agilityTextField;
   private TextField luckTextField;
+  private HBox buttonsHBox;
+  private Button saveButton;
+  private Button cancelButton;
+  private Stage primaryStage;
 
   public void start(Stage primaryStage, Player player) {
+    this.primaryStage = primaryStage;
     this.player = player;
     primaryStage.setTitle("Edit Player");
 
@@ -77,6 +83,10 @@ public class EditPlayerView {
 
     rightVBox = createRightVBox();
     contentHBox.getChildren().add(rightVBox);
+
+    buttonsHBox = createButtonsHBox();
+    buttonsHBox.setAlignment(Pos.CENTER);
+    centerVBox.getChildren().add(buttonsHBox);
 
     controller =
         new EditPlayerController(
@@ -110,7 +120,9 @@ public class EditPlayerView {
             intelligenceTextField,
             agilityTextField,
             luckTextField,
-            player);
+            player,
+            cancelButton,
+            saveButton);
 
     controller.updateLanguage();
     controller.addParametersFromPlayerIntoTextFields();
@@ -119,6 +131,29 @@ public class EditPlayerView {
     primaryStage.setScene(scene);
     primaryStage.show();
     MusicHandler.playMusic("Old_Man.mp3");
+  }
+
+  private HBox createButtonsHBox() {
+    HBox buttonsHBox = new HBox();
+
+    cancelButton = new Button();
+    cancelButton.setOnAction(
+        event -> {
+          HomeView homeView = new HomeView();
+          homeView.start(primaryStage);
+        });
+
+    saveButton = new Button();
+    saveButton.setOnAction(
+        event -> {
+          controller.savePlayer();
+          HomeView homeView = new HomeView();
+          homeView.start(primaryStage);
+        });
+
+    buttonsHBox.getChildren().addAll(cancelButton, saveButton);
+
+    return buttonsHBox;
   }
 
   private VBox createLeftVBox() {
