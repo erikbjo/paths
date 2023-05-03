@@ -128,8 +128,7 @@ public class HomeController {
     this.primaryStage = primaryStage;
 
     // Observes when the language is changed, then calls updateLanguage()
-    LanguageHandler.getObservableIntegerCounter()
-        .addListener((a, b, c) -> updateLanguage());
+    LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> updateLanguage());
 
     // gets the correct resource bundle, depending on the current language in database
     resources =
@@ -169,46 +168,46 @@ public class HomeController {
         });
 
     deleteStoryButton.setOnAction(
-            event -> {
-              if (storiesTableView
-                      .getSelectionModel()
-                      .isSelected(storiesTableView.getSelectionModel().getSelectedIndex())) {
-                Story selectedStory =
-                        storiesTableView
-                                .getItems()
-                                .get(storiesTableView.getSelectionModel().getSelectedIndex());
+        event -> {
+          if (storiesTableView
+              .getSelectionModel()
+              .isSelected(storiesTableView.getSelectionModel().getSelectedIndex())) {
+            Story selectedStory =
+                storiesTableView
+                    .getItems()
+                    .get(storiesTableView.getSelectionModel().getSelectedIndex());
 
-                ConfirmationAlert confirmationAlert =
-                        new ConfirmationAlert(
-                                "Delete story",
-                                "Are you sure you want to delete this story?\n"
-                                        + selectedStory.getTitle()
-                                        + "\nThis will also delete any games this story is part of.");
+            ConfirmationAlert confirmationAlert =
+                new ConfirmationAlert(
+                    "Delete story",
+                    "Are you sure you want to delete this story?\n"
+                        + selectedStory.getTitle()
+                        + "\nThis will also delete any games this story is part of.");
 
-                Optional<ButtonType> result = confirmationAlert.showAndWait();
-                if (result.isPresent() && result.get() == ButtonType.OK) {
-                  storiesTableView
-                          .getItems()
-                          .removeAll(storiesTableView.getSelectionModel().getSelectedItems());
-                  StoryDAO.getInstance().remove(selectedStory);
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+              storiesTableView
+                  .getItems()
+                  .removeAll(storiesTableView.getSelectionModel().getSelectedItems());
+              StoryDAO.getInstance().remove(selectedStory);
 
-                  GameDAO.getInstance().getAll().stream()
-                          .filter(game -> game.getStory().equals(selectedStory))
-                          .forEach(game -> GameDAO.getInstance().remove(game));
+              GameDAO.getInstance().getAll().stream()
+                  .filter(game -> game.getStory().equals(selectedStory))
+                  .forEach(game -> GameDAO.getInstance().remove(game));
 
-                  // @TODO: Maybe dont remove all games, but instead make the user chose a new story
-                  // next time he wants to continue the game
+              // @TODO: Maybe dont remove all games, but instead make the user chose a new story
+              // next time he wants to continue the game
 
-                  updateStoryTable();
-                  updateGameTable();
-                } else {
-                  confirmationAlert.close();
-                }
-              } else {
-                WarningAlert warningAlert = new WarningAlert("Please Select a player to delete");
-                warningAlert.showAndWait();
-              }
-            });
+              updateStoryTable();
+              updateGameTable();
+            } else {
+              confirmationAlert.close();
+            }
+          } else {
+            WarningAlert warningAlert = new WarningAlert("Please select a player to delete");
+            warningAlert.showAndWait();
+          }
+        });
 
     editPlayerButton.setOnAction(
         event -> {
@@ -275,7 +274,7 @@ public class HomeController {
               confirmationAlert.close();
             }
           } else {
-            WarningAlert warningAlert = new WarningAlert("Please Select a player to delete");
+            WarningAlert warningAlert = new WarningAlert("Please select a player to delete");
             warningAlert.showAndWait();
           }
         });
@@ -307,7 +306,7 @@ public class HomeController {
               confirmationAlert.close();
             }
           } else {
-            WarningAlert warningAlert = new WarningAlert("Please Select a item to Delete");
+            WarningAlert warningAlert = new WarningAlert("Please select a link to delete");
             warningAlert.showAndWait();
           }
         });
@@ -350,15 +349,20 @@ public class HomeController {
     playersText.setText(resources.getString("playersText"));
     deadLinksText.setText(resources.getString("deadLinksText"));
     ongoingGamesText.setText(resources.getString("ongoingGamesText"));
+
     editStoryButton.setText(resources.getString("editStoryButton"));
     newStoryButton.setText(resources.getString("newStoryButton"));
+    deleteStoryButton.setText(resources.getString("deleteStoryButton"));
+
     editPlayerButton.setText(resources.getString("editPlayerButton"));
     newPlayerButton.setText(resources.getString("newPlayerButton"));
     deletePlayerButton.setText(resources.getString("deletePlayerButton"));
+
     deleteLinkButton.setText(resources.getString("deleteLinkButton"));
     continueButton.setText(resources.getString("continueButton"));
     deleteButton.setText(resources.getString("deleteButton"));
     startNewGameButton.setText(resources.getString("startNewGameButton"));
+
     ongoingGamesTableColumn.setText(resources.getString("ongoingGamesTableColumn"));
     storiesTableColumn.setText(resources.getString("storiesTableColumn"));
     playersTableColumn.setText(resources.getString("playersTableColumn"));
