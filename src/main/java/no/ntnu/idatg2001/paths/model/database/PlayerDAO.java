@@ -57,7 +57,7 @@ public class PlayerDAO implements DAO<Player> {
   }
 
   @Override
-  public Optional<Player> find(String id) {
+  public Optional<Player> find(Long id) {
     return Optional.ofNullable(em.find(Player.class, id));
   }
 

@@ -29,7 +29,7 @@ public class Story {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private String id;
+  private Long id;
 
   @OneToOne
   @JoinColumn(name = "story_id", insertable = false, updatable = false)
@@ -206,7 +206,7 @@ public class Story {
         + '}';
   }
 
-  public String getId() {
+  public Long getId() {
     return id;
   }
 

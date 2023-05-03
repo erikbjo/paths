@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.paths.goals;
+package no.ntnu.idatg2001.paths.model.goals;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,7 +9,6 @@ import no.ntnu.idatg2001.paths.model.items.equipables.armor.Belt;
 import no.ntnu.idatg2001.paths.model.items.equipables.armor.Chest;
 import no.ntnu.idatg2001.paths.model.items.equipables.weapons.Dagger;
 import no.ntnu.idatg2001.paths.model.items.equipables.weapons.Sword;
-import no.ntnu.idatg2001.paths.model.goals.InventoryGoal;
 import no.ntnu.idatg2001.paths.model.units.Attributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import org.junit.jupiter.api.AfterEach;

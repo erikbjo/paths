@@ -17,7 +17,7 @@ import java.util.List;
 public class Player extends Unit {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private String id;
+  private Long id;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
   @JoinColumn(name = "player_id")
@@ -26,7 +26,6 @@ public class Player extends Unit {
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
   @JoinColumn(name = "player_id")
   private List<Equipable> equippedItems;
-
 
   private Player(PlayerBuilder builder) {
     super(builder);
@@ -41,9 +40,9 @@ public class Player extends Unit {
   /**
    * Returns the player id.
    *
-   * @return the id as a String.
+   * @return the id as a Long.
    */
-  public String getId() {
+  public Long getId() {
     return id;
   }
 

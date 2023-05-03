@@ -10,21 +10,17 @@ import no.ntnu.idatg2001.paths.model.units.Player;
 @Entity(name = "Game")
 @Table(name = "game")
 public class Game {
+  @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<Goal> goals = new ArrayList<>();
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private String id;
-
+  private Long id;
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
   @JoinColumn(name = "player_id")
   private Player player = null;
-
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
   @JoinColumn(name = "story_id")
   private Story story = null;
-
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-  @JoinColumn(name = "game_id")
-  private final List<Goal> goals = new ArrayList<>();
 
   /**
    * Constructor for the Game class.
@@ -80,7 +76,7 @@ public class Game {
    *
    * @return the id as a String.
    */
-  public String getId() {
+  public Long getId() {
     return id;
   }
 

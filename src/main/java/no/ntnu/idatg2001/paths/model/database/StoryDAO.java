@@ -57,7 +57,7 @@ public class StoryDAO implements DAO<Story> {
   }
 
   @Override
-  public Optional<Story> find(String id) {
+  public Optional<Story> find(Long id) {
     return Optional.ofNullable(em.find(Story.class, id));
   }
 

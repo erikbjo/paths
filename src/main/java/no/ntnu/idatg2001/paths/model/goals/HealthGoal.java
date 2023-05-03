@@ -1,5 +1,6 @@
 package no.ntnu.idatg2001.paths.model.goals;
 
+import jakarta.persistence.Entity;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -8,14 +9,15 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen.
  * @version 2023.02.06
  */
+@Entity
 public class HealthGoal extends Goal {
   private int minimumHealth;
 
-/**
+  /**
    * Constructor for the HealthGoal class.
    *
    * @param minimumHealth The minimum health the player must have to fulfill the goal.
- * @throws IllegalArgumentException if the minimum health is negative.
+   * @throws IllegalArgumentException if the minimum health is negative.
    */
   public HealthGoal(int minimumHealth) {
     if (minimumHealth < 0) {
@@ -23,6 +25,8 @@ public class HealthGoal extends Goal {
     }
     this.minimumHealth = minimumHealth;
   }
+
+  protected HealthGoal() {}
 
   /**
    * Adds health to the minimum health the player must have to fulfill the goal.
