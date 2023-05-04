@@ -62,12 +62,6 @@ public class Passage {
 
     public void setLinks(List<Link> links) {
         this.links = links;
-        /**
-         if (links != null && links.size() >= 2) {
-         this.links = new ArrayList<>(links.subList(0, 2));
-         } else {
-         this.links = links;
-         }*/
     }
 
     /**

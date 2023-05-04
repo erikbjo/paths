@@ -13,51 +13,20 @@ public class StoryFileHandler {
         try (BufferedWriter fileWriter = Files.newBufferedWriter(Path.of(filename))) {
             for (Story story : storyParts) {
                 fileWriter.write(story.getTitle() + "\n\n");
-                fileWriter.write("::" + story.getOpeningPassage().getTitle() + "\n");
-                fileWriter.write(story.getOpeningPassage().getContent() + "\n");
-
-                /**
-                 List<Link> openingPassageLinks = story.getOpeningPassage().getLinks();
-                 for (Link link : openingPassageLinks) {
-                 String text = link.getText();
-                 String reference = link.getReference();
-                 fileWriter.write("[" + text + "]" + "(" + reference + ")" + "\n");
-                 List<PathActions> actions = new ArrayList<>();
-                 for (PathActions action : actions) {
-                 String actionName = action.getActionName();
-                 String actionReference = action.getPathReference();
-                 fileWriter.write("<" + actionName + ">" + "(" + actionReference + ")"
-                 + "\n");
-                 }
-                 fileWriter.write("\n");
-                 }*/
+                Passage openingPassage = story.getOpeningPassage();
+                fileWriter.write("::" + openingPassage.getTitle() + "\n");
+                fileWriter.write(openingPassage.getContent() + "\n");
+                writeLinks(fileWriter, openingPassage.getLinks());
+                fileWriter.write("\n");
 
                 for (Passage passage : story.getPassages()) {
-                    List<Link> passageLinks = passage.getLinks();
-                    passage.setLinks(passageLinks);
-                    fileWriter.write(passage.getTitle() + "\n\n");
-                    fileWriter.write("::" + passage.getTitle() + "\n");
-                    fileWriter.write(passage.getContent() + "\n");
-                    writeLinks(fileWriter, passageLinks);
-                    fileWriter.write("\n");
-
-                    /**
-                     List<Link> passageLinks = passage.getLinks();
-                     for (Link passageLink : passageLinks) {
-                     String text = passageLink.getText();
-                     String reference = passageLink.getReference();
-                     fileWriter.write("[" + text + "]" + "(" + reference + ")" + "\n");
-                     List<PathActions> actions = new ArrayList<>();
-                     for (PathActions action : actions) {
-                     String actionName = action.getActionName();
-                     String actionReference = action.getPathReference();
-                     fileWriter.write("<" + actionName + ">" + "(" + actionReference + ")"
-                     + "\n");
-                     }
-                     fileWriter.write("\n");
-                     }
-                     fileWriter.write("\n");
-                     */
+                    if (openingPassage != passage) {
+                        story.getPassages().add(passage);
+                        fileWriter.write("::" + passage.getTitle() + "\n");
+                        fileWriter.write(passage.getContent() + "\n");
+                        writeLinks(fileWriter, passage.getLinks());
+                        fileWriter.write("\n");
+                    }
                 }
             }
         } catch (IOException e) {
@@ -66,19 +35,29 @@ public class StoryFileHandler {
     }
 
     public static void writeLinks(BufferedWriter fileWriter, List<Link> links) throws IOException {
+        int numberOfLinks = 0;
         for (Link link : links) {
             String text = link.getText();
             String reference = link.getReference();
             fileWriter.write("[" + text + "]" + "(" + reference + ")" + "\n");
-            List<PathActions> actions = link.getPathActions();
-            for (PathActions action : actions) {
-                String actionName = action.getActionName();
-                String actionReference = action.getPathReference();
-                fileWriter.write("<" + actionName + ">" + "(" + actionReference + ")"
-                    + "\n");
+            if (!links.isEmpty() && links.contains(link)) {
+                writeActions(fileWriter, link.getPathActions());
             }
-            fileWriter.write("\n");
-            fileWriter.close();
+            numberOfLinks++;
+        }
+        if (numberOfLinks == links.size()) {
+            writeActions(fileWriter, links.get(0).getPathActions());
+        }
+        //fileWriter.close();
+    }
+
+    public static void writeActions(BufferedWriter fileWriter, List<PathActions> actions)
+        throws IOException {
+        for (PathActions action : actions) {
+            String actionName = action.getActionName();
+            String actionReference = action.getPathReference();
+            fileWriter.write("<" + actionName + ">" + "(" + actionReference + ")"
+                + "\n");
         }
     }
 
@@ -99,7 +78,6 @@ public class StoryFileHandler {
                         String linkReference = lineOfText.substring(0, stringParts[1].length() - 1);
                         Link link = new Link(stringParts[0].substring(1).trim(),
                             linkReference);
-                        //Link link = new Link(stringParts[0],stringParts[2]);
                         links.add(link);
                     } else if (lineOfText.startsWith("<")) {
                         String[] actionStringParts = lineOfText.split("\\>\\(");
@@ -107,7 +85,6 @@ public class StoryFileHandler {
                             lineOfText.substring(0, actionStringParts[1].length() - 1);
                         Link link = new Link(actionStringParts[0].substring(1).trim(),
                             actionReference);
-                        //Link link = new Link(actionStringParts[0],actionStringParts[2]);
                         links.add(link);
                     } else {
                         break;
@@ -116,17 +93,6 @@ public class StoryFileHandler {
                 openingPassage.setLinks(links);
                 Story story = new Story(title, openingPassage);
                 storyParts.add(story);
-                /**
-                 if (lineOfText.isEmpty()){ if (currentStory != null && currentPassage != null){
-                 currentStory.addPassage(currentPassage); } currentPassage = null; } else if
-                 (lineOfText.startsWith("::")) { if (currentStory != null && currentPassage != null) {
-                 currentStory.addPassage(currentPassage); } String passageTitle = lineOfText.substring(2);
-                 currentPassage = new Passage(passageTitle, currentPassage.getContent()); }
-
-                 <p>if (currentStory == null){ currentStory = new Story() stories.add(currentStory); }
-                 else if (){ currentStory.addPassage(currentPassage); } isPassageContent = true; }else {
-                 if (currentStory == null){ currentStory = new Story() } }
-                 */
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
