@@ -15,15 +15,11 @@ import java.util.List;
 @Entity
 @Table(name = "player")
 public class Player extends Unit {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
-
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  @OneToMany
   @JoinColumn(name = "player_id")
   private List<Item> inventory;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  @OneToMany
   @JoinColumn(name = "player_id")
   private List<Equipable> equippedItems;
 
@@ -35,15 +31,6 @@ public class Player extends Unit {
 
   protected Player() {
     super();
-  }
-
-  /**
-   * Returns the player id.
-   *
-   * @return the id as a Long.
-   */
-  public Long getId() {
-    return id;
   }
 
   /**

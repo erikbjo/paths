@@ -15,10 +15,10 @@ import java.util.Objects;
 @Entity
 @Table(name = "passage")
 public class Passage {
-
   @Column(unique = true)
   private String title;
   private String content;
+
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "passage_id")
   private List<Link> links;

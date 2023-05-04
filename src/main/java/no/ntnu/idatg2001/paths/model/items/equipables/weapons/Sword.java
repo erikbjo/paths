@@ -1,11 +1,16 @@
 package no.ntnu.idatg2001.paths.model.items.equipables.weapons;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 /**
  * The Sword class represents a sword in the game. It extends the Weapon class.
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
+@Entity(name = "Sword")
+@DiscriminatorValue("Sword")
 public class Sword extends Weapon {
 
   /**
@@ -18,4 +23,6 @@ public class Sword extends Weapon {
   public Sword(String name, int itemScore, int goldValue, int damage) {
     super(name, itemScore, goldValue, damage);
   }
+
+  protected Sword() {}
 }

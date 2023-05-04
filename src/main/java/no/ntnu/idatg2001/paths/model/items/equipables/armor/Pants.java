@@ -1,5 +1,8 @@
 package no.ntnu.idatg2001.paths.model.items.equipables.armor;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import no.ntnu.idatg2001.paths.model.units.Attributes;
 
 /**
@@ -7,6 +10,8 @@ import no.ntnu.idatg2001.paths.model.units.Attributes;
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
+@Entity(name = "Pants")
+@DiscriminatorValue("Pants")
 public class Pants extends Armor {
 
   /**
@@ -20,4 +25,6 @@ public class Pants extends Armor {
   public Pants(String name, int itemScore, int goldValue, Attributes attributes) {
     super(name, itemScore, goldValue, attributes);
   }
+
+  protected Pants() {}
 }

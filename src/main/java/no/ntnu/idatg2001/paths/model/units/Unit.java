@@ -27,7 +27,7 @@ public abstract class Unit {
 
   @Id
   @GeneratedValue
-  private Long id;
+  protected Long id;
 
   protected Unit(UnitBuilder<?> builder) {
     this.name = builder.name;

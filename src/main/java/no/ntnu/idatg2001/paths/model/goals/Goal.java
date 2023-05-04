@@ -13,7 +13,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
 public abstract class Goal {
   @Id @GeneratedValue Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne
   @JoinColumn(name = "game_id")
   private Game game;
 

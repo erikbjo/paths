@@ -12,9 +12,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Action {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+  @Id @GeneratedValue private Long id;
 
   /**
    * Executes the action.

@@ -2,22 +2,31 @@ package no.ntnu.idatg2001.paths.model.items;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 /**
  * The Item class represents an item in the game.
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Item {
-  // Information
-  protected String name;
-  protected int itemScore;
-  protected int goldValue;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "ITEM_TYPE")
+public abstract class Item implements Serializable {
   @Id
-  @GeneratedValue
-  private Long id;
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(updatable = false, nullable = false)
+  protected Long id;
+
+  @Column
+  protected String name;
+
+  @Column
+  protected int itemScore;
+
+  @Column
+  protected int goldValue;
 
   /**
    * Constructor for the Item class.
