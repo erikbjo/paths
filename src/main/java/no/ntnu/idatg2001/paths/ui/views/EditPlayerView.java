@@ -3,10 +3,12 @@ package no.ntnu.idatg2001.paths.ui.views;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import no.ntnu.idatg2001.paths.model.units.DefaultAttributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.controllers.EditPlayerController;
 import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
@@ -56,6 +58,8 @@ public class EditPlayerView {
   private Button saveButton;
   private Button cancelButton;
   private Stage primaryStage;
+  private ComboBox<DefaultAttributes> defaultAttributesComboBox;
+  private Button showAttributesGridPaneButton;
 
   public void start(Stage primaryStage, Player player) {
     this.primaryStage = primaryStage;
@@ -122,7 +126,10 @@ public class EditPlayerView {
             luckTextField,
             player,
             cancelButton,
-            saveButton);
+            saveButton,
+            defaultAttributesComboBox,
+            showAttributesGridPaneButton,
+            attributesGridPane);
 
     controller.updateLanguage();
     controller.addParametersFromPlayerIntoTextFields();
@@ -243,7 +250,13 @@ public class EditPlayerView {
     rightVBox.getChildren().add(attributesText);
 
     attributesGridPane = createAttributesGridPane();
-    rightVBox.getChildren().add(attributesGridPane);
+
+    defaultAttributesComboBox = new ComboBox<>();
+    showAttributesGridPaneButton = new Button();
+
+    rightVBox
+        .getChildren()
+        .addAll(defaultAttributesComboBox, showAttributesGridPaneButton, attributesGridPane);
 
     return rightVBox;
   }

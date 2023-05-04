@@ -51,6 +51,16 @@ public class Attributes {
 
   protected Attributes() {}
 
+  public Attributes(DefaultAttributes defaultAttributes) {
+    this.strength = defaultAttributes.getAttributes().getStrength();
+    this.perception = defaultAttributes.getAttributes().getPerception();
+    this.endurance = defaultAttributes.getAttributes().getEndurance();
+    this.charisma = defaultAttributes.getAttributes().getCharisma();
+    this.intelligence = defaultAttributes.getAttributes().getIntelligence();
+    this.agility = defaultAttributes.getAttributes().getAgility();
+    this.luck = defaultAttributes.getAttributes().getLuck();
+  }
+
   /**
    * Gets strength.
    *
