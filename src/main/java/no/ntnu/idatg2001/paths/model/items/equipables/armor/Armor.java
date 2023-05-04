@@ -1,7 +1,6 @@
 package no.ntnu.idatg2001.paths.model.items.equipables.armor;
 
 import jakarta.persistence.*;
-import no.ntnu.idatg2001.paths.model.items.Item;
 import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
 import no.ntnu.idatg2001.paths.model.units.Attributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
@@ -13,7 +12,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Armor extends Equipable {
 
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)

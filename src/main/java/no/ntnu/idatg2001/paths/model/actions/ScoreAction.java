@@ -36,6 +36,10 @@ public class ScoreAction extends Action {
     return isPositive;
   }
 
+  public void setIsPositive(boolean isPositive) {
+    this.isPositive = isPositive;
+  }
+
   /**
    * Returns the amount of points the action gives.
    *
@@ -43,6 +47,10 @@ public class ScoreAction extends Action {
    */
   public int getPoints() {
     return points;
+  }
+
+  public void setPoints(int points) {
+    this.points = points;
   }
 
   /**

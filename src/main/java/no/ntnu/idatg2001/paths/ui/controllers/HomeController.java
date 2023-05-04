@@ -259,9 +259,9 @@ public class HomeController {
 
               PlayerDAO.getInstance().remove(selectedPlayer);
 
-              GameDAO.getInstance().getAll().stream()
-                  .filter(game -> game.getPlayer().equals(selectedPlayer))
-                  .forEach(game -> GameDAO.getInstance().remove(game));
+              //GameDAO.getInstance().getAll().stream()
+              //    .filter(game -> game.getPlayer().equals(selectedPlayer))
+              //    .forEach(game -> GameDAO.getInstance().remove(game));
 
               // @TODO: Maybe dont remove all games, but instead make the user chose a new player
               // next time he wants to continue the game

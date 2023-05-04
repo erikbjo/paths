@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import no.ntnu.idatg2001.paths.model.items.Item;
 import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,13 +16,13 @@ import java.util.List;
 @Entity
 @Table(name = "Player")
 public class Player extends Unit {
-  @OneToMany()
+  @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, orphanRemoval = true)
   @JoinColumn(name = "player_id")
-  private List<Item> inventory;
+  private List<Item> inventory = new ArrayList<>();
 
-  @OneToMany()
+  @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, orphanRemoval = true)
   @JoinColumn(name = "player_id")
-  private List<Equipable> equippedItems;
+  private List<Equipable> equippedItems = new ArrayList<>();
 
   private Player(PlayerBuilder builder) {
     super(builder);
