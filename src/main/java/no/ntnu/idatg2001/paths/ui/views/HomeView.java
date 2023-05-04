@@ -16,6 +16,7 @@ import no.ntnu.idatg2001.paths.model.database.GameDAO;
 import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.database.StoryDAO;
 import no.ntnu.idatg2001.paths.model.units.Player;
+import no.ntnu.idatg2001.paths.model.utilities.SettingsFileWriter;
 import no.ntnu.idatg2001.paths.ui.controllers.HomeController;
 import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
 import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;

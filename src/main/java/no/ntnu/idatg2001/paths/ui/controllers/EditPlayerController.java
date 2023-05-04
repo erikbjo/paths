@@ -2,12 +2,16 @@ package no.ntnu.idatg2001.paths.ui.controllers;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
+import no.ntnu.idatg2001.paths.model.units.Attributes;
+import no.ntnu.idatg2001.paths.model.units.DefaultAttributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
+import no.ntnu.idatg2001.paths.ui.alerts.WarningAlert;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
 public class EditPlayerController {
@@ -42,9 +46,12 @@ public class EditPlayerController {
   private final TextField agilityTextField;
   private final TextField luckTextField;
   private final Player player;
+  private final Button saveButton;
+  private final Button cancelButton;
+  private final ComboBox<DefaultAttributes> defaultAttributesComboBox;
+  private final Button showAttributesGridPaneButton;
+  private final GridPane attributesGridPane;
   private ResourceBundle resources;
-  private Button saveButton;
-  private Button cancelButton;
 
   public EditPlayerController(
       Text playerText,
@@ -79,7 +86,10 @@ public class EditPlayerController {
       TextField luckTextField,
       Player player,
       Button cancelButton,
-      Button saveButton) {
+      Button saveButton,
+      ComboBox<DefaultAttributes> defaultAttributesComboBox,
+      Button showAttributesGridPaneButton,
+      GridPane attributesGridPane) {
     this.playerText = playerText;
     this.cheatsText = cheatsText;
     this.editPlayerText = editPlayerText;
@@ -113,6 +123,9 @@ public class EditPlayerController {
     this.player = player;
     this.cancelButton = cancelButton;
     this.saveButton = saveButton;
+    this.defaultAttributesComboBox = defaultAttributesComboBox;
+    this.showAttributesGridPaneButton = showAttributesGridPaneButton;
+    this.attributesGridPane = attributesGridPane;
 
     // Observes when the language is changed, then calls updateLanguage()
     LanguageHandler.getObservableIntegerCounter()
@@ -123,6 +136,27 @@ public class EditPlayerController {
         ResourceBundle.getBundle(
             "editPlayer",
             Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+
+    configureAttributesVBox();
+  }
+
+  private void configureAttributesVBox() {
+    attributesGridPane.setVisible(false);
+
+    showAttributesGridPaneButton.setOnAction(
+        event -> {
+          if (attributesGridPane.isVisible()) {
+            attributesGridPane.setVisible(false);
+            defaultAttributesComboBox.setVisible(true);
+            updateShowAttributesGridPaneButton();
+          } else {
+            attributesGridPane.setVisible(true);
+            defaultAttributesComboBox.setVisible(false);
+            updateShowAttributesGridPaneButton();
+          }
+        });
+
+    defaultAttributesComboBox.getItems().addAll(DefaultAttributes.values());
   }
 
   public void updateLanguage() {
@@ -147,6 +181,20 @@ public class EditPlayerController {
     intelligenceText.setText(resources.getString("intelligenceText"));
     agilityText.setText(resources.getString("agilityText"));
     luckText.setText(resources.getString("luckText"));
+
+    cancelButton.setText(resources.getString("cancelButton"));
+    saveButton.setText(resources.getString("saveButton"));
+    updateShowAttributesGridPaneButton();
+
+    defaultAttributesComboBox.setPromptText(resources.getString("defaultAttributesComboBox"));
+  }
+
+  private void updateShowAttributesGridPaneButton() {
+    if (attributesGridPane.isVisible()) {
+      showAttributesGridPaneButton.setText(resources.getString("hideAttributesGridPaneButton"));
+    } else {
+      showAttributesGridPaneButton.setText(resources.getString("showAttributesGridPaneButton"));
+    }
   }
 
   public void addParametersFromPlayerIntoTextFields() {
@@ -171,7 +219,25 @@ public class EditPlayerController {
   }
 
   public void savePlayer() {
-    if (assertAllFieldsValid()) {
+    Attributes attributes = null;
+    if (defaultAttributesComboBox.isVisible()) {
+      attributes = new Attributes(defaultAttributesComboBox.getValue());
+    } else if (assertAttributesFieldsValid()) {
+      attributes =
+          new Attributes(
+              Integer.parseInt(strengthTextField.getText()),
+              Integer.parseInt(perceptionTextField.getText()),
+              Integer.parseInt(enduranceTextField.getText()),
+              Integer.parseInt(charismaTextField.getText()),
+              Integer.parseInt(intelligenceTextField.getText()),
+              Integer.parseInt(agilityTextField.getText()),
+              Integer.parseInt(luckTextField.getText()));
+    } else {
+      WarningAlert warningAlert = new WarningAlert(resources.getString("invalidAttributes"));
+      warningAlert.showAndWait();
+    }
+
+    if (assertAllFieldsValid() && attributes != null) {
       player.setName(nameField.getText());
 
       player.setHealth(Integer.parseInt(healthField.getText()));
@@ -180,27 +246,27 @@ public class EditPlayerController {
       player.setGold(Integer.parseInt(goldField.getText()));
       player.setScore(Integer.parseInt(scoreField.getText()));
 
-      player.getAttributes().setStrength(Integer.parseInt(strengthTextField.getText()));
-      player.getAttributes().setPerception(Integer.parseInt(perceptionTextField.getText()));
-      player.getAttributes().setEndurance(Integer.parseInt(enduranceTextField.getText()));
-      player.getAttributes().setCharisma(Integer.parseInt(charismaTextField.getText()));
-      player.getAttributes().setIntelligence(Integer.parseInt(intelligenceTextField.getText()));
-      player.getAttributes().setAgility(Integer.parseInt(agilityTextField.getText()));
-      player.getAttributes().setLuck(Integer.parseInt(luckTextField.getText()));
+      player.setAttributes(attributes);
 
       PlayerDAO.getInstance().update(player);
     }
   }
 
   private boolean assertAllFieldsValid() {
+    return assertStandardFieldsValid() && assertAttributesFieldsValid();
+  }
 
+  private boolean assertStandardFieldsValid() {
     return assertTextFieldValid(nameField)
         && assertIntegerFieldValid(healthField)
         && assertIntegerFieldValid(manaField)
         && assertIntegerFieldValid(energyField)
         && assertIntegerFieldValid(goldField)
-        && assertIntegerFieldValid(scoreField)
-        && assertIntegerFieldValid(strengthTextField)
+        && assertIntegerFieldValid(scoreField);
+  }
+
+  private boolean assertAttributesFieldsValid() {
+    return assertIntegerFieldValid(strengthTextField)
         && assertIntegerFieldValid(perceptionTextField)
         && assertIntegerFieldValid(enduranceTextField)
         && assertIntegerFieldValid(charismaTextField)

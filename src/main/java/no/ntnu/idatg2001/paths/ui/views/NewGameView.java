@@ -4,18 +4,15 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
+public class NewGameView {
 
-public class NewStoryView {
   private final Stage primaryStage;
 
-  public NewStoryView(Stage primaryStage) {
+  public NewGameView(Stage primaryStage) {
     this.primaryStage = primaryStage;
-    primaryStage.setTitle("New Story");
+    primaryStage.setTitle("New Game");
 
     // Create a borderpane and a standard menubar
     BorderPane root = new BorderPane();

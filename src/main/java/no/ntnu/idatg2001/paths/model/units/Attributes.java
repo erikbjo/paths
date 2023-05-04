@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 
 /** The SpecialAttributes interface represents the special attributes of a unit. */
 @Entity
-public class Attributes implements SpecialAttributes {
+public class Attributes {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
@@ -50,6 +50,16 @@ public class Attributes implements SpecialAttributes {
   }
 
   protected Attributes() {}
+
+  public Attributes(DefaultAttributes defaultAttributes) {
+    this.strength = defaultAttributes.getAttributes().getStrength();
+    this.perception = defaultAttributes.getAttributes().getPerception();
+    this.endurance = defaultAttributes.getAttributes().getEndurance();
+    this.charisma = defaultAttributes.getAttributes().getCharisma();
+    this.intelligence = defaultAttributes.getAttributes().getIntelligence();
+    this.agility = defaultAttributes.getAttributes().getAgility();
+    this.luck = defaultAttributes.getAttributes().getLuck();
+  }
 
   /**
    * Gets strength.
@@ -182,7 +192,7 @@ public class Attributes implements SpecialAttributes {
    *
    * @param attributes the attributes to merge
    */
-  public void addAttributes(SpecialAttributes attributes) {
+  public void addAttributes(Attributes attributes) {
     this.setStrength(this.getStrength() + attributes.getStrength());
     this.setPerception(this.getPerception() + attributes.getPerception());
     this.setEndurance(this.getEndurance() + attributes.getEndurance());
@@ -197,7 +207,7 @@ public class Attributes implements SpecialAttributes {
    *
    * @param attributes the attributes to subtract
    */
-  public void subtractAttributes(SpecialAttributes attributes) {
+  public void subtractAttributes(Attributes attributes) {
     this.setStrength(this.getStrength() - attributes.getStrength());
     this.setPerception(this.getPerception() - attributes.getPerception());
     this.setEndurance(this.getEndurance() - attributes.getEndurance());

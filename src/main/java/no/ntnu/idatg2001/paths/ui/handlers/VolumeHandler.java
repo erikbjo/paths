@@ -4,7 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class VolumeHandler {
-  private static final IntegerProperty volume = new SimpleIntegerProperty(50);
+  private static final IntegerProperty volume = new SimpleIntegerProperty();
 
   public static int getCurrentVolume() {
     return volume.get();
