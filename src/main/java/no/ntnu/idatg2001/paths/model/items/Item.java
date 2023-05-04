@@ -13,8 +13,7 @@ import java.io.Serializable;
  */
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "ITEM_TYPE")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Item {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,7 +22,7 @@ public abstract class Item {
 
   @ManyToOne
   @JoinColumn(name = "player_id")
-  private Player player;
+  protected Player player;
 
   @Column
   protected String name;

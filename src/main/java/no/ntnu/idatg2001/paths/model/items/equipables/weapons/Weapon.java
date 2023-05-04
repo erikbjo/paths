@@ -13,7 +13,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  */
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Weapon extends Equipable {
 
   @Column

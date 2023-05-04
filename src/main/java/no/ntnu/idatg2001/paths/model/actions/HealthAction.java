@@ -36,6 +36,10 @@ public class HealthAction extends Action {
     return isPositive;
   }
 
+  public void setIsPositive(boolean isPositive) {
+    this.isPositive = isPositive;
+  }
+
   /**
    * Returns the amount of health the action gives.
    *
@@ -43,6 +47,10 @@ public class HealthAction extends Action {
    */
   public int getHealth() {
     return health;
+  }
+
+  public void setHealth(int health) {
+    this.health = health;
   }
 
   /**
