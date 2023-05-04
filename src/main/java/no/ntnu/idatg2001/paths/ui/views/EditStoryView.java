@@ -16,7 +16,7 @@ public class EditStoryView {
     BorderPane root = new BorderPane();
     root.setTop(new StandardMenuBar(primaryStage));
 
-    Scene scene = new Scene(root, 600, 600);
+    Scene scene = new Scene(root, 800, 800);
     primaryStage.setScene(scene);
     primaryStage.show();
   }

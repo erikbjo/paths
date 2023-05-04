@@ -127,7 +127,7 @@ public class EditPlayerView {
     controller.updateLanguage();
     controller.addParametersFromPlayerIntoTextFields();
 
-    Scene scene = new Scene(root, 600, 600);
+    Scene scene = new Scene(root, 800, 800);
     primaryStage.setScene(scene);
     primaryStage.show();
     MusicHandler.playMusic("Old_Man.mp3");

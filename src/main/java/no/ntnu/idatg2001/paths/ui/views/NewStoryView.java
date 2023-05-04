@@ -23,7 +23,7 @@ public class NewStoryView {
     root.setTop(menuBar);
     AnchorPane rootAnchorPane = new AnchorPane();
 
-    Scene scene = new Scene(root, 600, 600);
+    Scene scene = new Scene(root, 800, 800);
     primaryStage.setScene(scene);
     primaryStage.show();
   }
