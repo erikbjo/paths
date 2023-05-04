@@ -1,5 +1,8 @@
 package no.ntnu.idatg2001.paths.model.items.equipables.armor;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import no.ntnu.idatg2001.paths.model.units.Attributes;
 
 /**
@@ -7,8 +10,10 @@ import no.ntnu.idatg2001.paths.model.units.Attributes;
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
+@Entity(name = "Chest")
+@DiscriminatorValue("Chest")
 public class Chest extends Armor {
-  
+
   /**
    * Constructor for the Chest class.
    *
@@ -20,4 +25,6 @@ public class Chest extends Armor {
   public Chest(String name, int itemScore, int goldValue, Attributes attributes) {
     super(name, itemScore, goldValue, attributes);
   }
+
+  protected Chest() {}
 }

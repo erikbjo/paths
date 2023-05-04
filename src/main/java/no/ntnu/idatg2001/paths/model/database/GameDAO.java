@@ -71,8 +71,8 @@ public class GameDAO implements DAO<Game> {
     return em.createQuery("SELECT a FROM Game a", Game.class).getResultList();
   }
 
-  public List<String> getAllGameIDs() {
-    return em.createQuery("SELECT a.id FROM Game a", String.class).getResultList();
+  public List<Long> getAllGameIDs() {
+    return em.createQuery("SELECT a.id FROM Game a", Long.class).getResultList();
   }
 
   /** Prints details for all accounts in the database. */

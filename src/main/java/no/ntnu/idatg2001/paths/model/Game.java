@@ -10,17 +10,20 @@ import no.ntnu.idatg2001.paths.model.units.Player;
 @Entity(name = "Game")
 @Table(name = "game")
 public class Game {
-  @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private List<Goal> goals = new ArrayList<>();
+  @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST)
+  private final List<Goal> goals = new ArrayList<>();
+
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+
+  @OneToOne(cascade = CascadeType.PERSIST)
   @JoinColumn(name = "player_id")
-  private Player player = null;
-  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  private Player player;
+
+  @OneToOne(cascade = CascadeType.PERSIST)
   @JoinColumn(name = "story_id")
-  private Story story = null;
+  private Story story;
 
   /**
    * Constructor for the Game class.
@@ -81,14 +84,14 @@ public class Game {
   }
 
   @Override
-    public String toString() {
-        return "Game{"
-            + "player="
-            + player
-            + ", story="
-            + story
-            + ", goals="
-            + goals.stream().map(Goal::toString).collect(Collectors.joining(", "))
-            + '}';
-    }
+  public String toString() {
+    return "Game{"
+        + "player="
+        + player
+        + ", story="
+        + story
+        + ", goals="
+        + goals.stream().map(Goal::toString).collect(Collectors.joining(", "))
+        + '}';
+  }
 }

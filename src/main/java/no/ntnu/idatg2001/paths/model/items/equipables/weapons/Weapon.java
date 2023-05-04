@@ -1,8 +1,6 @@
 package no.ntnu.idatg2001.paths.model.items.equipables.weapons;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
+import jakarta.persistence.*;
 import no.ntnu.idatg2001.paths.model.items.Item;
 import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
 import no.ntnu.idatg2001.paths.model.units.Player;
@@ -13,10 +11,12 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
+
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Weapon extends Equipable {
 
+  @Column
   private int damage;
 
   /** Constructor for the Weapon class. */

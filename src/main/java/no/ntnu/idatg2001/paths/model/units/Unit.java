@@ -27,7 +27,7 @@ public abstract class Unit {
 
   @Id
   @GeneratedValue
-  private Long id;
+  protected Long id;
 
   protected Unit(UnitBuilder<?> builder) {
     this.name = builder.name;
@@ -177,7 +177,7 @@ public abstract class Unit {
     this.attributes = attributes;
   }
 
-  public Long getId() {
+  protected Long getId() {
     return id;
   }
 

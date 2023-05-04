@@ -3,7 +3,10 @@ package no.ntnu.idatg2001.paths.model.goals;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import no.ntnu.idatg2001.paths.model.items.Item;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
@@ -13,6 +16,8 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  */
 @Entity
 public class InventoryGoal extends Goal {
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "inventory_goal_id")
   private List<Item> mandatoryItems;
 
   /**

@@ -13,17 +13,13 @@ import java.util.List;
  * @version 2023.02.03
  */
 @Entity
-@Table(name = "player")
+@Table(name = "Player")
 public class Player extends Unit {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
-
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  @OneToMany()
   @JoinColumn(name = "player_id")
   private List<Item> inventory;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  @OneToMany()
   @JoinColumn(name = "player_id")
   private List<Equipable> equippedItems;
 
@@ -35,15 +31,6 @@ public class Player extends Unit {
 
   protected Player() {
     super();
-  }
-
-  /**
-   * Returns the player id.
-   *
-   * @return the id as a Long.
-   */
-  public Long getId() {
-    return id;
   }
 
   /**
@@ -185,6 +172,11 @@ public class Player extends Unit {
       return false;
     }
   }
+
+  public Long getId() {
+    return super.getId();
+  }
+
 
   public static class PlayerBuilder extends UnitBuilder<PlayerBuilder> {
     private List<Item> inventory;

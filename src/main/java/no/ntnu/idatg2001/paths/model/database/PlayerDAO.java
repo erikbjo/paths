@@ -71,8 +71,8 @@ public class PlayerDAO implements DAO<Player> {
     return em.createQuery("SELECT a FROM Player a", Player.class).getResultList();
   }
 
-  public List<String> getAllPlayerIDs() {
-    return em.createQuery("SELECT a.id FROM Player a", String.class).getResultList();
+  public List<Long> getAllPlayerIDs() {
+    return em.createQuery("SELECT a.id FROM Player a", Long.class).getResultList();
   }
 
   /** Prints details for all players in the database. */
