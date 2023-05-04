@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 
 /** The SpecialAttributes interface represents the special attributes of a unit. */
 @Entity
-public class Attributes implements SpecialAttributes {
+public class Attributes {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
@@ -182,7 +182,7 @@ public class Attributes implements SpecialAttributes {
    *
    * @param attributes the attributes to merge
    */
-  public void addAttributes(SpecialAttributes attributes) {
+  public void addAttributes(Attributes attributes) {
     this.setStrength(this.getStrength() + attributes.getStrength());
     this.setPerception(this.getPerception() + attributes.getPerception());
     this.setEndurance(this.getEndurance() + attributes.getEndurance());
@@ -197,7 +197,7 @@ public class Attributes implements SpecialAttributes {
    *
    * @param attributes the attributes to subtract
    */
-  public void subtractAttributes(SpecialAttributes attributes) {
+  public void subtractAttributes(Attributes attributes) {
     this.setStrength(this.getStrength() - attributes.getStrength());
     this.setPerception(this.getPerception() - attributes.getPerception());
     this.setEndurance(this.getEndurance() - attributes.getEndurance());
