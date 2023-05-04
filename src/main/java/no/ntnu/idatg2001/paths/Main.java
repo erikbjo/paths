@@ -10,6 +10,7 @@ import no.ntnu.idatg2001.paths.model.goals.HealthGoal;
 import no.ntnu.idatg2001.paths.model.goals.ScoreGoal;
 import no.ntnu.idatg2001.paths.model.units.Attributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
+import no.ntnu.idatg2001.paths.model.utilities.SettingsFileWriter;
 import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
 import no.ntnu.idatg2001.paths.ui.views.HomeView;
 
@@ -28,6 +29,7 @@ public class Main {
     //System.out.println("StoryDAO: " + StoryDAO.getInstance().getAll());
 
     MusicHandler.initialize();
+    SettingsFileWriter.readSettings();
     HomeView.mainApp(args);
   }
 }
