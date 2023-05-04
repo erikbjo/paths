@@ -1,10 +1,14 @@
 package no.ntnu.idatg2001.paths.ui.standardObjects;
 
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
+import no.ntnu.idatg2001.paths.model.database.GameDAO;
+import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
+import no.ntnu.idatg2001.paths.model.database.StoryDAO;
 import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
 import no.ntnu.idatg2001.paths.ui.views.HomeView;
 
@@ -19,10 +23,16 @@ public class StandardMenuBar extends MenuBar {
     MenuItem aboutItem = new MenuItem("About");
     aboutItem.setOnAction(actionEvent -> onAbout());
     MenuItem settingsItem = new MenuItem("Settings");
-    settingsItem.setOnAction(
-        event -> settingsController = new SettingsController(event));
+    settingsItem.setOnAction(event -> settingsController = new SettingsController(event));
     MenuItem quitItem = new MenuItem("Quit");
-    quitItem.setOnAction(actionEvent -> System.exit(0));
+    quitItem.setOnAction(
+        actionEvent -> {
+          actionEvent.consume();
+          GameDAO.getInstance().close();
+          StoryDAO.getInstance().close();
+          PlayerDAO.getInstance().close();
+          Platform.exit();
+        });
 
     // Create menus and add items
     Menu fileMenu = new Menu("File");

@@ -1,24 +1,7 @@
 package no.ntnu.idatg2001.paths.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.PostLoad;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import jakarta.persistence.*;
+import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -37,222 +20,193 @@ import java.util.Objects;
 @Entity
 @Table(name = "story")
 public class Story {
-    @Transient
-    private Map<Link, Passage> passages;
+  @Transient private Map<Link, Passage[]> passages;
 
-    @Lob
-    @Column(name = "serialized_passages")
-    private Blob serializedPassages;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "story_id")
-    private Passage openingPassage;
+  @Lob
+  @Column(name = "serialized_passages")
+  private byte[] serializedPassages;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "story_id")
+  private Passage openingPassage;
 
-    @OneToOne
-    @JoinColumn(name = "story_id", insertable = false, updatable = false)
-    private Passage currentPassage;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    private String title;
+  @OneToOne
+  @JoinColumn(name = "story_id", insertable = false, updatable = false)
+  private Passage currentPassage;
 
-    public Story(String title, Passage openingPassage) {
-        this.title = title;
-        this.openingPassage = openingPassage;
-        this.currentPassage = openingPassage;
-        this.passages = new HashMap<>();
-        addPassage(openingPassage);
+  private String title;
+
+  public Story(String title, Passage openingPassage) {
+    this.title = title;
+    this.openingPassage = openingPassage;
+    this.currentPassage = openingPassage;
+    this.passages = new HashMap<Link, Passage[]>();
+    addPassage(openingPassage);
+  }
+
+  public Story() {}
+
+  // WIP
+  @PrePersist
+  @PreUpdate
+  private void savePassagesAsBlob() throws IOException {
+    if (passages != null) {
+      try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+           ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+        oos.writeObject(passages);
+        oos.flush();
+        serializedPassages = baos.toByteArray();
+      }
     }
+  }
 
-    public Story() {
+  @PostLoad
+  private void loadPassagesFromBlob() throws IOException, ClassNotFoundException {
+    if (serializedPassages != null) {
+      try (ByteArrayInputStream bais = new ByteArrayInputStream(serializedPassages);
+           ObjectInputStream ois = new ObjectInputStream(bais)) {
+        passages = (Map<Link, Passage[]>) ois.readObject();
+      }
+    } else {
+      passages = new HashMap<>();
     }
+  }
 
-    // WIP
-    @PrePersist
-    @PreUpdate
-    private void serializePassages() throws IOException, SQLException {
-        if (passages != null) {
-            try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                 ObjectOutputStream oos = new ObjectOutputStream(byteArrayOutputStream)) {
-                oos.writeObject(passages);
-                oos.flush();
-                byte[] data = byteArrayOutputStream.toByteArray();
-                this.serializedPassages = new javax.sql.rowset.serial.SerialBlob(data);
-            }
-        }
-    }
+  public Map<Link, Passage[]> getPassagesHashMap() {
+    return passages;
+  }
 
-    @PostLoad
-    private void deserializePassages() throws IOException, ClassNotFoundException, SQLException {
-        if (serializedPassages != null) {
-            try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
-                serializedPassages.getBytes(1, (int) serializedPassages.length()));
-                 ObjectInputStream ois = new ObjectInputStream(byteArrayInputStream)) {
-                passages = (Map<Link, Passage>) ois.readObject();
-            }
-        } else {
-            passages = new HashMap<>();
-        }
-    }
+  public void setPassagesHashMap(Map<Link, Passage[]> passages) {
+    this.passages = passages;
+  }
 
-    public Map<Link, Passage> getPassagesHashMap() {
-        return passages;
-    }
+  public Passage getCurrentPassage() {
+    return currentPassage;
+  }
 
-    public void setPassagesHashMap(Map<Link, Passage> passages) {
-        this.passages = passages;
-    }
+  public void setCurrentPassage(Passage passage) {
+    this.currentPassage = passage;
+  }
 
-    public Passage getCurrentPassage() {
-        return currentPassage;
-    }
+  /**
+   * This function returns the title of the game
+   *
+   * @return The title of the game.
+   */
+  public String getTitle() {
+    return title;
+  }
 
-    public void setCurrentPassage(Passage passage) {
-        this.currentPassage = passage;
-    }
+  /**
+   * This function returns the opening passage of the game.
+   *
+   * @return The opening passage of the game.
+   */
+  public Passage getOpeningPassage() {
+    return openingPassage;
+  }
 
-    /**
-     * This function returns the title of the game
-     *
-     * @return The title of the game.
-     */
-    public String getTitle() {
-        return title;
-    }
+  /**
+   * This function adds a passage to the story
+   *
+   * @param passage The passage that gets added to the game.
+   */
+  public void addPassage(Passage passage) {
+    for (Link link : passages.keySet()) {
+      if (passages.containsKey(link)) {
+        Passage[] oldPassagesArray = passages.get(link);
 
-    /**
-     * This function returns the opening passage of the game.
-     *
-     * @return The opening passage of the game.
-     */
-    public Passage getOpeningPassage() {
-        return openingPassage;
-    }
-
-    /**
-     * This function adds a passage to the story
-     *
-     * @param passage The passage that gets added to the game.
-     */
-    public void addPassage(Passage passage) {
-        if (passage == null) {
-            throw new IllegalArgumentException("Passage cannot be null.");
-        }
-
-        List<Link> links = passage.getLinks();
-        for (Link link : links) {
-            if (link == null) {
-                throw new IllegalArgumentException("Dead link.");
-            }
-
-            passages.put(link, passage);
-        }
-    }
-
-    /**
-     * This function returns a list of all the links connected to a passage.
-     *
-     * @return A list of all the links connected to a passage.
-     */
-    public List<Link> getLinksConnectedWithPassage(Passage passage) {
-        List<Link> links = new ArrayList<>();
-
-        for (Map.Entry<Link, Passage> entry : passages.entrySet()) {
-            if (Objects.equals(entry.getValue(), passage)) {
-                links.add(entry.getKey());
-            }
+        if (Arrays.asList(oldPassagesArray).contains(passage)) {
+          throw new IllegalArgumentException("Passage already exists.");
+        } else if (oldPassagesArray.length > 1) {
+          throw new IllegalArgumentException("Link already has two passages.");
         }
 
-        return links;
+        Passage[] updatedPassagesArray =
+            Arrays.copyOf(oldPassagesArray, oldPassagesArray.length + 1);
+        updatedPassagesArray[updatedPassagesArray.length - 1] = passage;
+        passages.put(link, updatedPassagesArray);
+      } else {
+        passages.put(link, new Passage[] {passage});
+      }
+    }
+  }
+
+  /**
+   * This function returns a list of all the links connected to a passage.
+   *
+   * @return A list of all the links connected to a passage.
+   */
+  public List<Link> getLinksConnectedWithPassage(Passage passage) {
+    List<Link> links = new ArrayList<>();
+
+    for (Map.Entry<Link, Passage[]> entry : passages.entrySet()) {
+      if (Arrays.asList(entry.getValue()).contains(passage)) {
+        links.add(entry.getKey());
+      }
     }
 
-    /**
-     * This function returns a list of all the passages connected to a link.
-     *
-     * @return A list of all the passages connected to a link.
-     */
-    public List<Passage> getPassagesConnectedWithLink(Link link) {
-        List<Passage> passageList = new ArrayList<>(List.of(passages.get(link)));
+    return links;
+  }
 
-        return passageList;
-    }
+  /**
+   * This function returns a list of all the passages connected to a link.
+   *
+   * @return A list of all the passages connected to a link.
+   */
+  public List<Passage> getPassagesConnectedWithLink(Link link) {
+    return new ArrayList<>(List.of(passages.get(link)));
+  }
 
-    /**
-     * public Collection<Passage> getPassages() { Collection<Passage> passageCollection = new
-     * HashSet<>(); for (Passage passage : passages.values()) { if (passage != null) {
-     * passageCollection.add(passage); } } return passageCollection; }
-     */
-    public List<Passage> getPassages() {
-        return passages.values().stream().toList();
-    }
+  // Endre denne metoden til å ta en Story istedenfor en link, for å gjøre at passasjene ikke
+  // kommer hulter til bulter. Pga hashMap ikke sorterer slik som arrayList.
 
-    public void removePassage(Link link) {
-        boolean isLinkedToAPassage =
-            passages.values().stream().anyMatch(passage -> passage.getLinks().contains(link));
+  // gammel version
+  /**
+   * public Collection<Passage> getPassages() { Collection<Passage> passageCollection = new
+   * HashSet<>(); for (Link link : passages.keySet()) { Passage passage = passages.get(link); if
+   * (passage != null) { passageCollection.add(passage); } } return passageCollection; }
+   */
 
-        List<Passage> passagesToRemove = getPassagesConnectedWithLink(link);
+  // Ny version 1
 
-        if (isLinkedToAPassage) {
-            passagesToRemove.forEach(passage -> passages.remove(link));
-        }
-    }
+  /**
+   * public Collection<Passage> getPassages() { Collection<Passage> passageCollection = new
+   * HashSet<>(); for (Passage passage : passages.values()) { if (passage != null) {
+   * passageCollection.add(passage); } } return passageCollection; }
+   */
+  public List<Passage> getPassages() {
+    return passages.values().stream().flatMap(Arrays::stream).distinct().toList();
+  }
 
-    public List<Link> getBrokenLinks() {
-        return passages.keySet().stream().filter(link -> passages.get(link) == null).toList();
-    }
+  public void removePassage(Link link) {
+    passages.remove(link);
+  }
 
-    @Override
-    public String toString() {
-        return "Story{"
-            + "title='"
-            + title
-            + '\''
-            + ", passages="
-            + passages
-            + ", openingPassage="
-            + openingPassage
-            + ", currentPassage="
-            + currentPassage
-            + '}';
-    }
+  public List<Link> getBrokenLinks() {
+    return passages.keySet().stream().filter(link -> passages.get(link) == null).toList();
+  }
 
-    public Long getId() {
-        return id;
-    }
+  @Override
+  public String toString() {
+    return "Story{"
+        + "title='"
+        + title
+        + '\''
+        + ", passages="
+        + passages
+        + ", openingPassage="
+        + openingPassage
+        + ", currentPassage="
+        + currentPassage
+        + '}';
+  }
 
-    // WIZARD ZONE
-
-    private HashMap<Link, Passage[]> createHashMapFromLists(List<Link> keys,
-                                                            List<Passage[]> values) {
-        if (keys == null || values == null) {
-            throw new IllegalArgumentException("Input parameters cannot be null.");
-        }
-
-        if (keys.size() != values.size()) {
-            throw new IllegalArgumentException("Both lists should have the same size.");
-        }
-
-        HashMap<Link, Passage[]> hashMap = new HashMap<>();
-        for (int i = 0; i < keys.size(); i++) {
-            hashMap.put(keys.get(i), values.get(i));
-        }
-
-        return hashMap;
-    }
-
-    private void breakDownHashMap(
-        HashMap<Link, Passage[]> hashMap, List<Link> keys, List<Passage[]> values) {
-        if (hashMap == null || keys == null || values == null) {
-            throw new IllegalArgumentException("Input parameters cannot be null.");
-        }
-
-        keys.clear();
-        values.clear();
-
-        for (Map.Entry<Link, Passage[]> entry : hashMap.entrySet()) {
-            keys.add(entry.getKey());
-            values.add(entry.getValue());
-        }
-    }
+  public Long getId() {
+    return id;
+  }
 }

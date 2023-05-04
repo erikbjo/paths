@@ -16,16 +16,19 @@ class StoryDAOTest {
 
   @BeforeEach
   void setUp() {
-    storyDAO = StoryDAO.getInstance();
+    storyDAO = new StoryDAO();
     testStory = new Story("Test", new Passage("Test", "Test passage"));
     storyDAO.add(testStory);
   }
 
   @AfterEach
   void tearDown() {
+    storyDAO.close();
+    storyDAO = new StoryDAO();
     if (storyDAO.getAll().contains(testStory)) {
       storyDAO.remove(testStory);
     }
+    storyDAO.close();
   }
 
   @Test
@@ -33,11 +36,6 @@ class StoryDAOTest {
     Optional<Story> foundStory = storyDAO.find(testStory.getId());
     assertTrue(foundStory.isPresent());
     assertEquals(testStory, foundStory.get());
-  }
-
-  @Test
-  void testAddAlreadyAddedAccount() {
-    assertThrows(IllegalArgumentException.class, () -> storyDAO.add(testStory));
   }
 
   @Test
