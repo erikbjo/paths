@@ -2,6 +2,7 @@ package no.ntnu.idatg2001.paths.ui.views;
 
 import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -11,6 +12,9 @@ import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Story;
+import no.ntnu.idatg2001.paths.model.database.GameDAO;
+import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
+import no.ntnu.idatg2001.paths.model.database.StoryDAO;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.controllers.HomeController;
 import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
@@ -33,6 +37,15 @@ public class HomeView extends Application {
   @Override
   public void start(Stage primaryStage) {
     primaryStage.setTitle("Home");
+    primaryStage.setOnCloseRequest(
+        event -> {
+          event.consume();
+          GameDAO.getInstance().close();
+          StoryDAO.getInstance().close();
+          PlayerDAO.getInstance().close();
+          Platform.exit();
+        });
+
     BorderPane root = new BorderPane();
     root.setTop(new StandardMenuBar(primaryStage));
 
@@ -93,7 +106,8 @@ public class HomeView extends Application {
     HBox playersButtonsHBox = new HBox(editPlayerButton, newPlayerButton, deletePlayerButton);
 
     Button deleteLinkButton = new Button();
-    HBox deadLinksButtonsHBox = new HBox(deleteLinkButton);
+    Button updateDeadLinksButton = new Button();
+    HBox deadLinksButtonsHBox = new HBox(deleteLinkButton, updateDeadLinksButton);
 
     Button continueButton = new Button();
     Button deleteButton = new Button();
@@ -138,6 +152,7 @@ public class HomeView extends Application {
             newPlayerButton,
             deletePlayerButton,
             deleteLinkButton,
+            updateDeadLinksButton,
             continueButton,
             deleteButton,
             startNewGameButton,
