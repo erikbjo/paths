@@ -14,7 +14,6 @@ import no.ntnu.idatg2001.paths.model.units.Player;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "ITEM_TYPE")
 public abstract class Weapon extends Equipable {
 
   @Column

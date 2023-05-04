@@ -13,7 +13,6 @@ import java.io.Serializable;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "ITEM_TYPE")
 public abstract class Equipable extends Item {
   /**
    * Constructor for the Item class.

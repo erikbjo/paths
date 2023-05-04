@@ -256,9 +256,7 @@ public class HomeController {
 
             Optional<ButtonType> result = confirmationAlert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-              playersTableView
-                  .getItems()
-                  .removeAll(playersTableView.getSelectionModel().getSelectedItems());
+
               PlayerDAO.getInstance().remove(selectedPlayer);
 
               GameDAO.getInstance().getAll().stream()

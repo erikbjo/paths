@@ -1,6 +1,8 @@
 package no.ntnu.idatg2001.paths.model.items;
 
 import jakarta.persistence.*;
+import no.ntnu.idatg2001.paths.model.Game;
+import no.ntnu.idatg2001.paths.model.units.Player;
 
 import java.io.Serializable;
 
@@ -13,11 +15,15 @@ import java.io.Serializable;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "ITEM_TYPE")
-public abstract class Item implements Serializable {
+public abstract class Item {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(updatable = false, nullable = false)
   protected Long id;
+
+  @ManyToOne
+  @JoinColumn(name = "player_id")
+  private Player player;
 
   @Column
   protected String name;

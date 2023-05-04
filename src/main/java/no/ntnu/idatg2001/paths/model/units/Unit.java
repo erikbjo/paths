@@ -177,7 +177,7 @@ public abstract class Unit {
     this.attributes = attributes;
   }
 
-  public Long getId() {
+  protected Long getId() {
     return id;
   }
 
