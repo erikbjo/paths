@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Equipable extends Item {
   /**
    * Constructor for the Item class.

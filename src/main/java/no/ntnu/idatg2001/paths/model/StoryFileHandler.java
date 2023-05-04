@@ -1,4 +1,5 @@
-package no.ntnu.idatg2001.model;
+/*
+package no.ntnu.idatg2001.paths.model;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -100,3 +101,4 @@ public class StoryFileHandler {
         return storyParts;
     }
 }
+*/

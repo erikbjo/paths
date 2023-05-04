@@ -25,9 +25,7 @@ public class GoldAction extends Action {
     this.isPositive = isPositive;
   }
 
-  public GoldAction() {
-    
-  }
+  public GoldAction() {}
 
   /**
    * Returns whether the action is positive or not.
@@ -38,6 +36,10 @@ public class GoldAction extends Action {
     return isPositive;
   }
 
+  public void setIsPositive(boolean isPositive) {
+    this.isPositive = isPositive;
+  }
+
   /**
    * Returns the amount of gold the action gives.
    *
@@ -45,6 +47,10 @@ public class GoldAction extends Action {
    */
   public int getGold() {
     return gold;
+  }
+
+  public void setGold(int gold) {
+    this.gold = gold;
   }
 
   /**
