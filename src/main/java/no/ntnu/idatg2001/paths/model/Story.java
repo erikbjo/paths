@@ -112,7 +112,7 @@ public class Story {
    * @param passage The passage that gets added to the game.
    */
   public void addPassage(Passage passage) {
-    for (Link link : passage.getLinks()) {
+    for (Link link : passages.keySet()) {
       if (passages.containsKey(link)) {
         Passage[] oldPassagesArray = passages.get(link);
 

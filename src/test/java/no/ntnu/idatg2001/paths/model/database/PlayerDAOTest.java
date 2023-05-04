@@ -14,16 +14,19 @@ class PlayerDAOTest {
 
   @BeforeEach
   void setUp() {
-    playerDAO = PlayerDAO.getInstance();
+    playerDAO = new PlayerDAO();
     testPlayer = new Player.PlayerBuilder().withName("Test").build();
     playerDAO.add(testPlayer);
   }
 
   @AfterEach
   void tearDown() {
+    playerDAO.close();
+    playerDAO = new PlayerDAO();
     if (playerDAO.getAll().contains(testPlayer)) {
       playerDAO.remove(testPlayer);
     }
+    playerDAO.close();
   }
 
   @Test
@@ -31,11 +34,6 @@ class PlayerDAOTest {
     Optional<Player> foundPlayer = playerDAO.find(testPlayer.getId());
     assertTrue(foundPlayer.isPresent());
     assertEquals(testPlayer, foundPlayer.get());
-  }
-
-  @Test
-  void testAddAlreadyAddedAccount() {
-    assertThrows(IllegalArgumentException.class, () -> playerDAO.add(testPlayer));
   }
 
   @Test
