@@ -49,7 +49,7 @@ public class Story {
   // WIP
   @PrePersist
   @PreUpdate
-  private void savePassagesAsBlob() throws IOException {
+  private void savePassagesAsByteArray() throws IOException {
     if (passages != null) {
       try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
            ObjectOutputStream oos = new ObjectOutputStream(baos)) {
@@ -61,7 +61,7 @@ public class Story {
   }
 
   @PostLoad
-  private void loadPassagesFromBlob() throws IOException, ClassNotFoundException {
+  private void loadPassagesFromByteArray() throws IOException, ClassNotFoundException {
     if (serializedPassages != null) {
       try (ByteArrayInputStream bais = new ByteArrayInputStream(serializedPassages);
            ObjectInputStream ois = new ObjectInputStream(bais)) {

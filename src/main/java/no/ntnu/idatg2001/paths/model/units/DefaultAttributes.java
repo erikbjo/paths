@@ -1,5 +1,6 @@
 package no.ntnu.idatg2001.paths.model.units;
 
+// @TODO: ADD LANGUAGE SUPPORT FOR THIS
 public enum DefaultAttributes {
   HUNTER(3, 5, 2, 2, 6, 7, 3),
   WARRIOR(7, 3, 5, 4, 3, 4, 4),
