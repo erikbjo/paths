@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Passage;
+import no.ntnu.idatg2001.paths.ui.controllers.NewStoryController;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
 public class NewStoryView {
@@ -29,6 +30,7 @@ public class NewStoryView {
   private TableColumn<Passage, String> passageColumn;
   private TableColumn<Passage, String> startingPassageColumn;
   private TableView<Passage> startingPassageTableView;
+  private NewStoryController controller;
 
   public void start(Stage primaryStage) {
     this.primaryStage = primaryStage;
@@ -103,6 +105,26 @@ public class NewStoryView {
 
     rootAnchorPane.getChildren().add(mainVBox);
     root.setCenter(rootAnchorPane);
+
+    controller =
+        new NewStoryController(
+            primaryStage,
+            newStoryText,
+            titleText,
+            titleTextField,
+            newPassageButton,
+            newLinkButton,
+            addToStoryButton,
+            createStoryButton,
+            cancelButton,
+            linkCreationTableView,
+            linkColumn,
+            passageCreationTableView,
+            passageColumn,
+            startingPassageColumn,
+            startingPassageTableView);
+
+    controller.updateLanguage();
 
     Scene scene = new Scene(root, 800, 800);
     primaryStage.setScene(scene);
