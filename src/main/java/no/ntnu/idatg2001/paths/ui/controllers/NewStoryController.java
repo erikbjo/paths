@@ -8,8 +8,10 @@ import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
+import no.ntnu.idatg2001.paths.model.database.StoryDAO;
 import no.ntnu.idatg2001.paths.ui.dialogs.NewPassageDialog;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
+import no.ntnu.idatg2001.paths.ui.views.HomeView;
 
 public class NewStoryController {
   private final Stage primaryStage;
@@ -125,16 +127,29 @@ public class NewStoryController {
             linkCreationTableView.getItems().remove(link);
 
             updateStartingPassageTableView();
-
-            // TODO: REMOVE THIS
-            System.out.println("size: " + story.getPassagesHashMap().size());
-            story
-                .getPassagesHashMap()
-                .forEach((key, value) -> System.out.println(key + " " + Arrays.toString(value)));
           }
         });
 
-    createStoryButton.setOnAction(event -> {});
+    createStoryButton.setOnAction(
+        event -> {
+          try {
+            if (startingPassageTableView.getSelectionModel().getSelectedItems().size() == 1) {
+              Passage startingPassage =
+                  startingPassageTableView.getSelectionModel().getSelectedItems().get(0);
+              story.setStartingPassage(startingPassage);
+              story.setTitle(titleTextField.getText());
+
+              StoryDAO.getInstance().add(story);
+
+              HomeView homeView = new HomeView();
+              homeView.start(primaryStage);
+            }
+          } catch (Exception e) {
+            //            ExceptionAlert alert = new ExceptionAlert(e);
+            //            alert.showAndWait();
+            e.printStackTrace();
+          }
+        });
 
     cancelButton.setOnAction(
         event -> {

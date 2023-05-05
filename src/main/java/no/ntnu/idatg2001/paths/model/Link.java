@@ -1,6 +1,8 @@
 package no.ntnu.idatg2001.paths.model;
 
 import jakarta.persistence.*;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import no.ntnu.idatg2001.paths.model.actions.Action;
@@ -13,7 +15,7 @@ import no.ntnu.idatg2001.paths.model.actions.Action;
  * @version 2023.02.02
  */
 @Entity
-public class Link {
+public class Link implements Serializable {
   @Id @GeneratedValue private Long id;
   private String text;
   private String reference;

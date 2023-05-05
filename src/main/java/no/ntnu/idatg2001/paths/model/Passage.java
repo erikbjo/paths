@@ -2,6 +2,7 @@ package no.ntnu.idatg2001.paths.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +15,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "passage")
-public class Passage {
+public class Passage implements Serializable {
   private String title;
   private String content;
 
