@@ -1,16 +1,16 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
+import no.ntnu.idatg2001.paths.ui.dialogs.NewPassageDialog;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
 public class NewStoryController {
@@ -30,6 +30,7 @@ public class NewStoryController {
   private final TableColumn<Passage, String> startingPassageColumn;
   private final TableView<Passage> startingPassageTableView;
   private ResourceBundle resources;
+  private Story story;
 
   public NewStoryController(
       Stage primaryStage,
@@ -89,5 +90,62 @@ public class NewStoryController {
     startingPassageColumn.setText(resources.getString("startingPassageColumn"));
     startingPassageTableView.setPlaceholder(
         new Text(resources.getString("startingPassageTableView")));
+  }
+
+  public void configureButtons() {
+    newPassageButton.setOnAction(
+        event -> {
+          NewPassageDialog newPassageDialog = new NewPassageDialog();
+          newPassageDialog.showAndWait();
+
+          Optional<Passage> result = newPassageDialog.showAndWait();
+          result.ifPresent(passage -> passageCreationTableView.getItems().add(passage));
+        });
+
+    newLinkButton.setOnAction(event -> {});
+
+    addToStoryButton.setOnAction(
+        event -> {
+          // check that there is two passages and one link selected
+          if (passageCreationTableView.getSelectionModel().getSelectedItems().size() == 2
+              && linkCreationTableView.getSelectionModel().getSelectedItems().size() == 1) {
+            // get the selected passages and link
+            Passage passage1 =
+                passageCreationTableView.getSelectionModel().getSelectedItems().get(0);
+            Passage passage2 =
+                passageCreationTableView.getSelectionModel().getSelectedItems().get(1);
+            Link link = linkCreationTableView.getSelectionModel().getSelectedItems().get(0);
+
+            passage1.addLink(link);
+            passage2.addLink(link);
+
+            story.addPassage(passage1);
+            story.addPassage(passage2);
+
+            passageCreationTableView.getSelectionModel().clearSelection();
+            linkCreationTableView.getSelectionModel().clearSelection();
+          }
+        });
+
+    createStoryButton.setOnAction(
+        event -> {
+        });
+
+    cancelButton.setOnAction(
+        event -> {
+          // Closes the window
+          primaryStage.close();
+        });
+  }
+
+  public void configureTableViews() {
+    passageColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+    passageColumn.setPrefWidth(250);
+
+    linkColumn.setCellValueFactory(new PropertyValueFactory<>("text"));
+    linkColumn.setPrefWidth(250);
+
+    startingPassageColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+    startingPassageColumn.setPrefWidth(250);
   }
 }

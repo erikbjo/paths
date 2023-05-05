@@ -125,6 +125,8 @@ public class NewStoryView {
             startingPassageTableView);
 
     controller.updateLanguage();
+    controller.configureTableViews();
+    controller.configureButtons();
 
     Scene scene = new Scene(root, 800, 800);
     primaryStage.setScene(scene);
