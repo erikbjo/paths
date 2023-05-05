@@ -1,8 +1,9 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-public class NewPlayerController {
+public class GenericDialogController {
   public void makeTextFieldNumericOnly(TextField textField) {
     textField
         .textProperty()
@@ -21,6 +22,17 @@ public class NewPlayerController {
             (observable, oldValue, newValue) -> {
               if ((oldValue.isEmpty() || oldValue.isBlank()) && newValue.matches(" ")) {
                 textField.clear();
+              }
+            });
+  }
+
+  public void makeTextAreaNotStartWithSpace(TextArea textArea) {
+    textArea
+        .textProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              if ((oldValue.isEmpty() || oldValue.isBlank()) && newValue.matches(" ")) {
+                textArea.clear();
               }
             });
   }

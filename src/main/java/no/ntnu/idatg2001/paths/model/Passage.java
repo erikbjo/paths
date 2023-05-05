@@ -2,6 +2,7 @@ package no.ntnu.idatg2001.paths.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +15,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "passage")
-public class Passage {
+public class Passage implements Serializable {
   private String title;
   private String content;
 
@@ -49,6 +50,10 @@ public class Passage {
     return title;
   }
 
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
   /**
    * This function returns the content of the message.
    *
@@ -56,6 +61,10 @@ public class Passage {
    */
   public String getContent() {
     return content;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
   }
 
   /**
@@ -108,13 +117,13 @@ public class Passage {
   }
 
   // TODO: implement equals and hashCode
-  @Override
-  public boolean equals(Object object) {
-    if (this == object) return true;
-    if (object == null || getClass() != object.getClass()) return false;
-    Passage passage = (Passage) object;
-    return Objects.equals(id, passage.id);
-  }
+//  @Override
+//  public boolean equals(Object object) {
+//    if (this == object) return true;
+//    if (object == null || getClass() != object.getClass()) return false;
+//    Passage passage = (Passage) object;
+//    return Objects.equals(id, passage.id);
+//  }
 
   @Override
   public int hashCode() {

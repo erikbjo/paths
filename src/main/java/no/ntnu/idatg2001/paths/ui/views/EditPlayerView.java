@@ -135,6 +135,7 @@ public class EditPlayerView {
     controller.addParametersFromPlayerIntoTextFields();
 
     Scene scene = new Scene(root, 800, 800);
+    scene.getStylesheets().add("cssfiles/editPlayer.css");
     primaryStage.setScene(scene);
     primaryStage.show();
     MusicHandler.playMusic("Old_Man.mp3");
@@ -256,7 +257,7 @@ public class EditPlayerView {
 
     rightVBox
         .getChildren()
-        .addAll(defaultAttributesComboBox, showAttributesGridPaneButton, attributesGridPane);
+        .addAll(showAttributesGridPaneButton, defaultAttributesComboBox, attributesGridPane);
 
     return rightVBox;
   }

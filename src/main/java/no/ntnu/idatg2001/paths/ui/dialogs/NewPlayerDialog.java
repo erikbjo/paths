@@ -9,7 +9,7 @@ import javafx.scene.text.Text;
 import javafx.util.Callback;
 import no.ntnu.idatg2001.paths.model.units.Attributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
-import no.ntnu.idatg2001.paths.ui.controllers.NewPlayerController;
+import no.ntnu.idatg2001.paths.ui.controllers.GenericDialogController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
 public class NewPlayerDialog extends Dialog<Player> {
@@ -38,7 +38,7 @@ public class NewPlayerDialog extends Dialog<Player> {
   private Text agilityText;
   private Text luckText;
 
-  private NewPlayerController controller;
+  private GenericDialogController controller;
 
   public NewPlayerDialog() {
     setTitle("New Player");
@@ -60,7 +60,7 @@ public class NewPlayerDialog extends Dialog<Player> {
             "playerInformation",
             Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
 
-    controller = new NewPlayerController();
+    controller = new GenericDialogController();
 
     playerNameTextField = new TextField();
     playerHealthTextField = new TextField();
@@ -96,31 +96,29 @@ public class NewPlayerDialog extends Dialog<Player> {
   }
 
   private Callback<ButtonType, Player> createPlayerCallback() {
-    return new Callback<ButtonType, Player>() {
-      @Override
-      public Player call(ButtonType buttonType) {
-        if (buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
-          Player player =
-              new Player.PlayerBuilder()
-                  .withName(playerNameTextField.getText())
-                  .withHealth(Integer.parseInt(playerHealthTextField.getText()))
-                  .withMana(Integer.parseInt(playerManaTextField.getText()))
-                  .withEnergy(Integer.parseInt(playerEnergyTextField.getText()))
-                  .withAttributes(
-                      new Attributes(
-                          Integer.parseInt(strengthTextField.getText()),
-                          Integer.parseInt(perceptionTextField.getText()),
-                          Integer.parseInt(enduranceTextField.getText()),
-                          Integer.parseInt(charismaTextField.getText()),
-                          Integer.parseInt(intelligenceTextField.getText()),
-                          Integer.parseInt(agilityTextField.getText()),
-                          Integer.parseInt(luckTextField.getText())))
-                  .build();
+    return buttonType -> {
+      if (buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
+        // TODO: MAKE THIS MAKE USE OF BUILDER MAYBE
+        Player player =
+            new Player.PlayerBuilder()
+                .withName(playerNameTextField.getText())
+                .withHealth(Integer.parseInt(playerHealthTextField.getText()))
+                .withMana(Integer.parseInt(playerManaTextField.getText()))
+                .withEnergy(Integer.parseInt(playerEnergyTextField.getText()))
+                .withAttributes(
+                    new Attributes(
+                        Integer.parseInt(strengthTextField.getText()),
+                        Integer.parseInt(perceptionTextField.getText()),
+                        Integer.parseInt(enduranceTextField.getText()),
+                        Integer.parseInt(charismaTextField.getText()),
+                        Integer.parseInt(intelligenceTextField.getText()),
+                        Integer.parseInt(agilityTextField.getText()),
+                        Integer.parseInt(luckTextField.getText())))
+                .build();
 
-          return player;
-        }
-        return null;
+        return player;
       }
+      return null;
     };
   }
 
