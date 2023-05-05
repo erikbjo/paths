@@ -12,13 +12,16 @@ import no.ntnu.idatg2001.paths.ui.controllers.GenericDialogController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
 public class NewPassageDialog extends Dialog<Passage> {
-  private ResourceBundle resources;
+  private final ResourceBundle resources =
+      ResourceBundle.getBundle(
+          "newPassageDialog",
+          Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
   private TextField titleTextField;
   private TextArea contentTextArea;
-
   private Text titleText;
   private Text contentText;
-
+  private ButtonType createButtonType;
+  private ButtonType cancelButtonType;
   private GenericDialogController controller;
 
   public NewPassageDialog() {
@@ -39,6 +42,13 @@ public class NewPassageDialog extends Dialog<Passage> {
     controller.makeTextFieldNotStartWithSpace(titleTextField);
     controller.makeTextAreaNotStartWithSpace(contentTextArea);
 
+    // update button
+    createButtonType =
+        new ButtonType(resources.getString("createButton"), ButtonBar.ButtonData.OK_DONE);
+    cancelButtonType =
+        new ButtonType(resources.getString("cancelButton"), ButtonBar.ButtonData.CANCEL_CLOSE);
+    getDialogPane().getButtonTypes().setAll(createButtonType, cancelButtonType);
+
     updateLanguage();
     setResultConverter(createPlayerCallback());
   }
@@ -47,9 +57,7 @@ public class NewPassageDialog extends Dialog<Passage> {
     return buttonType -> {
       if (buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
         // TODO: MAKE THIS MAKE USE OF BUILDER MAYBE
-        Passage passage = new Passage(titleTextField.getText(), contentTextArea.getText());
-
-        return passage;
+        return new Passage(titleTextField.getText(), contentTextArea.getText());
       }
       return null;
     };
@@ -70,12 +78,6 @@ public class NewPassageDialog extends Dialog<Passage> {
   }
 
   public void updateLanguage() {
-    // update resources
-    resources =
-        ResourceBundle.getBundle(
-            "newPassageDialog",
-            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
-
     // dialog etc
     setTitle(resources.getString("dialogTitle"));
     setHeaderText(resources.getString("headerText"));
@@ -87,12 +89,5 @@ public class NewPassageDialog extends Dialog<Passage> {
     // update prompt text
     titleTextField.setPromptText(resources.getString("titleTextField"));
     contentTextArea.setPromptText(resources.getString("contentTextArea"));
-
-    // update button
-    ButtonType createButtonType =
-        new ButtonType(resources.getString("createButton"), ButtonBar.ButtonData.OK_DONE);
-    ButtonType cancelButtonType =
-        new ButtonType(resources.getString("cancelButton"), ButtonBar.ButtonData.CANCEL_CLOSE);
-    getDialogPane().getButtonTypes().setAll(createButtonType, cancelButtonType);
   }
 }

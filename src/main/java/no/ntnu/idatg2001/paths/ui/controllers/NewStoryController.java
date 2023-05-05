@@ -1,8 +1,7 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
-import java.util.Locale;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
+
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
@@ -29,8 +28,8 @@ public class NewStoryController {
   private final TableColumn<Passage, String> passageColumn;
   private final TableColumn<Passage, String> startingPassageColumn;
   private final TableView<Passage> startingPassageTableView;
+  private final Story story = new Story("placeholder", null);
   private ResourceBundle resources;
-  private Story story;
 
   public NewStoryController(
       Stage primaryStage,
@@ -106,10 +105,9 @@ public class NewStoryController {
 
     addToStoryButton.setOnAction(
         event -> {
-          // check that there is two passages and one link selected
           if (passageCreationTableView.getSelectionModel().getSelectedItems().size() == 2
               && linkCreationTableView.getSelectionModel().getSelectedItems().size() == 1) {
-            // get the selected passages and link
+
             Passage passage1 =
                 passageCreationTableView.getSelectionModel().getSelectedItems().get(0);
             Passage passage2 =
@@ -124,28 +122,66 @@ public class NewStoryController {
 
             passageCreationTableView.getSelectionModel().clearSelection();
             linkCreationTableView.getSelectionModel().clearSelection();
+
+            updateStartingPassageTableView();
+
+            // TODO: REMOVE THIS
+            System.out.println("size: " + story.getPassagesHashMap().size());
+            story
+                .getPassagesHashMap()
+                .forEach((key, value) -> System.out.println(key + " " + Arrays.toString(value)));
           }
         });
 
-    createStoryButton.setOnAction(
-        event -> {
-        });
+    createStoryButton.setOnAction(event -> {});
 
     cancelButton.setOnAction(
         event -> {
-          // Closes the window
-          primaryStage.close();
+          createTestItems();
         });
   }
 
   public void configureTableViews() {
     passageColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
     passageColumn.setPrefWidth(250);
+    passageCreationTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
     linkColumn.setCellValueFactory(new PropertyValueFactory<>("text"));
     linkColumn.setPrefWidth(250);
 
     startingPassageColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
     startingPassageColumn.setPrefWidth(250);
+  }
+
+  private void createTestItems() {
+    Random random = new Random();
+
+    passageCreationTableView
+        .getItems()
+        .add(new Passage("Passage" + random.nextInt(1000), "Text" + random.nextInt(1000)));
+    linkCreationTableView
+        .getItems()
+        .add(new Link("Link" + random.nextInt(1000), "Text" + random.nextInt(1000)));
+  }
+
+  public void updateStartingPassageTableView() {
+    // adds all passages to the startingPassageTableView, except passages that are already in the
+    // tableview
+    story.getPassagesHashMap().values().stream()
+        .filter(
+            passage -> {
+              for (Passage nthPassage : passage) {
+                if (startingPassageTableView.getItems().contains(nthPassage)) {
+                  return false;
+                }
+              }
+              return true;
+            })
+        .forEach(
+            passage -> {
+              for (Passage nthPassage : passage) {
+                startingPassageTableView.getItems().add(nthPassage);
+              }
+            });
   }
 }
