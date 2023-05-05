@@ -108,13 +108,13 @@ public class Passage {
   }
 
   // TODO: implement equals and hashCode
-  @Override
-  public boolean equals(Object object) {
-    if (this == object) return true;
-    if (object == null || getClass() != object.getClass()) return false;
-    Passage passage = (Passage) object;
-    return Objects.equals(id, passage.id);
-  }
+//  @Override
+//  public boolean equals(Object object) {
+//    if (this == object) return true;
+//    if (object == null || getClass() != object.getClass()) return false;
+//    Passage passage = (Passage) object;
+//    return Objects.equals(id, passage.id);
+//  }
 
   @Override
   public int hashCode() {

@@ -2,8 +2,6 @@ package no.ntnu.idatg2001.paths.model;
 
 import jakarta.persistence.*;
 import java.io.*;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -40,8 +38,13 @@ public class Story {
     this.title = title;
     this.openingPassage = openingPassage;
     this.currentPassage = openingPassage;
-    this.passages = new HashMap<Link, Passage[]>();
+    this.passages = new HashMap<>();
     addPassage(openingPassage);
+  }
+
+  public Story(String title) {
+    this.title = title;
+    this.passages = new HashMap<>();
   }
 
   public Story() {}
@@ -52,7 +55,7 @@ public class Story {
   private void savePassagesAsByteArray() throws IOException {
     if (passages != null) {
       try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-           ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+          ObjectOutputStream oos = new ObjectOutputStream(baos)) {
         oos.writeObject(passages);
         oos.flush();
         serializedPassages = baos.toByteArray();
@@ -64,12 +67,26 @@ public class Story {
   private void loadPassagesFromByteArray() throws IOException, ClassNotFoundException {
     if (serializedPassages != null) {
       try (ByteArrayInputStream bais = new ByteArrayInputStream(serializedPassages);
-           ObjectInputStream ois = new ObjectInputStream(bais)) {
+          ObjectInputStream ois = new ObjectInputStream(bais)) {
         passages = (Map<Link, Passage[]>) ois.readObject();
       }
     } else {
       passages = new HashMap<>();
     }
+  }
+
+  public List<Passage> getAllPassages() {
+    List<Passage> allPassages = new ArrayList<>();
+
+    for (Passage[] passageArray : passages.values()) {
+      for (Passage passage : passageArray) {
+        if (passage != null && !allPassages.contains(passage)) {
+          allPassages.add(passage);
+        }
+      }
+    }
+
+    return allPassages;
   }
 
   public Map<Link, Passage[]> getPassagesHashMap() {
@@ -112,22 +129,29 @@ public class Story {
    * @param passage The passage that gets added to the game.
    */
   public void addPassage(Passage passage) {
-    for (Link link : passages.keySet()) {
-      if (passages.containsKey(link)) {
+    List<Link> links = passage.getLinks();
+
+    for (Link link : links) {
+      if (!passages.containsKey(link)) {
+        passages.put(link, new Passage[] {passage});
+      } else if (passages.containsKey(link) && (passages.get(link).length < 2)) {
         Passage[] oldPassagesArray = passages.get(link);
 
-        if (Arrays.asList(oldPassagesArray).contains(passage)) {
-          throw new IllegalArgumentException("Passage already exists.");
-        } else if (oldPassagesArray.length > 1) {
+        if (oldPassagesArray.length >= 2) {
           throw new IllegalArgumentException("Link already has two passages.");
+        }
+        if (oldPassagesArray[0].equals(passage)) {
+          throw new IllegalArgumentException("Link already has this passage.");
         }
 
         Passage[] updatedPassagesArray =
             Arrays.copyOf(oldPassagesArray, oldPassagesArray.length + 1);
         updatedPassagesArray[updatedPassagesArray.length - 1] = passage;
         passages.put(link, updatedPassagesArray);
+      } else if (Arrays.asList(passages.get(link)).contains(passage)) {
+        // do nothing
       } else {
-        passages.put(link, new Passage[] {passage});
+        throw new IllegalArgumentException("Link already has two passages.");
       }
     }
   }

@@ -1,7 +1,6 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
 import java.util.*;
-
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
@@ -28,7 +27,7 @@ public class NewStoryController {
   private final TableColumn<Passage, String> passageColumn;
   private final TableColumn<Passage, String> startingPassageColumn;
   private final TableView<Passage> startingPassageTableView;
-  private final Story story = new Story("placeholder", null);
+  private final Story story = new Story("placeholder");
   private ResourceBundle resources;
 
   public NewStoryController(
@@ -123,6 +122,8 @@ public class NewStoryController {
             passageCreationTableView.getSelectionModel().clearSelection();
             linkCreationTableView.getSelectionModel().clearSelection();
 
+            linkCreationTableView.getItems().remove(link);
+
             updateStartingPassageTableView();
 
             // TODO: REMOVE THIS
@@ -165,23 +166,14 @@ public class NewStoryController {
   }
 
   public void updateStartingPassageTableView() {
-    // adds all passages to the startingPassageTableView, except passages that are already in the
-    // tableview
-    story.getPassagesHashMap().values().stream()
-        .filter(
-            passage -> {
-              for (Passage nthPassage : passage) {
-                if (startingPassageTableView.getItems().contains(nthPassage)) {
-                  return false;
-                }
-              }
-              return true;
-            })
+    story
+        .getAllPassages()
         .forEach(
             passage -> {
-              for (Passage nthPassage : passage) {
-                startingPassageTableView.getItems().add(nthPassage);
+              if (!startingPassageTableView.getItems().contains(passage)) {
+                startingPassageTableView.getItems().add(passage);
               }
             });
+    System.out.println(story.getAllPassages());
   }
 }

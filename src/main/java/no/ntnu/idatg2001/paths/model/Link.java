@@ -97,16 +97,17 @@ public class Link {
         + '}';
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (o == this) {
-      return true;
-    }
-    if (!(o instanceof Link other)) {
-      return false;
-    }
-    // checking only for reference
-    return (this.getReference() == null && other.getReference() == null)
-        || (this.getReference() != null && this.getReference().equals(other.getReference()));
-  }
+  // TODO: FIX EQUALS
+//  @Override
+//  public boolean equals(Object o) {
+//    if (o == this) {
+//      return true;
+//    }
+//    if (!(o instanceof Link other)) {
+//      return false;
+//    }
+//    // checking only for reference
+//    return (this.getReference() == null && other.getReference() == null)
+//        || (this.getReference() != null && this.getReference().equals(other.getReference()));
+//  }
 }
