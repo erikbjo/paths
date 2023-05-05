@@ -147,11 +147,15 @@ public class EditPlayerController {
         event -> {
           if (attributesGridPane.isVisible()) {
             attributesGridPane.setVisible(false);
+            attributesGridPane.setManaged(false);
             defaultAttributesComboBox.setVisible(true);
+            defaultAttributesComboBox.setManaged(true);
             updateShowAttributesGridPaneButton();
           } else {
             attributesGridPane.setVisible(true);
+            attributesGridPane.setManaged(true);
             defaultAttributesComboBox.setVisible(false);
+            defaultAttributesComboBox.setManaged(false);
             updateShowAttributesGridPaneButton();
           }
         });
@@ -213,9 +217,6 @@ public class EditPlayerController {
     intelligenceTextField.setText(String.valueOf(player.getAttributes().getIntelligence()));
     agilityTextField.setText(String.valueOf(player.getAttributes().getAgility()));
     luckTextField.setText(String.valueOf(player.getAttributes().getLuck()));
-
-    cancelButton.setText(resources.getString("cancelButton"));
-    saveButton.setText(resources.getString("saveButton"));
   }
 
   public void savePlayer() {

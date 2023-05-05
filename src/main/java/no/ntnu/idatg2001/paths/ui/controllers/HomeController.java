@@ -27,11 +27,11 @@ import no.ntnu.idatg2001.paths.ui.alerts.ConfirmationAlert;
 import no.ntnu.idatg2001.paths.ui.alerts.ExceptionAlert;
 import no.ntnu.idatg2001.paths.ui.alerts.WarningAlert;
 import no.ntnu.idatg2001.paths.ui.dialogs.NewPlayerDialog;
-import no.ntnu.idatg2001.paths.ui.dialogs.NewStoryDialog;
 import no.ntnu.idatg2001.paths.ui.handlers.CurrentGameHandler;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.views.EditPlayerView;
 import no.ntnu.idatg2001.paths.ui.views.EditStoryView;
+import no.ntnu.idatg2001.paths.ui.views.NewStoryView;
 import no.ntnu.idatg2001.paths.ui.views.StoryView;
 
 public class HomeController {
@@ -179,17 +179,8 @@ public class HomeController {
 
     newStoryButton.setOnAction(
         event -> {
-          NewStoryDialog newStoryDialog = new NewStoryDialog();
-          newStoryDialog.initOwner(primaryStage);
-
-          Optional<Story> result = newStoryDialog.showAndWait();
-          result.ifPresent(
-              story -> {
-                // @TODO: FIX THIS
-                // ADD STORY TO W/E
-                // UPDATE THIS W/E IN DB
-                // UPDATE VIEW
-              });
+          NewStoryView newStoryView = new NewStoryView();
+          newStoryView.start(primaryStage);
         });
 
     deleteStoryButton.setOnAction(
@@ -334,8 +325,7 @@ public class HomeController {
           }
         });
 
-    updateDeadLinksButton.setOnAction(
-        event -> updateDeadLinkTable());
+    updateDeadLinksButton.setOnAction(event -> updateDeadLinkTable());
 
     continueButton.setOnAction(
         event -> {
