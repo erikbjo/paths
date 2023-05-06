@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import no.ntnu.idatg2001.paths.model.goals.Goal;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
-@Entity(name = "Game")
+@Entity
 @Table(name = "game")
 public class Game {
   @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST)
@@ -17,11 +17,11 @@ public class Game {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToOne(cascade = CascadeType.PERSIST)
+  @ManyToOne
   @JoinColumn(name = "player_id")
   private Player player;
 
-  @OneToOne(cascade = CascadeType.PERSIST)
+  @ManyToOne
   @JoinColumn(name = "story_id")
   private Story story;
 

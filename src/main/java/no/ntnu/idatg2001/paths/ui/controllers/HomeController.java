@@ -147,13 +147,17 @@ public class HomeController {
           try {
             Story story = storiesTableView.getSelectionModel().getSelectedItem();
             Player player = playersTableView.getSelectionModel().getSelectedItem();
+
             if (story == null || player == null) {
               throw new NullPointerException("No story or player selected");
             }
+
             Game game = new Game(player, story, new ArrayList<>());
             GameDAO gameDAO = GameDAO.getInstance();
             gameDAO.add(game);
+
             CurrentGameHandler.setCurrentGame(game);
+
             StoryView storyView = new StoryView();
             storyView.start(primaryStage);
           } catch (NullPointerException e) {
