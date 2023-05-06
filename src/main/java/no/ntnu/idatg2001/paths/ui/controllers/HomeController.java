@@ -345,8 +345,6 @@ public class HomeController {
 
             StoryView storyView = new StoryView();
             storyView.start(primaryStage);
-
-            createTestItems();
           } else {
             WarningAlert warningAlert = new WarningAlert("Please select a game to continue");
             warningAlert.showAndWait();
@@ -509,33 +507,5 @@ public class HomeController {
 
     deadLinksTableColumn.setCellValueFactory(new PropertyValueFactory<>("reference"));
     deadLinksTableColumn.setPrefWidth(250);
-  }
-
-  // FOR TESTING
-
-
-  private void createTestItems() {
-    Random random = new Random();
-
-    PlayerDAO.getInstance()
-        .add(
-            new Player.PlayerBuilder()
-                .withName("Test" + random.nextInt(1000))
-                .withMana(5)
-                .withHealth(5)
-                .withEnergy(5)
-                .withGold(5)
-                .withGold(5)
-                .withScore(5)
-                .withAttributes(new Attributes(1, 1, 1, 1, 1, 1, 1))
-                .build());
-    updatePlayerTable();
-
-    Story newStory =
-        new Story(
-            "Test" + random.nextInt(1000), new Passage("Title" + random.nextInt(1000), "Text"));
-
-    StoryDAO.getInstance().add(newStory);
-    updateStoryTable();
   }
 }

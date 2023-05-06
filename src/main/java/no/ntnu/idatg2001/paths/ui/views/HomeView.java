@@ -2,6 +2,7 @@ package no.ntnu.idatg2001.paths.ui.views;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -191,7 +192,14 @@ public class HomeView extends Application {
           createTestGame();
           homeController.updateAllTables();
         });
-    root.setBottom(createTestGameButton);
+    Button createTestItemButton = new Button("Create test player and story");
+    createTestGameButton.setOnAction(
+            event -> {
+              createTestItems();
+              homeController.updateAllTables();
+            });
+
+    root.setBottom(new HBox(createTestGameButton, createTestItemButton));
 
     Scene scene = new Scene(root, 800, 800);
     scene.getStylesheets().add("cssfiles/home.css");
@@ -243,5 +251,30 @@ public class HomeView extends Application {
       StoryDAO.getInstance().add(story);
       GameDAO.getInstance().add(game);
     }
+  }
+
+  private void createTestItems() {
+    Random random = new Random();
+
+    PlayerDAO.getInstance()
+            .add(
+                    new Player.PlayerBuilder()
+                            .withName("Test" + random.nextInt(1000))
+                            .withMana(5)
+                            .withHealth(5)
+                            .withEnergy(5)
+                            .withGold(5)
+                            .withGold(5)
+                            .withScore(5)
+                            .withAttributes(new Attributes(1, 1, 1, 1, 1, 1, 1))
+                            .build());
+    homeController.updatePlayerTable();
+
+    Story newStory =
+            new Story(
+                    "Test" + random.nextInt(1000), new Passage("Title" + random.nextInt(1000), "Text"));
+
+    StoryDAO.getInstance().add(newStory);
+    homeController.updateStoryTable();
   }
 }
