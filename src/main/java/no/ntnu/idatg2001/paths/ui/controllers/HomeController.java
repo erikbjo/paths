@@ -512,49 +512,7 @@ public class HomeController {
   }
 
   // FOR TESTING
-  private void createTestGame() {
-    if (!GameDAO.getInstance().getAll().stream()
-        .anyMatch(game -> Objects.equals(game.getPlayer().getName(), "Test"))) {
-      Player player =
-          new Player.PlayerBuilder()
-              .withName("Test")
-              .withAttributes(new Attributes(10, 10, 10, 10, 10, 10, 10))
-              .withEnergy(10)
-              .withGold(100)
-              .withHealth(100)
-              .withMana(100)
-              .withScore(0)
-              .build();
 
-      Passage firstPassage =
-          new Passage("Start your journey.", "You standing in the middle of a forest");
-      Passage forestRuinsPassage = new Passage("Forest ruins.", "You see ruins of an old castle.");
-      Passage deepForestPassage = new Passage("Deep forest.", "You are deep in the forest.");
-
-      Link goForestRuinsLink = new Link("Go to the forest ruins.", "goForestRuins");
-      Link goDeeperInForestLink = new Link("Go deeper in the forest.", "goDeeperInForest");
-
-      firstPassage.addLink(goForestRuinsLink);
-
-      forestRuinsPassage.addLink(goDeeperInForestLink);
-
-      Story story = new Story("My first story", firstPassage);
-      story.addPassage(forestRuinsPassage);
-      story.addPassage(deepForestPassage);
-
-      GoldGoal goldGoal = new GoldGoal(100);
-      HealthGoal healthGoal = new HealthGoal(100);
-      ScoreGoal scoreGoal = new ScoreGoal(100);
-      List<Goal> goals = List.of(goldGoal, healthGoal, scoreGoal);
-
-      Game game = new Game(player, story, goals);
-      GameDAO.getInstance().add(game);
-      PlayerDAO.getInstance().add(player);
-      StoryDAO.getInstance().add(story);
-
-      updateAllTables();
-    }
-  }
 
   private void createTestItems() {
     Random random = new Random();

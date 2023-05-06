@@ -1,5 +1,7 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -11,10 +13,16 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.Link;
+import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.model.database.GameDAO;
 import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.database.StoryDAO;
+import no.ntnu.idatg2001.paths.model.goals.Goal;
+import no.ntnu.idatg2001.paths.model.goals.GoldGoal;
+import no.ntnu.idatg2001.paths.model.goals.HealthGoal;
+import no.ntnu.idatg2001.paths.model.goals.ScoreGoal;
+import no.ntnu.idatg2001.paths.model.units.Attributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.controllers.HomeController;
 import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
@@ -176,10 +184,64 @@ public class HomeView extends Application {
     homeController.updateLanguage();
     homeController.updateAllTables();
 
+    // FOR TESTING
+    Button createTestGameButton = new Button("Create test game");
+    createTestGameButton.setOnAction(
+        event -> {
+          createTestGame();
+          homeController.updateAllTables();
+        });
+    root.setBottom(createTestGameButton);
+
     Scene scene = new Scene(root, 800, 800);
     scene.getStylesheets().add("cssfiles/home.css");
     primaryStage.setScene(scene);
     primaryStage.show();
     MusicHandler.playMusic("Alabama.mp3");
+  }
+
+  private void createTestGame() {
+    if (GameDAO.getInstance().getAll().stream()
+        .noneMatch(game -> Objects.equals(game.getPlayer().getName(), "Test player"))) {
+      Player player =
+          new Player.PlayerBuilder()
+              .withName("Test player")
+              .withAttributes(new Attributes(10, 10, 10, 10, 10, 10, 10))
+              .withEnergy(10)
+              .withGold(100)
+              .withHealth(100)
+              .withMana(100)
+              .withScore(0)
+              .build();
+
+      Passage firstPassage =
+          new Passage("Start your journey.", "You standing in the middle of a forest");
+      Passage forestRuinsPassage = new Passage("Forest ruins.", "You see ruins of an old castle.");
+      Passage deepForestPassage = new Passage("Deep forest.", "You are deep in the forest.");
+
+      Link goForestRuinsLink = new Link("Go to the forest ruins.", "goForestRuins");
+      Link goDeeperInForestLink = new Link("Go deeper in the forest.", "goDeeperInForest");
+
+      firstPassage.addLink(goForestRuinsLink);
+      forestRuinsPassage.addLink(goForestRuinsLink);
+
+      forestRuinsPassage.addLink(goDeeperInForestLink);
+      deepForestPassage.addLink(goDeeperInForestLink);
+
+      Story story = new Story("My first story", firstPassage);
+      story.addPassage(forestRuinsPassage);
+      story.addPassage(deepForestPassage);
+
+      GoldGoal goldGoal = new GoldGoal(100);
+      HealthGoal healthGoal = new HealthGoal(100);
+      ScoreGoal scoreGoal = new ScoreGoal(100);
+      List<Goal> goals = List.of(goldGoal, healthGoal, scoreGoal);
+
+      Game game = new Game(player, story, goals);
+
+      PlayerDAO.getInstance().add(player);
+      StoryDAO.getInstance().add(story);
+      GameDAO.getInstance().add(game);
+    }
   }
 }
