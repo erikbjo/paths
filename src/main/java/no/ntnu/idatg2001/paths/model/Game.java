@@ -16,11 +16,9 @@ public class Game {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
-  @ManyToOne
+  @ManyToOne()
   @JoinColumn(name = "player_id")
   private Player player;
-
   @ManyToOne
   @JoinColumn(name = "story_id")
   private Story story;
@@ -45,8 +43,16 @@ public class Game {
     return player;
   }
 
+  public void setPlayer(Player player) {
+    this.player = player;
+  }
+
   public Story getStory() {
     return story;
+  }
+
+  public void setStory(Story story) {
+    this.story = story;
   }
 
   public List<Goal> getGoals() {

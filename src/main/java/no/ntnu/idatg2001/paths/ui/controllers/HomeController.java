@@ -216,13 +216,6 @@ public class HomeController {
                   .removeAll(storiesTableView.getSelectionModel().getSelectedItems());
               StoryDAO.getInstance().remove(selectedStory);
 
-              GameDAO.getInstance().getAll().stream()
-                  .filter(game -> game.getStory().equals(selectedStory))
-                  .forEach(game -> GameDAO.getInstance().remove(game));
-
-              // @TODO: Maybe dont remove all games, but instead make the user chose a new story
-              // next time he wants to continue the game
-
               updateStoryTable();
               updateGameTable();
             } else {
@@ -283,13 +276,6 @@ public class HomeController {
             if (result.isPresent() && result.get() == ButtonType.OK) {
 
               PlayerDAO.getInstance().remove(selectedPlayer);
-
-              // GameDAO.getInstance().getAll().stream()
-              //    .filter(game -> game.getPlayer().equals(selectedPlayer))
-              //    .forEach(game -> GameDAO.getInstance().remove(game));
-
-              // @TODO: Maybe dont remove all games, but instead make the user chose a new player
-              // next time he wants to continue the game
 
               updatePlayerTable();
               updateGameTable();
@@ -355,14 +341,46 @@ public class HomeController {
 
     deleteButton.setOnAction(
         event -> {
-          if (ongoingGamesTableView.getSelectionModel().isEmpty()) {
-            WarningAlert warningAlert =
-                new WarningAlert("Delete Game", "You must select a game to delete");
-            warningAlert.showAndWait();
+          if (ongoingGamesTableView
+              .getSelectionModel()
+              .isSelected(ongoingGamesTableView.getSelectionModel().getSelectedIndex())) {
+            Game selectedGame =
+                ongoingGamesTableView
+                    .getItems()
+                    .get(ongoingGamesTableView.getSelectionModel().getSelectedIndex());
+
+            StringBuilder contentText =
+                    new StringBuilder("Are you sure you want to delete this game?\n");
+
+            if (selectedGame.getStory() != null) {
+              contentText.append("Story: ").append(selectedGame.getStory().getTitle()).append("\n");
+            } else {
+              contentText.append("No story\n");
+            }
+
+            if (selectedGame.getPlayer() != null) {
+              contentText.append("Player: ").append(selectedGame.getPlayer().getName()).append("\n");
+            } else {
+              contentText.append("No player\n");
+            }
+
+
+            ConfirmationAlert confirmationAlert = new ConfirmationAlert("Delete game", contentText.toString());
+
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+
+              GameDAO.getInstance().remove(selectedGame);
+
+              updateStoryTable();
+              updatePlayerTable();
+              updateGameTable();
+            } else {
+              confirmationAlert.close();
+            }
           } else {
-            ConfirmationAlert confirmationAlert =
-                new ConfirmationAlert("Delete Game", "Are you sure you want to delete this game?");
-            confirmationAlert.showAndWait();
+            WarningAlert warningAlert = new WarningAlert("Please select a game to delete");
+            warningAlert.showAndWait();
           }
         });
   }
@@ -443,7 +461,12 @@ public class HomeController {
     ongoingGamesPlayerTableColumn.setCellValueFactory(
         cellData -> {
           Game game = cellData.getValue();
-          String playerName = game.getPlayer().getName();
+          String playerName;
+          if (game.getPlayer() == null) {
+            playerName = "No player";
+          } else {
+            playerName = game.getPlayer().getName();
+          }
           return new ReadOnlyStringWrapper(playerName);
         });
     ongoingGamesPlayerTableColumn.setPrefWidth(ongoingGamesTableView.getPrefWidth() / 2);
@@ -451,7 +474,12 @@ public class HomeController {
     ongoingGamesStoryTableColumn.setCellValueFactory(
         cellData -> {
           Game game = cellData.getValue();
-          String storyTitle = game.getStory().getTitle();
+          String storyTitle;
+          if (game.getStory() == null) {
+            storyTitle = "No story";
+          } else {
+            storyTitle = game.getStory().getTitle();
+          }
           return new ReadOnlyStringWrapper(storyTitle);
         });
     ongoingGamesStoryTableColumn.setPrefWidth(ongoingGamesTableView.getPrefWidth() / 2);

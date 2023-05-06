@@ -7,6 +7,7 @@ import jakarta.persistence.TypedQuery;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.Story;
 
 public class StoryDAO implements DAO<Story> {
@@ -36,9 +37,14 @@ public class StoryDAO implements DAO<Story> {
 
   @Override
   public void remove(Story story) {
-    Story foundStory = em.find(Story.class, story.getId());
+    List<Game> gamesWithStory = GameDAO.getInstance().findGamesByStory(story);
+    for (Game game : gamesWithStory) {
+      game.setStory(null);
+      GameDAO.getInstance().update(game);
+    }
+
     em.getTransaction().begin();
-    em.remove(foundStory);
+    em.remove(em.contains(story) ? story : em.merge(story));
     em.getTransaction().commit();
   }
 
