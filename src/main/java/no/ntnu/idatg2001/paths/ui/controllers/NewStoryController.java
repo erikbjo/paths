@@ -114,15 +114,19 @@ public class NewStoryController {
         event -> {
           if (passageCreationTableView.getSelectionModel().getSelectedItems().size() == 1) {
             Passage passage = passageCreationTableView.getSelectionModel().getSelectedItem();
-            EditPassageDialog editPassageDialog = new EditPassageDialog(passage);
-            editPassageDialog.showAndWait();
 
-            Optional<Passage> result = editPassageDialog.showAndWait();
-            result.ifPresent(
-                newPassage -> {
-                  passageCreationTableView.getItems().remove(passage);
-                  passageCreationTableView.getItems().add(newPassage);
-                });
+            if (passage != null) {
+              EditPassageDialog editPassageDialog = new EditPassageDialog(passage);
+
+              Optional<Passage> result = editPassageDialog.showAndWait();
+              result.ifPresent(
+                  newPassage -> {
+                    passageCreationTableView.getItems().remove(passage);
+                    passageCreationTableView.getItems().add(newPassage);
+                  });
+            } else {
+              System.out.println("No passage selected");
+            }
           }
         });
 
