@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import no.ntnu.idatg2001.paths.model.Game;
+import no.ntnu.idatg2001.paths.model.Story;
+import no.ntnu.idatg2001.paths.model.units.Player;
 
 public class GameDAO implements DAO<Game> {
   private static final GameDAO instance = new GameDAO();
@@ -93,5 +95,19 @@ public class GameDAO implements DAO<Game> {
     if (emf.isOpen()) {
       this.emf.close();
     }
+  }
+
+  public List<Game> findGamesByPlayer(Player player) {
+    TypedQuery<Game> query =
+        this.em.createQuery("SELECT a FROM Game a WHERE a.player = :player", Game.class);
+    query.setParameter("player", player);
+    return query.getResultList();
+  }
+
+  public List<Game> findGamesByStory(Story story) {
+    TypedQuery<Game> query =
+            this.em.createQuery("SELECT a FROM Game a WHERE a.story = :story", Game.class);
+    query.setParameter("story", story);
+    return query.getResultList();
   }
 }
