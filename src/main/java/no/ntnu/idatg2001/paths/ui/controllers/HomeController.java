@@ -147,6 +147,11 @@ public class HomeController {
   }
 
   public void configureButtons() {
+    configureStoryButtons();
+    configurePlayerButtons();
+    configureDeadLinksButtons();
+    configureOngoingGamesButtons();
+
     startNewGameButton.setOnAction(
         event -> {
           try {
@@ -170,7 +175,9 @@ public class HomeController {
             exceptionAlert.showAndWait();
           }
         });
+  }
 
+  public void configureStoryButtons() {
     editStoryButton.setOnAction(
         event -> {
           try {
@@ -226,7 +233,9 @@ public class HomeController {
             warningAlert.showAndWait();
           }
         });
+  }
 
+  public void configurePlayerButtons() {
     editPlayerButton.setOnAction(
         event -> {
           try {
@@ -287,7 +296,9 @@ public class HomeController {
             warningAlert.showAndWait();
           }
         });
+  }
 
+  public void configureDeadLinksButtons() {
     deleteLinkButton.setOnAction(
         event -> {
           if (deadLinksTableView
@@ -321,22 +332,25 @@ public class HomeController {
         });
 
     updateDeadLinksButton.setOnAction(event -> updateDeadLinkTable());
+  }
 
+  public void configureOngoingGamesButtons() {
     continueButton.setOnAction(
         event -> {
-          // FIND SELECTED PLAYER
-          // FIND SELECTED STORY
-          // START GAME WITH SELECTED PLAYER AND STORY
+          if (ongoingGamesTableView
+              .getSelectionModel()
+              .isSelected(ongoingGamesTableView.getSelectionModel().getSelectedIndex())) {
+            CurrentGameHandler.setCurrentGame(
+                ongoingGamesTableView.getSelectionModel().getSelectedItem());
 
-          // Player selectedPlayer = playersTableView.getSelectionModel().getSelectedItem();
-          // Story selectedStory = storiesTableView.getSelectionModel().getSelectedItem();
-          // Game game = new Game(selectedPlayer, selectedStory, null);
-          // @TODO Fix this, add to DB and set active
+            StoryView storyView = new StoryView();
+            storyView.start(primaryStage);
 
-          // StoryView storyView = new StoryView();
-          // storyView.start(primaryStage);
-
-          createTestItems();
+            createTestItems();
+          } else {
+            WarningAlert warningAlert = new WarningAlert("Please select a game to continue");
+            warningAlert.showAndWait();
+          }
         });
 
     deleteButton.setOnAction(
@@ -350,7 +364,7 @@ public class HomeController {
                     .get(ongoingGamesTableView.getSelectionModel().getSelectedIndex());
 
             StringBuilder contentText =
-                    new StringBuilder("Are you sure you want to delete this game?\n");
+                new StringBuilder("Are you sure you want to delete this game?\n");
 
             if (selectedGame.getStory() != null) {
               contentText.append("Story: ").append(selectedGame.getStory().getTitle()).append("\n");
@@ -359,13 +373,16 @@ public class HomeController {
             }
 
             if (selectedGame.getPlayer() != null) {
-              contentText.append("Player: ").append(selectedGame.getPlayer().getName()).append("\n");
+              contentText
+                  .append("Player: ")
+                  .append(selectedGame.getPlayer().getName())
+                  .append("\n");
             } else {
               contentText.append("No player\n");
             }
 
-
-            ConfirmationAlert confirmationAlert = new ConfirmationAlert("Delete game", contentText.toString());
+            ConfirmationAlert confirmationAlert =
+                new ConfirmationAlert("Delete game", contentText.toString());
 
             Optional<ButtonType> result = confirmationAlert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -559,13 +576,6 @@ public class HomeController {
     Story newStory =
         new Story(
             "Test" + random.nextInt(1000), new Passage("Title" + random.nextInt(1000), "Text"));
-
-    //    for (int i = 0; i < 10; i++) {
-    //      Passage newPassage =
-    //          new Passage("Title" + i, "Text" + i);
-    //      newPassage.addLink(new Link("Link" + i, "Link" + i));
-    //      newStory.addPassage(newPassage);
-    //    }
 
     StoryDAO.getInstance().add(newStory);
     updateStoryTable();
