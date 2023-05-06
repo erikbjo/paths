@@ -90,7 +90,7 @@ public class NewStoryView {
     linkCreationVBox.setAlignment(Pos.TOP_CENTER);
 
     //    topTableViewHBox.getChildren().addAll(passageCreationVBox, linkCreationVBox);
-    upperHBox.getChildren().addAll(passageCreationVBox, linkCreationVBox);
+    upperHBox.getChildren().addAll(passageCreationVBox, linkCreationVBox, addToStoryButton);
 
     mainVBox.getChildren().add(upperHBox);
 

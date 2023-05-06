@@ -7,56 +7,61 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
-import no.ntnu.idatg2001.paths.model.Passage;
+import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.ui.controllers.GenericDialogController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
-public class EditPassageDialog extends Dialog<Passage> implements StandardDialog<Passage> {
-  private final Passage passage;
+public class EditLinkDialog extends Dialog<Link> implements StandardDialog<Link> {
+  private final Link link;
   private final GenericDialogController controller = new GenericDialogController();
-  private final ResourceBundle resources = ResourceBundle.getBundle(
-          "editPassageDialog",
+  private final ResourceBundle resources =
+      ResourceBundle.getBundle(
+          "editLinkDialog",
           Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
-  private TextField titleTextField;
-  private TextArea contentTextArea;
-  private Text titleText;
-  private Text contentText;
+  private TextField referenceTextField;
+  private TextField linkTextTextField;
+  private Text referenceText;
+  private Text linkText;
 
-  public EditPassageDialog(Passage passage) {
-    this.passage = passage;
+  public EditLinkDialog(Link link) {
+    this.link = link;
 
-    setDialogLanguage();
     initComponents();
     addComponentsToDialog();
     updateLanguage();
   }
 
   public void initComponents() {
-    titleTextField = new TextField();
-    titleTextField.setText(passage.getTitle());
+    referenceTextField = new TextField();
+    referenceTextField.setText(link.getReference());
 
-    contentTextArea = new TextArea();
-    contentTextArea.setText(passage.getContent());
+    linkTextTextField = new TextField();
+    linkTextTextField.setText(link.getText());
 
-    titleText = new Text();
-    contentText = new Text();
+    referenceText = new Text();
+    linkText = new Text();
 
-    controller.makeTextFieldNotStartWithSpace(titleTextField);
-    controller.makeTextAreaNotStartWithSpace(contentTextArea);
+    controller.makeTextFieldNotStartWithSpace(referenceTextField);
+    controller.makeTextFieldNotStartWithSpace(linkTextTextField);
 
     setResultConverter(createCallback());
   }
 
-  public Callback<ButtonType, Passage> createCallback() {
+  public Callback<ButtonType, Link> createCallback() {
     return buttonType -> {
       if (buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
-        passage.setTitle(titleTextField.getText());
-        passage.setContent(contentTextArea.getText());
+        link.setReference(referenceTextField.getText());
+        link.setText(linkTextTextField.getText());
 
-        return passage;
+        return link;
       }
       return null;
     };
+  }
+
+  @Override
+  public void updateLanguage() {
+    setDialogLanguage();
   }
 
   public void addComponentsToDialog() {
@@ -65,23 +70,20 @@ public class EditPassageDialog extends Dialog<Passage> implements StandardDialog
     gridPane.setHgap(10);
     gridPane.setVgap(10);
 
-    gridPane.add(titleText, 0, 0);
-    gridPane.add(titleTextField, 1, 0);
-    gridPane.add(contentText, 0, 1);
-    gridPane.add(contentTextArea, 1, 1);
+    gridPane.add(referenceText, 0, 0);
+    gridPane.add(referenceTextField, 1, 0);
+    gridPane.add(linkText, 0, 1);
+    gridPane.add(linkTextTextField, 1, 1);
 
     getDialogPane().setContent(gridPane);
-  }
-
-  public void updateLanguage() {
-    // update text
-    titleText.setText(resources.getString("titleText"));
-    contentText.setText(resources.getString("contentText"));
   }
 
   public void setDialogLanguage() {
     setTitle(resources.getString("dialogTitle"));
     setHeaderText(resources.getString("headerText"));
+
+    referenceText.setText(resources.getString("referenceText"));
+    linkText.setText(resources.getString("linkText"));
 
     ButtonType primaryButtonType =
         new ButtonType(resources.getString("primaryButton"), ButtonBar.ButtonData.OK_DONE);
