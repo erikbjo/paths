@@ -15,7 +15,9 @@ import no.ntnu.idatg2001.paths.model.actions.Action;
  */
 @Entity
 public class Link implements Serializable {
-  @Id @GeneratedValue private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
   private String text;
   private String reference;
 

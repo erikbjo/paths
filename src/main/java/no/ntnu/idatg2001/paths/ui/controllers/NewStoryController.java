@@ -11,6 +11,7 @@ import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.model.database.StoryDAO;
 import no.ntnu.idatg2001.paths.ui.dialogs.EditLinkDialog;
 import no.ntnu.idatg2001.paths.ui.dialogs.EditPassageDialog;
+import no.ntnu.idatg2001.paths.ui.dialogs.NewLinkDialog;
 import no.ntnu.idatg2001.paths.ui.dialogs.NewPassageDialog;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.views.HomeView;
@@ -137,7 +138,6 @@ public class NewStoryController {
     newPassageButton.setOnAction(
         event -> {
           NewPassageDialog newPassageDialog = new NewPassageDialog();
-          newPassageDialog.showAndWait();
 
           Optional<Passage> result = newPassageDialog.showAndWait();
           result.ifPresent(passage -> passageCreationTableView.getItems().add(passage));
@@ -171,7 +171,13 @@ public class NewStoryController {
           // TODO: ADD FEEDBACK DIALOG HERE
         });
 
-    newLinkButton.setOnAction(event -> {});
+    newLinkButton.setOnAction(
+        event -> {
+          NewLinkDialog newLinkDialog = new NewLinkDialog();
+
+          Optional<Link> result = newLinkDialog.showAndWait();
+          result.ifPresent(link -> linkCreationTableView.getItems().add(link));
+        });
 
     deleteLinkButton.setOnAction(
         event -> {
@@ -217,12 +223,16 @@ public class NewStoryController {
               Passage startingPassage =
                   startingPassageTableView.getSelectionModel().getSelectedItems().get(0);
               story.setStartingPassage(startingPassage);
+              story.setCurrentPassage(startingPassage);
               story.setTitle(titleTextField.getText());
 
               StoryDAO.getInstance().add(story);
 
               HomeView homeView = new HomeView();
               homeView.start(primaryStage);
+            } else {
+                // TODO: ADD FEEDBACK DIALOG HERE
+              System.out.println("Please select a starting passage.");
             }
           } catch (Exception e) {
             //            ExceptionAlert alert = new ExceptionAlert(e);
