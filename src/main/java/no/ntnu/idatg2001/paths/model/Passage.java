@@ -1,7 +1,6 @@
 package no.ntnu.idatg2001.paths.model;
 
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.Objects;
  * @version 2023.02.02
  */
 @Entity
-@Table(name = "passage")
 public class Passage implements Serializable {
   private String title;
   private String content;
@@ -24,9 +22,10 @@ public class Passage implements Serializable {
   private List<Link> links;
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
+  
+  
   /**
    * A constructor that initializes the declared fields for title, content and links.
    *
@@ -116,21 +115,25 @@ public class Passage implements Serializable {
     return "Passage{" + "title='" + title + '\'' + ", content='" + content + '}';
   }
 
-  // TODO: implement equals and hashCode
-//  @Override
-//  public boolean equals(Object object) {
-//    if (this == object) return true;
-//    if (object == null || getClass() != object.getClass()) return false;
-//    Passage passage = (Passage) object;
-//    return Objects.equals(id, passage.id);
-//  }
-
   @Override
   public int hashCode() {
     return Objects.hash(id);
   }
 
+  // TODO: implement equals and hashCode
+  //  @Override
+  //  public boolean equals(Object object) {
+  //    if (this == object) return true;
+  //    if (object == null || getClass() != object.getClass()) return false;
+  //    Passage passage = (Passage) object;
+  //    return Objects.equals(id, passage.id);
+  //  }
+
   public Long getId() {
     return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 }

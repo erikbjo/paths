@@ -1,15 +1,12 @@
 package no.ntnu.idatg2001.paths.model.units;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 /** The SpecialAttributes interface represents the special attributes of a unit. */
 @Entity
 public class Attributes {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   // S.P.E.C.I.A.L stats
@@ -20,6 +17,20 @@ public class Attributes {
   private int intelligence;
   private int agility;
   private int luck;
+
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinTable(name = "Attributes_player",
+          joinColumns = @JoinColumn(name = "attributes_id"),
+          inverseJoinColumns = @JoinColumn(name = "player_id"))
+  private Player player;
+
+  public Player getPlayer() {
+    return player;
+  }
+
+  public void setPlayer(Player player) {
+    this.player = player;
+  }
 
   /**
    * Instantiates a new Attributes.

@@ -1,6 +1,7 @@
 package no.ntnu.idatg2001.paths.model.actions;
 
 import jakarta.persistence.*;
+import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.items.Item;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
@@ -13,10 +14,15 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  */
 @Entity
 public class InventoryAction extends Action {
-  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "inventory_action_item_id")
+  @ManyToOne
+  @JoinColumn(name = "item_id")
   private Item item;
 
+  @ManyToOne
+  @JoinColumn(name = "link_id")
+  private Link link;
+
+  @Column(name = "is_addition_to_inventory")
   private boolean isAdditionToInventory;
 
   /**

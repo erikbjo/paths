@@ -21,7 +21,7 @@ public abstract class Equipable extends Item {
    * @param itemScore the score of the item
    * @param goldValue the gold value of the item
    */
-  public Equipable(String name, int itemScore, int goldValue) {
+  protected Equipable(String name, int itemScore, int goldValue) {
     super(name, itemScore, goldValue);
   }
 
