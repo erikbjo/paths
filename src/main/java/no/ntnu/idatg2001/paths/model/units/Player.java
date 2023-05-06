@@ -20,14 +20,12 @@ public class Player extends Unit {
       mappedBy = "player",
       cascade = {CascadeType.REMOVE, CascadeType.PERSIST},
       orphanRemoval = true)
-  @JoinColumn(name = "player_id")
   private List<Item> inventory = new ArrayList<>();
 
   @OneToMany(
       mappedBy = "player",
       cascade = {CascadeType.REMOVE, CascadeType.PERSIST},
       orphanRemoval = true)
-  @JoinColumn(name = "player_id")
   private List<Equipable> equippedItems = new ArrayList<>();
 
   @OneToOne(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)

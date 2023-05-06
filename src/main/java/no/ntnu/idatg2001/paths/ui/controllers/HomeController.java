@@ -1,6 +1,7 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
 import java.util.*;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -61,7 +62,8 @@ public class HomeController {
   private final TableView<Link> deadLinksTableView;
   private final TableView<Game> ongoingGamesTableView;
   // TABLE COLUMNS
-  private final TableColumn<Game, String> ongoingGamesTableColumn;
+  private final TableColumn<Game, String> ongoingGamesPlayerTableColumn;
+  private final TableColumn<Game, String> ongoingGamesStoryTableColumn;
   private final TableColumn<Story, String> storiesTableColumn;
   private final TableColumn<Player, String> playersTableColumn;
   private final TableColumn<Link, String> deadLinksTableColumn;
@@ -93,7 +95,8 @@ public class HomeController {
       TableColumn<Story, String> storiesTableColumn,
       TableColumn<Player, String> playersTableColumn,
       TableColumn<Link, String> deadLinksTableColumn,
-      TableColumn<Game, String> ongoingGamesTableColumn,
+      TableColumn<Game, String> ongoingGamesPlayerTableColumn,
+      TableColumn<Game, String> ongoingGamesStoryTableColumn,
       Stage primaryStage) {
     // TEXTS
     this.pathsGameText = pathsGameText;
@@ -126,9 +129,11 @@ public class HomeController {
     this.ongoingGamesTableView = ongoingGamesTableView;
 
     // TABLE COLUMNS
-    this.ongoingGamesTableColumn = ongoingGamesTableColumn;
+    this.ongoingGamesPlayerTableColumn = ongoingGamesPlayerTableColumn;
+    this.ongoingGamesStoryTableColumn = ongoingGamesStoryTableColumn;
     this.storiesTableColumn = storiesTableColumn;
     this.playersTableColumn = playersTableColumn;
+
     this.deadLinksTableColumn = deadLinksTableColumn;
     this.primaryStage = primaryStage;
 
@@ -147,13 +152,17 @@ public class HomeController {
           try {
             Story story = storiesTableView.getSelectionModel().getSelectedItem();
             Player player = playersTableView.getSelectionModel().getSelectedItem();
+
             if (story == null || player == null) {
               throw new NullPointerException("No story or player selected");
             }
+
             Game game = new Game(player, story, new ArrayList<>());
             GameDAO gameDAO = GameDAO.getInstance();
             gameDAO.add(game);
+
             CurrentGameHandler.setCurrentGame(game);
+
             StoryView storyView = new StoryView();
             storyView.start(primaryStage);
           } catch (NullPointerException e) {
@@ -382,7 +391,9 @@ public class HomeController {
     deleteButton.setText(resources.getString("deleteButton"));
     startNewGameButton.setText(resources.getString("startNewGameButton"));
 
-    ongoingGamesTableColumn.setText(resources.getString("ongoingGamesTableColumn"));
+    ongoingGamesPlayerTableColumn.setText(resources.getString("ongoingGamesPlayerTableColumn"));
+    ongoingGamesStoryTableColumn.setText(resources.getString("ongoingGamesStoryTableColumn"));
+
     storiesTableColumn.setText(resources.getString("storiesTableColumn"));
     playersTableColumn.setText(resources.getString("playersTableColumn"));
     deadLinksTableColumn.setText(resources.getString("deadLinksTableColumn"));
@@ -428,8 +439,22 @@ public class HomeController {
   }
 
   public void configureTableColumns() {
-    ongoingGamesTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-    ongoingGamesTableColumn.setPrefWidth(250);
+    ongoingGamesTableView.setPrefWidth(250);
+    ongoingGamesPlayerTableColumn.setCellValueFactory(
+        cellData -> {
+          Game game = cellData.getValue();
+          String playerName = game.getPlayer().getName();
+          return new ReadOnlyStringWrapper(playerName);
+        });
+    ongoingGamesPlayerTableColumn.setPrefWidth(ongoingGamesTableView.getPrefWidth() / 2);
+
+    ongoingGamesStoryTableColumn.setCellValueFactory(
+        cellData -> {
+          Game game = cellData.getValue();
+          String storyTitle = game.getStory().getTitle();
+          return new ReadOnlyStringWrapper(storyTitle);
+        });
+    ongoingGamesStoryTableColumn.setPrefWidth(ongoingGamesTableView.getPrefWidth() / 2);
 
     storiesTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
     storiesTableColumn.setPrefWidth(250);

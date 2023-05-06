@@ -16,7 +16,6 @@ import no.ntnu.idatg2001.paths.model.database.GameDAO;
 import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.database.StoryDAO;
 import no.ntnu.idatg2001.paths.model.units.Player;
-import no.ntnu.idatg2001.paths.model.utilities.SettingsFileWriter;
 import no.ntnu.idatg2001.paths.ui.controllers.HomeController;
 import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
 import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
@@ -85,8 +84,11 @@ public class HomeView extends Application {
     deadLinksTableView.getColumns().add(deadLinksTableColumn);
 
     TableView<Game> ongoingGamesTableView = new TableView<>();
-    TableColumn<Game, String> ongoingGamesTableColumn = new TableColumn<>();
-    ongoingGamesTableView.getColumns().add(ongoingGamesTableColumn);
+    TableColumn<Game, String> ongoingGamesPlayerTableColumn = new TableColumn<>();
+    TableColumn<Game, String> ongoingGamesStoryTableColumn = new TableColumn<>();
+    ongoingGamesTableView
+        .getColumns()
+        .addAll(ongoingGamesPlayerTableColumn, ongoingGamesStoryTableColumn);
 
     // TEXTS
     Text pathsGameText = new Text();
@@ -164,7 +166,8 @@ public class HomeView extends Application {
             storiesTableColumn,
             playersTableColumn,
             deadLinksTableColumn,
-            ongoingGamesTableColumn,
+            ongoingGamesPlayerTableColumn,
+            ongoingGamesStoryTableColumn,
             primaryStage);
 
     homeController.configureButtons();
