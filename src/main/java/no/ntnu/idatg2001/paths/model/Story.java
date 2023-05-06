@@ -23,7 +23,6 @@ public class Story implements Serializable {
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "story_id")
   private Passage openingPassage;
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -31,7 +30,6 @@ public class Story implements Serializable {
   @JoinColumn(name = "story_id", insertable = false, updatable = false)
   private Passage currentPassage;
   private String title;
-
   public Story(String title, Passage openingPassage) {
     this.title = title;
     this.openingPassage = openingPassage;
@@ -123,6 +121,10 @@ public class Story implements Serializable {
    */
   public Passage getOpeningPassage() {
     return openingPassage;
+  }
+
+  public void setOpeningPassage(Passage openingPassage) {
+    this.openingPassage = openingPassage;
   }
 
   /**
