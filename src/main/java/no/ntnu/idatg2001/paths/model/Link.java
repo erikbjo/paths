@@ -1,7 +1,6 @@
 package no.ntnu.idatg2001.paths.model;
 
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,12 +48,30 @@ public class Link implements Serializable {
   }
 
   /**
+   * A mutator method that sets the text field's string value.
+   *
+   * @param text Represents the player's choices.
+   */
+  public void setText(String text) {
+    this.text = text;
+  }
+
+  /**
    * An accessor method that returns the reference field's string value.
    *
    * @return the string identifier for the chosen passage.
    */
   public String getReference() {
     return reference;
+  }
+
+  /**
+   * A mutator method that sets the reference field's string value.
+   *
+   * @param reference Represents the string identifier for the chosen passage.
+   */
+  public void setReference(String reference) {
+    this.reference = reference;
   }
 
   /**
@@ -100,16 +117,16 @@ public class Link implements Serializable {
   }
 
   // TODO: FIX EQUALS
-//  @Override
-//  public boolean equals(Object o) {
-//    if (o == this) {
-//      return true;
-//    }
-//    if (!(o instanceof Link other)) {
-//      return false;
-//    }
-//    // checking only for reference
-//    return (this.getReference() == null && other.getReference() == null)
-//        || (this.getReference() != null && this.getReference().equals(other.getReference()));
-//  }
+  //  @Override
+  //  public boolean equals(Object o) {
+  //    if (o == this) {
+  //      return true;
+  //    }
+  //    if (!(o instanceof Link other)) {
+  //      return false;
+  //    }
+  //    // checking only for reference
+  //    return (this.getReference() == null && other.getReference() == null)
+  //        || (this.getReference() != null && this.getReference().equals(other.getReference()));
+  //  }
 }

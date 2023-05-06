@@ -19,8 +19,12 @@ public class NewStoryView {
   private Text newStoryText;
   private Text titleText;
   private TextField titleTextField;
+  private Button editPassageButton;
   private Button newPassageButton;
+  private Button deletePassageButton;
+  private Button editLinkButton;
   private Button newLinkButton;
+  private Button deleteLinkButton;
   private Button addToStoryButton;
   private Button createStoryButton;
   private Button cancelButton;
@@ -63,19 +67,30 @@ public class NewStoryView {
 
     HBox topTableViewHBox = new HBox();
 
-    ButtonBar buttonBar = new ButtonBar();
-
+    editPassageButton = new Button();
     newPassageButton = new Button();
+    deletePassageButton = new Button();
+
+    editLinkButton = new Button();
     newLinkButton = new Button();
+    deleteLinkButton = new Button();
+
     addToStoryButton = new Button();
     createStoryButton = new Button();
     cancelButton = new Button();
 
-    buttonBar.getButtons().addAll(newPassageButton, newLinkButton, addToStoryButton);
+    VBox passageCreationVBox =
+        new VBox(
+            passageCreationTableView,
+            new HBox(editPassageButton, newPassageButton, deletePassageButton));
+    passageCreationVBox.setAlignment(Pos.TOP_CENTER);
 
-    topTableViewHBox.getChildren().addAll(passageCreationTableView, linkCreationTableView);
-    leftVBox.getChildren().addAll(topTableViewHBox, buttonBar);
-    upperHBox.getChildren().add(leftVBox);
+    VBox linkCreationVBox =
+        new VBox(linkCreationTableView, new HBox(editLinkButton, newLinkButton, deleteLinkButton));
+    linkCreationVBox.setAlignment(Pos.TOP_CENTER);
+
+    //    topTableViewHBox.getChildren().addAll(passageCreationVBox, linkCreationVBox);
+    upperHBox.getChildren().addAll(passageCreationVBox, linkCreationVBox, addToStoryButton);
 
     mainVBox.getChildren().add(upperHBox);
 
@@ -112,8 +127,12 @@ public class NewStoryView {
             newStoryText,
             titleText,
             titleTextField,
+            editPassageButton,
             newPassageButton,
+            deletePassageButton,
+            editLinkButton,
             newLinkButton,
+            deleteLinkButton,
             addToStoryButton,
             createStoryButton,
             cancelButton,
@@ -129,6 +148,7 @@ public class NewStoryView {
     controller.configureButtons();
 
     Scene scene = new Scene(root, 800, 800);
+    scene.getStylesheets().add("cssfiles/newStory.css");
     primaryStage.setScene(scene);
     primaryStage.show();
   }

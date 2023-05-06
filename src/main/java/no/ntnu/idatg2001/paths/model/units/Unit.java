@@ -1,33 +1,24 @@
 package no.ntnu.idatg2001.paths.model.units;
 
-import java.util.List;
-
 import jakarta.persistence.*;
-import no.ntnu.idatg2001.paths.model.items.Item;
-import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
 
 /** The Unit class represents a unit in the game. */
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(name = "Unit")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Unit {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
   // Information
   protected String name;
   private int score;
   private int gold;
-
   // Standard stats
   private int health;
   private int mana;
   private int energy;
-
-  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "unit_attributes_id")
-  private Attributes attributes;
-
-  @Id
-  @GeneratedValue
-  protected Long id;
 
   protected Unit(UnitBuilder<?> builder) {
     this.name = builder.name;
@@ -36,12 +27,10 @@ public abstract class Unit {
     this.health = builder.health;
     this.mana = builder.mana;
     this.energy = builder.energy;
-    this.attributes = builder.attributes;
   }
 
   /** Used by DB */
-  protected Unit() {
-  }
+  protected Unit() {}
 
   /**
    * Method to get the dialog of the unit.
@@ -49,7 +38,6 @@ public abstract class Unit {
    * @return String with the dialog of the unit
    */
   public abstract String dialog();
-
 
   /**
    * Gets the name.
@@ -159,24 +147,6 @@ public abstract class Unit {
     this.energy = energy;
   }
 
-  /**
-   * Gets the attributes of the unit.
-   *
-   * @return the attributes of the unit
-   */
-  public Attributes getAttributes() {
-    return this.attributes;
-  }
-
-  /**
-   * Sets the attributes of the unit.
-   *
-   * @param attributes the attributes of the unit
-   */
-  public void setAttributes(Attributes attributes) {
-    this.attributes = attributes;
-  }
-
   protected Long getId() {
     return id;
   }
@@ -198,7 +168,6 @@ public abstract class Unit {
     private int health;
     private int mana;
     private int energy;
-    private Attributes attributes;
 
     public T withName(String name) {
       this.name = name;
@@ -227,11 +196,6 @@ public abstract class Unit {
 
     public T withEnergy(int energy) {
       this.energy = energy;
-      return (T) this;
-    }
-
-    public T withAttributes(Attributes attributes) {
-      this.attributes = attributes;
       return (T) this;
     }
 

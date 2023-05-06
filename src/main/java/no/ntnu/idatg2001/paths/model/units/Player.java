@@ -1,11 +1,10 @@
 package no.ntnu.idatg2001.paths.model.units;
 
 import jakarta.persistence.*;
-import no.ntnu.idatg2001.paths.model.items.Item;
-import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
-
 import java.util.ArrayList;
 import java.util.List;
+import no.ntnu.idatg2001.paths.model.items.Item;
+import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
 
 /**
  * A class that represents a player with different actions that can be used in a story.
@@ -15,19 +14,30 @@ import java.util.List;
  */
 @Entity
 @Table(name = "Player")
+@PrimaryKeyJoinColumn(name = "ID")
 public class Player extends Unit {
-  @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, orphanRemoval = true)
+  @OneToMany(
+      mappedBy = "player",
+      cascade = {CascadeType.REMOVE, CascadeType.PERSIST},
+      orphanRemoval = true)
   @JoinColumn(name = "player_id")
   private List<Item> inventory = new ArrayList<>();
 
-  @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, orphanRemoval = true)
+  @OneToMany(
+      mappedBy = "player",
+      cascade = {CascadeType.REMOVE, CascadeType.PERSIST},
+      orphanRemoval = true)
   @JoinColumn(name = "player_id")
   private List<Equipable> equippedItems = new ArrayList<>();
+
+  @OneToOne(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Attributes attributes;
 
   private Player(PlayerBuilder builder) {
     super(builder);
     this.inventory = builder.inventory;
     this.equippedItems = builder.equippedItems;
+    this.attributes = builder.attributes;
   }
 
   protected Player() {
@@ -178,10 +188,28 @@ public class Player extends Unit {
     return super.getId();
   }
 
+  /**
+   * Gets the attributes of the unit.
+   *
+   * @return the attributes of the unit
+   */
+  public Attributes getAttributes() {
+    return this.attributes;
+  }
+
+  /**
+   * Sets the attributes of the unit.
+   *
+   * @param attributes the attributes of the unit
+   */
+  public void setAttributes(Attributes attributes) {
+    this.attributes = attributes;
+  }
 
   public static class PlayerBuilder extends UnitBuilder<PlayerBuilder> {
     private List<Item> inventory;
     private List<Equipable> equippedItems;
+    private Attributes attributes;
 
     public PlayerBuilder withInventory(List<Item> inventory) {
       this.inventory = inventory;
@@ -190,6 +218,11 @@ public class Player extends Unit {
 
     public PlayerBuilder withEquippedItems(List<Equipable> equippedItems) {
       this.equippedItems = equippedItems;
+      return this;
+    }
+
+    public PlayerBuilder withAttributes(Attributes attributes) {
+      this.attributes = attributes;
       return this;
     }
 

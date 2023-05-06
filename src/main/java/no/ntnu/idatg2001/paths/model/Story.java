@@ -25,13 +25,11 @@ public class Story implements Serializable {
   private Passage openingPassage;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
   @OneToOne
   @JoinColumn(name = "story_id", insertable = false, updatable = false)
   private Passage currentPassage;
-
   private String title;
 
   public Story(String title, Passage openingPassage) {
@@ -177,6 +175,15 @@ public class Story implements Serializable {
     return links;
   }
 
+  /**
+   * This function returns a list of all the passages connected to a link.
+   *
+   * @return A list of all the passages connected to a link.
+   */
+  public List<Passage> getPassagesConnectedWithLink(Link link) {
+    return new ArrayList<>(List.of(passages.get(link)));
+  }
+
   // Endre denne metoden til å ta en Story istedenfor en link, for å gjøre at passasjene ikke
   // kommer hulter til bulter. Pga hashMap ikke sorterer slik som arrayList.
 
@@ -188,15 +195,6 @@ public class Story implements Serializable {
    */
 
   // Ny version 1
-
-  /**
-   * This function returns a list of all the passages connected to a link.
-   *
-   * @return A list of all the passages connected to a link.
-   */
-  public List<Passage> getPassagesConnectedWithLink(Link link) {
-    return new ArrayList<>(List.of(passages.get(link)));
-  }
 
   /**
    * public Collection<Passage> getPassages() { Collection<Passage> passageCollection = new
@@ -232,6 +230,10 @@ public class Story implements Serializable {
 
   public Long getId() {
     return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public void setStartingPassage(Passage startingPassage) {

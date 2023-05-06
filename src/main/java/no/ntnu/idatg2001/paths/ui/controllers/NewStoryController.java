@@ -9,6 +9,8 @@ import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.model.database.StoryDAO;
+import no.ntnu.idatg2001.paths.ui.dialogs.EditLinkDialog;
+import no.ntnu.idatg2001.paths.ui.dialogs.EditPassageDialog;
 import no.ntnu.idatg2001.paths.ui.dialogs.NewPassageDialog;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.views.HomeView;
@@ -18,8 +20,12 @@ public class NewStoryController {
   private final Text newStoryText;
   private final Text titleText;
   private final TextField titleTextField;
+  private final Button editPassageButton;
   private final Button newPassageButton;
+  private final Button deletePassageButton;
+  private final Button editLinkButton;
   private final Button newLinkButton;
+  private final Button deleteLinkButton;
   private final Button addToStoryButton;
   private final Button createStoryButton;
   private final Button cancelButton;
@@ -37,8 +43,12 @@ public class NewStoryController {
       Text newStoryText,
       Text titleText,
       TextField titleTextField,
+      Button editPassageButton,
       Button newPassageButton,
+      Button deletePassageButton,
+      Button editLinkButton,
       Button newLinkButton,
+      Button deleteLinkButton,
       Button addToStoryButton,
       Button createStoryButton,
       Button cancelButton,
@@ -52,8 +62,12 @@ public class NewStoryController {
     this.newStoryText = newStoryText;
     this.titleText = titleText;
     this.titleTextField = titleTextField;
+    this.editPassageButton = editPassageButton;
     this.newPassageButton = newPassageButton;
+    this.deletePassageButton = deletePassageButton;
+    this.editLinkButton = editLinkButton;
     this.newLinkButton = newLinkButton;
+    this.deleteLinkButton = deleteLinkButton;
     this.addToStoryButton = addToStoryButton;
     this.createStoryButton = createStoryButton;
     this.cancelButton = cancelButton;
@@ -77,8 +91,12 @@ public class NewStoryController {
     newStoryText.setText(resources.getString("newStoryText"));
     titleText.setText(resources.getString("titleText"));
     titleTextField.setPromptText(resources.getString("titleTextField"));
+    editPassageButton.setText(resources.getString("editPassageButton"));
     newPassageButton.setText(resources.getString("newPassageButton"));
+    deletePassageButton.setText(resources.getString("deletePassageButton"));
+    editLinkButton.setText(resources.getString("editLinkButton"));
     newLinkButton.setText(resources.getString("newLinkButton"));
+    deleteLinkButton.setText(resources.getString("deleteLinkButton"));
     addToStoryButton.setText(resources.getString("addToStoryButton"));
     createStoryButton.setText(resources.getString("createStoryButton"));
     cancelButton.setText(resources.getString("cancelButton"));
@@ -93,6 +111,29 @@ public class NewStoryController {
   }
 
   public void configureButtons() {
+    configurePassageCreationButtons();
+    configureLinkCreationButtons();
+    configureRemainingButtons();
+  }
+
+  public void configurePassageCreationButtons() {
+    editPassageButton.setOnAction(
+        event -> {
+          if (passageCreationTableView.getSelectionModel().getSelectedItems().size() == 1) {
+            Passage passage = passageCreationTableView.getSelectionModel().getSelectedItem();
+
+            EditPassageDialog editPassageDialog = new EditPassageDialog(passage);
+
+            Optional<Passage> result = editPassageDialog.showAndWait();
+            result.ifPresent(
+                newPassage -> {
+                  passageCreationTableView.getItems().remove(passage);
+                  passageCreationTableView.getItems().add(newPassage);
+                });
+          }
+          // TODO: ADD FEEDBACK DIALOG HERE
+        });
+
     newPassageButton.setOnAction(
         event -> {
           NewPassageDialog newPassageDialog = new NewPassageDialog();
@@ -102,8 +143,47 @@ public class NewStoryController {
           result.ifPresent(passage -> passageCreationTableView.getItems().add(passage));
         });
 
+    deletePassageButton.setOnAction(
+        event -> {
+          if (passageCreationTableView.getSelectionModel().getSelectedItems().size() == 1) {
+            Passage passage = passageCreationTableView.getSelectionModel().getSelectedItem();
+            passageCreationTableView.getItems().remove(passage);
+          }
+          // TODO: ADD FEEDBACK DIALOG HERE
+        });
+  }
+
+  public void configureLinkCreationButtons() {
+    editLinkButton.setOnAction(
+        event -> {
+          if (linkCreationTableView.getSelectionModel().getSelectedItems().size() == 1) {
+            Link link = linkCreationTableView.getSelectionModel().getSelectedItem();
+
+            EditLinkDialog editLinkDialog = new EditLinkDialog(link);
+
+            Optional<Link> result = editLinkDialog.showAndWait();
+            result.ifPresent(
+                newLink -> {
+                  linkCreationTableView.getItems().remove(link);
+                  linkCreationTableView.getItems().add(newLink);
+                });
+          }
+          // TODO: ADD FEEDBACK DIALOG HERE
+        });
+
     newLinkButton.setOnAction(event -> {});
 
+    deleteLinkButton.setOnAction(
+        event -> {
+          if (linkCreationTableView.getSelectionModel().getSelectedItems().size() == 1) {
+            Link link = linkCreationTableView.getSelectionModel().getSelectedItem();
+            linkCreationTableView.getItems().remove(link);
+          }
+          // TODO: ADD FEEDBACK DIALOG HERE
+        });
+  }
+
+  public void configureRemainingButtons() {
     addToStoryButton.setOnAction(
         event -> {
           if (passageCreationTableView.getSelectionModel().getSelectedItems().size() == 2
@@ -162,7 +242,7 @@ public class NewStoryController {
     passageColumn.setPrefWidth(250);
     passageCreationTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-    linkColumn.setCellValueFactory(new PropertyValueFactory<>("text"));
+    linkColumn.setCellValueFactory(new PropertyValueFactory<>("reference"));
     linkColumn.setPrefWidth(250);
 
     startingPassageColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -189,6 +269,5 @@ public class NewStoryController {
                 startingPassageTableView.getItems().add(passage);
               }
             });
-    System.out.println(story.getAllPassages());
   }
 }
