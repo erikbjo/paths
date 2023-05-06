@@ -4,9 +4,9 @@ variables:
 image: maven:3.8.5-openjdk-17
 
 stages:
-  - build
-  - test
-  - package
+  - build 👷‍♂️
+  - test ✅
+  - package 📦
 
 cache:
   paths:
@@ -14,7 +14,7 @@ cache:
     - target
 
 build_job:
-  stage: build
+  stage: build 👷‍♂️
   tags:
     - docker
 
@@ -24,7 +24,7 @@ build_job:
 
 
 test_job:
-  stage: test
+  stage: test ✅
   tags:
     - docker
 
@@ -34,7 +34,7 @@ test_job:
 
 
 package_job:
-  stage: package
+  stage: package 📦
   tags:
     - docker
 
