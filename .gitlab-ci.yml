@@ -50,6 +50,6 @@ release_job:
   script:
     - 'VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)'
     - 'echo "Current project version: $VERSION"'
-    - 'curl --request POST --header "PRIVATE-TOKEN: $GITLAB_API_TOKEN" --form "tag_name=v$VERSION" --form "description=Release v$VERSION" --form "file=@target/my-app-$VERSION.jar" "https://git.gvk.idi.ntnu.no/course/idatg2001/idatg2001-2023-ws/eslatte/mappevudering-idatg2001-gruppe-3/-/releases"'
+    - 'curl --request POST --header "PRIVATE-TOKEN: $GITLAB_API_TOKEN" --form "tag_name=v$VERSION" --form "description=Release v$VERSION" --form "file=@target/Paths-$VERSION.jar" "https://git.gvk.idi.ntnu.no/course/idatg2001/idatg2001-2023-ws/eslatte/mappevudering-idatg2001-gruppe-3/-/releases"'
   only:
     - main
