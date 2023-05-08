@@ -1,10 +1,12 @@
 package no.ntnu.idatg2001.paths.ui.storyvisualizers;
 
 import java.util.Optional;
-import javafx.scene.layout.Region;
+
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
 import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.ui.dialogs.EditPassageDialog;
 
@@ -32,12 +34,14 @@ public class PassagePane extends Region {
 
     this.setOnMouseEntered(
         mouseEvent -> {
-          setStyle("-fx-border-color: blue; -fx-border-width: 3");
+            rectangle.setStrokeWidth(3);
+            rectangle.setStroke(Color.BLUE);
         });
 
     this.setOnMouseExited(
         mouseEvent -> {
-          setStyle("-fx-border-color: black; -fx-border-width: 0");
+          rectangle.setStrokeWidth(1);
+          rectangle.setStroke(Color.BLACK);
         });
 
     this.setOnMouseClicked(
