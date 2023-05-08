@@ -52,9 +52,11 @@ public class EditStoryController {
       LinkLine linkLine = new LinkLine(entry.getKey(), startPane, endPane);
       pane.getChildren().addAll(linkLine);
 
-      Text linkText = new Text(entry.getKey().getText());
+      linkLine.toBack();
 
       // TODO: FIX THIS, TEXT DOES NOT WORK
+      Text linkText = new Text(entry.getKey().getText());
+
       double linkXPos =
           (linkLine.startXProperty().add(linkLine.endXProperty()).divide(2).get()
               - linkText.getLayoutBounds().getWidth() / 2);
