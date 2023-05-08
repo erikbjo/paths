@@ -1,12 +1,14 @@
 variables:
   MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
+  GITLAB_API_TOKEN: vtWxX9j7b76rQ_ucQryj
 
 image: maven:3.8.5-openjdk-17
 
 stages:
-  - build 👷‍♂️
-  - test ✅
-  - package 📦
+  - build
+  - test
+  - package
+  - release
 
 cache:
   paths:
@@ -14,7 +16,7 @@ cache:
     - target
 
 build_job:
-  stage: build 👷‍♂️
+  stage: build
   tags:
     - docker
 
@@ -22,22 +24,32 @@ build_job:
     - echo "Maven compile started"
     - "mvn compile -B"
 
-
 test_job:
-  stage: test ✅
+  stage: test
   tags:
     - docker
 
-  script: 
+  script:
     - echo "maven test started"
     - "mvn clean test -B"
 
-
 package_job:
-  stage: package 📦
+  stage: package
   tags:
     - docker
 
   script:
     - echo "Maven packaging started"
     - "mvn package -B"
+
+release_job:
+  stage: release
+  tags:
+    - docker
+
+  script:
+    - 'VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)'
+    - 'echo "Current project version: $VERSION"'
+    - 'curl --request POST --header "PRIVATE-TOKEN: $GITLAB_API_TOKEN" --form "tag_name=v$VERSION" --form "description=Release v$VERSION" --form "file=@target/my-app-$VERSION.jar" "https://git.gvk.idi.ntnu.no/course/idatg2001/idatg2001-2023-ws/eslatte/mappevudering-idatg2001-gruppe-3/-/releases"'
+  only:
+    - main
