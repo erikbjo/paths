@@ -42,6 +42,7 @@ package_job:
     - echo "Maven packaging started"
     - "mvn package -B"
 
+# DOES NOT WORK CURRENTLY
 release_job:
   stage: release
   tags:
