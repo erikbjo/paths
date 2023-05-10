@@ -17,7 +17,7 @@ cache:
 
 workflow:
   rules:
-    - if: '$GITLAB_USER_EMAIL != "gitlab-ci@autojava.doc"'
+    - if: '$CI_JOB_TOKEN != "${GITLAB_API_TOKEN}"'
 
 build_job:
   stage: build
