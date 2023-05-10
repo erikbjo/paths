@@ -5,12 +5,42 @@ variables:
 image: maven:3.8.5-openjdk-17
 
 stages:
+  - build
+  - test
+  - package
   - document
 
 cache:
   paths:
     - .m2/repository
     - target
+
+build_job:
+  stage: build
+  tags:
+    - docker
+
+  script:
+    - echo "Maven compile started"
+    - "mvn compile -B"
+
+test_job:
+  stage: test
+  tags:
+    - docker
+
+  script:
+    - echo "maven test started"
+    - "mvn clean test -B"
+
+package_job:
+  stage: package
+  tags:
+    - docker
+
+  script:
+    - echo "Maven packaging started"
+    - "mvn package -B"
 
 document_job:
   stage: document
@@ -21,6 +51,6 @@ document_job:
     - git config user.name "GitLab CI"
     - git add apidocs
     - git commit -m "Update JavaDoc"
-    - git push origin HEAD:main
+    - git push https://gitlab-ci-token:${GITLAB_API_TOKEN}@git.gvk.idi.ntnu.no/course/idatg2001/idatg2001-2023-ws/eslatte/mappevudering-idatg2001-gruppe-3.git HEAD:main
   only:
     - main
