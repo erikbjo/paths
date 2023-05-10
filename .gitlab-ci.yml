@@ -44,10 +44,12 @@ package_job:
 
 document_job:
   stage: document
+  tags:
+    - docker
   script:
     - mvn javadoc:javadoc
     - mv target/site/apidocs/ ./
-    - git config user.email "gitlab-ci@example.com"
+    - git config user.email "gitlab-ci@autojava.doc"
     - git config user.name "GitLab CI"
     - git add apidocs
     - git commit -m "Update JavaDoc"
