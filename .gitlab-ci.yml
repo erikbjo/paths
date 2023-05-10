@@ -49,6 +49,7 @@ document_job:
   script:
     - git rm -r --cached apidocs || true
     - git commit -m "Remove old JavaDoc" || true
+    - rm -rf apidocs || true
     - mvn javadoc:javadoc
     - mv target/site/apidocs/ ./
     - git config user.email "gitlab-ci@autojava.doc"
@@ -59,3 +60,4 @@ document_job:
   rules:
     - if: '$CI_COMMIT_REF_NAME == "main" && $GITLAB_USER_EMAIL != "gitlab-ci@autojava.doc"'
       when: always
+      
