@@ -15,10 +15,6 @@ cache:
     - .m2/repository
     - target
 
-workflow:
-  rules:
-    - if: '$CI_JOB_TOKEN != "${GITLAB_API_TOKEN}"'
-
 build_job:
   stage: build
   tags:
@@ -56,7 +52,7 @@ document_job:
     - git config user.email "gitlab-ci@autojava.doc"
     - git config user.name "GitLab CI"
     - git add apidocs
-    - git commit -m "Update JavaDoc"
+    - git commit -m "Update JavaDoc [ci skip]"
     - git push https://gitlab-ci-token:${GITLAB_API_TOKEN}@git.gvk.idi.ntnu.no/course/idatg2001/idatg2001-2023-ws/eslatte/mappevudering-idatg2001-gruppe-3.git HEAD:main
   only:
     refs:
