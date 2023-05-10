@@ -15,44 +15,33 @@ cache:
     - .m2/repository
     - target
 
+workflow:
+  rules:
+    - if: '$GITLAB_USER_EMAIL != "gitlab-ci@autojava.doc"'
+
 build_job:
   stage: build
   tags:
     - docker
-
   script:
     - echo "Maven compile started"
     - "mvn compile -B"
-
-  except:
-    variables:
-      - $GITLAB_USER_EMAIL == "gitlab-ci@autojava.doc"
 
 test_job:
   stage: test
   tags:
     - docker
-
   script:
     - echo "maven test started"
     - "mvn clean test -B"
-
-  except:
-    variables:
-      - $GITLAB_USER_EMAIL == "gitlab-ci@autojava.doc"
 
 package_job:
   stage: package
   tags:
     - docker
-
   script:
     - echo "Maven packaging started"
     - "mvn package -B"
-  
-  except:
-    variables:
-      - $GITLAB_USER_EMAIL == "gitlab-ci@autojava.doc"
 
 document_job:
   stage: document
@@ -72,6 +61,3 @@ document_job:
   only:
     refs:
       - main
-  except:
-    variables:
-      - $GITLAB_USER_EMAIL == "gitlab-ci@autojava.doc"
