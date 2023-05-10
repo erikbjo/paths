@@ -47,6 +47,8 @@ document_job:
   tags:
     - docker
   script:
+    - git rm -r --cached apidocs || true
+    - git commit -m "Remove old JavaDoc" || true
     - mvn javadoc:javadoc
     - mv target/site/apidocs/ ./
     - git config user.email "gitlab-ci@autojava.doc"
@@ -54,5 +56,6 @@ document_job:
     - git add apidocs
     - git commit -m "Update JavaDoc"
     - git push https://gitlab-ci-token:${GITLAB_API_TOKEN}@git.gvk.idi.ntnu.no/course/idatg2001/idatg2001-2023-ws/eslatte/mappevudering-idatg2001-gruppe-3.git HEAD:main
-  only:
-    - main
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main" && $GITLAB_USER_EMAIL != "gitlab-ci@autojava.doc"'
+      when: always
