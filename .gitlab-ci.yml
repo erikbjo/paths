@@ -24,6 +24,10 @@ build_job:
     - echo "Maven compile started"
     - "mvn compile -B"
 
+  except:
+    variables:
+      - $GITLAB_USER_EMAIL == "gitlab-ci@autojava.doc"
+
 test_job:
   stage: test
   tags:
@@ -33,6 +37,10 @@ test_job:
     - echo "maven test started"
     - "mvn clean test -B"
 
+  except:
+    variables:
+      - $GITLAB_USER_EMAIL == "gitlab-ci@autojava.doc"
+
 package_job:
   stage: package
   tags:
@@ -41,6 +49,10 @@ package_job:
   script:
     - echo "Maven packaging started"
     - "mvn package -B"
+  
+  except:
+    variables:
+      - $GITLAB_USER_EMAIL == "gitlab-ci@autojava.doc"
 
 document_job:
   stage: document
