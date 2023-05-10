@@ -1,6 +1,7 @@
 package no.ntnu.idatg2001.paths.ui.storyvisualizers;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import no.ntnu.idatg2001.paths.model.Link;
@@ -41,10 +42,10 @@ public class LinkLine extends Line {
     this.setOnMouseClicked(
         mouseEvent -> {
           // open edit link dialog
-            EditLinkDialog editLinkDialog = new EditLinkDialog(link);
+          EditLinkDialog editLinkDialog = new EditLinkDialog(link);
 
-            Optional<Link> result = editLinkDialog.showAndWait();
-            result.ifPresent(link1 -> this.link = link1);
+          Optional<Link> result = editLinkDialog.showAndWait();
+          result.ifPresent(link1 -> this.link = link1);
         });
   }
 

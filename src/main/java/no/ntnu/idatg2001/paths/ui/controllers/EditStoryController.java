@@ -2,6 +2,7 @@ package no.ntnu.idatg2001.paths.ui.controllers;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -53,20 +54,6 @@ public class EditStoryController {
       pane.getChildren().addAll(linkLine);
 
       linkLine.toBack();
-
-      // TODO: FIX THIS, TEXT DOES NOT WORK
-      Text linkText = new Text(entry.getKey().getText());
-
-      double linkXPos =
-          (linkLine.startXProperty().add(linkLine.endXProperty()).divide(2).get()
-              - linkText.getLayoutBounds().getWidth() / 2);
-      double linkYPos =
-          (endPane.layoutYProperty().add(endPane.heightProperty().divide(2)).get()
-              - startPane.layoutYProperty().add(startPane.heightProperty().divide(2)).get());
-
-      linkText.setLayoutX(linkXPos);
-      linkText.setLayoutY(linkYPos);
-      pane.getChildren().add(linkText);
 
       y += 150;
     }

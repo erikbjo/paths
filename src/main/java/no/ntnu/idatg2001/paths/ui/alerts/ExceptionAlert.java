@@ -6,7 +6,7 @@ import javafx.stage.Modality;
 /**
  * General alert for exceptions.
  *
- * @author Erik Bjørnsen & Emil Klevgård-Slåttsveen
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 public class ExceptionAlert extends Alert {
 
