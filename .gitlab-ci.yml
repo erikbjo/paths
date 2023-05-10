@@ -5,52 +5,22 @@ variables:
 image: maven:3.8.5-openjdk-17
 
 stages:
-  - build
-  - test
-  - package
-  - release
+  - document
 
 cache:
   paths:
     - .m2/repository
     - target
 
-build_job:
-  stage: build
-  tags:
-    - docker
-
+document_job:
+  stage: document
   script:
-    - echo "Maven compile started"
-    - "mvn compile -B"
-
-test_job:
-  stage: test
-  tags:
-    - docker
-
-  script:
-    - echo "maven test started"
-    - "mvn clean test -B"
-
-package_job:
-  stage: package
-  tags:
-    - docker
-
-  script:
-    - echo "Maven packaging started"
-    - "mvn package -B"
-
-# DOES NOT WORK CURRENTLY
-release_job:
-  stage: release
-  tags:
-    - docker
-
-  script:
-    - 'VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)'
-    - 'echo "Current project version: $VERSION"'
-    - 'curl --request POST --header "PRIVATE-TOKEN: $GITLAB_API_TOKEN" --form "tag_name=v$VERSION" --form "description=Release v$VERSION" --form "file=@target/Paths-$VERSION.jar" "https://git.gvk.idi.ntnu.no/course/idatg2001/idatg2001-2023-ws/eslatte/mappevudering-idatg2001-gruppe-3/-/releases"'
+    - mvn javadoc:javadoc
+    - mv target/site/apidocs/ ./
+    - git config user.email "gitlab-ci@example.com"
+    - git config user.name "GitLab CI"
+    - git add apidocs
+    - git commit -m "Update JavaDoc"
+    - git push origin HEAD:main
   only:
-    - main                        # Release when pushing to the main branch
+    - main
