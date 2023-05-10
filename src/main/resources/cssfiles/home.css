@@ -33,3 +33,10 @@ TableView {
     -fx-border-width: 1;
     -fx-border-color: black;
 }
+
+.table-view .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-height: 0;
+    -fx-min-height: 0;
+    -fx-max-height: 0;
+}

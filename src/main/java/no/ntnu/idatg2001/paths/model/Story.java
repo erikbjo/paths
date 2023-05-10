@@ -23,6 +23,7 @@ public class Story implements Serializable {
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "story_id")
   private Passage openingPassage;
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -190,19 +191,19 @@ public class Story implements Serializable {
   // kommer hulter til bulter. Pga hashMap ikke sorterer slik som arrayList.
 
   // gammel version
-  /**
-   * public Collection<Passage> getPassages() { Collection<Passage> passageCollection = new
-   * HashSet<>(); for (Link link : passages.keySet()) { Passage passage = passages.get(link); if
-   * (passage != null) { passageCollection.add(passage); } } return passageCollection; }
-   */
+  //
+  //public Collection<Passage> getPassages() { Collection<Passage> passageCollection = new
+  //HashSet<>(); for (Link link : passages.keySet()) { Passage passage = passages.get(link); if
+  //(passage != null) { passageCollection.add(passage); } } return passageCollection; }
+  //
 
   // Ny version 1
 
-  /**
-   * public Collection<Passage> getPassages() { Collection<Passage> passageCollection = new
-   * HashSet<>(); for (Passage passage : passages.values()) { if (passage != null) {
-   * passageCollection.add(passage); } } return passageCollection; }
-   */
+  //
+  //public Collection<Passage> getPassages() { Collection<Passage> passageCollection = new
+  //HashSet<>(); for (Passage passage : passages.values()) { if (passage != null) {
+  //passageCollection.add(passage); } } return passageCollection; }
+  //
   public List<Passage> getPassages() {
     return passages.values().stream().flatMap(Arrays::stream).distinct().toList();
   }
