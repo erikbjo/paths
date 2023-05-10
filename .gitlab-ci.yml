@@ -57,7 +57,9 @@ document_job:
     - git add apidocs
     - git commit -m "Update JavaDoc"
     - git push https://gitlab-ci-token:${GITLAB_API_TOKEN}@git.gvk.idi.ntnu.no/course/idatg2001/idatg2001-2023-ws/eslatte/mappevudering-idatg2001-gruppe-3.git HEAD:main
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "main" && $GITLAB_USER_EMAIL != "gitlab-ci@autojava.doc"'
-      when: always
-      
+  only:
+    refs:
+      - main
+  except:
+    variables:
+      - $GITLAB_USER_EMAIL == "gitlab-ci@autojava.doc"
