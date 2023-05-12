@@ -60,8 +60,7 @@ public class SelectGameToContinueView implements View {
     LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> updateLanguage());
     updateLanguage();
 
-    stage.setScene(new Scene(root, 1200, 800));
-    stage.show();
+    stage.getScene().setRoot(root);
   }
 
   @Override
