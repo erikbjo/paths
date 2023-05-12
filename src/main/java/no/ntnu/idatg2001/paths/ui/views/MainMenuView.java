@@ -36,8 +36,13 @@ public class MainMenuView extends Application implements View {
 
   @Override
   public void start(Stage primaryStage) {
-    this.controller = new MainMenuController(this);
     this.stage = primaryStage;
+    this.controller = new MainMenuController(this);
+
+    // Initialize the DAO classes so that they are ready for use for later views
+    GameDAO.getInstance();
+    StoryDAO.getInstance();
+    PlayerDAO.getInstance();
 
     primaryStage.setTitle("Main menu");
     primaryStage.setOnCloseRequest(

@@ -1,5 +1,6 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
+import java.util.List;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,8 +10,6 @@ import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.database.GameDAO;
 import no.ntnu.idatg2001.paths.ui.views.SelectGameToContinueView;
-
-import java.util.List;
 
 public class SelectGameToContinueController {
   private final SelectGameToContinueView view;
@@ -55,11 +54,11 @@ public class SelectGameToContinueController {
     ongoingGamesStoryTableColumn.setPrefWidth(ongoingGamesTableView.getPrefWidth() / 2);
   }
 
-    public void updateGameTable(TableView<Game> ongoingGamesTableView) {
-        ongoingGamesTableView.getItems().clear();
-        List<Game> gameList = GameDAO.getInstance().getAll();
-        // turn gameList into observable list
-        ObservableList<Game> observableGameList = FXCollections.observableArrayList(gameList);
-        ongoingGamesTableView.setItems(observableGameList);
-    }
+  public void updateGameTable(TableView<Game> ongoingGamesTableView) {
+    ongoingGamesTableView.getItems().clear();
+    List<Game> gameList = GameDAO.getInstance().getAll();
+    // turn gameList into observable list
+    ObservableList<Game> observableGameList = FXCollections.observableArrayList(gameList);
+    ongoingGamesTableView.setItems(observableGameList);
+  }
 }

@@ -9,6 +9,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.ui.controllers.SelectGameToContinueController;
@@ -18,6 +19,8 @@ import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 public class SelectGameToContinueView implements View {
   private final SelectGameToContinueController controller;
   private final Stage stage;
+  private final Text selectGameText;
+  private final Button continueButton;
 
   public SelectGameToContinueView(SelectGameToContinueController controller, Stage stage) {
     this.controller = controller;
@@ -26,10 +29,14 @@ public class SelectGameToContinueView implements View {
     stage.setTitle("Select game");
 
     BorderPane root = new BorderPane();
+    root.setPrefWidth(1200);
+    root.setPrefHeight(800);
     root.setTop(new StandardMenuBar(stage));
 
     VBox centerVBox = new VBox();
     root.setCenter(centerVBox);
+
+    selectGameText = new Text();
 
     TableView<Game> ongoingGamesTableView = new TableView<>();
     TableColumn<Game, String> ongoingGamesPlayerTableColumn = new TableColumn<>();
@@ -39,7 +46,7 @@ public class SelectGameToContinueView implements View {
         .addAll(ongoingGamesPlayerTableColumn, ongoingGamesStoryTableColumn);
 
     HBox buttonHBox = new HBox();
-    Button continueButton = new Button("Continue");
+    continueButton = new Button();
     buttonHBox.getChildren().add(continueButton);
 
     centerVBox.getChildren().addAll(ongoingGamesTableView, buttonHBox);
@@ -48,6 +55,10 @@ public class SelectGameToContinueView implements View {
     controller.configureGamesTableView(
         ongoingGamesTableView, ongoingGamesPlayerTableColumn, ongoingGamesStoryTableColumn);
     controller.updateGameTable(ongoingGamesTableView);
+
+    // Observes when the language is changed, then calls updateLanguage()
+    LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> updateLanguage());
+    updateLanguage();
 
     stage.setScene(new Scene(root, 1200, 800));
     stage.show();
@@ -59,5 +70,8 @@ public class SelectGameToContinueView implements View {
         ResourceBundle.getBundle(
             "languages/selectGameToContinue",
             Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+
+    selectGameText.setText(resources.getString("selectGameText"));
+    continueButton.setText(resources.getString("continueButton"));
   }
 }
