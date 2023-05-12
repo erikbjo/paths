@@ -16,7 +16,7 @@ import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.controllers.StoryViewController;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
-public class StoryView {
+public class StoryView implements View {
   private ResourceBundle resources;
   private StoryViewController storyViewController;
 

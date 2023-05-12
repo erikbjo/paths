@@ -18,7 +18,7 @@ import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.controllers.PlayerInformationController;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
-public class PlayerInformationView {
+public class PlayerInformationView implements View {
   private ResourceBundle resources;
   private Text healthGoalText;
   private Text goldGoalText;

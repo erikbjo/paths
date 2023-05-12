@@ -14,7 +14,7 @@ import no.ntnu.idatg2001.paths.ui.controllers.EditPlayerController;
 import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
-public class EditPlayerView {
+public class EditPlayerView implements View {
   private Player player;
   private EditPlayerController controller;
   private VBox leftVBox;
@@ -304,4 +304,7 @@ public class EditPlayerView {
 
     return attributesGridPane;
   }
+
+  @Override
+  public void updateLanguage() {}
 }

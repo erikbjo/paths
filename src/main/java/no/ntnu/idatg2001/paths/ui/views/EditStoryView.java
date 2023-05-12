@@ -8,7 +8,7 @@ import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.ui.controllers.EditStoryController;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
-public class EditStoryView {
+public class EditStoryView implements View {
   private Story story;
   private EditStoryController controller;
 
@@ -26,5 +26,10 @@ public class EditStoryView {
     root.setCenter(pane);
 
     primaryStage.getScene().setRoot(root);
+  }
+
+  @Override
+  public void updateLanguage() {
+
   }
 }
