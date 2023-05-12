@@ -11,16 +11,19 @@ import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.ui.storyvisualizers.LinkLine;
 import no.ntnu.idatg2001.paths.ui.storyvisualizers.PassagePane;
+import no.ntnu.idatg2001.paths.ui.views.EditStoryView;
 
 public class EditStoryController {
 
   private final Map<Link, Passage[]> storyMap;
   private final Story story;
   private final Stage stage;
+  private final EditStoryView view;
 
   public EditStoryController(Stage stage, Story story) {
     this.stage = stage;
     this.story = story;
+    this.view = new EditStoryView(this, stage, story);
     storyMap = story.getPassagesHashMap();
   }
 

@@ -12,14 +12,13 @@ public class EditStoryView implements View {
   private Story story;
   private EditStoryController controller;
 
-  public void start(Stage primaryStage, Story story) {
+  public EditStoryView(EditStoryController controller, Stage primaryStage, Story story) {
+    this.controller = controller;
     this.story = story;
     primaryStage.setTitle("Edit Story");
 
     BorderPane root = new BorderPane();
     root.setTop(new StandardMenuBar(primaryStage));
-
-    controller = new EditStoryController(primaryStage, story);
 
     Pane pane = new Pane();
     controller.visualizeHashMap(pane);

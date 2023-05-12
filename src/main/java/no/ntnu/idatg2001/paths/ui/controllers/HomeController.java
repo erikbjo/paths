@@ -185,8 +185,7 @@ public class HomeController {
             if (story == null) {
               throw new NullPointerException("No story selected");
             }
-            EditStoryView editStoryView = new EditStoryView();
-            editStoryView.start(primaryStage, story);
+            new EditStoryController(primaryStage, story);
           } catch (NullPointerException e) {
             ExceptionAlert exceptionAlert = new ExceptionAlert(e);
             exceptionAlert.showAndWait();
@@ -243,8 +242,7 @@ public class HomeController {
             if (player == null) {
               throw new NullPointerException("No player selected");
             }
-            EditPlayerView editPlayerView = new EditPlayerView();
-            editPlayerView.start(primaryStage, player);
+            new EditPlayerController(primaryStage, player);
           } catch (NullPointerException e) {
             ExceptionAlert exceptionAlert = new ExceptionAlert(e);
             exceptionAlert.showAndWait();

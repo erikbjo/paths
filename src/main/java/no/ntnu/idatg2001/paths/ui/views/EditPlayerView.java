@@ -11,22 +11,35 @@ import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.units.DefaultAttributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.controllers.EditPlayerController;
+import no.ntnu.idatg2001.paths.ui.controllers.EditStoryController;
+import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+/**
+ * Class that creates the view for editing a player. This class uses getters for accessing the
+ * different fields, so that the controller can access them.
+ *
+ * @version 1.0.0
+ */
 public class EditPlayerView implements View {
-  private Player player;
-  private EditPlayerController controller;
+  private final Player player;
+  private final EditPlayerController controller;
+  private final VBox centerVBox;
+  private final HBox contentHBox;
+  private final Text editPlayerText;
+  private final HBox buttonsHBox;
+  private final Stage primaryStage;
   private VBox leftVBox;
-  private VBox centerVBox;
   private VBox rightVBox;
-  private HBox contentHBox;
   private GridPane cheatsGridPane;
   private GridPane playerGridPane;
   private GridPane attributesGridPane;
   private Text playerText;
   private Text cheatsText;
-  private Text editPlayerText;
   private Text nameText;
   private Text healthText;
   private Text manaText;
@@ -54,14 +67,13 @@ public class EditPlayerView implements View {
   private TextField intelligenceTextField;
   private TextField agilityTextField;
   private TextField luckTextField;
-  private HBox buttonsHBox;
   private Button saveButton;
   private Button cancelButton;
-  private Stage primaryStage;
   private ComboBox<DefaultAttributes> defaultAttributesComboBox;
   private Button showAttributesGridPaneButton;
 
-  public void start(Stage primaryStage, Player player) {
+  public EditPlayerView(EditPlayerController controller, Stage primaryStage, Player player) {
+    this.controller = controller;
     this.primaryStage = primaryStage;
     this.player = player;
     primaryStage.setTitle("Edit Player");
@@ -92,47 +104,13 @@ public class EditPlayerView implements View {
     buttonsHBox.setAlignment(Pos.CENTER);
     centerVBox.getChildren().add(buttonsHBox);
 
-    controller =
-        new EditPlayerController(
-            playerText,
-            cheatsText,
-            editPlayerText,
-            nameText,
-            healthText,
-            manaText,
-            energyText,
-            goldText,
-            scoreText,
-            nameField,
-            healthField,
-            manaField,
-            energyField,
-            goldField,
-            scoreField,
-            attributesText,
-            strengthText,
-            perceptionText,
-            enduranceText,
-            charismaText,
-            intelligenceText,
-            agilityText,
-            luckText,
-            strengthTextField,
-            perceptionTextField,
-            enduranceTextField,
-            charismaTextField,
-            intelligenceTextField,
-            agilityTextField,
-            luckTextField,
-            player,
-            cancelButton,
-            saveButton,
-            defaultAttributesComboBox,
-            showAttributesGridPaneButton,
-            attributesGridPane);
+    // Observes when the language is changed, then calls updateLanguage()
+    LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> updateLanguage());
+    updateLanguage();
 
-    controller.updateLanguage();
-    controller.addParametersFromPlayerIntoTextFields();
+    addParametersFromPlayerIntoTextFields();
+
+    // CONTROLLER
 
     MusicHandler.playMusic("Old_Man.mp3");
     primaryStage.getScene().setRoot(root);
@@ -306,5 +284,137 @@ public class EditPlayerView implements View {
   }
 
   @Override
-  public void updateLanguage() {}
+  public void updateLanguage() {
+    ResourceBundle resources =
+        ResourceBundle.getBundle(
+            "editPlayer",
+            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+    playerText.setText(resources.getString("playerText"));
+    cheatsText.setText(resources.getString("cheatsText"));
+    editPlayerText.setText(resources.getString("editPlayerText"));
+    nameText.setText(resources.getString("nameText"));
+    healthText.setText(resources.getString("healthText"));
+    manaText.setText(resources.getString("manaText"));
+    energyText.setText(resources.getString("energyText"));
+    goldText.setText(resources.getString("goldText"));
+    scoreText.setText(resources.getString("scoreText"));
+    attributesText.setText(resources.getString("attributesText"));
+    strengthText.setText(resources.getString("strengthText"));
+    perceptionText.setText(resources.getString("perceptionText"));
+    enduranceText.setText(resources.getString("enduranceText"));
+    charismaText.setText(resources.getString("charismaText"));
+    intelligenceText.setText(resources.getString("intelligenceText"));
+    agilityText.setText(resources.getString("agilityText"));
+    luckText.setText(resources.getString("luckText"));
+
+    cancelButton.setText(resources.getString("cancelButton"));
+    saveButton.setText(resources.getString("saveButton"));
+
+    defaultAttributesComboBox.setPromptText(resources.getString("defaultAttributesComboBox"));
+  }
+
+  public void addParametersFromPlayerIntoTextFields() {
+    nameField.setText(player.getName());
+
+    healthField.setText(String.valueOf(player.getHealth()));
+    manaField.setText(String.valueOf(player.getMana()));
+    energyField.setText(String.valueOf(player.getEnergy()));
+    goldField.setText(String.valueOf(player.getGold()));
+    scoreField.setText(String.valueOf(player.getScore()));
+
+    strengthTextField.setText(String.valueOf(player.getAttributes().getStrength()));
+    perceptionTextField.setText(String.valueOf(player.getAttributes().getPerception()));
+    enduranceTextField.setText(String.valueOf(player.getAttributes().getEndurance()));
+    charismaTextField.setText(String.valueOf(player.getAttributes().getCharisma()));
+    intelligenceTextField.setText(String.valueOf(player.getAttributes().getIntelligence()));
+    agilityTextField.setText(String.valueOf(player.getAttributes().getAgility()));
+    luckTextField.setText(String.valueOf(player.getAttributes().getLuck()));
+  }
+
+  public boolean assertStandardFieldsValid() {
+    return assertTextFieldValid(nameField)
+        && assertIntegerFieldValid(healthField)
+        && assertIntegerFieldValid(manaField)
+        && assertIntegerFieldValid(energyField)
+        && assertIntegerFieldValid(goldField)
+        && assertIntegerFieldValid(scoreField);
+  }
+
+  public boolean assertAttributesFieldsValid() {
+    return assertIntegerFieldValid(strengthTextField)
+        && assertIntegerFieldValid(perceptionTextField)
+        && assertIntegerFieldValid(enduranceTextField)
+        && assertIntegerFieldValid(charismaTextField)
+        && assertIntegerFieldValid(intelligenceTextField)
+        && assertIntegerFieldValid(agilityTextField)
+        && assertIntegerFieldValid(luckTextField);
+  }
+
+  public boolean assertAllFieldsValid() {
+    return assertStandardFieldsValid() && assertAttributesFieldsValid();
+  }
+
+  private boolean assertTextFieldValid(TextField textField) {
+    return !textField.getText().isEmpty() && !textField.getText().isBlank();
+  }
+
+  private boolean assertIntegerFieldValid(TextField textField) {
+    return textField.getText().matches("[0-9]+");
+  }
+
+  public TextField getNameField() {
+    return nameField;
+  }
+
+  public TextField getHealthField() {
+    return healthField;
+  }
+
+  public TextField getManaField() {
+    return manaField;
+  }
+
+  public TextField getEnergyField() {
+    return energyField;
+  }
+
+  public TextField getGoldField() {
+    return goldField;
+  }
+
+  public TextField getScoreField() {
+    return scoreField;
+  }
+
+  public TextField getStrengthTextField() {
+    return strengthTextField;
+  }
+
+  public TextField getPerceptionTextField() {
+    return perceptionTextField;
+  }
+
+  public TextField getEnduranceTextField() {
+    return enduranceTextField;
+  }
+
+  public TextField getCharismaTextField() {
+    return charismaTextField;
+  }
+
+  public TextField getIntelligenceTextField() {
+    return intelligenceTextField;
+  }
+
+  public TextField getAgilityTextField() {
+    return agilityTextField;
+  }
+
+  public TextField getLuckTextField() {
+    return luckTextField;
+  }
+
+  public ComboBox<DefaultAttributes> getDefaultAttributesComboBox() {
+    return defaultAttributesComboBox;
+  }
 }

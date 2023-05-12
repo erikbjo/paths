@@ -79,8 +79,7 @@ public class NewGameController implements Controller {
             if (story == null) {
               throw new NullPointerException("No story selected");
             }
-            EditStoryView editStoryView = new EditStoryView();
-            editStoryView.start(stage, story);
+            new EditStoryController(stage, story);
           } catch (NullPointerException e) {
             ExceptionAlert exceptionAlert = new ExceptionAlert(e);
             exceptionAlert.showAndWait();
@@ -140,8 +139,7 @@ public class NewGameController implements Controller {
             if (player == null) {
               throw new NullPointerException("No player selected");
             }
-            EditPlayerView editPlayerView = new EditPlayerView();
-            editPlayerView.start(stage, player);
+            new EditPlayerController(stage, player);
           } catch (NullPointerException e) {
             ExceptionAlert exceptionAlert = new ExceptionAlert(e);
             exceptionAlert.showAndWait();
