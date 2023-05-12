@@ -13,6 +13,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.model.utilities.SettingsFileWriter;
 import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
 import no.ntnu.idatg2001.paths.ui.views.HomeView;
+import no.ntnu.idatg2001.paths.ui.views.MainMenuView;
 
 import java.util.List;
 
@@ -30,6 +31,6 @@ public class Main {
 
     MusicHandler.initialize();
     SettingsFileWriter.readSettings();
-    HomeView.mainApp(args);
+    MainMenuView.mainApp(args);
   }
 }

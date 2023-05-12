@@ -30,7 +30,8 @@ import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
 import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
-public class HomeView extends Application {
+// TO BE DEPRECATED
+public class HomeView {
   private HomeController homeController;
   private SettingsController settingsController;
   private ResourceBundle resources;
@@ -39,21 +40,8 @@ public class HomeView extends Application {
   private Text storiesText;
   private Text deadLinksText;
 
-  public static void mainApp(String[] args) {
-    launch();
-  }
-
-  @Override
   public void start(Stage primaryStage) {
     primaryStage.setTitle("Home");
-    primaryStage.setOnCloseRequest(
-        event -> {
-          event.consume();
-          GameDAO.getInstance().close();
-          StoryDAO.getInstance().close();
-          PlayerDAO.getInstance().close();
-          Platform.exit();
-        });
 
     BorderPane root = new BorderPane();
     root.setTop(new StandardMenuBar(primaryStage));
