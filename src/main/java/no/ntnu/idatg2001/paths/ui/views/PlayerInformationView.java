@@ -115,10 +115,7 @@ public class PlayerInformationView {
     vBox.getChildren().add(gridPane);
     root.setCenter(vBox);
 
-    Scene scene = new Scene(root, 800, 800);
-    scene.getStylesheets().add("cssfiles/test.css");
-    stage.setScene(scene);
-    stage.show();
+    stage.getScene().setRoot(root);
   }
 
   public void updateLanguage() {

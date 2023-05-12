@@ -157,10 +157,8 @@ public class NewGameView implements View {
     controller.configureTableColumns(storiesTableColumn, playersTableColumn, deadLinksTableColumn);
     controller.updateAllTables(storiesTableView, playersTableView, deadLinksTableView);
 
-    Scene scene = primaryStage.getScene();
-    scene.setRoot(root);
-    primaryStage.setScene(scene);
-    primaryStage.show();
+
+    primaryStage.getScene().setRoot(root);
   }
 
   @Override

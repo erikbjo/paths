@@ -134,11 +134,8 @@ public class EditPlayerView {
     controller.updateLanguage();
     controller.addParametersFromPlayerIntoTextFields();
 
-    Scene scene = new Scene(root, 800, 800);
-    scene.getStylesheets().add("cssfiles/editPlayer.css");
-    primaryStage.setScene(scene);
-    primaryStage.show();
     MusicHandler.playMusic("Old_Man.mp3");
+    primaryStage.getScene().setRoot(root);
   }
 
   private HBox createButtonsHBox() {

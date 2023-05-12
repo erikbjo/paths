@@ -68,10 +68,7 @@ public class StoryView {
     storyViewController.updateStoryViewToNewPath();
 
 
-    Scene scene = new Scene(root, 800, 800);
-    scene.getStylesheets().add("cssfiles/storyStyle.css");
-    stage.setScene(scene);
-    stage.show();
+    stage.getScene().setRoot(root);
   }
 
   public void updateLanguage() {

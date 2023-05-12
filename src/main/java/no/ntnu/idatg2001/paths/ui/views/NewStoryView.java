@@ -147,9 +147,7 @@ public class NewStoryView {
     controller.configureTableViews();
     controller.configureButtons();
 
-    Scene scene = new Scene(root, 800, 800);
-    scene.getStylesheets().add("cssfiles/newStory.css");
-    primaryStage.setScene(scene);
-    primaryStage.show();
+    
+    primaryStage.getScene().setRoot(root);
   }
 }

@@ -25,8 +25,6 @@ public class EditStoryView {
     controller.visualizeHashMap(pane);
     root.setCenter(pane);
 
-    Scene scene = new Scene(root, 800, 800);
-    primaryStage.setScene(scene);
-    primaryStage.show();
+    primaryStage.getScene().setRoot(root);
   }
 }
