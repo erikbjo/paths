@@ -1,3 +1,4 @@
+/*
 package no.ntnu.idatg2001.paths.ui.views;
 
 import java.util.List;
@@ -266,3 +267,4 @@ public class HomeView {
     homeController.updateStoryTable();
   }
 }
+*/

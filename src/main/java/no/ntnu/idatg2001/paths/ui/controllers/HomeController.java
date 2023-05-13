@@ -1,3 +1,4 @@
+/*
 package no.ntnu.idatg2001.paths.ui.controllers;
 
 import java.util.ArrayList;
@@ -438,3 +439,4 @@ public class HomeController {
     deadLinksTableColumn.setPrefWidth(250);
   }
 }
+*/
