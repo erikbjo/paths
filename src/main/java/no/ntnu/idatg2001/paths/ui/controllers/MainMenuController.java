@@ -19,6 +19,11 @@ public class MainMenuController {
     this.stage = view.getStage();
   }
 
+  public MainMenuController(Stage stage) {
+    this.stage = stage;
+    this.view = new MainMenuView(this, stage);
+  }
+
   public void configureContinueButton(Button continueButton) {
     continueButton.setOnAction(event -> new SelectGameToContinueController(stage));
   }

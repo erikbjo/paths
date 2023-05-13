@@ -2,7 +2,6 @@ package no.ntnu.idatg2001.paths.ui.views;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
@@ -22,30 +21,20 @@ import no.ntnu.idatg2001.paths.model.database.StoryDAO;
 import no.ntnu.idatg2001.paths.ui.controllers.MainMenuController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
-public class MainMenuView extends Application implements View {
-  private MainMenuController controller;
-  private Stage stage;
-  private Button continueButton;
-  private Button newGameButton;
-  private Button settingsButton;
-  private Button exitButton;
+public class MainMenuView implements View {
+  private final MainMenuController controller;
+  private final Stage stage;
+  private final Button continueButton;
+  private final Button newGameButton;
+  private final Button settingsButton;
+  private final Button exitButton;
 
-  public static void mainApp(String[] args) {
-    launch(args);
-  }
+  public MainMenuView(MainMenuController controller, Stage stage) {
+    this.controller = controller;
+    this.stage = stage;
 
-  @Override
-  public void start(Stage primaryStage) {
-    this.stage = primaryStage;
-    this.controller = new MainMenuController(this);
-
-    // Initialize the DAO classes so that they are ready for use for later views
-    GameDAO.getInstance();
-    StoryDAO.getInstance();
-    PlayerDAO.getInstance();
-
-    primaryStage.setTitle("Main menu");
-    primaryStage.setOnCloseRequest(
+    stage.setTitle("Main menu");
+    stage.setOnCloseRequest(
         event -> {
           event.consume();
           GameDAO.getInstance().close();
@@ -105,8 +94,8 @@ public class MainMenuView extends Application implements View {
     updateLanguage();
 
     Scene scene = new Scene(root, 1200, 800);
-    primaryStage.setScene(scene);
-    primaryStage.show();
+    stage.setScene(scene);
+    stage.show();
   }
 
   public Stage getStage() {
@@ -117,7 +106,8 @@ public class MainMenuView extends Application implements View {
   public void updateLanguage() {
     ResourceBundle resources =
         ResourceBundle.getBundle(
-            "languages/mainMenu", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+            "languages/mainMenu",
+            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
 
     // BUTTONS
     continueButton.setText(resources.getString("continueButton"));
