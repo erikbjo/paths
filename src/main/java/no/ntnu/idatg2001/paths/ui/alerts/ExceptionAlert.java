@@ -22,7 +22,7 @@ public class ExceptionAlert extends Alert {
     public ExceptionAlert(Exception exception) {
         super(Alert.AlertType.WARNING);
         this.exceptionResources = ResourceBundle.getBundle(
-            "exceptions",
+            "languages/exceptions",
             Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
         this.setTitle(exceptionResources.getString("alertTitle"));
         this.setHeaderText(null);
