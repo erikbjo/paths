@@ -1,16 +1,11 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.units.Attributes;
 import no.ntnu.idatg2001.paths.model.units.DefaultAttributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
@@ -32,7 +27,7 @@ public class EditPlayerController implements Controller {
     // gets the correct resource bundle, depending on the current language in database
     resources =
         ResourceBundle.getBundle(
-            "editPlayer",
+            "languages/editPlayer",
             Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
   }
 

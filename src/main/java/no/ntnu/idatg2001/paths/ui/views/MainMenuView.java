@@ -2,7 +2,6 @@ package no.ntnu.idatg2001.paths.ui.views;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
@@ -10,42 +9,28 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import no.ntnu.idatg2001.paths.model.database.GameDAO;
-import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
-import no.ntnu.idatg2001.paths.model.database.StoryDAO;
+import no.ntnu.idatg2001.paths.model.dao.GameDAO;
+import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
+import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
 import no.ntnu.idatg2001.paths.ui.controllers.MainMenuController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
-public class MainMenuView extends Application implements View {
-  private MainMenuController controller;
-  private Stage stage;
-  private Button continueButton;
-  private Button newGameButton;
-  private Button settingsButton;
-  private Button exitButton;
+public class MainMenuView implements View {
+  private final MainMenuController controller;
+  private final Stage stage;
+  private final Button continueButton;
+  private final Button newGameButton;
+  private final Button settingsButton;
+  private final Button exitButton;
 
-  public static void mainApp(String[] args) {
-    launch(args);
-  }
+  public MainMenuView(MainMenuController controller, Stage stage) {
+    this.controller = controller;
+    this.stage = stage;
 
-  @Override
-  public void start(Stage primaryStage) {
-    this.stage = primaryStage;
-    this.controller = new MainMenuController(this);
-
-    // Initialize the DAO classes so that they are ready for use for later views
-    GameDAO.getInstance();
-    StoryDAO.getInstance();
-    PlayerDAO.getInstance();
-
-    primaryStage.setTitle("Main menu");
-    primaryStage.setOnCloseRequest(
+    stage.setTitle("Main menu");
+    stage.setOnCloseRequest(
         event -> {
           event.consume();
           GameDAO.getInstance().close();
@@ -63,35 +48,41 @@ public class MainMenuView extends Application implements View {
     centerHBox.setAlignment(Pos.CENTER_LEFT);
     centerHBox.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
-    VBox buttonVBox = new VBox();
-    buttonVBox.setAlignment(Pos.CENTER);
-    buttonVBox.setPrefSize(100, 200);
-    buttonVBox.setPadding(new Insets(5, 5, 5, 5));
+    HBox buttonsHBox = new HBox();
+    buttonsHBox.setId("buttonsHBox");
+    buttonsHBox.setAlignment(Pos.CENTER);
+    buttonsHBox.setPrefSize(100, 200);
+    buttonsHBox.setPadding(new Insets(5, 5, 5, 5));
 
     continueButton = new Button();
-    continueButton.setPrefWidth(buttonVBox.getPrefWidth());
+    continueButton.setPrefWidth(buttonsHBox.getPrefWidth());
     newGameButton = new Button();
-    newGameButton.setPrefWidth(buttonVBox.getPrefWidth());
+    newGameButton.setPrefWidth(buttonsHBox.getPrefWidth());
     settingsButton = new Button();
-    settingsButton.setPrefWidth(buttonVBox.getPrefWidth());
+    settingsButton.setPrefWidth(buttonsHBox.getPrefWidth());
     exitButton = new Button();
-    exitButton.setPrefWidth(buttonVBox.getPrefWidth());
+    exitButton.setPrefWidth(buttonsHBox.getPrefWidth());
 
-    buttonVBox.getChildren().addAll(continueButton, newGameButton, settingsButton, exitButton);
+    buttonsHBox.getChildren().addAll(continueButton, newGameButton, settingsButton, exitButton);
 
-    ImageView imageView =
-        new ImageView(new Image("file:src/main/resources/images/placeholder.png"));
-    imageView.setFitHeight(150);
-    imageView.setFitWidth(200);
-    imageView.setPreserveRatio(true);
+    Image image = new Image("file:src/main/resources/images/PathsTitleScreen.png");
+    BackgroundImage backgroundImage =
+        new BackgroundImage(
+            image,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundPosition.CENTER,
+            new BackgroundSize(1.0, 1.0, true, true, false, false));
+    root.setBackground(new Background(backgroundImage));
 
-    centerHBox.getChildren().addAll(buttonVBox, imageView);
+    // centerHBox.getChildren().addAll(buttonsHBox);
     AnchorPane.setBottomAnchor(centerHBox, 0.0);
     AnchorPane.setTopAnchor(centerHBox, 0.0);
     AnchorPane.setLeftAnchor(centerHBox, 0.0);
     AnchorPane.setRightAnchor(centerHBox, 0.0);
     centerPane.getChildren().add(centerHBox);
 
+    root.setBottom(buttonsHBox);
     root.setCenter(centerPane);
 
     // CONTROLLER
@@ -105,8 +96,9 @@ public class MainMenuView extends Application implements View {
     updateLanguage();
 
     Scene scene = new Scene(root, 1200, 800);
-    primaryStage.setScene(scene);
-    primaryStage.show();
+    scene.getStylesheets().add("cssfiles/mainMenu.css");
+    stage.setScene(scene);
+    stage.show();
   }
 
   public Stage getStage() {
@@ -117,7 +109,8 @@ public class MainMenuView extends Application implements View {
   public void updateLanguage() {
     ResourceBundle resources =
         ResourceBundle.getBundle(
-            "languages/mainMenu", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+            "languages/mainMenu",
+            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
 
     // BUTTONS
     continueButton.setText(resources.getString("continueButton"));

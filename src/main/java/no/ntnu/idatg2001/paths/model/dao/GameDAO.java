@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.paths.model.database;
+package no.ntnu.idatg2001.paths.model.dao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

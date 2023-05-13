@@ -1,6 +1,5 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
-import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -12,16 +11,15 @@ import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Story;
-import no.ntnu.idatg2001.paths.model.database.GameDAO;
-import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
-import no.ntnu.idatg2001.paths.model.database.StoryDAO;
+import no.ntnu.idatg2001.paths.model.dao.GameDAO;
+import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
+import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.alerts.ConfirmationAlert;
 import no.ntnu.idatg2001.paths.ui.alerts.ExceptionAlert;
 import no.ntnu.idatg2001.paths.ui.alerts.WarningAlert;
 import no.ntnu.idatg2001.paths.ui.dialogs.NewPlayerDialog;
 import no.ntnu.idatg2001.paths.ui.handlers.CurrentGameHandler;
-import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.views.*;
 
 import java.util.*;
@@ -87,10 +85,7 @@ public class NewGameController implements Controller {
         });
 
     newStoryButton.setOnAction(
-        event -> {
-          NewStoryView newStoryView = new NewStoryView();
-          newStoryView.start(stage);
-        });
+        event -> new NewStoryController(stage));
 
     deleteStoryButton.setOnAction(
         event -> {
