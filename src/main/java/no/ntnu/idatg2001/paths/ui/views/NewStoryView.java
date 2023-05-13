@@ -14,7 +14,7 @@ import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.ui.controllers.NewStoryController;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
 
-public class NewStoryView {
+public class NewStoryView implements View {
   private Stage primaryStage;
   private Text newStoryText;
   private Text titleText;
@@ -147,9 +147,12 @@ public class NewStoryView {
     controller.configureTableViews();
     controller.configureButtons();
 
-    Scene scene = new Scene(root, 800, 800);
-    scene.getStylesheets().add("cssfiles/newStory.css");
-    primaryStage.setScene(scene);
-    primaryStage.show();
+
+    primaryStage.getScene().setRoot(root);
+  }
+
+  @Override
+  public void updateLanguage() {
+
   }
 }

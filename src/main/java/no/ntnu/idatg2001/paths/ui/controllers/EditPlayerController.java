@@ -9,244 +9,94 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
+import no.ntnu.idatg2001.paths.model.units.Attributes;
 import no.ntnu.idatg2001.paths.model.units.DefaultAttributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
+import no.ntnu.idatg2001.paths.ui.views.EditPlayerView;
 
-public class EditPlayerController {
-    private final Text playerText;
-    private final Text cheatsText;
-    private final Text editPlayerText;
-    private final Text nameText;
-    private final Text healthText;
-    private final Text manaText;
-    private final Text energyText;
-    private final Text goldText;
-    private final Text scoreText;
-    private final TextField nameField;
-    private final TextField healthField;
-    private final TextField manaField;
-    private final TextField energyField;
-    private final TextField goldField;
-    private final TextField scoreField;
-    private final Text attributesText;
-    private final Text strengthText;
-    private final Text perceptionText;
-    private final Text enduranceText;
-    private final Text charismaText;
-    private final Text intelligenceText;
-    private final Text agilityText;
-    private final Text luckText;
-    private final TextField strengthTextField;
-    private final TextField perceptionTextField;
-    private final TextField enduranceTextField;
-    private final TextField charismaTextField;
-    private final TextField intelligenceTextField;
-    private final TextField agilityTextField;
-    private final TextField luckTextField;
-    private final Player player;
-    private final Button saveButton;
-    private final Button cancelButton;
-    private final ComboBox<DefaultAttributes> defaultAttributesComboBox;
+public class EditPlayerController implements Controller {
+  private final ResourceBundle resources;
+  private final Stage primaryStage;
+  private final Player player;
+  private final EditPlayerView view;
 
-    private final Map<String, DefaultAttributes> defaultAttributesMap;
-    private final Button showAttributesGridPaneButton;
-    private final GridPane attributesGridPane;
-    private ResourceBundle editPlayerResources;
-    private ResourceBundle defaultAttributesResources;
+  public EditPlayerController(Stage primaryStage, Player player) {
+    this.primaryStage = primaryStage;
+    this.player = player;
+    this.view = new EditPlayerView(this, primaryStage, player);
 
-    public EditPlayerController(
-        Text playerText,
-        Text cheatsText,
-        Text editPlayerText,
-        Text nameText,
-        Text healthText,
-        Text manaText,
-        Text energyText,
-        Text goldText,
-        Text scoreText,
-        TextField nameField,
-        TextField healthField,
-        TextField manaField,
-        TextField energyField,
-        TextField goldField,
-        TextField scoreField,
-        Text attributesText,
-        Text strengthText,
-        Text perceptionText,
-        Text enduranceText,
-        Text charismaText,
-        Text intelligenceText,
-        Text agilityText,
-        Text luckText,
-        TextField strengthTextField,
-        TextField perceptionTextField,
-        TextField enduranceTextField,
-        TextField charismaTextField,
-        TextField intelligenceTextField,
-        TextField agilityTextField,
-        TextField luckTextField,
-        Player player,
-        Button cancelButton,
-        Button saveButton,
-        ComboBox<DefaultAttributes> defaultAttributesComboBox,
-        Button showAttributesGridPaneButton,
-        GridPane attributesGridPane) {
-        this.playerText = playerText;
-        this.cheatsText = cheatsText;
-        this.editPlayerText = editPlayerText;
-        this.nameText = nameText;
-        this.healthText = healthText;
-        this.manaText = manaText;
-        this.energyText = energyText;
-        this.goldText = goldText;
-        this.scoreText = scoreText;
-        this.nameField = nameField;
-        this.healthField = healthField;
-        this.manaField = manaField;
-        this.energyField = energyField;
-        this.goldField = goldField;
-        this.scoreField = scoreField;
-        this.attributesText = attributesText;
-        this.strengthText = strengthText;
-        this.perceptionText = perceptionText;
-        this.enduranceText = enduranceText;
-        this.charismaText = charismaText;
-        this.intelligenceText = intelligenceText;
-        this.agilityText = agilityText;
-        this.luckText = luckText;
-        this.strengthTextField = strengthTextField;
-        this.perceptionTextField = perceptionTextField;
-        this.enduranceTextField = enduranceTextField;
-        this.charismaTextField = charismaTextField;
-        this.intelligenceTextField = intelligenceTextField;
-        this.agilityTextField = agilityTextField;
-        this.luckTextField = luckTextField;
-        this.player = player;
-        this.cancelButton = cancelButton;
-        this.saveButton = saveButton;
-        this.defaultAttributesComboBox = defaultAttributesComboBox;
-        this.showAttributesGridPaneButton = showAttributesGridPaneButton;
-        this.attributesGridPane = attributesGridPane;
-        this.defaultAttributesMap = new HashMap<>();
+    // gets the correct resource bundle, depending on the current language in database
+    resources =
+        ResourceBundle.getBundle(
+            "editPlayer",
+            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+  }
 
-        // Observes when the language is changed, then calls updateLanguage()
-        LanguageHandler.getObservableIntegerCounter()
-            .addListener((obs, oldValue, newValue) -> updateLanguage());
+  public void configureAttributesVBox(
+      GridPane attributesGridPane,
+      Button showAttributesGridPaneButton,
+      ComboBox<DefaultAttributes> defaultAttributesComboBox) {
+    attributesGridPane.setVisible(false);
 
-        // gets the correct resource bundle, depending on the current language in database
-        editPlayerResources =
-            ResourceBundle.getBundle(
-                "editPlayer",
-                Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+    showAttributesGridPaneButton.setOnAction(
+        event -> {
+          if (attributesGridPane.isVisible()) {
+            attributesGridPane.setVisible(false);
+            attributesGridPane.setManaged(false);
+            defaultAttributesComboBox.setVisible(true);
+            defaultAttributesComboBox.setManaged(true);
+            updateShowAttributesGridPaneButton(attributesGridPane, showAttributesGridPaneButton);
+          } else {
+            attributesGridPane.setVisible(true);
+            attributesGridPane.setManaged(true);
+            defaultAttributesComboBox.setVisible(false);
+            defaultAttributesComboBox.setManaged(false);
+            updateShowAttributesGridPaneButton(attributesGridPane, showAttributesGridPaneButton);
+          }
+        });
 
-        defaultAttributesResources =
-            ResourceBundle.getBundle(
-                "defaultAttributes",
-                Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+    defaultAttributesComboBox.getItems().addAll(DefaultAttributes.values());
+  }
 
-        configureAttributesVBox();
+  public void updateShowAttributesGridPaneButton(
+      GridPane attributesGridPane, Button showAttributesGridPaneButton) {
+    if (attributesGridPane.isVisible()) {
+      showAttributesGridPaneButton.setText(resources.getString("hideAttributesGridPaneButton"));
+    } else {
+      showAttributesGridPaneButton.setText(resources.getString("showAttributesGridPaneButton"));
+    }
+  }
+
+  public void savePlayer() {
+    Attributes attributes = null;
+    if (view.getDefaultAttributesComboBox().isVisible()) {
+      attributes = new Attributes(view.getDefaultAttributesComboBox().getValue());
+    } else if (view.assertAttributesFieldsValid()) {
+      attributes =
+          new Attributes(
+              Integer.parseInt(view.getStrengthTextField().getText()),
+              Integer.parseInt(view.getPerceptionTextField().getText()),
+              Integer.parseInt(view.getEnduranceTextField().getText()),
+              Integer.parseInt(view.getCharismaTextField().getText()),
+              Integer.parseInt(view.getIntelligenceTextField().getText()),
+              Integer.parseInt(view.getAgilityTextField().getText()),
+              Integer.parseInt(view.getLuckTextField().getText()));
+    } else {
+      WarningAlert warningAlert = new WarningAlert(resources.getString("invalidAttributes"));
+      warningAlert.showAndWait();
     }
 
-    private void configureAttributesVBox() {
-        attributesGridPane.setVisible(false);
+    if (view.assertAllFieldsValid() && attributes != null) {
+      player.setName(view.getNameField().getText());
 
-        showAttributesGridPaneButton.setOnAction(
-            event -> {
-                if (attributesGridPane.isVisible()) {
-                    attributesGridPane.setVisible(false);
-                    attributesGridPane.setManaged(false);
-                    defaultAttributesComboBox.setVisible(true);
-                    defaultAttributesComboBox.setManaged(true);
-                    //updateShowAttributesGridPaneButton();
-                } else {
-                    attributesGridPane.setVisible(true);
-                    attributesGridPane.setManaged(true);
-                    defaultAttributesComboBox.setVisible(false);
-                    defaultAttributesComboBox.setManaged(false);
-                    //updateShowAttributesGridPaneButton();
-                }
-            });
-
-        defaultAttributesComboBox.getItems().addAll(DefaultAttributes.values());
-    }
-
-    public void updateLanguage() {
-        editPlayerResources =
-            ResourceBundle.getBundle(
-                "editPlayer",
-                Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
-        playerText.setText(editPlayerResources.getString("playerText"));
-        cheatsText.setText(editPlayerResources.getString("cheatsText"));
-        editPlayerText.setText(editPlayerResources.getString("editPlayerText"));
-        nameText.setText(editPlayerResources.getString("nameText"));
-        healthText.setText(editPlayerResources.getString("healthText"));
-        manaText.setText(editPlayerResources.getString("manaText"));
-        energyText.setText(editPlayerResources.getString("energyText"));
-        goldText.setText(editPlayerResources.getString("goldText"));
-        scoreText.setText(editPlayerResources.getString("scoreText"));
-        attributesText.setText(editPlayerResources.getString("attributesText"));
-        strengthText.setText(editPlayerResources.getString("strengthText"));
-        perceptionText.setText(editPlayerResources.getString("perceptionText"));
-        enduranceText.setText(editPlayerResources.getString("enduranceText"));
-        charismaText.setText(editPlayerResources.getString("charismaText"));
-        intelligenceText.setText(editPlayerResources.getString("intelligenceText"));
-        agilityText.setText(editPlayerResources.getString("agilityText"));
-        luckText.setText(editPlayerResources.getString("luckText"));
-
-        cancelButton.setText(editPlayerResources.getString("cancelButton"));
-        saveButton.setText(editPlayerResources.getString("saveButton"));
-        //updateShowAttributesGridPaneButton();
-
-        defaultAttributesComboBox.setPromptText(
-            editPlayerResources.getString("defaultAttributesComboBox"));
-
-
-        //Denne metoden fungerer ikke optimalt enda!
-
-        //version 2
-        String hunter = defaultAttributesResources.getString("HUNTER");
-        String warrior = defaultAttributesResources.getString("WARRIOR");
-        String druid = defaultAttributesResources.getString("DRUID");
-        String rouge = defaultAttributesResources.getString("ROGUE");
-        String mage = defaultAttributesResources.getString("MAGE");
-        String warlock = defaultAttributesResources.getString("WARLOCK");
-        String priest = defaultAttributesResources.getString("PRIEST");
-        String paladin = defaultAttributesResources.getString("PALADIN");
-        String shaman = defaultAttributesResources.getString("SHAMAN");
-
-        /**
-         defaultAttributesMap.put(hunter,
-         DefaultAttributes.HUNTER);
-         defaultAttributesMap.put(warrior,
-         DefaultAttributes.WARRIOR);
-         defaultAttributesMap.put(druid,
-         DefaultAttributes.DRUID);
-         defaultAttributesMap.put(rouge,
-         DefaultAttributes.ROGUE);
-         defaultAttributesMap.put(mage,
-         DefaultAttributes.MAGE);
-         defaultAttributesMap.put(warlock,
-         DefaultAttributes.WARLOCK);
-         defaultAttributesMap.put(priest,
-         DefaultAttributes.PRIEST);
-         defaultAttributesMap.put(paladin,
-         DefaultAttributes.PALADIN);
-         defaultAttributesMap.put(shaman,
-         DefaultAttributes.SHAMAN);
-
-         defaultAttributesComboBox.getItems().setAll(
-         defaultAttributesMap.get(hunter),
-         defaultAttributesMap.get(warrior),
-         defaultAttributesMap.get(druid),
-         defaultAttributesMap.get(rouge),
-         defaultAttributesMap.get(mage),
-         defaultAttributesMap.get(warlock),
-         defaultAttributesMap.get(priest),
-         defaultAttributesMap.get(paladin),
-         defaultAttributesMap.get(shaman)
-         );
-         */
+      player.setHealth(Integer.parseInt(view.getHealthField().getText()));
+      player.setMana(Integer.parseInt(view.getManaField().getText()));
+      player.setEnergy(Integer.parseInt(view.getEnergyField().getText()));
+      player.setGold(Integer.parseInt(view.getGoldField().getText()));
+      player.setScore(Integer.parseInt(view.getScoreField().getText()));
 
         defaultAttributesComboBox.getItems().setAll(
             DefaultAttributes.valueOf(hunter),
