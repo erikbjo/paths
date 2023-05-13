@@ -1,6 +1,10 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,16 +17,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.Link;
-import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.model.database.GameDAO;
 import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.database.StoryDAO;
-import no.ntnu.idatg2001.paths.model.goals.Goal;
-import no.ntnu.idatg2001.paths.model.goals.GoldGoal;
-import no.ntnu.idatg2001.paths.model.goals.HealthGoal;
-import no.ntnu.idatg2001.paths.model.goals.ScoreGoal;
-import no.ntnu.idatg2001.paths.model.units.Attributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.alerts.ConfirmationAlert;
 import no.ntnu.idatg2001.paths.ui.alerts.ExceptionAlert;
@@ -36,98 +34,31 @@ import no.ntnu.idatg2001.paths.ui.views.NewStoryView;
 import no.ntnu.idatg2001.paths.ui.views.StoryView;
 
 public class HomeController {
-  // TEXTS
-  private final Text pathsGameText;
-  private final Text storiesText;
-  private final Text playersText;
-  private final Text deadLinksText;
-  private final Text ongoingGamesText;
-  // BUTTONS
-  private final Button editStoryButton;
-  private final Button newStoryButton;
-  private final Button deleteStoryButton;
-  private final Button editPlayerButton;
-  private final Button newPlayerButton;
-  private final Button deletePlayerButton;
-  private final Button deleteLinkButton;
-  private final Button updateDeadLinksButton;
-  private final Button continueButton;
-  private final Button deleteButton;
-  private final Button startNewGameButton;
-
-  // TABLE VIEWS
-
-  private final TableView<Story> storiesTableView;
-  private final TableView<Player> playersTableView;
-  private final TableView<Link> deadLinksTableView;
-  private final TableView<Game> ongoingGamesTableView;
-  // TABLE COLUMNS
-  private final TableColumn<Game, String> ongoingGamesPlayerTableColumn;
-  private final TableColumn<Game, String> ongoingGamesStoryTableColumn;
-  private final TableColumn<Story, String> storiesTableColumn;
-  private final TableColumn<Player, String> playersTableColumn;
-  private final TableColumn<Link, String> deadLinksTableColumn;
-
-  private final Stage primaryStage;
-  private ResourceBundle resources;
-
-  public HomeController(
-      Text pathsGameText,
-      Text storiesText,
-      Text playersText,
-      Text deadLinksText,
-      Text ongoingGamesText,
-      Button editStoryButton,
-      Button newStoryButton,
-      Button deleteStoryButton,
-      Button editPlayerButton,
-      Button newPlayerButton,
-      Button deletePlayerButton,
-      Button deleteLinkButton,
-      Button updateDeadLinksButton,
-      Button continueButton,
-      Button deleteButton,
-      Button startNewGameButton,
-      TableView<Story> storiesTableView,
-      TableView<Player> playersTableView,
-      TableView<Link> deadLinksTableView,
-      TableView<Game> ongoingGamesTableView,
-      TableColumn<Story, String> storiesTableColumn,
-      TableColumn<Player, String> playersTableColumn,
-      TableColumn<Link, String> deadLinksTableColumn,
-      TableColumn<Game, String> ongoingGamesPlayerTableColumn,
-      TableColumn<Game, String> ongoingGamesStoryTableColumn,
-      Stage primaryStage) {
     // TEXTS
-    this.pathsGameText = pathsGameText;
-    this.storiesText = storiesText;
-    this.playersText = playersText;
-    this.deadLinksText = deadLinksText;
-    this.ongoingGamesText = ongoingGamesText;
-
+    private final Text pathsGameText;
+    private final Text storiesText;
+    private final Text playersText;
+    private final Text deadLinksText;
+    private final Text ongoingGamesText;
     // BUTTONS
-    this.editStoryButton = editStoryButton;
-    this.newStoryButton = newStoryButton;
-    this.deleteStoryButton = deleteStoryButton;
-
-    this.editPlayerButton = editPlayerButton;
-    this.newPlayerButton = newPlayerButton;
-    this.deletePlayerButton = deletePlayerButton;
-
-    this.deleteLinkButton = deleteLinkButton;
-    this.updateDeadLinksButton = updateDeadLinksButton;
-
-    this.continueButton = continueButton;
-    this.deleteButton = deleteButton;
-
-    this.startNewGameButton = startNewGameButton;
+    private final Button editStoryButton;
+    private final Button newStoryButton;
+    private final Button deleteStoryButton;
+    private final Button editPlayerButton;
+    private final Button newPlayerButton;
+    private final Button deletePlayerButton;
+    private final Button deleteLinkButton;
+    private final Button updateDeadLinksButton;
+    private final Button continueButton;
+    private final Button deleteButton;
+    private final Button startNewGameButton;
 
     // TABLE VIEWS
-    this.storiesTableView = storiesTableView;
-    this.playersTableView = playersTableView;
-    this.deadLinksTableView = deadLinksTableView;
-    this.ongoingGamesTableView = ongoingGamesTableView;
 
+    private final TableView<Story> storiesTableView;
+    private final TableView<Player> playersTableView;
+    private final TableView<Link> deadLinksTableView;
+    private final TableView<Game> ongoingGamesTableView;
     // TABLE COLUMNS
     this.ongoingGamesPlayerTableColumn = ongoingGamesPlayerTableColumn;
     this.ongoingGamesStoryTableColumn = ongoingGamesStoryTableColumn;
