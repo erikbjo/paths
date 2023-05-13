@@ -57,7 +57,7 @@ public class NewPlayerDialog extends Dialog<Player> {
     // gets the correct resource bundle, depending on the current language in database
     resources =
         ResourceBundle.getBundle(
-            "playerInformation",
+            "languages/playerInformation",
             Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
 
     controller = new GenericDialogController();
@@ -158,7 +158,7 @@ public class NewPlayerDialog extends Dialog<Player> {
     // update resources
     resources =
         ResourceBundle.getBundle(
-            "newPlayerDialog",
+            "languages/newPlayerDialog",
             Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
 
     // update labels

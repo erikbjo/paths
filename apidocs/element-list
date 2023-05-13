@@ -1,7 +1,7 @@
 no.ntnu.idatg2001.paths
 no.ntnu.idatg2001.paths.model
 no.ntnu.idatg2001.paths.model.actions
-no.ntnu.idatg2001.paths.model.database
+no.ntnu.idatg2001.paths.model.dao
 no.ntnu.idatg2001.paths.model.goals
 no.ntnu.idatg2001.paths.model.items
 no.ntnu.idatg2001.paths.model.items.consumables
@@ -10,6 +10,7 @@ no.ntnu.idatg2001.paths.model.items.equipables.armor
 no.ntnu.idatg2001.paths.model.items.equipables.weapons
 no.ntnu.idatg2001.paths.model.units
 no.ntnu.idatg2001.paths.model.utilities
+no.ntnu.idatg2001.paths.ui
 no.ntnu.idatg2001.paths.ui.alerts
 no.ntnu.idatg2001.paths.ui.controllers
 no.ntnu.idatg2001.paths.ui.dialogs

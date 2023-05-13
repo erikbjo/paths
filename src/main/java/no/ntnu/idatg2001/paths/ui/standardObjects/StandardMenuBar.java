@@ -6,11 +6,11 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
-import no.ntnu.idatg2001.paths.model.database.GameDAO;
-import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
-import no.ntnu.idatg2001.paths.model.database.StoryDAO;
+import no.ntnu.idatg2001.paths.model.dao.GameDAO;
+import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
+import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
+import no.ntnu.idatg2001.paths.ui.controllers.MainMenuController;
 import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
-import no.ntnu.idatg2001.paths.ui.views.HomeView;
 
 public class StandardMenuBar extends MenuBar {
 
@@ -74,7 +74,6 @@ public class StandardMenuBar extends MenuBar {
   }
 
   public void onHome(Stage stage) {
-    HomeView homeView = new HomeView();
-    homeView.start(stage);
+    new MainMenuController(stage);
   }
 }
