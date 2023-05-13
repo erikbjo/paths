@@ -8,7 +8,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Game;
-import no.ntnu.idatg2001.paths.model.database.GameDAO;
+import no.ntnu.idatg2001.paths.model.dao.GameDAO;
 import no.ntnu.idatg2001.paths.ui.views.SelectGameToContinueView;
 
 public class SelectGameToContinueController {

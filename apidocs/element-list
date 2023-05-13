@@ -1,7 +1,7 @@
 no.ntnu.idatg2001.paths
 no.ntnu.idatg2001.paths.model
 no.ntnu.idatg2001.paths.model.actions
-no.ntnu.idatg2001.paths.model.database
+no.ntnu.idatg2001.paths.model.dao
 no.ntnu.idatg2001.paths.model.goals
 no.ntnu.idatg2001.paths.model.items
 no.ntnu.idatg2001.paths.model.items.consumables

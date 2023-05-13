@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.paths.model.database;
+package no.ntnu.idatg2001.paths.model.dao;
 
 import no.ntnu.idatg2001.paths.model.units.Player;
 import org.junit.jupiter.api.AfterEach;

@@ -1,7 +1,6 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
 import java.util.Locale;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -12,9 +11,9 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import no.ntnu.idatg2001.paths.model.database.GameDAO;
-import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
-import no.ntnu.idatg2001.paths.model.database.StoryDAO;
+import no.ntnu.idatg2001.paths.model.dao.GameDAO;
+import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
+import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
 import no.ntnu.idatg2001.paths.ui.controllers.MainMenuController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 

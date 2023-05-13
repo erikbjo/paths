@@ -1,14 +1,12 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
 import javafx.application.Platform;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import no.ntnu.idatg2001.paths.model.database.GameDAO;
-import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
-import no.ntnu.idatg2001.paths.model.database.StoryDAO;
+import no.ntnu.idatg2001.paths.model.dao.GameDAO;
+import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
+import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
 import no.ntnu.idatg2001.paths.ui.views.MainMenuView;
-import no.ntnu.idatg2001.paths.ui.views.SelectGameToContinueView;
 
 public class MainMenuController {
   private final Stage stage;

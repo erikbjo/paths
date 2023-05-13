@@ -1,8 +1,7 @@
-package no.ntnu.idatg2001.paths.model.database;
+package no.ntnu.idatg2001.paths.model.dao;
 
 import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
-import no.ntnu.idatg2001.paths.model.units.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

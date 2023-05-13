@@ -1,8 +1,8 @@
 package no.ntnu.idatg2001.paths;
 
-import no.ntnu.idatg2001.paths.model.database.GameDAO;
-import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
-import no.ntnu.idatg2001.paths.model.database.StoryDAO;
+import no.ntnu.idatg2001.paths.model.dao.GameDAO;
+import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
+import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
 import no.ntnu.idatg2001.paths.model.utilities.SettingsFileWriter;
 import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
 import no.ntnu.idatg2001.paths.ui.Launcher;
