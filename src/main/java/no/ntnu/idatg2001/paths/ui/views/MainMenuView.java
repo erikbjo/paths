@@ -1,6 +1,7 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -9,7 +10,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.database.GameDAO;
@@ -49,21 +49,22 @@ public class MainMenuView implements View {
     centerHBox.setAlignment(Pos.CENTER_LEFT);
     centerHBox.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
-    VBox buttonVBox = new VBox();
-    buttonVBox.setAlignment(Pos.CENTER);
-    buttonVBox.setPrefSize(100, 200);
-    buttonVBox.setPadding(new Insets(5, 5, 5, 5));
+    HBox buttonsHBox = new HBox();
+    buttonsHBox.setId("buttonsHBox");
+    buttonsHBox.setAlignment(Pos.CENTER);
+    buttonsHBox.setPrefSize(100, 200);
+    buttonsHBox.setPadding(new Insets(5, 5, 5, 5));
 
     continueButton = new Button();
-    continueButton.setPrefWidth(buttonVBox.getPrefWidth());
+    continueButton.setPrefWidth(buttonsHBox.getPrefWidth());
     newGameButton = new Button();
-    newGameButton.setPrefWidth(buttonVBox.getPrefWidth());
+    newGameButton.setPrefWidth(buttonsHBox.getPrefWidth());
     settingsButton = new Button();
-    settingsButton.setPrefWidth(buttonVBox.getPrefWidth());
+    settingsButton.setPrefWidth(buttonsHBox.getPrefWidth());
     exitButton = new Button();
-    exitButton.setPrefWidth(buttonVBox.getPrefWidth());
+    exitButton.setPrefWidth(buttonsHBox.getPrefWidth());
 
-    buttonVBox.getChildren().addAll(continueButton, newGameButton, settingsButton, exitButton);
+    buttonsHBox.getChildren().addAll(continueButton, newGameButton, settingsButton, exitButton);
 
     Image image = new Image("file:src/main/resources/images/PathsTitleScreen.png");
     BackgroundImage backgroundImage =
@@ -75,13 +76,14 @@ public class MainMenuView implements View {
             new BackgroundSize(1.0, 1.0, true, true, false, false));
     root.setBackground(new Background(backgroundImage));
 
-    centerHBox.getChildren().addAll(buttonVBox);
+    // centerHBox.getChildren().addAll(buttonsHBox);
     AnchorPane.setBottomAnchor(centerHBox, 0.0);
     AnchorPane.setTopAnchor(centerHBox, 0.0);
     AnchorPane.setLeftAnchor(centerHBox, 0.0);
     AnchorPane.setRightAnchor(centerHBox, 0.0);
     centerPane.getChildren().add(centerHBox);
 
+    root.setBottom(buttonsHBox);
     root.setCenter(centerPane);
 
     // CONTROLLER
@@ -95,6 +97,7 @@ public class MainMenuView implements View {
     updateLanguage();
 
     Scene scene = new Scene(root, 1200, 800);
+    scene.getStylesheets().add("cssfiles/mainMenu.css");
     stage.setScene(scene);
     stage.show();
   }

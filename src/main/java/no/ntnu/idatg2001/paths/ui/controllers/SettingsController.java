@@ -19,7 +19,7 @@ public class SettingsController {
     volume = VolumeHandler.getCurrentVolume();
     ResourceBundle resources =
         ResourceBundle.getBundle(
-            "messages", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+            "languages/messages", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
     
     view = new SettingsDialog(this, resources);
   }
