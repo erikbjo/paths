@@ -17,6 +17,7 @@ import no.ntnu.idatg2001.paths.model.units.DefaultAttributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.controllers.EditPlayerController;
 import no.ntnu.idatg2001.paths.ui.controllers.EditStoryController;
+import no.ntnu.idatg2001.paths.ui.controllers.NewGameController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
 import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
@@ -127,16 +128,14 @@ public class EditPlayerView implements View {
     cancelButton = new Button();
     cancelButton.setOnAction(
         event -> {
-          HomeView homeView = new HomeView();
-          homeView.start(primaryStage);
+          new NewGameController(primaryStage);
         });
 
     saveButton = new Button();
     saveButton.setOnAction(
         event -> {
           controller.savePlayer();
-          HomeView homeView = new HomeView();
-          homeView.start(primaryStage);
+          new NewGameController(primaryStage);
         });
 
     buttonsHBox.getChildren().addAll(cancelButton, saveButton);
@@ -163,6 +162,25 @@ public class EditPlayerView implements View {
     return leftVBox;
   }
 
+  private VBox createRightVBox() {
+    rightVBox = new VBox();
+    rightVBox.setPrefSize(200, 200);
+
+    attributesText = new Text("Attributes");
+    rightVBox.getChildren().add(attributesText);
+
+    attributesGridPane = createAttributesGridPane();
+
+    defaultAttributesComboBox = new ComboBox<>();
+    showAttributesGridPaneButton = new Button();
+
+    rightVBox
+        .getChildren()
+        .addAll(showAttributesGridPaneButton, defaultAttributesComboBox, attributesGridPane);
+
+    return rightVBox;
+  }
+
   private GridPane createPlayerGridPane() {
     GridPane playerGridPane = new GridPane();
 
@@ -175,106 +193,64 @@ public class EditPlayerView implements View {
       playerGridPane.getRowConstraints().add(rowConstraints);
     }
 
-    private HBox createButtonsHBox() {
-        HBox buttonsHBox = new HBox();
+    nameText = new Text();
+    playerGridPane.add(nameText, 0, 0);
+    nameField = new TextField();
+    playerGridPane.add(nameField, 1, 0);
 
-        cancelButton = new Button();
-        cancelButton.setOnAction(
-            event -> {
-                HomeView homeView = new HomeView();
-                homeView.start(primaryStage);
-            });
+    healthText = new Text();
+    playerGridPane.add(healthText, 0, 1);
+    healthField = new TextField();
+    playerGridPane.add(healthField, 1, 1);
 
-        saveButton = new Button();
-        saveButton.setOnAction(
-            event -> {
-                //controller.savePlayer();
-                HomeView homeView = new HomeView();
-                homeView.start(primaryStage);
-            });
+    manaText = new Text();
+    playerGridPane.add(manaText, 0, 2);
+    manaField = new TextField();
+    playerGridPane.add(manaField, 1, 2);
 
-        buttonsHBox.getChildren().addAll(cancelButton, saveButton);
+    energyText = new Text();
+    playerGridPane.add(energyText, 0, 3);
+    energyField = new TextField();
+    playerGridPane.add(energyField, 1, 3);
 
-        return buttonsHBox;
+    return playerGridPane;
+  }
+
+  private GridPane createCheatsGridPane() {
+    GridPane cheatsGridPane = new GridPane();
+
+    ColumnConstraints col1 = new ColumnConstraints(100, 100, Double.MAX_VALUE);
+    ColumnConstraints col2 = new ColumnConstraints(100, 100, Double.MAX_VALUE);
+    cheatsGridPane.getColumnConstraints().addAll(col1, col2);
+
+    for (int i = 0; i < 2; i++) {
+      RowConstraints row = new RowConstraints(30, 30, Double.MAX_VALUE);
+      cheatsGridPane.getRowConstraints().add(row);
     }
 
-    private VBox createLeftVBox() {
-        leftVBox = new VBox();
-        leftVBox.setPrefSize(200, 200);
+    goldText = new Text("Gold");
+    cheatsGridPane.add(goldText, 0, 0);
+    goldField = new TextField();
+    cheatsGridPane.add(goldField, 1, 0);
 
-        playerText = new Text();
-        leftVBox.getChildren().add(playerText);
+    scoreText = new Text("Score");
+    cheatsGridPane.add(scoreText, 0, 1);
+    scoreField = new TextField();
+    cheatsGridPane.add(scoreField, 1, 1);
 
-        playerGridPane = createPlayerGridPane();
-        leftVBox.getChildren().add(playerGridPane);
+    return cheatsGridPane;
+  }
 
-        cheatsText = new Text();
-        leftVBox.getChildren().add(cheatsText);
+  private GridPane createAttributesGridPane() {
+    GridPane attributesGridPane = new GridPane();
 
-        cheatsGridPane = createCheatsGridPane();
-        leftVBox.getChildren().add(cheatsGridPane);
+    ColumnConstraints col1 = new ColumnConstraints(100, 100, Double.MAX_VALUE);
+    ColumnConstraints col2 = new ColumnConstraints(100, 100, Double.MAX_VALUE);
+    attributesGridPane.getColumnConstraints().addAll(col1, col2);
 
-        return leftVBox;
-    }
-
-    private GridPane createPlayerGridPane() {
-        GridPane playerGridPane = new GridPane();
-
-        ColumnConstraints columnConstraints1 = new ColumnConstraints(100, 100, Double.MAX_VALUE);
-        ColumnConstraints columnConstraints2 = new ColumnConstraints(100, 100, Double.MAX_VALUE);
-        playerGridPane.getColumnConstraints().addAll(columnConstraints1, columnConstraints2);
-
-        for (int i = 0; i < 4; i++) {
-            RowConstraints rowConstraints = new RowConstraints(30, 30, Double.MAX_VALUE);
-            playerGridPane.getRowConstraints().add(rowConstraints);
-        }
-
-        nameText = new Text();
-        playerGridPane.add(nameText, 0, 0);
-        nameField = new TextField();
-        playerGridPane.add(nameField, 1, 0);
-
-        healthText = new Text();
-        playerGridPane.add(healthText, 0, 1);
-        healthField = new TextField();
-        playerGridPane.add(healthField, 1, 1);
-
-        manaText = new Text();
-        playerGridPane.add(manaText, 0, 2);
-        manaField = new TextField();
-        playerGridPane.add(manaField, 1, 2);
-
-        energyText = new Text();
-        playerGridPane.add(energyText, 0, 3);
-        energyField = new TextField();
-        playerGridPane.add(energyField, 1, 3);
-
-        return playerGridPane;
-    }
-
-    private GridPane createCheatsGridPane() {
-        GridPane cheatsGridPane = new GridPane();
-
-        ColumnConstraints col1 = new ColumnConstraints(100, 100, Double.MAX_VALUE);
-        ColumnConstraints col2 = new ColumnConstraints(100, 100, Double.MAX_VALUE);
-        cheatsGridPane.getColumnConstraints().addAll(col1, col2);
-
-        for (int i = 0; i < 2; i++) {
-            RowConstraints row = new RowConstraints(30, 30, Double.MAX_VALUE);
-            cheatsGridPane.getRowConstraints().add(row);
-        }
-
-        goldText = new Text("Gold");
-        cheatsGridPane.add(goldText, 0, 0);
-        goldField = new TextField();
-        cheatsGridPane.add(goldField, 1, 0);
-
-        scoreText = new Text("Score");
-        cheatsGridPane.add(scoreText, 0, 1);
-        scoreField = new TextField();
-        cheatsGridPane.add(scoreField, 1, 1);
-
-        return cheatsGridPane;
+    for (int i = 0; i < 7; i++) {
+      RowConstraints row = new RowConstraints(30, 30, Double.MAX_VALUE);
+      attributesGridPane.getRowConstraints().add(row);
     }
 
     strengthText = new Text();

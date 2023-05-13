@@ -14,7 +14,6 @@ import no.ntnu.idatg2001.paths.ui.dialogs.EditPassageDialog;
 import no.ntnu.idatg2001.paths.ui.dialogs.NewLinkDialog;
 import no.ntnu.idatg2001.paths.ui.dialogs.NewPassageDialog;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
-import no.ntnu.idatg2001.paths.ui.views.HomeView;
 
 public class NewStoryController {
   private final Stage primaryStage;
@@ -228,8 +227,7 @@ public class NewStoryController {
 
               StoryDAO.getInstance().add(story);
 
-              HomeView homeView = new HomeView();
-              homeView.start(primaryStage);
+              new SelectGameToContinueController(primaryStage);
             } else {
                 // TODO: ADD FEEDBACK DIALOG HERE
               System.out.println("Please select a starting passage.");
