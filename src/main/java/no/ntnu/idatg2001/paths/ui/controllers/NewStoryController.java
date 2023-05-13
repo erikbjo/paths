@@ -87,7 +87,7 @@ public class NewStoryController {
     // gets the correct resource bundle, depending on the current language in database
     resources =
         ResourceBundle.getBundle(
-            "newStory", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+            "languages/newStory", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
     newStoryText.setText(resources.getString("newStoryText"));
     titleText.setText(resources.getString("titleText"));
     titleTextField.setPromptText(resources.getString("titleTextField"));

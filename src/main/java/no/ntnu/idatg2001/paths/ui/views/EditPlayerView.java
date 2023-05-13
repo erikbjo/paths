@@ -291,7 +291,7 @@ public class EditPlayerView implements View {
   public void updateLanguage() {
     ResourceBundle resources =
         ResourceBundle.getBundle(
-            "editPlayer",
+            "languages/editPlayer",
             Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
     playerText.setText(resources.getString("playerText"));
     cheatsText.setText(resources.getString("cheatsText"));

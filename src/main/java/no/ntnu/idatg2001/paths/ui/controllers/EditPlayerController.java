@@ -32,7 +32,7 @@ public class EditPlayerController implements Controller {
     // gets the correct resource bundle, depending on the current language in database
     resources =
         ResourceBundle.getBundle(
-            "editPlayer",
+            "languages/editPlayer",
             Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
   }
 

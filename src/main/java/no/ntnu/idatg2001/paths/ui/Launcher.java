@@ -1,4 +1,4 @@
-package no.ntnu.idatg2001.paths.ui.views;
+package no.ntnu.idatg2001.paths.ui;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -14,11 +14,6 @@ public class Launcher extends Application {
 
   @Override
   public void start(Stage stage) {
-    // Initialize the DAO classes so that they are ready for use for later views
-    GameDAO.getInstance();
-    StoryDAO.getInstance();
-    PlayerDAO.getInstance();
-
     new MainMenuController(stage);
   }
 }

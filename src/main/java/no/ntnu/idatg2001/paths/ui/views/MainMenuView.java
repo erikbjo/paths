@@ -10,10 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.database.GameDAO;
 import no.ntnu.idatg2001.paths.model.database.PlayerDAO;
@@ -68,13 +65,17 @@ public class MainMenuView implements View {
 
     buttonVBox.getChildren().addAll(continueButton, newGameButton, settingsButton, exitButton);
 
-    ImageView imageView =
-        new ImageView(new Image("file:src/main/resources/images/placeholder.png"));
-    imageView.setFitHeight(150);
-    imageView.setFitWidth(200);
-    imageView.setPreserveRatio(true);
+    Image image = new Image("file:src/main/resources/images/PathsTitleScreen.png");
+    BackgroundImage backgroundImage =
+        new BackgroundImage(
+            image,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundPosition.CENTER,
+            new BackgroundSize(1.0, 1.0, true, true, false, false));
+    root.setBackground(new Background(backgroundImage));
 
-    centerHBox.getChildren().addAll(buttonVBox, imageView);
+    centerHBox.getChildren().addAll(buttonVBox);
     AnchorPane.setBottomAnchor(centerHBox, 0.0);
     AnchorPane.setTopAnchor(centerHBox, 0.0);
     AnchorPane.setLeftAnchor(centerHBox, 0.0);
