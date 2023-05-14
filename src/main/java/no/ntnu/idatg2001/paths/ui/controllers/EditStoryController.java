@@ -16,7 +16,7 @@ import no.ntnu.idatg2001.paths.ui.views.EditStoryView;
 
 public class EditStoryController {
 
-  private final Map<Link, Passage[]> storyMap;
+  private final Map<Link, Passage> storyMap;
   private final Story story;
   private final Stage stage;
   private final EditStoryView view;
@@ -30,7 +30,8 @@ public class EditStoryController {
     storyMap = story.getPassagesHashMap();
   }
 
-  public void visualizeHashMap(Pane pane) {
+// removed until further notice
+/*  public void visualizeHashMap(Pane pane) {
     HashMap<Passage, PassagePane> passagePanes = new HashMap<>();
 
     for (Passage[] passages : storyMap.values()) {
@@ -63,5 +64,5 @@ public class EditStoryController {
 
       y += 150;
     }
-  }
+  }*/
 }

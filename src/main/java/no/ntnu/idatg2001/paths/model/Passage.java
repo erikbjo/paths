@@ -13,6 +13,7 @@ import java.util.Objects;
  * @version 2023.02.02
  */
 @Entity
+@Table(name = "passage")
 public class Passage implements Serializable {
   private String title;
   private String content;
@@ -24,6 +25,7 @@ public class Passage implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   
   
   /**

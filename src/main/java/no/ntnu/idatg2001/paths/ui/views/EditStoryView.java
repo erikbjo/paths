@@ -20,7 +20,7 @@ public class EditStoryView implements View {
     root.setTop(new StandardMenuBar(primaryStage));
 
     Pane pane = new Pane();
-    controller.visualizeHashMap(pane);
+    //controller.visualizeHashMap(pane);
     root.setCenter(pane);
 
     primaryStage.getScene().setRoot(root);

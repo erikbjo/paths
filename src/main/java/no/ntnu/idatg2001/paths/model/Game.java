@@ -16,9 +16,11 @@ public class Game {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   @ManyToOne()
   @JoinColumn(name = "player_id")
   private Player player;
+
   @ManyToOne
   @JoinColumn(name = "story_id")
   private Story story;
@@ -66,18 +68,19 @@ public class Game {
   public Passage go(Link link) {
     List<Link> availableLinks = story.getCurrentPassage().getLinks();
     if (availableLinks.contains(link)) {
-      List<Passage> availablePassages = story.getPassagesConnectedWithLink(link);
-      // get the passage that is not the current passage in availablePassages
-      Passage nextPassage =
-          availablePassages.stream()
-              .filter(passage -> !passage.equals(story.getCurrentPassage()))
-              .toList()
-              .get(0);
-      story.setCurrentPassage(nextPassage);
-      return nextPassage;
+      System.out.println(story.getPassagesHashMap());
+      Link reversedLink = reverseLink(link);
+      return story.getPassagesHashMap().get(reversedLink);
     } else {
-      return null;
+      throw new IllegalArgumentException("Link not available");
     }
+  }
+
+  private Link reverseLink(Link link) {
+    return story.getPassagesHashMap().keySet().stream()
+        .filter(l -> l.equals(link))
+        .findFirst()
+        .orElseThrow();
   }
 
   /**
