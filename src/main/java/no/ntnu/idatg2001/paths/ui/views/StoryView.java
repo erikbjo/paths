@@ -30,7 +30,7 @@ public class StoryView implements View {
     // gets the correct resource bundle, depending on the current language in database
     resources =
         ResourceBundle.getBundle(
-            "story", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+            "languages/story", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
 
     // Create a borderpane and a standard menubar
     BorderPane root = new BorderPane();

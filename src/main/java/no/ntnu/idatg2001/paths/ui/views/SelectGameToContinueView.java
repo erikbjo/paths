@@ -2,7 +2,7 @@ package no.ntnu.idatg2001.paths.ui.views;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import javafx.scene.Scene;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -20,7 +20,12 @@ public class SelectGameToContinueView implements View {
   private final SelectGameToContinueController controller;
   private final Stage stage;
   private final Text selectGameText;
-  private final Button continueButton;
+  private final TableView<Game> ongoingGamesTableView;
+  private final TableColumn<Game, String> ongoingGamesPlayerTableColumn;
+  private final TableColumn<Game, String> ongoingGamesStoryTableColumn;
+  private Button continueButton;
+  private Button changePlayerButton;
+  private Button deleteGameButton;
 
   public SelectGameToContinueView(SelectGameToContinueController controller, Stage stage) {
     this.controller = controller;
@@ -38,16 +43,14 @@ public class SelectGameToContinueView implements View {
 
     selectGameText = new Text();
 
-    TableView<Game> ongoingGamesTableView = new TableView<>();
-    TableColumn<Game, String> ongoingGamesPlayerTableColumn = new TableColumn<>();
-    TableColumn<Game, String> ongoingGamesStoryTableColumn = new TableColumn<>();
+    ongoingGamesTableView = new TableView<>();
+    ongoingGamesPlayerTableColumn = new TableColumn<>();
+    ongoingGamesStoryTableColumn = new TableColumn<>();
     ongoingGamesTableView
         .getColumns()
         .addAll(ongoingGamesPlayerTableColumn, ongoingGamesStoryTableColumn);
 
-    HBox buttonHBox = new HBox();
-    continueButton = new Button();
-    buttonHBox.getChildren().add(continueButton);
+    HBox buttonHBox = createButtonsHBox();
 
     centerVBox.getChildren().addAll(ongoingGamesTableView, buttonHBox);
 
@@ -72,5 +75,23 @@ public class SelectGameToContinueView implements View {
 
     selectGameText.setText(resources.getString("selectGameText"));
     continueButton.setText(resources.getString("continueButton"));
+    changePlayerButton.setText(resources.getString("changePlayerButton"));
+    deleteGameButton.setText(resources.getString("deleteGameButton"));
+  }
+
+  private HBox createButtonsHBox() {
+    HBox buttonHBox = new HBox();
+
+    continueButton = new Button();
+    continueButton.setOnAction(e -> controller.onContinueGame(ongoingGamesTableView));
+
+    changePlayerButton = new Button();
+    changePlayerButton.setOnAction(e -> controller.onChangePlayer(ongoingGamesTableView));
+
+    deleteGameButton = new Button();
+    deleteGameButton.setOnAction(e -> controller.onDeleteGame(ongoingGamesTableView));
+
+    buttonHBox.getChildren().addAll(continueButton, changePlayerButton, deleteGameButton);
+    return buttonHBox;
   }
 }
