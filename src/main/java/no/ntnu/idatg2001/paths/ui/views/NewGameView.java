@@ -138,8 +138,6 @@ public class NewGameView implements View {
 
     root.setCenter(mainVBox);
 
-    // Observes when the language is changed, then calls updateLanguage()
-    LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> updateLanguage());
     updateLanguage();
 
     // CONTROLLER

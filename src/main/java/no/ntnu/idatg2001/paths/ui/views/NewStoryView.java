@@ -101,9 +101,6 @@ public class NewStoryView implements View {
     // CONTROLLER
     configureTableViews();
 
-    // Observes when the language in Database is changed, then calls updateLanguage()
-    LanguageHandler.getObservableIntegerCounter()
-        .addListener((obs, oldValue, newValue) -> updateLanguage());
     updateLanguage();
 
     stage.getScene().setRoot(root);

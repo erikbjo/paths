@@ -21,6 +21,7 @@ import no.ntnu.idatg2001.paths.ui.dialogs.ChangePlayerDialog;
 import no.ntnu.idatg2001.paths.ui.dialogs.ChangeStoryDialog;
 import no.ntnu.idatg2001.paths.ui.dialogs.NewPlayerDialog;
 import no.ntnu.idatg2001.paths.ui.handlers.CurrentGameHandler;
+import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.views.SelectGameToContinueView;
 
 public class SelectGameToContinueController {
@@ -30,6 +31,8 @@ public class SelectGameToContinueController {
   public SelectGameToContinueController(Stage stage) {
     this.stage = stage;
     this.view = new SelectGameToContinueView(this, stage);
+    LanguageHandler.getObservableIntegerCounter()
+            .addListener((a, b, c) -> view.updateLanguage());
   }
 
   public SelectGameToContinueView getView() {
@@ -85,8 +88,7 @@ public class SelectGameToContinueController {
         onNullStory(ongoingGamesTableView, game);
       } else {
         CurrentGameHandler.setCurrentGame(game);
-        // TODO: CHANGE CONTROLLER
-        // new StoryViewController();
+        new GameController(stage);
       }
     }
   }

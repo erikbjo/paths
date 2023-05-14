@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
+import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.storyvisualizers.LinkLine;
 import no.ntnu.idatg2001.paths.ui.storyvisualizers.PassagePane;
 import no.ntnu.idatg2001.paths.ui.views.EditStoryView;
@@ -24,6 +25,8 @@ public class EditStoryController {
     this.stage = stage;
     this.story = story;
     this.view = new EditStoryView(this, stage, story);
+    LanguageHandler.getObservableIntegerCounter()
+            .addListener((a, b, c) -> view.updateLanguage());
     storyMap = story.getPassagesHashMap();
   }
 
