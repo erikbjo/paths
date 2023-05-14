@@ -9,13 +9,14 @@ import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
+import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.storyvisualizers.LinkLine;
 import no.ntnu.idatg2001.paths.ui.storyvisualizers.PassagePane;
 import no.ntnu.idatg2001.paths.ui.views.EditStoryView;
 
 public class EditStoryController {
 
-  private final Map<Link, Passage[]> storyMap;
+  private final Map<Link, Passage> storyMap;
   private final Story story;
   private final Stage stage;
   private final EditStoryView view;
@@ -24,10 +25,13 @@ public class EditStoryController {
     this.stage = stage;
     this.story = story;
     this.view = new EditStoryView(this, stage, story);
+    LanguageHandler.getObservableIntegerCounter()
+            .addListener((a, b, c) -> view.updateLanguage());
     storyMap = story.getPassagesHashMap();
   }
 
-  public void visualizeHashMap(Pane pane) {
+// removed until further notice
+/*  public void visualizeHashMap(Pane pane) {
     HashMap<Passage, PassagePane> passagePanes = new HashMap<>();
 
     for (Passage[] passages : storyMap.values()) {
@@ -60,5 +64,5 @@ public class EditStoryController {
 
       y += 150;
     }
-  }
+  }*/
 }

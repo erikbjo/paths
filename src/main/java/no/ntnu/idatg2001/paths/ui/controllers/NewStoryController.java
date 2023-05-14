@@ -25,6 +25,8 @@ public class NewStoryController implements Controller {
   public NewStoryController(Stage stage) {
     this.stage = stage;
     this.view = new NewStoryView(this, stage, story);
+    LanguageHandler.getObservableIntegerCounter()
+            .addListener((a, b, c) -> view.updateLanguage());
   }
 
   public void onEditPassageButtonClicked(TableView<Passage> passageCreationTableView) {
@@ -123,7 +125,7 @@ public class NewStoryController implements Controller {
 
         StoryDAO.getInstance().add(story);
 
-        new SelectGameToContinueController(stage);
+        new NewGameController(stage);
       } else {
         // TODO: ADD FEEDBACK DIALOG HERE
         System.out.println("Please select a starting passage.");

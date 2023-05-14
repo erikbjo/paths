@@ -14,7 +14,7 @@ import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 public class NewPassageDialog extends Dialog<Passage> {
   private final ResourceBundle resources =
       ResourceBundle.getBundle(
-          "newPassageDialog",
+          "languages/newPassageDialog",
           Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
   private TextField titleTextField;
   private TextArea contentTextArea;

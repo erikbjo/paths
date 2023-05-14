@@ -155,6 +155,11 @@ public abstract class Unit {
     this.id = id;
   }
 
+  @Override
+  public String toString() {
+    return name + ", score: " + score + ", gold: " + gold;
+  }
+
   /**
    * The UnitBuilder class is used to build a Unit object.
    *

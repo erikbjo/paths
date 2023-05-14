@@ -12,9 +12,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import no.ntnu.idatg2001.paths.ui.controllers.GameController;
 import no.ntnu.idatg2001.paths.ui.controllers.PlayerInformationController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
-import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
+import no.ntnu.idatg2001.paths.ui.standardobjects.StandardMenuBar;
 
 public class PlayerInformationView implements View {
     private ResourceBundle resources;
@@ -30,9 +31,6 @@ public class PlayerInformationView implements View {
 
     public void start(Stage stage) {
         stage.setTitle("Player Information");
-        // Observes when the language in Database is changed, then calls updateLanguage()
-        LanguageHandler.getObservableIntegerCounter()
-            .addListener((obs, oldValue, newValue) -> updateLanguage());
 
         // gets the correct resource bundle, depending on the current language in database
         resources =
@@ -102,8 +100,7 @@ public class PlayerInformationView implements View {
         startButton = new Button(resources.getString("start"));
         startButton.setOnAction(
             event -> {
-                StoryView storyView = new StoryView();
-                storyView.start(stage);
+                new GameController(stage);
             });
 
         gridPane.add(newPlayerText, 0, 0);

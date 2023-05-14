@@ -1,7 +1,6 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -15,9 +14,8 @@ import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.ui.controllers.NewStoryController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
-import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
+import no.ntnu.idatg2001.paths.ui.standardobjects.StandardMenuBar;
 
-import java.security.PublicKey;
 import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -25,16 +23,16 @@ import java.util.ResourceBundle;
 public class NewStoryView implements View {
   private final Stage stage;
   private final Text newStoryText;
+  private final Button addToStoryButton;
+  private final NewStoryController controller;
+  private final Story story;
   private Button editLinkButton;
   private Button newLinkButton;
   private Button deleteLinkButton;
-  private final Button addToStoryButton;
   private TableView<Link> linkCreationTableView;
   private TableColumn<Link, String> linkColumn;
   private TableColumn<Passage, String> startingPassageColumn;
   private TableView<Passage> startingPassageTableView;
-  private final NewStoryController controller;
-  private final Story story;
   private Button editPassageButton;
   private Button newPassageButton;
   private Button deletePassageButton;
@@ -68,9 +66,11 @@ public class NewStoryView implements View {
 
     VBox leftVBox = new VBox();
 
-
-
     addToStoryButton = new Button();
+    addToStoryButton.setOnAction(
+        event ->
+            controller.onAddToStoryButtonClicked(passageCreationTableView, linkCreationTableView));
+
     VBox passageCreationVBox = createPassageCreationVBox();
     VBox linkCreationVBox = createLinkCreationVBox();
 
@@ -101,9 +101,6 @@ public class NewStoryView implements View {
     // CONTROLLER
     configureTableViews();
 
-    // Observes when the language in Database is changed, then calls updateLanguage()
-    LanguageHandler.getObservableIntegerCounter()
-        .addListener((obs, oldValue, newValue) -> updateLanguage());
     updateLanguage();
 
     stage.getScene().setRoot(root);
@@ -116,7 +113,11 @@ public class NewStoryView implements View {
     titleText = new Text();
     titleTextField = new TextField();
     createStoryButton = new Button();
+    createStoryButton.setOnAction(
+        e -> controller.onCreateStoryButtonClicked(startingPassageTableView, titleTextField));
+
     cancelButton = new Button();
+    cancelButton.setOnAction(e -> controller.onCancelButtonClicked());
 
     rightVBox.getChildren().addAll(titleText, titleTextField, createStoryButton, cancelButton);
     return rightVBox;
@@ -128,8 +129,16 @@ public class NewStoryView implements View {
     passageCreationTableView.getColumns().add(passageColumn);
 
     editPassageButton = new Button();
+    editPassageButton.setOnAction(
+        e -> controller.onEditPassageButtonClicked(passageCreationTableView));
+
     newPassageButton = new Button();
+    newPassageButton.setOnAction(
+        e -> controller.onNewPassageButtonClicked(passageCreationTableView));
+
     deletePassageButton = new Button();
+    deletePassageButton.setOnAction(
+        e -> controller.onDeletePassageButtonClicked(passageCreationTableView));
 
     VBox passageCreationVBox =
         new VBox(
@@ -145,11 +154,16 @@ public class NewStoryView implements View {
     linkCreationTableView.getColumns().add(linkColumn);
 
     editLinkButton = new Button();
+    editLinkButton.setOnAction(e -> controller.onEditLinkButtonClicked(linkCreationTableView));
+
     newLinkButton = new Button();
+    newLinkButton.setOnAction(e -> controller.onNewLinkButtonClicked(linkCreationTableView));
+
     deleteLinkButton = new Button();
+    deleteLinkButton.setOnAction(e -> controller.onDeleteLinkButtonClicked(linkCreationTableView));
 
     VBox linkCreationVBox =
-            new VBox(linkCreationTableView, new HBox(editLinkButton, newLinkButton, deleteLinkButton));
+        new VBox(linkCreationTableView, new HBox(editLinkButton, newLinkButton, deleteLinkButton));
     linkCreationVBox.setAlignment(Pos.TOP_CENTER);
     return linkCreationVBox;
   }

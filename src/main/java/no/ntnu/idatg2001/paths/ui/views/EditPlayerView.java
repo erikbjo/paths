@@ -20,7 +20,7 @@ import no.ntnu.idatg2001.paths.ui.controllers.EditPlayerController;
 import no.ntnu.idatg2001.paths.ui.controllers.NewGameController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
-import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
+import no.ntnu.idatg2001.paths.ui.standardobjects.StandardMenuBar;
 
 /**
  * Class that creates the view for editing a player. This class uses getters for accessing the

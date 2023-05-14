@@ -18,6 +18,7 @@ public class Link implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   private String text;
   private String reference;
 
@@ -118,17 +119,11 @@ public class Link implements Serializable {
         + '}';
   }
 
-  // TODO: FIX EQUALS
-  //  @Override
-  //  public boolean equals(Object o) {
-  //    if (o == this) {
-  //      return true;
-  //    }
-  //    if (!(o instanceof Link other)) {
-  //      return false;
-  //    }
-  //    // checking only for reference
-  //    return (this.getReference() == null && other.getReference() == null)
-  //        || (this.getReference() != null && this.getReference().equals(other.getReference()));
-  //  }
+  @Override
+  public boolean equals(Object object) {
+    if (object == this) return true;
+    if (!(object instanceof Link other)) return false;
+    return (this.reference == null && other.reference == null)
+        || (this.reference != null && this.reference.equals(other.reference));
+  }
 }

@@ -14,29 +14,29 @@ import java.util.*;
 @Entity
 @Table(name = "story")
 public class Story implements Serializable {
-  @Transient private Map<Link, Passage[]> passages;
-
-  @Lob
-  @Column(name = "serialized_passages")
-  private byte[] serializedPassages;
-
-  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "story_id")
-  private Passage openingPassage;
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private Long id;
+
+  @ManyToMany(cascade = CascadeType.ALL)
+  private Map<Link, Passage> passages = new HashMap<>();
+
   @OneToOne
-  @JoinColumn(name = "story_id", insertable = false, updatable = false)
+  @JoinColumn(name = "opening_passage_id")
+  private Passage openingPassage;
+
+  @OneToOne
+  @JoinColumn(name = "current_passage_id")
   private Passage currentPassage;
+
+
   private String title;
+
   public Story(String title, Passage openingPassage) {
     this.title = title;
     this.openingPassage = openingPassage;
     this.currentPassage = openingPassage;
-    this.passages = new HashMap<>();
-    addPassage(openingPassage);
   }
 
   public Story(String title) {
@@ -44,53 +44,23 @@ public class Story implements Serializable {
     this.passages = new HashMap<>();
   }
 
-  public Story() {}
-
-  // WIP
-  @PrePersist
-  @PreUpdate
-  private void savePassagesAsByteArray() throws IOException {
-    if (passages != null) {
-      try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-          ObjectOutputStream oos = new ObjectOutputStream(baos)) {
-        oos.writeObject(passages);
-        oos.flush();
-        serializedPassages = baos.toByteArray();
-      }
-    }
-  }
-
-  @PostLoad
-  private void loadPassagesFromByteArray() throws IOException, ClassNotFoundException {
-    if (serializedPassages != null) {
-      try (ByteArrayInputStream bais = new ByteArrayInputStream(serializedPassages);
-          ObjectInputStream ois = new ObjectInputStream(bais)) {
-        passages = (Map<Link, Passage[]>) ois.readObject();
-      }
-    } else {
-      passages = new HashMap<>();
-    }
-  }
+  protected Story() {}
 
   public List<Passage> getAllPassages() {
     List<Passage> allPassages = new ArrayList<>();
 
-    for (Passage[] passageArray : passages.values()) {
-      for (Passage passage : passageArray) {
-        if (passage != null && !allPassages.contains(passage)) {
-          allPassages.add(passage);
-        }
-      }
+    for (Map.Entry<Link, Passage> entry : passages.entrySet()) {
+      allPassages.add(entry.getValue());
     }
 
     return allPassages;
   }
 
-  public Map<Link, Passage[]> getPassagesHashMap() {
+  public Map<Link, Passage> getPassagesHashMap() {
     return passages;
   }
 
-  public void setPassagesHashMap(Map<Link, Passage[]> passages) {
+  public void setPassagesHashMap(Map<Link, Passage> passages) {
     this.passages = passages;
   }
 
@@ -133,32 +103,21 @@ public class Story implements Serializable {
    *
    * @param passage The passage that gets added to the game.
    */
+
+  // Metoden addPassage skal legge til en passasje i passages. Da trenger vi også et Link-objekt.
+  // Dette løser vi ved å opprette en ny link basert på passasjens tittel. Tittelen kan fungere både
+  // som tekst og referanse.
+
+  // • links: linker som kobler denne passasjen mot andre passasjer. En passasje med to eller
+  // flere linker gjør historien ikke-lineær.
+
+  // Diagrammet viser at Link-klassen har tre attributter:
+  // • text: en beskrivende tekstsom indikerer et valg eller en handling i en historie. Teksten
+  // er den delen av linken som vil være synlig for spilleren.
+  // • reference: en streng som entydig identifiserer en passasje (en del av en historie). I
+  // praksis vil dette være tittelen til passasjen man ønsker å referere til.
   public void addPassage(Passage passage) {
-    List<Link> links = passage.getLinks();
-
-    for (Link link : links) {
-      if (!passages.containsKey(link)) {
-        passages.put(link, new Passage[] {passage});
-      } else if (passages.containsKey(link) && (passages.get(link).length < 2)) {
-        Passage[] oldPassagesArray = passages.get(link);
-
-        if (oldPassagesArray.length >= 2) {
-          throw new IllegalArgumentException("Link already has two passages.");
-        }
-        if (oldPassagesArray[0].equals(passage)) {
-          throw new IllegalArgumentException("Link already has this passage.");
-        }
-
-        Passage[] updatedPassagesArray =
-            Arrays.copyOf(oldPassagesArray, oldPassagesArray.length + 1);
-        updatedPassagesArray[updatedPassagesArray.length - 1] = passage;
-        passages.put(link, updatedPassagesArray);
-      } else if (Arrays.asList(passages.get(link)).contains(passage)) {
-        // do nothing
-      } else {
-        throw new IllegalArgumentException("Link already has two passages.");
-      }
-    }
+    passages.put(new Link(passage.getTitle(), passage.getTitle()), passage);
   }
 
   /**
@@ -167,15 +126,7 @@ public class Story implements Serializable {
    * @return A list of all the links connected to a passage.
    */
   public List<Link> getLinksConnectedWithPassage(Passage passage) {
-    List<Link> links = new ArrayList<>();
-
-    for (Map.Entry<Link, Passage[]> entry : passages.entrySet()) {
-      if (Arrays.asList(entry.getValue()).contains(passage)) {
-        links.add(entry.getKey());
-      }
-    }
-
-    return links;
+    return passages.keySet().stream().filter(link -> passages.get(link).equals(passage)).toList();
   }
 
   /**
@@ -192,20 +143,20 @@ public class Story implements Serializable {
 
   // gammel version
   //
-  //public Collection<Passage> getPassages() { Collection<Passage> passageCollection = new
-  //HashSet<>(); for (Link link : passages.keySet()) { Passage passage = passages.get(link); if
-  //(passage != null) { passageCollection.add(passage); } } return passageCollection; }
+  // public Collection<Passage> getPassages() { Collection<Passage> passageCollection = new
+  // HashSet<>(); for (Link link : passages.keySet()) { Passage passage = passages.get(link); if
+  // (passage != null) { passageCollection.add(passage); } } return passageCollection; }
   //
 
   // Ny version 1
 
   //
-  //public Collection<Passage> getPassages() { Collection<Passage> passageCollection = new
-  //HashSet<>(); for (Passage passage : passages.values()) { if (passage != null) {
-  //passageCollection.add(passage); } } return passageCollection; }
+  // public Collection<Passage> getPassages() { Collection<Passage> passageCollection = new
+  // HashSet<>(); for (Passage passage : passages.values()) { if (passage != null) {
+  // passageCollection.add(passage); } } return passageCollection; }
   //
   public List<Passage> getPassages() {
-    return passages.values().stream().flatMap(Arrays::stream).distinct().toList();
+    return passages.values().stream().filter(Objects::nonNull).toList();
   }
 
   public void removePassage(Link link) {
@@ -218,17 +169,7 @@ public class Story implements Serializable {
 
   @Override
   public String toString() {
-    return "Story{"
-        + "title='"
-        + title
-        + '\''
-        + ", passages="
-        + passages
-        + ", openingPassage="
-        + openingPassage
-        + ", currentPassage="
-        + currentPassage
-        + '}';
+    return title;
   }
 
   public Long getId() {

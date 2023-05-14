@@ -10,6 +10,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 class StoryTest {
   private Story story;
   private Passage passage1;
@@ -17,9 +19,10 @@ class StoryTest {
   private Passage passage3;
   private Passage passage4;
   private Player player;
-  private Link link1;
-  private Link link2;
-  private Link link3;
+  private Link link1to2;
+  private Link link1to3;
+  private Link link2to3;
+  private Link link3to4;
 
   @BeforeEach
   void setUp() {
@@ -30,23 +33,19 @@ class StoryTest {
     passage3 = new Passage("Passage 3", "This is passage 3");
     passage4 = new Passage("Passage 4", "This is passage 4");
 
-    link1 = new Link("Link 1", "link1");
-    link2 = new Link("Link 2", "link2");
-    link3 = new Link("Link 3", "link3");
+    link1to2 = new Link("Link 1-2", passage2.getTitle());
+    link1to3 = new Link("Link 1-3", passage3.getTitle());
+    link2to3 = new Link("Link 2-3", passage3.getTitle());
+    link3to4 = new Link("Link 3-4", passage4.getTitle());
 
-    passage1.addLink(link1);
-    passage2.addLink(link1);
-
-    passage2.addLink(link2);
-    passage3.addLink(link2);
-
-    passage2.addLink(link3);
-    passage4.addLink(link3);
+    passage1.addLink(link1to2);
+    passage2.addLink(link2to3);
+    passage3.addLink(link3to4);
 
     story = new Story("Test story", passage1);
     story.addPassage(passage2);
     story.addPassage(passage3);
-    story.addPassage(passage4);
+    // story.addPassage(passage4);
   }
 
   @AfterEach
@@ -57,24 +56,65 @@ class StoryTest {
     assertEquals(story.getCurrentPassage(), passage1);
   }
 
-  // REMOVED TESTS UNTIL IT IS CLEAR HOW THE HASHMAP IN STORY SHOULD WORK
-  // @TODO: FIX THIS
-  /*@Test
-  void testGetPassagesConnectedWithLink1IsGood() {
-    assertEquals(2, story.getPassagesConnectedWithLink(link1).size());
+  @Test
+  void getCurrentPassage() {
+    assertEquals(story.getCurrentPassage(), passage1);
   }
 
   @Test
-  void testGetPassagesConnectedWithLink2IsGood() {
-    assertEquals(2, story.getPassagesConnectedWithLink(link2).size());
-  }*/
+  void setCurrentPassage() {
+    story.setCurrentPassage(passage2);
+    assertEquals(story.getCurrentPassage(), passage2);
+  }
 
   @Test
-  void getTitle() {}
+  void getOpeningPassage() {
+    assertEquals(story.getOpeningPassage(), passage1);
+  }
 
   @Test
-  void getOpeningPassage() {}
+  void setOpeningPassage() {
+    story.setOpeningPassage(passage2);
+    assertEquals(story.getOpeningPassage(), passage2);
+  }
 
   @Test
-  void addPassage() {}
+  void addPassage() {
+    story.addPassage(passage4);
+    assertTrue(story.getPassages().contains(passage4));
+  }
+
+  @Test
+  void getLinksConnectedWithPassage() {
+    List<Link> linksConnectedWithPassage1 = story.getLinksConnectedWithPassage(passage1);
+    System.out.println("Links connected with passage 1 in hashmap: " + linksConnectedWithPassage1);
+    System.out.println("Links connected with passage 1 in parameter: " + passage1.getLinks());
+    System.out.println("Link 1 to 2: " + link1to2);
+    for (Link link : linksConnectedWithPassage1) {
+      assertEquals(link, link1to2);
+    }
+
+    System.out.println(
+        "\nLinks connected with passage 2 in hashmap: "
+            + story.getLinksConnectedWithPassage(passage2));
+    System.out.println("Links connected with passage 2 in parameter: " + passage2.getLinks());
+    System.out.println("Link 1 to 2: " + link1to2);
+    List<Link> linksConnectedWithPassage2 = story.getLinksConnectedWithPassage(passage2);
+    for (Link link : linksConnectedWithPassage2) {
+      assertEquals(link, link1to2);
+    }
+  }
+
+  @Test
+  void getPassages() {
+    List<Passage> passages = story.getPassages();
+    assertTrue(passages.contains(passage2));
+    assertTrue(passages.contains(passage3));
+  }
+
+  @Test
+  void removePassage() {}
+
+  @Test
+  void getBrokenLinks() {}
 }

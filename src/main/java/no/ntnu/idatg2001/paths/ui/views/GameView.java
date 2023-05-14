@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -12,25 +11,27 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import no.ntnu.idatg2001.paths.ui.controllers.GameController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
-import no.ntnu.idatg2001.paths.ui.controllers.StoryViewController;
-import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
+import no.ntnu.idatg2001.paths.ui.standardobjects.StandardMenuBar;
 
-public class StoryView implements View {
+public class GameView implements View {
+  private final GameController controller;
+  private final HBox linksHBox;
+  private final Text storyHeadlineText;
+  private final Text passageTitleText;
+  private final TextArea passageContentTextArea;
   private ResourceBundle resources;
-  private StoryViewController storyViewController;
 
-  public void start(Stage stage) {
+  public GameView(GameController controller, Stage stage) {
+    this.controller = controller;
     stage.setTitle("Story");
-
-    // Observes when the language in Database is changed, then calls updateLanguage()
-    LanguageHandler.getObservableIntegerCounter()
-        .addListener((obs, oldValue, newValue) -> updateLanguage());
 
     // gets the correct resource bundle, depending on the current language in database
     resources =
         ResourceBundle.getBundle(
-            "story", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+            "languages/story",
+            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
 
     // Create a borderpane and a standard menubar
     BorderPane root = new BorderPane();
@@ -43,13 +44,13 @@ public class StoryView implements View {
     rootVBox.setAlignment(Pos.CENTER); // Center the elements vertically and horizontally
 
     // Create a headline and a text area for the story
-    Text storyHeadlineText = new Text("storyHeadlineText");
-    Text passageTitleText = new Text("passageTitleText");
-    TextArea passageContentTextArea = new TextArea("passageContentTextArea");
+    storyHeadlineText = new Text("storyHeadlineText");
+    passageTitleText = new Text("passageTitleText");
+    passageContentTextArea = new TextArea("passageContentTextArea");
     passageContentTextArea.setEditable(false);
 
     // HBox for the hyperlinks
-    HBox linksHBox = new HBox(10);
+    linksHBox = new HBox(10);
     linksHBox.setAlignment(Pos.CENTER);
 
     // Add all the elements to the root VBox
@@ -61,12 +62,8 @@ public class StoryView implements View {
     rootAnchorPane.getChildren().add(rootVBox);
     root.setCenter(rootAnchorPane);
 
-    // Initialize the controller with the dynamic elements
-    storyViewController =
-        new StoryViewController(
-            linksHBox, storyHeadlineText, passageTitleText, passageContentTextArea);
-    storyViewController.updateStoryViewToNewPath();
-
+    controller.updateStoryViewToNewPath(
+        storyHeadlineText, passageTitleText, passageContentTextArea, linksHBox);
 
     stage.getScene().setRoot(root);
   }
@@ -76,5 +73,21 @@ public class StoryView implements View {
     resources =
         ResourceBundle.getBundle(
             "story", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+  }
+
+  public HBox getLinksHBox() {
+    return linksHBox;
+  }
+
+  public Text getStoryHeadlineText() {
+    return storyHeadlineText;
+  }
+
+  public Text getPassageTitleText() {
+    return passageTitleText;
+  }
+
+  public TextArea getPassageContentTextArea() {
+    return passageContentTextArea;
   }
 }
