@@ -16,7 +16,7 @@ public class EditLinkDialog extends Dialog<Link> implements StandardDialog<Link>
   private final GenericDialogController controller = new GenericDialogController();
   private final ResourceBundle resources =
       ResourceBundle.getBundle(
-          "editLinkDialog",
+          "languages/editLinkDialog",
           Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
   private TextField referenceTextField;
   private TextField linkTextTextField;

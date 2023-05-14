@@ -218,17 +218,7 @@ public class Story implements Serializable {
 
   @Override
   public String toString() {
-    return "Story{"
-        + "title='"
-        + title
-        + '\''
-        + ", passages="
-        + passages
-        + ", openingPassage="
-        + openingPassage
-        + ", currentPassage="
-        + currentPassage
-        + '}';
+    return title;
   }
 
   public Long getId() {

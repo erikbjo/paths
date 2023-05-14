@@ -15,7 +15,7 @@ public class EditPassageDialog extends Dialog<Passage> implements StandardDialog
   private final Passage passage;
   private final GenericDialogController controller = new GenericDialogController();
   private final ResourceBundle resources = ResourceBundle.getBundle(
-          "editPassageDialog",
+          "languages/editPassageDialog",
           Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
   private TextField titleTextField;
   private TextArea contentTextArea;
