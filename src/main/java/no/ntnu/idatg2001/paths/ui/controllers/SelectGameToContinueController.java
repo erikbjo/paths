@@ -80,55 +80,63 @@ public class SelectGameToContinueController {
     if (ongoingGamesTableView.getSelectionModel().getSelectedItem() != null) {
       Game game = ongoingGamesTableView.getSelectionModel().getSelectedItem();
       if (game.getPlayer() == null) {
-        if (PlayerDAO.getInstance().getAll().isEmpty()) {
-          ConfirmationAlert confirmationAlert =
-              new ConfirmationAlert(
-                  // TODO: MAKE THIS LANGUAGE INDEPENDENT
-                  "No player",
-                  "There are no players in the database. Do you want to create a new player?");
-          Optional<ButtonType> result = confirmationAlert.showAndWait();
-          if (result.isPresent() && result.get() == ButtonType.OK) {
-            NewPlayerDialog newPlayerDialog = new NewPlayerDialog();
-            Optional<Player> newPlayerResult = newPlayerDialog.showAndWait();
-            if (newPlayerResult.isPresent()) {
-              game.setPlayer(newPlayerResult.get());
-              GameDAO.getInstance().update(game);
-              updateGameTable(ongoingGamesTableView);
-            }
-          }
-        } else {
-          ChangePlayerDialog changePlayerDialog = new ChangePlayerDialog(game.getPlayer());
-          Optional<Player> result = changePlayerDialog.showAndWait();
-          if (result.isPresent()) {
-            game.setPlayer(result.get());
-            GameDAO.getInstance().update(game);
-            updateGameTable(ongoingGamesTableView);
-          }
-        }
+        onNullPlayer(ongoingGamesTableView, game);
       } else if (game.getStory() == null) {
-        if (StoryDAO.getInstance().getAll().isEmpty()) {
-          ConfirmationAlert confirmationAlert =
-              new ConfirmationAlert(
-                  // TODO: MAKE THIS LANGUAGE INDEPENDENT
-                  "No story",
-                  "There are no stories in the database. Do you want to create a new story?");
-          Optional<ButtonType> result = confirmationAlert.showAndWait();
-          if (result.isPresent() && result.get() == ButtonType.OK) {
-            new NewStoryController(stage);
-          }
-        } else {
-          ChangeStoryDialog changeStoryDialog = new ChangeStoryDialog(game.getStory());
-          Optional<Story> result = changeStoryDialog.showAndWait();
-          if (result.isPresent()) {
-            game.setStory(result.get());
-            GameDAO.getInstance().update(game);
-            updateGameTable(ongoingGamesTableView);
-          }
-        }
+        onNullStory(ongoingGamesTableView, game);
       } else {
         CurrentGameHandler.setCurrentGame(game);
         // TODO: CHANGE CONTROLLER
         // new StoryViewController();
+      }
+    }
+  }
+
+  private void onNullPlayer(TableView<Game> ongoingGamesTableView, Game game) {
+    if (PlayerDAO.getInstance().getAll().isEmpty()) {
+      ConfirmationAlert confirmationAlert =
+          new ConfirmationAlert(
+              // TODO: MAKE THIS LANGUAGE INDEPENDENT
+              "No player",
+              "There are no players in the database. Do you want to create a new player?");
+      Optional<ButtonType> result = confirmationAlert.showAndWait();
+      if (result.isPresent() && result.get() == ButtonType.OK) {
+        NewPlayerDialog newPlayerDialog = new NewPlayerDialog();
+        Optional<Player> newPlayerResult = newPlayerDialog.showAndWait();
+        if (newPlayerResult.isPresent()) {
+          game.setPlayer(newPlayerResult.get());
+          GameDAO.getInstance().update(game);
+          updateGameTable(ongoingGamesTableView);
+        }
+      }
+    } else {
+      ChangePlayerDialog changePlayerDialog = new ChangePlayerDialog(game.getPlayer());
+      Optional<Player> result = changePlayerDialog.showAndWait();
+      if (result.isPresent()) {
+        game.setPlayer(result.get());
+        GameDAO.getInstance().update(game);
+        updateGameTable(ongoingGamesTableView);
+      }
+    }
+  }
+
+  private void onNullStory(TableView<Game> ongoingGamesTableView, Game game) {
+    if (StoryDAO.getInstance().getAll().isEmpty()) {
+      ConfirmationAlert confirmationAlert =
+          new ConfirmationAlert(
+              // TODO: MAKE THIS LANGUAGE INDEPENDENT
+              "No story",
+              "There are no stories in the database. Do you want to create a new story?");
+      Optional<ButtonType> result = confirmationAlert.showAndWait();
+      if (result.isPresent() && result.get() == ButtonType.OK) {
+        new NewStoryController(stage);
+      }
+    } else {
+      ChangeStoryDialog changeStoryDialog = new ChangeStoryDialog(game.getStory());
+      Optional<Story> result = changeStoryDialog.showAndWait();
+      if (result.isPresent()) {
+        game.setStory(result.get());
+        GameDAO.getInstance().update(game);
+        updateGameTable(ongoingGamesTableView);
       }
     }
   }
