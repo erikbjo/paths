@@ -1,12 +1,11 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
-import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.ui.controllers.EditStoryController;
-import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
+import no.ntnu.idatg2001.paths.ui.standardobjects.StandardMenuBar;
 
 public class EditStoryView implements View {
   private Story story;

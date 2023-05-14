@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -14,7 +13,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.controllers.StoryViewController;
-import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
+import no.ntnu.idatg2001.paths.ui.standardobjects.StandardMenuBar;
 
 public class StoryView implements View {
   private ResourceBundle resources;

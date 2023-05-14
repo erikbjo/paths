@@ -1,7 +1,6 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -11,13 +10,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.controllers.NewGameController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
-import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
+import no.ntnu.idatg2001.paths.ui.standardobjects.StandardMenuBar;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

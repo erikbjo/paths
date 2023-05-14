@@ -1,7 +1,6 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -15,9 +14,8 @@ import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.ui.controllers.NewStoryController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
-import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
+import no.ntnu.idatg2001.paths.ui.standardobjects.StandardMenuBar;
 
-import java.security.PublicKey;
 import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;

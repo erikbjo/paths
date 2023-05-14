@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.ui.controllers.SelectGameToContinueController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
-import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
+import no.ntnu.idatg2001.paths.ui.standardobjects.StandardMenuBar;
 
 public class SelectGameToContinueView implements View {
   private final SelectGameToContinueController controller;

@@ -14,7 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.ui.controllers.PlayerInformationController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
-import no.ntnu.idatg2001.paths.ui.standardObjects.StandardMenuBar;
+import no.ntnu.idatg2001.paths.ui.standardobjects.StandardMenuBar;
 
 public class PlayerInformationView implements View {
     private ResourceBundle resources;
