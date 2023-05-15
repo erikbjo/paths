@@ -52,22 +52,6 @@ class StoryTest {
   void tearDown() {}
 
   @Test
-  void testGetCurrentPassageShouldReturnFirstPassage() {
-    assertEquals(story.getCurrentPassage(), passage1);
-  }
-
-  @Test
-  void getCurrentPassage() {
-    assertEquals(story.getCurrentPassage(), passage1);
-  }
-
-  @Test
-  void setCurrentPassage() {
-    story.setCurrentPassage(passage2);
-    assertEquals(story.getCurrentPassage(), passage2);
-  }
-
-  @Test
   void getOpeningPassage() {
     assertEquals(story.getOpeningPassage(), passage1);
   }

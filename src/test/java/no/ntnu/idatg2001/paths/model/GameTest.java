@@ -78,4 +78,20 @@ class GameTest {
   void testThatGoReturnThePassageThatIsLinked() {
     assertEquals(testPassage2, testGame.go(link1to2));
   }
+
+  @Test
+  void testGetCurrentPassageShouldReturnFirstPassage() {
+    assertEquals(testGame.getCurrentPassage(), testPassage1);
+  }
+
+  @Test
+  void getCurrentPassage() {
+    assertEquals(testGame.getCurrentPassage(), testPassage1);
+  }
+
+  @Test
+  void setCurrentPassage() {
+    testGame.setCurrentPassage(testPassage2);
+    assertEquals(testGame.getCurrentPassage(), testPassage2);
+  }
 }

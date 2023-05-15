@@ -27,17 +27,12 @@ public class Story implements Serializable {
   @JoinColumn(name = "opening_passage_id")
   private Passage openingPassage;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "current_passage_id")
-  private Passage currentPassage;
-
   private String title;
 
   public Story(String title, Passage openingPassage) {
     this.passages = new HashMap<>();
     this.title = title;
     this.openingPassage = openingPassage;
-    this.currentPassage = openingPassage;
   }
 
   public Story(String title) {
@@ -55,14 +50,6 @@ public class Story implements Serializable {
 
   public void setPassagesHashMap(Map<Link, Passage> passages) {
     this.passages = passages;
-  }
-
-  public Passage getCurrentPassage() {
-    return currentPassage;
-  }
-
-  public void setCurrentPassage(Passage passage) {
-    this.currentPassage = passage;
   }
 
   /**
@@ -124,7 +111,12 @@ public class Story implements Serializable {
    * @return A list of all the links connected to a passage.
    */
   public List<Link> getLinksConnectedWithPassage(Passage passage) {
-    return passages.keySet().stream().filter(link -> passages.get(link).equals(passage)).toList();
+    // get the passage list of links and return the ones that have the same reference as the
+    // passage title
+    List<Link> links = passage.getLinks();
+    return passages.keySet().stream()
+        .filter(links::contains)
+        .toList();
   }
 
   /**
