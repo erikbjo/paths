@@ -52,22 +52,6 @@ class StoryTest {
   void tearDown() {}
 
   @Test
-  void testGetCurrentPassageShouldReturnFirstPassage() {
-    assertEquals(story.getCurrentPassage(), passage1);
-  }
-
-  @Test
-  void getCurrentPassage() {
-    assertEquals(story.getCurrentPassage(), passage1);
-  }
-
-  @Test
-  void setCurrentPassage() {
-    story.setCurrentPassage(passage2);
-    assertEquals(story.getCurrentPassage(), passage2);
-  }
-
-  @Test
   void getOpeningPassage() {
     assertEquals(story.getOpeningPassage(), passage1);
   }
@@ -87,21 +71,11 @@ class StoryTest {
   @Test
   void getLinksConnectedWithPassage() {
     List<Link> linksConnectedWithPassage1 = story.getLinksConnectedWithPassage(passage1);
-    System.out.println("Links connected with passage 1 in hashmap: " + linksConnectedWithPassage1);
-    System.out.println("Links connected with passage 1 in parameter: " + passage1.getLinks());
-    System.out.println("Link 1 to 2: " + link1to2);
-    for (Link link : linksConnectedWithPassage1) {
-      assertEquals(link, link1to2);
-    }
+    assertTrue(linksConnectedWithPassage1.contains(link1to2));
 
-    System.out.println(
-        "\nLinks connected with passage 2 in hashmap: "
-            + story.getLinksConnectedWithPassage(passage2));
-    System.out.println("Links connected with passage 2 in parameter: " + passage2.getLinks());
-    System.out.println("Link 1 to 2: " + link1to2);
     List<Link> linksConnectedWithPassage2 = story.getLinksConnectedWithPassage(passage2);
     for (Link link : linksConnectedWithPassage2) {
-      assertEquals(link, link1to2);
+      assertEquals(link, link2to3);
     }
   }
 

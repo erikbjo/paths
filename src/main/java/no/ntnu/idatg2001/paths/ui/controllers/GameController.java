@@ -33,13 +33,13 @@ public class GameController {
         CurrentGameHandler.getCurrentGame()
             .getStory()
             .getLinksConnectedWithPassage(
-                CurrentGameHandler.getCurrentGame().getStory().getCurrentPassage());
+                CurrentGameHandler.getCurrentGame().getCurrentPassage());
     for (Link link : links) {
       Hyperlink hyperlink = new Hyperlink();
 
       if (link == previousLink) {
         hyperlink.setVisited(true);
-        if (CurrentGameHandler.getCurrentGame().getStory().getCurrentPassage()
+        if (CurrentGameHandler.getCurrentGame().getCurrentPassage()
             == CurrentGameHandler.getCurrentGame().getStory().getOpeningPassage()) {
           hyperlink.setText(link.getText());
         } else {
@@ -67,12 +67,12 @@ public class GameController {
 
   private void setPassageTitleText(Text passageTitleText) {
     passageTitleText.setText(
-        CurrentGameHandler.getCurrentGame().getStory().getCurrentPassage().getTitle());
+        CurrentGameHandler.getCurrentGame().getStory().getTitle());
   }
 
   private void setPassageContentTextArea(TextArea passageContentTextArea) {
     passageContentTextArea.setText(
-        CurrentGameHandler.getCurrentGame().getStory().getCurrentPassage().getContent());
+        CurrentGameHandler.getCurrentGame().getCurrentPassage().getContent());
   }
 
   public void updateStoryViewToNewPath(

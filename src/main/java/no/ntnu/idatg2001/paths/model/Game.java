@@ -24,6 +24,9 @@ public class Game {
   @ManyToOne
   @JoinColumn(name = "story_id")
   private Story story;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "current_passage_id")
+  private Passage currentPassage;
 
   /**
    * Constructor for the Game class.
@@ -36,10 +39,19 @@ public class Game {
     this.player = player;
     this.story = story;
     this.goals.addAll(goals);
+    this.currentPassage = story.getOpeningPassage();
   }
 
   /** Default constructor for the Game class. For DB */
   public Game() {}
+
+  public Passage getCurrentPassage() {
+    return currentPassage;
+  }
+
+  public void setCurrentPassage(Passage currentPassage) {
+    this.currentPassage = currentPassage;
+  }
 
   public Player getPlayer() {
     return player;
@@ -66,10 +78,10 @@ public class Game {
   }
 
   public Passage go(Link link) {
-    List<Link> availableLinks = story.getCurrentPassage().getLinks();
+    List<Link> availableLinks = getCurrentPassage().getLinks();
     if (availableLinks.contains(link)) {
-      System.out.println(story.getPassagesHashMap());
       Link reversedLink = reverseLink(link);
+      setCurrentPassage(story.getPassagesHashMap().get(reversedLink));
       return story.getPassagesHashMap().get(reversedLink);
     } else {
       throw new IllegalArgumentException("Link not available");
@@ -90,6 +102,10 @@ public class Game {
    */
   public Long getId() {
     return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   @Override
