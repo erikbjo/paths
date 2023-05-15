@@ -23,6 +23,11 @@ public class MainMenuController {
   }
 
   public void configureContinueButton(Button continueButton) {
+    if (GameDAO.getInstance().getAll().isEmpty()) {
+      continueButton.setDisable(true);
+    } else {
+      continueButton.setDisable(false);
+    }
     continueButton.setOnAction(event -> new SelectGameToContinueController(stage));
   }
 
