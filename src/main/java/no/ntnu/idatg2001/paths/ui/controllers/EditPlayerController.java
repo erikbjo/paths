@@ -1,8 +1,6 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -170,7 +168,7 @@ public class EditPlayerController {
         cancelButton.setText(editPlayerResources.getString("cancelButton"));
         saveButton.setText(editPlayerResources.getString("saveButton"));
         updateShowAttributesGridPaneButton();
-        updateShowAttributesComboBox();
+        updateDefaultAttributesComboBox();
 
         for (Map.Entry<String, DefaultAttributes> entry : defaultAttributesMap.entrySet()) {
             String key = entry.getKey();
@@ -180,14 +178,13 @@ public class EditPlayerController {
         }
     }
 
-    private void updateShowAttributesComboBox() {
+    private void updateDefaultAttributesComboBox() {
         //Denne metoden fungerer ikke optimalt enda!
         defaultAttributesComboBox.setPromptText(
             editPlayerResources.getString("defaultAttributesComboBox"));
 
-        List<DefaultAttributes> defaultAttributesList = Arrays.asList(DefaultAttributes.values());
         ObservableList<DefaultAttributes> observableDefaultAttributesList =
-            FXCollections.observableArrayList(defaultAttributesList);
+            FXCollections.observableArrayList(DefaultAttributes.values());
 
         defaultAttributesComboBox.setItems(observableDefaultAttributesList);
 

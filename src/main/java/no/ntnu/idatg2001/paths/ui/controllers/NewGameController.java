@@ -2,7 +2,9 @@ package no.ntnu.idatg2001.paths.ui.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -30,12 +32,24 @@ import no.ntnu.idatg2001.paths.ui.views.View;
 public class NewGameController implements Controller {
     private final NewGameView view;
     private final Stage stage;
+    private final ResourceBundle confirmationResources;
+    private final ResourceBundle warningResources;
+    private final ResourceBundle exeptionResources;
 
     public NewGameController(Stage stage) {
         this.view = new NewGameView(this, stage);
         this.stage = stage;
         LanguageHandler.getObservableIntegerCounter()
             .addListener((a, b, c) -> view.updateLanguage());
+        this.confirmationResources = ResourceBundle.getBundle(
+            "languages/confirmations",
+            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+        this.warningResources = ResourceBundle.getBundle(
+            "languages/warnings",
+            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+        this.exeptionResources = ResourceBundle.getBundle(
+            "languages/exceptions",
+            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
     }
 
     public View getView() {
@@ -170,10 +184,14 @@ public class NewGameController implements Controller {
 
                     ConfirmationAlert confirmationAlert =
                         new ConfirmationAlert(
-                            "Delete player",
-                            "Are you sure you want to delete this player?\n"
+                            confirmationResources.getString("deletePlayerTitle"),
+                            confirmationResources
+                                .getString("deletePlayerContentTextStart")
+                                + "\n"
                                 + selectedPlayer.getName()
-                                + "\nThis will also delete any games this player is part of.");
+                                + "\n"
+                                + confirmationResources
+                                .getString("deletePlayerContentTextEnd"));
 
                     Optional<ButtonType> result = confirmationAlert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {
