@@ -14,11 +14,11 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "passage")
-public class Passage implements Serializable {
+public class Passage {
   private String title;
   private String content;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "passage_id")
   private List<Link> links;
 

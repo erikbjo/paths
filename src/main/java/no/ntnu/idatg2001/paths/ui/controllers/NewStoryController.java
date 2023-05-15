@@ -2,8 +2,7 @@ package no.ntnu.idatg2001.paths.ui.controllers;
 
 import java.util.*;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Text;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Passage;
@@ -25,8 +24,7 @@ public class NewStoryController implements Controller {
   public NewStoryController(Stage stage) {
     this.stage = stage;
     this.view = new NewStoryView(this, stage, story);
-    LanguageHandler.getObservableIntegerCounter()
-            .addListener((a, b, c) -> view.updateLanguage());
+    LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> view.updateLanguage());
   }
 
   public void onEditPassageButtonClicked(TableView<Passage> passageCreationTableView) {
@@ -49,7 +47,11 @@ public class NewStoryController implements Controller {
     NewPassageDialog newPassageDialog = new NewPassageDialog();
 
     Optional<Passage> result = newPassageDialog.showAndWait();
-    result.ifPresent(passage -> passageCreationTableView.getItems().add(passage));
+    result.ifPresent(
+        passage -> {
+          story.addPassage(passage);
+          view.updatePassagesTableView();
+        });
   }
 
   public void onDeletePassageButtonClicked(TableView<Passage> passageCreationTableView) {
@@ -76,7 +78,7 @@ public class NewStoryController implements Controller {
   }
 
   public void onNewLinkButtonClicked(TableView<Link> linkCreationTableView) {
-    NewLinkDialog newLinkDialog = new NewLinkDialog();
+    NewLinkDialog newLinkDialog = new NewLinkDialog(story);
 
     Optional<Link> result = newLinkDialog.showAndWait();
     result.ifPresent(link -> linkCreationTableView.getItems().add(link));
@@ -89,48 +91,31 @@ public class NewStoryController implements Controller {
     }
   }
 
-  public void onAddToStoryButtonClicked(
+  public void onAddLinkToPassageButtonClicked(
       TableView<Passage> passageCreationTableView, TableView<Link> linkCreationTableView) {
-    if (passageCreationTableView.getSelectionModel().getSelectedItems().size() == 2
+    if (passageCreationTableView.getSelectionModel().getSelectedItems().size() > 0
         && linkCreationTableView.getSelectionModel().getSelectedItems().size() == 1) {
 
-      Passage passage1 = passageCreationTableView.getSelectionModel().getSelectedItems().get(0);
-      Passage passage2 = passageCreationTableView.getSelectionModel().getSelectedItems().get(1);
       Link link = linkCreationTableView.getSelectionModel().getSelectedItems().get(0);
 
-      passage1.addLink(link);
-      passage2.addLink(link);
-
-      story.addPassage(passage1);
-      story.addPassage(passage2);
+      passageCreationTableView.getSelectionModel().getSelectedItems().forEach(passage -> passage.addLink(link));
 
       passageCreationTableView.getSelectionModel().clearSelection();
       linkCreationTableView.getSelectionModel().clearSelection();
 
-      linkCreationTableView.getItems().remove(link);
-
-      view.updateStartingPassageTableView();
+      //view.updateStartingPassageTableView();
+      view.updatePassagesTableView();
+      StoryDAO.getInstance().update(story);
     }
   }
 
-  public void onCreateStoryButtonClicked(
-      TableView<Passage> startingPassageTableView, TextField titleTextField) {
+  public void onCreateStoryButtonClicked() {
     try {
-      if (startingPassageTableView.getSelectionModel().getSelectedItems().size() == 1) {
-        Passage startingPassage =
-            startingPassageTableView.getSelectionModel().getSelectedItems().get(0);
-        story.setStartingPassage(startingPassage);
-        story.setCurrentPassage(startingPassage);
-        story.setTitle(titleTextField.getText());
-
-        StoryDAO.getInstance().add(story);
+        StoryDAO.getInstance().update(story);
 
         new NewGameController(stage);
-      } else {
-        // TODO: ADD FEEDBACK DIALOG HERE
-        System.out.println("Please select a starting passage.");
       }
-    } catch (Exception e) {
+    catch (Exception e) {
       //            ExceptionAlert alert = new ExceptionAlert(e);
       //            alert.showAndWait();
       e.printStackTrace();
@@ -141,9 +126,35 @@ public class NewStoryController implements Controller {
     new NewGameController(stage);
   }
 
-
   @Override
   public Stage getStage() {
     return stage;
+  }
+
+  public void configureVBoxes(VBox openingVBox, VBox mainVBox) {
+    openingVBox.setManaged(true);
+    openingVBox.setVisible(true);
+    mainVBox.setManaged(false);
+    mainVBox.setVisible(false);
+  }
+
+  public void onContinueButtonClicked(
+      TextField storyTitleTextField,
+      TextField openingPassageTitleTextField,
+      TextArea openingPassageContentTextArea,
+      VBox openingVBox,
+      VBox mainVBox) {
+    story.setTitle(storyTitleTextField.getText());
+    Passage openingPassage =
+        new Passage(
+            openingPassageTitleTextField.getText(), openingPassageContentTextArea.getText());
+    story.setStartingPassage(openingPassage);
+    story.setCurrentPassage(openingPassage);
+    openingVBox.setManaged(false);
+    openingVBox.setVisible(false);
+    mainVBox.setManaged(true);
+    mainVBox.setVisible(true);
+    view.updatePassagesTableView();
+    StoryDAO.getInstance().add(story);
   }
 }

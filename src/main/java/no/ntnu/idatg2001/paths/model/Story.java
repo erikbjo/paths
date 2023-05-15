@@ -19,21 +19,22 @@ public class Story implements Serializable {
   @Column(name = "id")
   private Long id;
 
-  @ManyToMany(cascade = CascadeType.ALL)
-  private Map<Link, Passage> passages = new HashMap<>();
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "story_id")
+  private Map<Link, Passage> passages;
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "opening_passage_id")
   private Passage openingPassage;
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "current_passage_id")
   private Passage currentPassage;
-
 
   private String title;
 
   public Story(String title, Passage openingPassage) {
+    this.passages = new HashMap<>();
     this.title = title;
     this.openingPassage = openingPassage;
     this.currentPassage = openingPassage;
@@ -44,16 +45,8 @@ public class Story implements Serializable {
     this.passages = new HashMap<>();
   }
 
-  protected Story() {}
-
-  public List<Passage> getAllPassages() {
-    List<Passage> allPassages = new ArrayList<>();
-
-    for (Map.Entry<Link, Passage> entry : passages.entrySet()) {
-      allPassages.add(entry.getValue());
-    }
-
-    return allPassages;
+  public Story() {
+    this.passages = new HashMap<>();
   }
 
   public Map<Link, Passage> getPassagesHashMap() {
@@ -116,8 +109,13 @@ public class Story implements Serializable {
   // er den delen av linken som vil være synlig for spilleren.
   // • reference: en streng som entydig identifiserer en passasje (en del av en historie). I
   // praksis vil dette være tittelen til passasjen man ønsker å referere til.
-  public void addPassage(Passage passage) {
-    passages.put(new Link(passage.getTitle(), passage.getTitle()), passage);
+  public boolean addPassage(Passage passage) {
+    if (passages.containsValue(passage)) {
+      return false;
+    } else {
+      passages.put(new Link(passage.getTitle(), passage.getTitle()), passage);
+      return true;
+    }
   }
 
   /**
@@ -138,25 +136,12 @@ public class Story implements Serializable {
     return new ArrayList<>(List.of(passages.get(link)));
   }
 
-  // Endre denne metoden til å ta en Story istedenfor en link, for å gjøre at passasjene ikke
-  // kommer hulter til bulter. Pga hashMap ikke sorterer slik som arrayList.
-
-  // gammel version
-  //
-  // public Collection<Passage> getPassages() { Collection<Passage> passageCollection = new
-  // HashSet<>(); for (Link link : passages.keySet()) { Passage passage = passages.get(link); if
-  // (passage != null) { passageCollection.add(passage); } } return passageCollection; }
-  //
-
-  // Ny version 1
-
-  //
-  // public Collection<Passage> getPassages() { Collection<Passage> passageCollection = new
-  // HashSet<>(); for (Passage passage : passages.values()) { if (passage != null) {
-  // passageCollection.add(passage); } } return passageCollection; }
-  //
   public List<Passage> getPassages() {
-    return passages.values().stream().filter(Objects::nonNull).toList();
+    // opening passage and passages.values().stream().filter(Objects::nonNull).toList();
+    List<Passage> passageList = new ArrayList<>();
+    passageList.add(openingPassage);
+    passageList.addAll(passages.values());
+    return passageList;
   }
 
   public void removePassage(Link link) {

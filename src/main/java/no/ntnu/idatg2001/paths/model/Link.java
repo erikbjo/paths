@@ -14,7 +14,7 @@ import no.ntnu.idatg2001.paths.model.actions.Action;
  * @version 2023.02.02
  */
 @Entity
-public class Link implements Serializable {
+public class Link {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -22,7 +22,7 @@ public class Link implements Serializable {
   private String text;
   private String reference;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "link_id")
   private List<Action> actions;
 
@@ -40,6 +40,14 @@ public class Link implements Serializable {
   }
 
   public Link() {}
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
    * An accessor method that returns the text field's String value.
