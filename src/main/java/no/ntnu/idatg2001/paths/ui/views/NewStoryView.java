@@ -22,10 +22,13 @@ import java.util.ResourceBundle;
 
 public class NewStoryView implements View {
   private final Stage stage;
-  private final Text newStoryText;
-  private final Button addToStoryButton;
+  private final VBox openingVBox;
+  private final VBox mainVBox;
   private final NewStoryController controller;
   private final Story story;
+  private Text newStoryText;
+  private Button cancelButton;
+  private Button addLinkToPassageButton;
   private Button editLinkButton;
   private Button newLinkButton;
   private Button deleteLinkButton;
@@ -41,7 +44,15 @@ public class NewStoryView implements View {
   private Text titleText;
   private TextField titleTextField;
   private Button createStoryButton;
-  private Button cancelButton;
+  private Text storyTitleText;
+  private TextField storyTitleTextField;
+  private Text openingPassageTitleText;
+  private TextField openingPassageTitleTextField;
+  private Text openingPassageContentText;
+  private TextArea openingPassageContentTextArea;
+  private Button continueButton;
+  private Text openingTitleText;
+  private Button openingCancelButton;
 
   public NewStoryView(NewStoryController controller, Stage stage, Story story) {
     this.controller = controller;
@@ -55,42 +66,16 @@ public class NewStoryView implements View {
     root.setTop(menuBar);
     AnchorPane rootAnchorPane = new AnchorPane();
 
-    VBox mainVBox = new VBox();
-    mainVBox.setAlignment(Pos.TOP_CENTER);
 
-    newStoryText = new Text();
-    mainVBox.getChildren().add(newStoryText);
+    openingVBox = createOpeningVBox();
+    mainVBox = createMainVBox();
 
-    HBox upperHBox = new HBox();
-    upperHBox.setAlignment(Pos.CENTER);
+    // AnchorPane.setTopAnchor(mainVBox, 0.0);
+    // AnchorPane.setBottomAnchor(mainVBox, 0.0);
+    // AnchorPane.setLeftAnchor(mainVBox, 0.0);
+    // AnchorPane.setRightAnchor(mainVBox, 0.0);
 
-    VBox leftVBox = new VBox();
-
-    addToStoryButton = new Button();
-    addToStoryButton.setOnAction(
-        event ->
-            controller.onAddToStoryButtonClicked(passageCreationTableView, linkCreationTableView));
-
-    VBox passageCreationVBox = createPassageCreationVBox();
-    VBox linkCreationVBox = createLinkCreationVBox();
-
-    //    topTableViewHBox.getChildren().addAll(passageCreationVBox, linkCreationVBox);
-    upperHBox.getChildren().addAll(passageCreationVBox, linkCreationVBox, addToStoryButton);
-
-    mainVBox.getChildren().add(upperHBox);
-
-    HBox lowerHBox = createLowerHBox();
-    VBox rightVBox = createRightVBox();
-    lowerHBox.getChildren().add(rightVBox);
-
-    mainVBox.getChildren().add(lowerHBox);
-
-    AnchorPane.setTopAnchor(mainVBox, 0.0);
-    AnchorPane.setBottomAnchor(mainVBox, 0.0);
-    AnchorPane.setLeftAnchor(mainVBox, 0.0);
-    AnchorPane.setRightAnchor(mainVBox, 0.0);
-
-    rootAnchorPane.getChildren().add(mainVBox);
+    rootAnchorPane.getChildren().addAll(openingVBox, mainVBox);
     root.setCenter(rootAnchorPane);
 
     // TODO: REMOVE THIS BUTTON
@@ -100,6 +85,7 @@ public class NewStoryView implements View {
 
     // CONTROLLER
     configureTableViews();
+    controller.configureVBoxes(openingVBox, mainVBox);
 
     updateLanguage();
 
@@ -114,7 +100,7 @@ public class NewStoryView implements View {
     titleTextField = new TextField();
     createStoryButton = new Button();
     createStoryButton.setOnAction(
-        e -> controller.onCreateStoryButtonClicked(startingPassageTableView, titleTextField));
+        e -> controller.onCreateStoryButtonClicked());
 
     cancelButton = new Button();
     cancelButton.setOnAction(e -> controller.onCancelButtonClicked());
@@ -179,6 +165,7 @@ public class NewStoryView implements View {
         .add(new Link("Link" + random.nextInt(1000), "Text" + random.nextInt(1000)));
   }
 
+  // TO BE DELETED
   public HBox createLowerHBox() {
     HBox lowerHBox = new HBox();
     lowerHBox.setAlignment(Pos.CENTER);
@@ -192,7 +179,7 @@ public class NewStoryView implements View {
 
   public void updateStartingPassageTableView() {
     story
-        .getAllPassages()
+        .getPassages()
         .forEach(
             passage -> {
               if (!startingPassageTableView.getItems().contains(passage)) {
@@ -208,9 +195,6 @@ public class NewStoryView implements View {
 
     linkColumn.setCellValueFactory(new PropertyValueFactory<>("reference"));
     linkColumn.setPrefWidth(250);
-
-    startingPassageColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-    startingPassageColumn.setPrefWidth(250);
   }
 
   @Override
@@ -229,7 +213,7 @@ public class NewStoryView implements View {
     editLinkButton.setText(resources.getString("editLinkButton"));
     newLinkButton.setText(resources.getString("newLinkButton"));
     deleteLinkButton.setText(resources.getString("deleteLinkButton"));
-    addToStoryButton.setText(resources.getString("addToStoryButton"));
+    addLinkToPassageButton.setText(resources.getString("addLinkToPassageButton"));
     createStoryButton.setText(resources.getString("createStoryButton"));
     cancelButton.setText(resources.getString("cancelButton"));
     linkCreationTableView.setPlaceholder(new Text(resources.getString("linkCreationTableView")));
@@ -237,8 +221,96 @@ public class NewStoryView implements View {
     passageCreationTableView.setPlaceholder(
         new Text(resources.getString("passageCreationTableView")));
     passageColumn.setText(resources.getString("passageColumn"));
-    startingPassageColumn.setText(resources.getString("startingPassageColumn"));
-    startingPassageTableView.setPlaceholder(
-        new Text(resources.getString("startingPassageTableView")));
+    storyTitleText.setText(resources.getString("storyTitleText"));
+    storyTitleTextField.setPromptText(resources.getString("storyTitleTextField"));
+    openingPassageTitleText.setText(resources.getString("openingPassageTitleText"));
+    openingPassageTitleTextField.setPromptText(resources.getString("openingPassageTitleTextField"));
+    openingPassageContentText.setText(resources.getString("openingPassageContentText"));
+    openingPassageContentTextArea.setPromptText(
+        resources.getString("openingPassageContentTextArea"));
+    continueButton.setText(resources.getString("continueButton"));
+    openingCancelButton.setText(resources.getString("openingCancelButton"));
+    openingTitleText.setText(resources.getString("openingTitleText"));
+  }
+
+  private VBox createOpeningVBox() {
+    VBox openingVBox = new VBox();
+    openingVBox.setAlignment(Pos.CENTER);
+
+    openingTitleText = new Text();
+    storyTitleText = new Text();
+    storyTitleTextField = new TextField();
+    openingPassageTitleText = new Text();
+    openingPassageTitleTextField = new TextField();
+    openingPassageContentText = new Text();
+    openingPassageContentTextArea = new TextArea();
+
+    HBox buttonsHBox = new HBox();
+    openingCancelButton = new Button();
+    openingCancelButton.setOnAction(e -> controller.onCancelButtonClicked());
+    continueButton = new Button();
+    continueButton.setOnAction(
+        e ->
+            controller.onContinueButtonClicked(
+                storyTitleTextField,
+                openingPassageTitleTextField,
+                openingPassageContentTextArea,
+                openingVBox,
+                mainVBox));
+    buttonsHBox.getChildren().addAll(openingCancelButton, continueButton);
+
+
+    openingVBox.getChildren().addAll(
+        openingTitleText,
+        storyTitleText,
+        storyTitleTextField,
+        openingPassageTitleText,
+        openingPassageTitleTextField,
+        openingPassageContentText,
+        openingPassageContentTextArea,
+        buttonsHBox);
+    return openingVBox;
+  }
+
+  private VBox createMainVBox() {
+    VBox mainVBox = new VBox();
+
+    newStoryText = new Text();
+    mainVBox.getChildren().add(newStoryText);
+
+    HBox upperHBox = new HBox();
+    upperHBox.setAlignment(Pos.CENTER);
+
+    VBox leftVBox = new VBox();
+
+    addLinkToPassageButton = new Button();
+    addLinkToPassageButton.setOnAction(
+        event ->
+            controller.onAddLinkToPassageButtonClicked(passageCreationTableView, linkCreationTableView));
+
+    VBox passageCreationVBox = createPassageCreationVBox();
+    VBox linkCreationVBox = createLinkCreationVBox();
+
+    //    topTableViewHBox.getChildren().addAll(passageCreationVBox, linkCreationVBox);
+    upperHBox.getChildren().addAll(passageCreationVBox, linkCreationVBox, addLinkToPassageButton);
+
+    mainVBox.getChildren().add(upperHBox);
+
+    VBox rightVBox = createRightVBox();
+
+    mainVBox.getChildren().add(rightVBox);
+
+    return mainVBox;
+  }
+
+  public void updatePassagesTableView() {
+    story
+        .getPassages()
+        .forEach(
+            passage -> {
+              if (!passageCreationTableView.getItems().contains(passage)) {
+                passageCreationTableView.getItems().add(passage);
+              }
+            });
   }
 }
