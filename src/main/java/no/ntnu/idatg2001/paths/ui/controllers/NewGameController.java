@@ -67,7 +67,8 @@ public class NewGameController implements Controller {
             Player player = playersTableView.getSelectionModel().getSelectedItem();
 
             if (story == null || player == null) {
-                throw new NullPointerException("No story or player selected");
+                throw new NullPointerException(
+                    exeptionResources.getString("noStoryOrPlayerException"));
             }
 
             Game game = new Game(player, story, new ArrayList<>());
@@ -93,7 +94,8 @@ public class NewGameController implements Controller {
                 try {
                     Story story = storiesTableView.getSelectionModel().getSelectedItem();
                     if (story == null) {
-                        throw new NullPointerException("No story selected");
+                        throw new NullPointerException(
+                            exeptionResources.getString("noStoryException"));
                     }
                     new EditStoryController(stage, story);
                 } catch (NullPointerException e) {
@@ -116,10 +118,14 @@ public class NewGameController implements Controller {
 
                     ConfirmationAlert confirmationAlert =
                         new ConfirmationAlert(
-                            "Delete story",
-                            "Are you sure you want to delete this story?\n"
+                            confirmationResources.getString("deleteStoryTitle"),
+                            confirmationResources
+                                .getString("deleteStoryContentStart")
+                                + "\n"
                                 + selectedStory.getTitle()
-                                + "\nThis will also delete any games this story is part of.");
+                                + "\n"
+                                + confirmationResources
+                                .getString("deleteStoryContentEnd"));
 
                     Optional<ButtonType> result = confirmationAlert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -134,7 +140,7 @@ public class NewGameController implements Controller {
                     }
                 } else {
                     WarningAlert warningAlert =
-                        new WarningAlert("Please select a player to delete");
+                        new WarningAlert(warningResources.getString("deleteStoryContentText"));
                     warningAlert.showAndWait();
                 }
             });
@@ -150,7 +156,8 @@ public class NewGameController implements Controller {
                 try {
                     Player player = playersTableView.getSelectionModel().getSelectedItem();
                     if (player == null) {
-                        throw new NullPointerException("No player selected");
+                        throw new NullPointerException(
+                            exeptionResources.getString("noPlayerException"));
                     }
                     new EditPlayerController(stage, player);
                 } catch (NullPointerException e) {
@@ -204,7 +211,8 @@ public class NewGameController implements Controller {
                     }
                 } else {
                     WarningAlert warningAlert =
-                        new WarningAlert("Please select a player to delete");
+                        new WarningAlert(warningResources
+                            .getString("deletePlayerContentText"));
                     warningAlert.showAndWait();
                 }
             });
@@ -224,8 +232,11 @@ public class NewGameController implements Controller {
 
                     ConfirmationAlert confirmationAlert =
                         new ConfirmationAlert(
-                            "Delete link",
-                            "Are you sure you want to delete this link?\n" + deadLink);
+                            confirmationResources.getString("deleteLinkTitle"),
+                            confirmationResources
+                                .getString("deleteLinkContentText")
+                                + "\n"
+                                + deadLink);
 
                     Optional<ButtonType> result = confirmationAlert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -240,7 +251,8 @@ public class NewGameController implements Controller {
                         confirmationAlert.close();
                     }
                 } else {
-                    WarningAlert warningAlert = new WarningAlert("Please select a link to delete");
+                    WarningAlert warningAlert =
+                        new WarningAlert(warningResources.getString("deleteLinkContentText"));
                     warningAlert.showAndWait();
                 }
             });
