@@ -3,6 +3,8 @@ package no.ntnu.idatg2001.paths.ui.alerts;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
@@ -28,5 +30,9 @@ public class ExceptionAlert extends Alert {
         this.setHeaderText(null);
         this.setContentText(exception.getMessage());
         this.initModality(Modality.APPLICATION_MODAL);
+        ButtonType okButtonType =
+            new ButtonType(exceptionResources.getString("okButton"),
+                ButtonBar.ButtonData.OK_DONE);
+        this.getButtonTypes().setAll(okButtonType);
     }
 }
