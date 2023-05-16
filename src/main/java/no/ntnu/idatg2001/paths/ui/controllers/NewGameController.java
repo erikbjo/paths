@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -40,12 +41,17 @@ public class NewGameController implements Controller {
     private final ResourceBundle confirmationResources;
     private final ResourceBundle warningResources;
     private final ResourceBundle exceptionResources;
+    private final ResourceBundle newGameResources;
 
     public NewGameController(Stage stage) {
         this.view = new NewGameView(this, stage);
         this.stage = stage;
         LanguageHandler.getObservableIntegerCounter()
             .addListener((a, b, c) -> view.updateLanguage());
+        this.newGameResources =
+            ResourceBundle.getBundle(
+                "languages/newGame",
+                Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
         this.confirmationResources =
             ResourceBundle.getBundle(
                 "languages/confirmations",
@@ -161,7 +167,6 @@ public class NewGameController implements Controller {
                             .removeAll(storiesTableView.getSelectionModel().getSelectedItems());
                         StoryDAO.getInstance().remove(selectedStory);
 
-
                         updateStoryTable(storiesTableView);
                     } else {
                         confirmationAlert.close();
@@ -185,17 +190,27 @@ public class NewGameController implements Controller {
         fileChooser.getExtensionFilters()
             .add(new FileChooser.ExtensionFilter("PATHS", "*.paths"));
         // TODO: MAKE THIS LANGUAGE DEPENDENT
-        fileChooser.setTitle("Open Story File");
+        fileChooser.setTitle(newGameResources.getString("fileChooserTitle"));
         Optional<File> result = Optional.ofNullable(fileChooser.showOpenDialog(stage));
-        result.ifPresent(
-            file -> {
-                try {
-                    PathsStoryFileReader.readStoryFromFile(file);
-                } catch (IOException e) {
-                    new ExceptionAlert(e).showAndWait();
-                }
-                updateStoryTable(storiesTableView);
-            });
+        if (result.isPresent()) {
+            try {
+                PathsStoryFileReader.readStoryFromFile(result.get());
+            } catch (IOException e) {
+                ExceptionAlert fileWriterExceptionAlert = new ExceptionAlert(e);
+                fileWriterExceptionAlert.showAndWait();
+            }
+            updateStoryTable(storiesTableView);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle(exceptionResources.getString("alertTitle"));
+            alert.setHeaderText(exceptionResources.getString("alertTitle"));
+            alert.setContentText(exceptionResources.getString("fileReaderException"));
+            ButtonType okButtonType =
+                new ButtonType(exceptionResources.getString("okButton"),
+                    ButtonBar.ButtonData.OK_DONE);
+            alert.getButtonTypes().setAll(okButtonType);
+            alert.showAndWait();
+        }
     }
 
     public void configurePlayerButtons(
