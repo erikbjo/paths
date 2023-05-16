@@ -1,10 +1,7 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -30,288 +27,273 @@ import no.ntnu.idatg2001.paths.ui.views.NewGameView;
 import no.ntnu.idatg2001.paths.ui.views.View;
 
 public class NewGameController implements Controller {
-    private final NewGameView view;
-    private final Stage stage;
-    private final ResourceBundle confirmationResources;
-    private final ResourceBundle warningResources;
-    private final ResourceBundle exeptionResources;
+  private final NewGameView view;
+  private final Stage stage;
+  private final ResourceBundle confirmationResources;
+  private final ResourceBundle warningResources;
+  private final ResourceBundle exceptionResources;
 
-    public NewGameController(Stage stage) {
-        this.view = new NewGameView(this, stage);
-        this.stage = stage;
-        LanguageHandler.getObservableIntegerCounter()
-            .addListener((a, b, c) -> view.updateLanguage());
-        this.confirmationResources = ResourceBundle.getBundle(
+  public NewGameController(Stage stage) {
+    this.view = new NewGameView(this, stage);
+    this.stage = stage;
+    LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> view.updateLanguage());
+    this.confirmationResources =
+        ResourceBundle.getBundle(
             "languages/confirmations",
             Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
-        this.warningResources = ResourceBundle.getBundle(
+    this.warningResources =
+        ResourceBundle.getBundle(
             "languages/warnings",
             Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
-        this.exeptionResources = ResourceBundle.getBundle(
+    this.exceptionResources =
+        ResourceBundle.getBundle(
             "languages/exceptions",
             Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
-    }
+  }
 
-    public View getView() {
-        return view;
-    }
+  public View getView() {
+    return view;
+  }
 
-    @Override
-    public Stage getStage() {
-        return stage;
-    }
+  @Override
+  public Stage getStage() {
+    return stage;
+  }
 
-    public void onNewGame(TableView<Story> storiesTableView, TableView<Player> playersTableView) {
-        try {
+  public void onNewGame(TableView<Story> storiesTableView, TableView<Player> playersTableView) {
+    try {
+      Story story = storiesTableView.getSelectionModel().getSelectedItem();
+      Player player = playersTableView.getSelectionModel().getSelectedItem();
+
+      if (story == null || player == null) {
+        throw new NullPointerException(exceptionResources.getString("noStoryOrPlayerException"));
+      }
+
+      Game game = new Game(player, story, new ArrayList<>());
+      GameDAO gameDAO = GameDAO.getInstance();
+      gameDAO.add(game);
+
+      CurrentGameHandler.setCurrentGame(game);
+
+      new GameController(stage);
+    } catch (NullPointerException e) {
+      ExceptionAlert exceptionAlert = new ExceptionAlert(e);
+      exceptionAlert.showAndWait();
+    }
+  }
+
+  public void configureStoryButtons(
+      Button editStoryButton,
+      Button newStoryButton,
+      Button deleteStoryButton,
+      TableView<Story> storiesTableView) {
+    editStoryButton.setOnAction(
+        event -> {
+          try {
             Story story = storiesTableView.getSelectionModel().getSelectedItem();
-            Player player = playersTableView.getSelectionModel().getSelectedItem();
-
-            if (story == null || player == null) {
-                throw new NullPointerException(
-                    exeptionResources.getString("noStoryOrPlayerException"));
+            if (story == null) {
+              throw new NullPointerException(exceptionResources.getString("noStoryException"));
             }
-
-            Game game = new Game(player, story, new ArrayList<>());
-            GameDAO gameDAO = GameDAO.getInstance();
-            gameDAO.add(game);
-
-            CurrentGameHandler.setCurrentGame(game);
-
-            new GameController(stage);
-        } catch (NullPointerException e) {
+            new EditStoryController(stage, story);
+          } catch (NullPointerException e) {
             ExceptionAlert exceptionAlert = new ExceptionAlert(e);
             exceptionAlert.showAndWait();
-        }
-    }
+          }
+        });
 
-    public void configureStoryButtons(
-        Button editStoryButton,
-        Button newStoryButton,
-        Button deleteStoryButton,
-        TableView<Story> storiesTableView) {
-        editStoryButton.setOnAction(
-            event -> {
-                try {
-                    Story story = storiesTableView.getSelectionModel().getSelectedItem();
-                    if (story == null) {
-                        throw new NullPointerException(
-                            exeptionResources.getString("noStoryException"));
-                    }
-                    new EditStoryController(stage, story);
-                } catch (NullPointerException e) {
-                    ExceptionAlert exceptionAlert = new ExceptionAlert(e);
-                    exceptionAlert.showAndWait();
-                }
-            });
+    newStoryButton.setOnAction(event -> new NewStoryController(stage));
 
-        newStoryButton.setOnAction(event -> new NewStoryController(stage));
+    deleteStoryButton.setOnAction(
+        event -> {
+          if (storiesTableView
+              .getSelectionModel()
+              .isSelected(storiesTableView.getSelectionModel().getSelectedIndex())) {
+            Story selectedStory =
+                storiesTableView
+                    .getItems()
+                    .get(storiesTableView.getSelectionModel().getSelectedIndex());
 
-        deleteStoryButton.setOnAction(
-            event -> {
-                if (storiesTableView
-                    .getSelectionModel()
-                    .isSelected(storiesTableView.getSelectionModel().getSelectedIndex())) {
-                    Story selectedStory =
-                        storiesTableView
-                            .getItems()
-                            .get(storiesTableView.getSelectionModel().getSelectedIndex());
+            ConfirmationAlert confirmationAlert =
+                new ConfirmationAlert(
+                    confirmationResources.getString("deleteStoryTitle"),
+                    confirmationResources.getString("deleteStoryContentStart")
+                        + "\n"
+                        + selectedStory.getTitle()
+                        + "\n"
+                        + confirmationResources.getString("deleteStoryContentEnd"));
 
-                    ConfirmationAlert confirmationAlert =
-                        new ConfirmationAlert(
-                            confirmationResources.getString("deleteStoryTitle"),
-                            confirmationResources
-                                .getString("deleteStoryContentStart")
-                                + "\n"
-                                + selectedStory.getTitle()
-                                + "\n"
-                                + confirmationResources
-                                .getString("deleteStoryContentEnd"));
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+            if (result.isPresent() && Objects.equals(result.get().getText(), "OK")) {
+              StoryDAO.getInstance().remove(selectedStory);
+              updateStoryTable(storiesTableView);
+            } else {
+              confirmationAlert.close();
+            }
+          } else {
+            WarningAlert warningAlert =
+                new WarningAlert(warningResources.getString("deleteStoryContentText"));
+            warningAlert.showAndWait();
+          }
+        });
+  }
 
-                    Optional<ButtonType> result = confirmationAlert.showAndWait();
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
-                        storiesTableView
-                            .getItems()
-                            .removeAll(storiesTableView.getSelectionModel().getSelectedItems());
-                        StoryDAO.getInstance().remove(selectedStory);
+  public void configurePlayerButtons(
+      Button editPlayerButton,
+      Button newPlayerButton,
+      Button deletePlayerButton,
+      TableView<Player> playersTableView) {
+    editPlayerButton.setOnAction(
+        event -> {
+          try {
+            Player player = playersTableView.getSelectionModel().getSelectedItem();
+            if (player == null) {
+              throw new NullPointerException(exceptionResources.getString("noPlayerException"));
+            }
+            new EditPlayerController(stage, player);
+          } catch (NullPointerException e) {
+            ExceptionAlert exceptionAlert = new ExceptionAlert(e);
+            exceptionAlert.showAndWait();
+          }
+        });
 
-                        updateStoryTable(storiesTableView);
-                    } else {
-                        confirmationAlert.close();
-                    }
-                } else {
-                    WarningAlert warningAlert =
-                        new WarningAlert(warningResources.getString("deleteStoryContentText"));
-                    warningAlert.showAndWait();
-                }
-            });
-    }
+    newPlayerButton.setOnAction(
+        event -> {
+          NewPlayerDialog newPlayerDialog = new NewPlayerDialog();
+          newPlayerDialog.initOwner(stage);
 
-    public void configurePlayerButtons(
-        Button editPlayerButton,
-        Button newPlayerButton,
-        Button deletePlayerButton,
-        TableView<Player> playersTableView) {
-        editPlayerButton.setOnAction(
-            event -> {
-                try {
-                    Player player = playersTableView.getSelectionModel().getSelectedItem();
-                    if (player == null) {
-                        throw new NullPointerException(
-                            exeptionResources.getString("noPlayerException"));
-                    }
-                    new EditPlayerController(stage, player);
-                } catch (NullPointerException e) {
-                    ExceptionAlert exceptionAlert = new ExceptionAlert(e);
-                    exceptionAlert.showAndWait();
-                }
-            });
+          Optional<Player> result = newPlayerDialog.showAndWait();
+          result.ifPresent(
+              player -> {
+                PlayerDAO.getInstance().add(player);
+                updatePlayerTable(playersTableView);
+              });
+        });
 
-        newPlayerButton.setOnAction(
-            event -> {
-                NewPlayerDialog newPlayerDialog = new NewPlayerDialog();
-                newPlayerDialog.initOwner(stage);
+    deletePlayerButton.setOnAction(
+        event -> {
+          if (playersTableView
+              .getSelectionModel()
+              .isSelected(playersTableView.getSelectionModel().getSelectedIndex())) {
+            Player selectedPlayer =
+                playersTableView
+                    .getItems()
+                    .get(playersTableView.getSelectionModel().getSelectedIndex());
 
-                Optional<Player> result = newPlayerDialog.showAndWait();
-                result.ifPresent(
-                    player -> {
-                        PlayerDAO.getInstance().add(player);
-                        updatePlayerTable(playersTableView);
-                    });
-            });
+            ConfirmationAlert confirmationAlert =
+                new ConfirmationAlert(
+                    confirmationResources.getString("deletePlayerTitle"),
+                    confirmationResources.getString("deletePlayerContentTextStart")
+                        + "\n"
+                        + selectedPlayer.getName()
+                        + "\n"
+                        + confirmationResources.getString("deletePlayerContentTextEnd"));
 
-        deletePlayerButton.setOnAction(
-            event -> {
-                if (playersTableView
-                    .getSelectionModel()
-                    .isSelected(playersTableView.getSelectionModel().getSelectedIndex())) {
-                    Player selectedPlayer =
-                        playersTableView
-                            .getItems()
-                            .get(playersTableView.getSelectionModel().getSelectedIndex());
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+            if (result.isPresent() && result.get().getText().equals("OK")) {
+              PlayerDAO.getInstance().remove(selectedPlayer);
+              updatePlayerTable(playersTableView);
+            } else {
+              confirmationAlert.close();
+            }
+          } else {
+            WarningAlert warningAlert =
+                new WarningAlert(warningResources.getString("deletePlayerContentText"));
+            warningAlert.showAndWait();
+          }
+        });
+  }
 
-                    ConfirmationAlert confirmationAlert =
-                        new ConfirmationAlert(
-                            confirmationResources.getString("deletePlayerTitle"),
-                            confirmationResources
-                                .getString("deletePlayerContentTextStart")
-                                + "\n"
-                                + selectedPlayer.getName()
-                                + "\n"
-                                + confirmationResources
-                                .getString("deletePlayerContentTextEnd"));
+  public void configureDeadLinksButtons(
+      Button deleteLinkButton, Button updateDeadLinksButton, TableView<Link> deadLinksTableView) {
+    deleteLinkButton.setOnAction(
+        event -> {
+          if (deadLinksTableView
+              .getSelectionModel()
+              .isSelected(deadLinksTableView.getSelectionModel().getSelectedIndex())) {
+            Link deadLink =
+                deadLinksTableView
+                    .getItems()
+                    .get(deadLinksTableView.getSelectionModel().getSelectedIndex());
 
-                    Optional<ButtonType> result = confirmationAlert.showAndWait();
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
+            ConfirmationAlert confirmationAlert =
+                new ConfirmationAlert(
+                    confirmationResources.getString("deleteLinkTitle"),
+                    confirmationResources.getString("deleteLinkContentText") + "\n" + deadLink);
 
-                        PlayerDAO.getInstance().remove(selectedPlayer);
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+              // Remove the link from the story
+              // @TODO Fix this
+              deadLinksTableView
+                  .getItems()
+                  .removeAll(deadLinksTableView.getSelectionModel().getSelectedItems());
+              // Remove the link from the database
+              // Or update the story in the database
+            } else {
+              confirmationAlert.close();
+            }
+          } else {
+            WarningAlert warningAlert =
+                new WarningAlert(warningResources.getString("deleteLinkContentText"));
+            warningAlert.showAndWait();
+          }
+        });
 
-                        updatePlayerTable(playersTableView);
-                    } else {
-                        confirmationAlert.close();
-                    }
-                } else {
-                    WarningAlert warningAlert =
-                        new WarningAlert(warningResources
-                            .getString("deletePlayerContentText"));
-                    warningAlert.showAndWait();
-                }
-            });
-    }
+    updateDeadLinksButton.setOnAction(event -> updateDeadLinkTable(deadLinksTableView));
+  }
 
-    public void configureDeadLinksButtons(
-        Button deleteLinkButton, Button updateDeadLinksButton, TableView<Link> deadLinksTableView) {
-        deleteLinkButton.setOnAction(
-            event -> {
-                if (deadLinksTableView
-                    .getSelectionModel()
-                    .isSelected(deadLinksTableView.getSelectionModel().getSelectedIndex())) {
-                    Link deadLink =
-                        deadLinksTableView
-                            .getItems()
-                            .get(deadLinksTableView.getSelectionModel().getSelectedIndex());
+  public void updateAllTables(
+      TableView<Story> storiesTableView,
+      TableView<Player> playersTableView,
+      TableView<Link> deadLinksTableView) {
+    updateStoryTable(storiesTableView);
+    updatePlayerTable(playersTableView);
+    updateDeadLinkTable(deadLinksTableView);
+  }
 
-                    ConfirmationAlert confirmationAlert =
-                        new ConfirmationAlert(
-                            confirmationResources.getString("deleteLinkTitle"),
-                            confirmationResources
-                                .getString("deleteLinkContentText")
-                                + "\n"
-                                + deadLink);
+  public void updatePlayerTable(TableView<Player> playersTableView) {
+    playersTableView.getItems().clear();
+    List<Player> playerList = PlayerDAO.getInstance().getAll();
+    // turn playerList into observable list
+    ObservableList<Player> observablePlayerList = FXCollections.observableArrayList(playerList);
+    playersTableView.setItems(observablePlayerList);
+  }
 
-                    Optional<ButtonType> result = confirmationAlert.showAndWait();
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
-                        // Remove the link from the story
-                        // @TODO Fix this
-                        deadLinksTableView
-                            .getItems()
-                            .removeAll(deadLinksTableView.getSelectionModel().getSelectedItems());
-                        // Remove the link from the database
-                        // Or update the story in the database
-                    } else {
-                        confirmationAlert.close();
-                    }
-                } else {
-                    WarningAlert warningAlert =
-                        new WarningAlert(warningResources.getString("deleteLinkContentText"));
-                    warningAlert.showAndWait();
-                }
-            });
+  public void updateStoryTable(TableView<Story> storiesTableView) {
+    storiesTableView.getItems().clear();
+    List<Story> storyList = StoryDAO.getInstance().getAll();
+    // turn storyList into observable list
+    ObservableList<Story> observableStoryList = FXCollections.observableArrayList(storyList);
+    storiesTableView.setItems(observableStoryList);
+  }
 
-        updateDeadLinksButton.setOnAction(event -> updateDeadLinkTable(deadLinksTableView));
-    }
+  public void updateGameTable(TableView<Game> ongoingGamesTableView) {
+    ongoingGamesTableView.getItems().clear();
+    List<Game> gameList = GameDAO.getInstance().getAll();
+    // turn gameList into observable list
+    ObservableList<Game> observableGameList = FXCollections.observableArrayList(gameList);
+    ongoingGamesTableView.setItems(observableGameList);
+  }
 
-    public void updateAllTables(
-        TableView<Story> storiesTableView,
-        TableView<Player> playersTableView,
-        TableView<Link> deadLinksTableView) {
-        updateStoryTable(storiesTableView);
-        updatePlayerTable(playersTableView);
-        updateDeadLinkTable(deadLinksTableView);
-    }
+  public void updateDeadLinkTable(TableView<Link> deadLinksTableView) {
+    deadLinksTableView.getItems().clear();
+    // do something
+    StoryDAO.getInstance()
+        .getAll()
+        .forEach(story -> deadLinksTableView.getItems().addAll(story.getBrokenLinks()));
+  }
 
-    public void updatePlayerTable(TableView<Player> playersTableView) {
-        playersTableView.getItems().clear();
-        List<Player> playerList = PlayerDAO.getInstance().getAll();
-        // turn playerList into observable list
-        ObservableList<Player> observablePlayerList = FXCollections.observableArrayList(playerList);
-        playersTableView.setItems(observablePlayerList);
-    }
+  public void configureTableColumns(
+      TableColumn<Story, String> storiesTableColumn,
+      TableColumn<Player, String> playersTableColumn,
+      TableColumn<Link, String> deadLinksTableColumn) {
+    storiesTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+    storiesTableColumn.setPrefWidth(250);
 
-    public void updateStoryTable(TableView<Story> storiesTableView) {
-        storiesTableView.getItems().clear();
-        List<Story> storyList = StoryDAO.getInstance().getAll();
-        // turn storyList into observable list
-        ObservableList<Story> observableStoryList = FXCollections.observableArrayList(storyList);
-        storiesTableView.setItems(observableStoryList);
-    }
+    playersTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+    playersTableColumn.setPrefWidth(250);
 
-    public void updateGameTable(TableView<Game> ongoingGamesTableView) {
-        ongoingGamesTableView.getItems().clear();
-        List<Game> gameList = GameDAO.getInstance().getAll();
-        // turn gameList into observable list
-        ObservableList<Game> observableGameList = FXCollections.observableArrayList(gameList);
-        ongoingGamesTableView.setItems(observableGameList);
-    }
-
-    public void updateDeadLinkTable(TableView<Link> deadLinksTableView) {
-        deadLinksTableView.getItems().clear();
-        // do something
-        StoryDAO.getInstance()
-            .getAll()
-            .forEach(story -> deadLinksTableView.getItems().addAll(story.getBrokenLinks()));
-    }
-
-    public void configureTableColumns(
-        TableColumn<Story, String> storiesTableColumn,
-        TableColumn<Player, String> playersTableColumn,
-        TableColumn<Link, String> deadLinksTableColumn) {
-        storiesTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        storiesTableColumn.setPrefWidth(250);
-
-        playersTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        playersTableColumn.setPrefWidth(250);
-
-        deadLinksTableColumn.setCellValueFactory(new PropertyValueFactory<>("reference"));
-        deadLinksTableColumn.setPrefWidth(250);
-    }
+    deadLinksTableColumn.setCellValueFactory(new PropertyValueFactory<>("reference"));
+    deadLinksTableColumn.setPrefWidth(250);
+  }
 }

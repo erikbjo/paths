@@ -8,7 +8,7 @@ import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
 import no.ntnu.idatg2001.paths.ui.views.MainMenuView;
 
-public class MainMenuController {
+public class MainMenuController implements Controller {
   private final Stage stage;
   private final MainMenuView view;
 
@@ -47,5 +47,10 @@ public class MainMenuController {
           PlayerDAO.getInstance().close();
           Platform.exit();
         });
+  }
+
+  @Override
+  public Stage getStage() {
+    return stage;
   }
 }

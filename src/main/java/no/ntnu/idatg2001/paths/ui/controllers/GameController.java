@@ -11,7 +11,7 @@ import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.views.GameView;
 
-public class GameController {
+public class GameController implements Controller {
   private final Stage stage;
   private final GameView view;
   private Link previousLink = null;
@@ -84,5 +84,10 @@ public class GameController {
     setPassageTitleText(passageTitleText);
     setPassageContentTextArea(passageContentTextArea);
     updateLinksHBox(storyHeadlineText, passageTitleText, passageContentTextArea, linksHBox);
+  }
+
+  @Override
+  public Stage getStage() {
+    return stage;
   }
 }
