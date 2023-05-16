@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -34,7 +35,7 @@ public class NewGameController implements Controller {
     private final Stage stage;
     private final ResourceBundle confirmationResources;
     private final ResourceBundle warningResources;
-    private final ResourceBundle exeptionResources;
+    private final ResourceBundle exceptionResources;
 
     public NewGameController(Stage stage) {
         this.view = new NewGameView(this, stage);
@@ -47,7 +48,7 @@ public class NewGameController implements Controller {
         this.warningResources = ResourceBundle.getBundle(
             "languages/warnings",
             Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
-        this.exeptionResources = ResourceBundle.getBundle(
+        this.exceptionResources = ResourceBundle.getBundle(
             "languages/exceptions",
             Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
     }
@@ -68,7 +69,7 @@ public class NewGameController implements Controller {
 
             if (story == null || player == null) {
                 throw new NullPointerException(
-                    exeptionResources.getString("noStoryOrPlayerException"));
+                    exceptionResources.getString("noStoryOrPlayerException"));
             }
 
             Game game = new Game(player, story, new ArrayList<>());
@@ -80,6 +81,11 @@ public class NewGameController implements Controller {
             new GameController(stage);
         } catch (NullPointerException e) {
             ExceptionAlert exceptionAlert = new ExceptionAlert(e);
+            exceptionAlert.setTitle(exceptionResources.getString("alertTitle"));
+            ButtonType okButtonType =
+                new ButtonType(exceptionResources.getString("okButton"),
+                    ButtonBar.ButtonData.OK_DONE);
+            exceptionAlert.getButtonTypes().setAll(okButtonType);
             exceptionAlert.showAndWait();
         }
     }
@@ -95,11 +101,16 @@ public class NewGameController implements Controller {
                     Story story = storiesTableView.getSelectionModel().getSelectedItem();
                     if (story == null) {
                         throw new NullPointerException(
-                            exeptionResources.getString("noStoryException"));
+                            exceptionResources.getString("noStoryException"));
                     }
                     new EditStoryController(stage, story);
                 } catch (NullPointerException e) {
                     ExceptionAlert exceptionAlert = new ExceptionAlert(e);
+                    exceptionAlert.setTitle(exceptionResources.getString("alertTitle"));
+                    ButtonType okButtonType =
+                        new ButtonType(exceptionResources.getString("okButton"),
+                            ButtonBar.ButtonData.OK_DONE);
+                    exceptionAlert.getButtonTypes().setAll(okButtonType);
                     exceptionAlert.showAndWait();
                 }
             });
@@ -126,6 +137,15 @@ public class NewGameController implements Controller {
                                 + "\n"
                                 + confirmationResources
                                 .getString("deleteStoryContentEnd"));
+                    confirmationAlert.setHeaderText
+                        (confirmationResources.getString("confirmationText"));
+                    ButtonType okButtonType =
+                        new ButtonType(confirmationResources.getString("okButton"),
+                            ButtonBar.ButtonData.OK_DONE);
+                    ButtonType cancelButtonType =
+                        new ButtonType(confirmationResources.getString("cancelButton"),
+                            ButtonBar.ButtonData.CANCEL_CLOSE);
+                    confirmationAlert.getButtonTypes().setAll(okButtonType, cancelButtonType);
 
                     Optional<ButtonType> result = confirmationAlert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -141,6 +161,12 @@ public class NewGameController implements Controller {
                 } else {
                     WarningAlert warningAlert =
                         new WarningAlert(warningResources.getString("deleteStoryContentText"));
+                    warningAlert.setTitle(warningResources.getString("dialogTitle"));
+                    warningAlert.setHeaderText(warningResources.getString("dialogHeader"));
+                    ButtonType okButtonType =
+                        new ButtonType(warningResources.getString("okButton"),
+                            ButtonBar.ButtonData.OK_DONE);
+                    warningAlert.getButtonTypes().setAll(okButtonType);
                     warningAlert.showAndWait();
                 }
             });
@@ -157,11 +183,16 @@ public class NewGameController implements Controller {
                     Player player = playersTableView.getSelectionModel().getSelectedItem();
                     if (player == null) {
                         throw new NullPointerException(
-                            exeptionResources.getString("noPlayerException"));
+                            exceptionResources.getString("noPlayerException"));
                     }
                     new EditPlayerController(stage, player);
                 } catch (NullPointerException e) {
                     ExceptionAlert exceptionAlert = new ExceptionAlert(e);
+                    exceptionAlert.setTitle(exceptionResources.getString("alertTitle"));
+                    ButtonType okButtonType =
+                        new ButtonType(exceptionResources.getString("okButton"),
+                            ButtonBar.ButtonData.OK_DONE);
+                    exceptionAlert.getButtonTypes().setAll(okButtonType);
                     exceptionAlert.showAndWait();
                 }
             });
@@ -199,6 +230,15 @@ public class NewGameController implements Controller {
                                 + "\n"
                                 + confirmationResources
                                 .getString("deletePlayerContentTextEnd"));
+                    confirmationAlert.setHeaderText
+                        (confirmationResources.getString("confirmationText"));
+                    ButtonType okButtonType =
+                        new ButtonType(confirmationResources.getString("okButton"),
+                            ButtonBar.ButtonData.OK_DONE);
+                    ButtonType cancelButtonType =
+                        new ButtonType(confirmationResources.getString("cancelButton"),
+                            ButtonBar.ButtonData.CANCEL_CLOSE);
+                    confirmationAlert.getButtonTypes().setAll(okButtonType, cancelButtonType);
 
                     Optional<ButtonType> result = confirmationAlert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -213,6 +253,12 @@ public class NewGameController implements Controller {
                     WarningAlert warningAlert =
                         new WarningAlert(warningResources
                             .getString("deletePlayerContentText"));
+                    warningAlert.setTitle(warningResources.getString("dialogTitle"));
+                    warningAlert.setHeaderText(warningResources.getString("dialogHeader"));
+                    ButtonType okButtonType =
+                        new ButtonType(warningResources.getString("okButton"),
+                            ButtonBar.ButtonData.OK_DONE);
+                    warningAlert.getButtonTypes().setAll(okButtonType);
                     warningAlert.showAndWait();
                 }
             });
@@ -237,6 +283,15 @@ public class NewGameController implements Controller {
                                 .getString("deleteLinkContentText")
                                 + "\n"
                                 + deadLink);
+                    confirmationAlert.setHeaderText
+                        (confirmationResources.getString("confirmationText"));
+                    ButtonType okButtonType =
+                        new ButtonType(confirmationResources.getString("okButton"),
+                            ButtonBar.ButtonData.OK_DONE);
+                    ButtonType cancelButtonType =
+                        new ButtonType(confirmationResources.getString("cancelButton"),
+                            ButtonBar.ButtonData.CANCEL_CLOSE);
+                    confirmationAlert.getButtonTypes().setAll(okButtonType, cancelButtonType);
 
                     Optional<ButtonType> result = confirmationAlert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -253,6 +308,12 @@ public class NewGameController implements Controller {
                 } else {
                     WarningAlert warningAlert =
                         new WarningAlert(warningResources.getString("deleteLinkContentText"));
+                    warningAlert.setTitle(warningResources.getString("dialogTitle"));
+                    warningAlert.setHeaderText(warningResources.getString("dialogHeader"));
+                    ButtonType okButtonType =
+                        new ButtonType(warningResources.getString("okButton"),
+                            ButtonBar.ButtonData.OK_DONE);
+                    warningAlert.getButtonTypes().setAll(okButtonType);
                     warningAlert.showAndWait();
                 }
             });
