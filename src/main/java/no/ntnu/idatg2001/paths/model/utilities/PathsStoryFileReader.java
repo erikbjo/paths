@@ -25,10 +25,8 @@ public class PathsStoryFileReader {
     return instance;
   }
 
-  public Story readStoryFromFile(String fileName) throws IOException {
+  public static void readStoryFromFile(File file) throws IOException {
     try {
-      File file = new File(fileName);
-
       Scanner fileScanner = new Scanner(file);
       Story story = new Story();
       StoryDAO.getInstance().add(story);
@@ -36,8 +34,9 @@ public class PathsStoryFileReader {
       boolean firstLine = true;
       boolean firstPassage = true;
 
-      // Blocks of text between :: and )
-      String pattern = "(?s)::(.*?)\\)";
+      // Blocks of text between :: and ::, or :: and end of file
+      String pattern = "(?s)::(.*?)(?=::|$)";
+
 
       if (firstLine) {
         String title = fileScanner.next();
@@ -48,13 +47,54 @@ public class PathsStoryFileReader {
 
       while (fileScanner.findWithinHorizon(pattern, 0) != null) {
         StringBuilder content = new StringBuilder();
-        Passage passage = new Passage();
+        Passage passage = new Passage(null,null);
 
         MatchResult matchResult = fileScanner.match();
-        String passageBlock = matchResult.group(1);
+        String passageBlock = matchResult.group(0);
         String[] lines = passageBlock.split("\n");
         for (String line : lines) {
-          if (line.startsWith("::")) {
+          switch (line.substring(0, 1)) {
+            case ":" -> passage.setTitle(line.substring(2).trim());
+            case "[" -> {
+              int endBracket = line.indexOf(']');
+              int startParenthesis = line.indexOf('(');
+              int endParenthesis = line.indexOf(')');
+              if (endBracket != -1 && startParenthesis != -1 && endParenthesis != -1) {
+                String linkText = line.substring(1, endBracket);
+                String linkReference = line.substring(startParenthesis + 1, endParenthesis);
+
+                Link link = new Link();
+                link.setText(linkText);
+                link.setReference(linkReference);
+
+                passage.getLinks().add(link);
+              }
+            }
+            case "\n" -> {
+              // Do nothing
+            }
+            default -> content.append(line).append("\n");
+          }
+        }
+        passage.setContent(content.toString().trim());
+
+        if (firstPassage) {
+          story.setOpeningPassage(passage);
+          firstPassage = false;
+          StoryDAO.getInstance().update(story);
+        } else {
+          story.addPassage(passage);
+          StoryDAO.getInstance().update(story);
+        }
+      }
+    } catch (IOException e) {
+      throw new IOException("Could not read file: " + file, e);
+    }
+  }
+}
+
+/*
+if (line.startsWith("::")) {
             passage.setTitle(line.substring(2).trim());
           } else if (line.startsWith("[")) {
             int endBracket = line.indexOf(']');
@@ -74,22 +114,4 @@ public class PathsStoryFileReader {
           } else {
             content.append(line).append("\n");
           }
-        }
-        passage.setContent(content.toString().trim());
-
-        if (firstPassage) {
-          story.setOpeningPassage(passage);
-          firstPassage = false;
-          StoryDAO.getInstance().update(story);
-        } else {
-          story.addPassage(passage);
-          StoryDAO.getInstance().update(story);
-        }
-      }
-
-      return story;
-    } catch (IOException e) {
-      throw new IOException("Could not read file: " + fileName, e);
-    }
-  }
-}
+ */

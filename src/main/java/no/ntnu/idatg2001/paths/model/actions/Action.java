@@ -1,6 +1,7 @@
 package no.ntnu.idatg2001.paths.model.actions;
 
 import jakarta.persistence.*;
+import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -10,9 +11,15 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @version 2023.02.02
  */
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Action {
-  @Id @GeneratedValue private Long id;
+  @Id
+  @GeneratedValue
+  private Long id;
+
+  @ManyToOne
+  @JoinColumn(name = "link_id")
+  private Link link;
 
   /**
    * Executes the action.
