@@ -8,6 +8,8 @@ import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
 import no.ntnu.idatg2001.paths.ui.views.MainMenuView;
 
+import java.io.IOException;
+
 public class MainMenuController implements Controller {
   private final Stage stage;
   private final MainMenuView view;
@@ -17,7 +19,7 @@ public class MainMenuController implements Controller {
     this.stage = view.getStage();
   }
 
-  public MainMenuController(Stage stage) {
+  public MainMenuController(Stage stage) throws IOException {
     this.stage = stage;
     this.view = new MainMenuView(this, stage);
   }

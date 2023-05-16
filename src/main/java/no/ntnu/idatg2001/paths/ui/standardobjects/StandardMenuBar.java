@@ -9,10 +9,12 @@ import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.dao.GameDAO;
 import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
+import no.ntnu.idatg2001.paths.ui.alerts.ExceptionAlert;
 import no.ntnu.idatg2001.paths.ui.controllers.MainMenuController;
 import no.ntnu.idatg2001.paths.ui.controllers.SettingsController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -88,7 +90,11 @@ public class StandardMenuBar extends MenuBar {
   }
 
   public void onHome(Stage stage) {
-    new MainMenuController(stage);
+    try {
+      new MainMenuController(stage);
+    } catch (IOException e) {
+      new ExceptionAlert(e).showAndWait();
+    }
   }
 
   public void updateLanguage() {

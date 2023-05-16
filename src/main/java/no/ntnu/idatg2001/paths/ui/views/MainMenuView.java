@@ -1,6 +1,8 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
+import java.io.IOException;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -25,7 +27,7 @@ public class MainMenuView implements View {
   private final Button settingsButton;
   private final Button exitButton;
 
-  public MainMenuView(MainMenuController controller, Stage stage) {
+  public MainMenuView(MainMenuController controller, Stage stage) throws IOException {
     this.controller = controller;
     this.stage = stage;
 
@@ -65,7 +67,8 @@ public class MainMenuView implements View {
 
     buttonsHBox.getChildren().addAll(continueButton, newGameButton, settingsButton, exitButton);
 
-    Image image = new Image("file:src/main/resources/images/PathsTitleScreen.png");
+    Image image =
+        new Image((Objects.requireNonNull(getClass().getResource("/images/PathsTitleScreen.png"))).openStream());
     BackgroundImage backgroundImage =
         new BackgroundImage(
             image,
