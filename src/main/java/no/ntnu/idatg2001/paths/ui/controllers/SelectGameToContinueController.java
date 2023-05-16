@@ -24,7 +24,7 @@ import no.ntnu.idatg2001.paths.ui.handlers.CurrentGameHandler;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.views.SelectGameToContinueView;
 
-public class SelectGameToContinueController {
+public class SelectGameToContinueController implements Controller {
   private final SelectGameToContinueView view;
   private final Stage stage;
 
@@ -162,5 +162,10 @@ public class SelectGameToContinueController {
       GameDAO.getInstance().remove(game);
       updateGameTable(ongoingGamesTableView);
     }
+  }
+
+  @Override
+  public Stage getStage() {
+    return stage;
   }
 }

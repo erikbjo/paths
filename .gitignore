@@ -62,4 +62,5 @@ gen
 .DS_Store
 
 pathDB
+*.paths
 paths.settings

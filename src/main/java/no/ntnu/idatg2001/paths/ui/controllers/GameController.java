@@ -11,7 +11,7 @@ import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.views.GameView;
 
-public class GameController {
+public class GameController implements Controller {
   private final Stage stage;
   private final GameView view;
   private Link previousLink = null;
@@ -31,9 +31,7 @@ public class GameController {
     linksHBox.getChildren().clear();
     List<Link> links =
         CurrentGameHandler.getCurrentGame()
-            .getStory()
-            .getLinksConnectedWithPassage(
-                CurrentGameHandler.getCurrentGame().getCurrentPassage());
+            .getCurrentPassage().getLinks();
     for (Link link : links) {
       Hyperlink hyperlink = new Hyperlink();
 
@@ -67,7 +65,7 @@ public class GameController {
 
   private void setPassageTitleText(Text passageTitleText) {
     passageTitleText.setText(
-        CurrentGameHandler.getCurrentGame().getStory().getTitle());
+        CurrentGameHandler.getCurrentGame().getCurrentPassage().getTitle());
   }
 
   private void setPassageContentTextArea(TextArea passageContentTextArea) {
@@ -84,5 +82,10 @@ public class GameController {
     setPassageTitleText(passageTitleText);
     setPassageContentTextArea(passageContentTextArea);
     updateLinksHBox(storyHeadlineText, passageTitleText, passageContentTextArea, linksHBox);
+  }
+
+  @Override
+  public Stage getStage() {
+    return stage;
   }
 }

@@ -14,7 +14,7 @@ import no.ntnu.idatg2001.paths.ui.storyvisualizers.LinkLine;
 import no.ntnu.idatg2001.paths.ui.storyvisualizers.PassagePane;
 import no.ntnu.idatg2001.paths.ui.views.EditStoryView;
 
-public class EditStoryController {
+public class EditStoryController implements Controller {
 
   private final Map<Link, Passage> storyMap;
   private final Story story;
@@ -28,6 +28,11 @@ public class EditStoryController {
     LanguageHandler.getObservableIntegerCounter()
             .addListener((a, b, c) -> view.updateLanguage());
     storyMap = story.getPassagesHashMap();
+  }
+
+  @Override
+  public Stage getStage() {
+    return stage;
   }
 
 // removed until further notice

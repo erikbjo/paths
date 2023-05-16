@@ -20,7 +20,7 @@ import no.ntnu.idatg2001.paths.ui.alerts.WarningAlert;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.views.EditPlayerView;
 
-public class EditPlayerController {
+public class EditPlayerController implements Controller {
     private final Text playerText;
     private final Text cheatsText;
     private final Text editPlayerText;
@@ -318,5 +318,10 @@ public class EditPlayerController {
 
     private boolean assertIntegerFieldValid(TextField textField) {
         return textField.getText().matches("[0-9]+");
+    }
+
+    @Override
+    public Stage getStage() {
+        return stage;
     }
 }

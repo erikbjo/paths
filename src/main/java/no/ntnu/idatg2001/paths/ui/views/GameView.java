@@ -48,6 +48,7 @@ public class GameView implements View {
     passageTitleText = new Text("passageTitleText");
     passageContentTextArea = new TextArea("passageContentTextArea");
     passageContentTextArea.setEditable(false);
+    passageContentTextArea.setWrapText(true);
 
     // HBox for the hyperlinks
     linksHBox = new HBox(10);

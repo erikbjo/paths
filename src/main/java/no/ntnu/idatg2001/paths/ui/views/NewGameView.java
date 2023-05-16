@@ -46,6 +46,7 @@ public class NewGameView implements View {
   private final Button continueButton;
   private final Button deleteButton;
   private final NewGameController controller;
+  private final Button importStoryButton;
 
   public NewGameView(NewGameController controller, Stage primaryStage) {
     this.controller = controller;
@@ -101,7 +102,11 @@ public class NewGameView implements View {
     editStoryButton = new Button();
     newStoryButton = new Button();
     deleteStoryButton = new Button();
-    HBox storiesButtonsHBox = new HBox(editStoryButton, newStoryButton, deleteStoryButton);
+    importStoryButton = new Button();
+    importStoryButton.setOnAction(
+        event -> controller.onImportStory(storiesTableView)
+    );
+    HBox storiesButtonsHBox = new HBox(editStoryButton, newStoryButton, deleteStoryButton, importStoryButton);
 
     editPlayerButton = new Button();
     newPlayerButton = new Button();
@@ -177,6 +182,7 @@ public class NewGameView implements View {
     editStoryButton.setText(resources.getString("editStoryButton"));
     newStoryButton.setText(resources.getString("newStoryButton"));
     deleteStoryButton.setText(resources.getString("deleteStoryButton"));
+    importStoryButton.setText(resources.getString("importStoryButton"));
     editPlayerButton.setText(resources.getString("editPlayerButton"));
     newPlayerButton.setText(resources.getString("newPlayerButton"));
     deletePlayerButton.setText(resources.getString("deletePlayerButton"));
