@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -70,9 +71,10 @@ public class NewGameController implements Controller {
       Story story = storiesTableView.getSelectionModel().getSelectedItem();
       Player player = playersTableView.getSelectionModel().getSelectedItem();
 
-      if (story == null || player == null) {
-        throw new NullPointerException(exceptionResources.getString("noStoryOrPlayerException"));
-      }
+            if (story == null || player == null) {
+                throw new NullPointerException(
+                    exceptionResources.getString("noStoryOrPlayerException"));
+            }
 
       Game game = new Game(player, story, new ArrayList<>());
       GameDAO gameDAO = GameDAO.getInstance();
@@ -80,31 +82,42 @@ public class NewGameController implements Controller {
 
       CurrentGameHandler.setCurrentGame(game);
 
-      new GameController(stage);
-    } catch (NullPointerException e) {
-      ExceptionAlert exceptionAlert = new ExceptionAlert(e);
-      exceptionAlert.showAndWait();
-    }
-  }
-
-  public void configureStoryButtons(
-      Button editStoryButton,
-      Button newStoryButton,
-      Button deleteStoryButton,
-      TableView<Story> storiesTableView) {
-    editStoryButton.setOnAction(
-        event -> {
-          try {
-            Story story = storiesTableView.getSelectionModel().getSelectedItem();
-            if (story == null) {
-              throw new NullPointerException(exceptionResources.getString("noStoryException"));
-            }
-            new EditStoryController(stage, story);
-          } catch (NullPointerException e) {
+            new GameController(stage);
+        } catch (NullPointerException e) {
             ExceptionAlert exceptionAlert = new ExceptionAlert(e);
+            exceptionAlert.setTitle(exceptionResources.getString("alertTitle"));
+            ButtonType okButtonType =
+                new ButtonType(exceptionResources.getString("okButton"),
+                    ButtonBar.ButtonData.OK_DONE);
+            exceptionAlert.getButtonTypes().setAll(okButtonType);
             exceptionAlert.showAndWait();
-          }
-        });
+        }
+    }
+
+    public void configureStoryButtons(
+        Button editStoryButton,
+        Button newStoryButton,
+        Button deleteStoryButton,
+        TableView<Story> storiesTableView) {
+        editStoryButton.setOnAction(
+            event -> {
+                try {
+                    Story story = storiesTableView.getSelectionModel().getSelectedItem();
+                    if (story == null) {
+                        throw new NullPointerException(
+                            exceptionResources.getString("noStoryException"));
+                    }
+                    new EditStoryController(stage, story);
+                } catch (NullPointerException e) {
+                    ExceptionAlert exceptionAlert = new ExceptionAlert(e);
+                    exceptionAlert.setTitle(exceptionResources.getString("alertTitle"));
+                    ButtonType okButtonType =
+                        new ButtonType(exceptionResources.getString("okButton"),
+                            ButtonBar.ButtonData.OK_DONE);
+                    exceptionAlert.getButtonTypes().setAll(okButtonType);
+                    exceptionAlert.showAndWait();
+                }
+            });
 
     newStoryButton.setOnAction(event -> new NewStoryController(stage));
 
@@ -118,30 +131,75 @@ public class NewGameController implements Controller {
                     .getItems()
                     .get(storiesTableView.getSelectionModel().getSelectedIndex());
 
-            ConfirmationAlert confirmationAlert =
-                new ConfirmationAlert(
-                    confirmationResources.getString("deleteStoryTitle"),
-                    confirmationResources.getString("deleteStoryContentStart")
-                        + "\n"
-                        + selectedStory.getTitle()
-                        + "\n"
-                        + confirmationResources.getString("deleteStoryContentEnd"));
+                    ConfirmationAlert confirmationAlert =
+                        new ConfirmationAlert(
+                            confirmationResources.getString("deleteStoryTitle"),
+                            confirmationResources
+                                .getString("deleteStoryContentStart")
+                                + "\n"
+                                + selectedStory.getTitle()
+                                + "\n"
+                                + confirmationResources
+                                .getString("deleteStoryContentEnd"));
+                    confirmationAlert.setHeaderText
+                        (confirmationResources.getString("confirmationText"));
+                    ButtonType okButtonType =
+                        new ButtonType(confirmationResources.getString("okButton"),
+                            ButtonBar.ButtonData.OK_DONE);
+                    ButtonType cancelButtonType =
+                        new ButtonType(confirmationResources.getString("cancelButton"),
+                            ButtonBar.ButtonData.CANCEL_CLOSE);
+                    confirmationAlert.getButtonTypes().setAll(okButtonType, cancelButtonType);
 
-            Optional<ButtonType> result = confirmationAlert.showAndWait();
-            if (result.isPresent() && Objects.equals(result.get().getText(), "OK")) {
-              StoryDAO.getInstance().remove(selectedStory);
-              updateStoryTable(storiesTableView);
-            } else {
-              confirmationAlert.close();
-            }
-          } else {
-            WarningAlert warningAlert =
-                new WarningAlert(warningResources.getString("deleteStoryContentText"));
-            warningAlert.showAndWait();
-          }
-        });
-  }
+                    Optional<ButtonType> result = confirmationAlert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        storiesTableView
+                            .getItems()
+                            .removeAll(storiesTableView.getSelectionModel().getSelectedItems());
+                        StoryDAO.getInstance().remove(selectedStory);
 
+                        updateStoryTable(storiesTableView);
+                    } else {
+                        confirmationAlert.close();
+                    }
+                } else {
+                    WarningAlert warningAlert =
+                        new WarningAlert(warningResources.getString("deleteStoryContentText"));
+                    warningAlert.setTitle(warningResources.getString("dialogTitle"));
+                    warningAlert.setHeaderText(warningResources.getString("dialogHeader"));
+                    ButtonType okButtonType =
+                        new ButtonType(warningResources.getString("okButton"),
+                            ButtonBar.ButtonData.OK_DONE);
+                    warningAlert.getButtonTypes().setAll(okButtonType);
+                    warningAlert.showAndWait();
+                }
+            });
+    }
+
+    public void configurePlayerButtons(
+        Button editPlayerButton,
+        Button newPlayerButton,
+        Button deletePlayerButton,
+        TableView<Player> playersTableView) {
+        editPlayerButton.setOnAction(
+            event -> {
+                try {
+                    Player player = playersTableView.getSelectionModel().getSelectedItem();
+                    if (player == null) {
+                        throw new NullPointerException(
+                            exceptionResources.getString("noPlayerException"));
+                    }
+                    new EditPlayerController(stage, player);
+                } catch (NullPointerException e) {
+                    ExceptionAlert exceptionAlert = new ExceptionAlert(e);
+                    exceptionAlert.setTitle(exceptionResources.getString("alertTitle"));
+                    ButtonType okButtonType =
+                        new ButtonType(exceptionResources.getString("okButton"),
+                            ButtonBar.ButtonData.OK_DONE);
+                    exceptionAlert.getButtonTypes().setAll(okButtonType);
+                    exceptionAlert.showAndWait();
+                }
+            });
   public void onImportStory(TableView<Story> storiesTableView) {
     FileChooser fileChooser = new FileChooser();
     fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PATHS", "*.paths"));
@@ -178,52 +236,72 @@ public class NewGameController implements Controller {
           }
         });
 
-    newPlayerButton.setOnAction(
-        event -> {
-          NewPlayerDialog newPlayerDialog = new NewPlayerDialog();
-          newPlayerDialog.initOwner(stage);
+        newPlayerButton.setOnAction(
+            event -> {
+                NewPlayerDialog newPlayerDialog = new NewPlayerDialog();
+                newPlayerDialog.initOwner(stage);
 
-          Optional<Player> result = newPlayerDialog.showAndWait();
-          result.ifPresent(
-              player -> {
-                PlayerDAO.getInstance().add(player);
-                updatePlayerTable(playersTableView);
-              });
-        });
+                Optional<Player> result = newPlayerDialog.showAndWait();
+                result.ifPresent(
+                    player -> {
+                        PlayerDAO.getInstance().add(player);
+                        updatePlayerTable(playersTableView);
+                    });
+            });
 
-    deletePlayerButton.setOnAction(
-        event -> {
-          if (playersTableView
-              .getSelectionModel()
-              .isSelected(playersTableView.getSelectionModel().getSelectedIndex())) {
-            Player selectedPlayer =
-                playersTableView
-                    .getItems()
-                    .get(playersTableView.getSelectionModel().getSelectedIndex());
+        deletePlayerButton.setOnAction(
+            event -> {
+                if (playersTableView
+                    .getSelectionModel()
+                    .isSelected(playersTableView.getSelectionModel().getSelectedIndex())) {
+                    Player selectedPlayer =
+                        playersTableView
+                            .getItems()
+                            .get(playersTableView.getSelectionModel().getSelectedIndex());
 
-            ConfirmationAlert confirmationAlert =
-                new ConfirmationAlert(
-                    confirmationResources.getString("deletePlayerTitle"),
-                    confirmationResources.getString("deletePlayerContentTextStart")
-                        + "\n"
-                        + selectedPlayer.getName()
-                        + "\n"
-                        + confirmationResources.getString("deletePlayerContentTextEnd"));
+                    ConfirmationAlert confirmationAlert =
+                        new ConfirmationAlert(
+                            confirmationResources.getString("deletePlayerTitle"),
+                            confirmationResources
+                                .getString("deletePlayerContentTextStart")
+                                + "\n"
+                                + selectedPlayer.getName()
+                                + "\n"
+                                + confirmationResources
+                                .getString("deletePlayerContentTextEnd"));
+                    confirmationAlert.setHeaderText
+                        (confirmationResources.getString("confirmationText"));
+                    ButtonType okButtonType =
+                        new ButtonType(confirmationResources.getString("okButton"),
+                            ButtonBar.ButtonData.OK_DONE);
+                    ButtonType cancelButtonType =
+                        new ButtonType(confirmationResources.getString("cancelButton"),
+                            ButtonBar.ButtonData.CANCEL_CLOSE);
+                    confirmationAlert.getButtonTypes().setAll(okButtonType, cancelButtonType);
 
-            Optional<ButtonType> result = confirmationAlert.showAndWait();
-            if (result.isPresent() && result.get().getText().equals("OK")) {
-              PlayerDAO.getInstance().remove(selectedPlayer);
-              updatePlayerTable(playersTableView);
-            } else {
-              confirmationAlert.close();
-            }
-          } else {
-            WarningAlert warningAlert =
-                new WarningAlert(warningResources.getString("deletePlayerContentText"));
-            warningAlert.showAndWait();
-          }
-        });
-  }
+                    Optional<ButtonType> result = confirmationAlert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+
+                        PlayerDAO.getInstance().remove(selectedPlayer);
+
+                        updatePlayerTable(playersTableView);
+                    } else {
+                        confirmationAlert.close();
+                    }
+                } else {
+                    WarningAlert warningAlert =
+                        new WarningAlert(warningResources
+                            .getString("deletePlayerContentText"));
+                    warningAlert.setTitle(warningResources.getString("dialogTitle"));
+                    warningAlert.setHeaderText(warningResources.getString("dialogHeader"));
+                    ButtonType okButtonType =
+                        new ButtonType(warningResources.getString("okButton"),
+                            ButtonBar.ButtonData.OK_DONE);
+                    warningAlert.getButtonTypes().setAll(okButtonType);
+                    warningAlert.showAndWait();
+                }
+            });
+    }
 
   public void configureDeadLinksButtons(
       Button deleteLinkButton, Button updateDeadLinksButton, TableView<Link> deadLinksTableView) {
@@ -237,29 +315,47 @@ public class NewGameController implements Controller {
                     .getItems()
                     .get(deadLinksTableView.getSelectionModel().getSelectedIndex());
 
-            ConfirmationAlert confirmationAlert =
-                new ConfirmationAlert(
-                    confirmationResources.getString("deleteLinkTitle"),
-                    confirmationResources.getString("deleteLinkContentText") + "\n" + deadLink);
+                    ConfirmationAlert confirmationAlert =
+                        new ConfirmationAlert(
+                            confirmationResources.getString("deleteLinkTitle"),
+                            confirmationResources
+                                .getString("deleteLinkContentText")
+                                + "\n"
+                                + deadLink);
+                    confirmationAlert.setHeaderText
+                        (confirmationResources.getString("confirmationText"));
+                    ButtonType okButtonType =
+                        new ButtonType(confirmationResources.getString("okButton"),
+                            ButtonBar.ButtonData.OK_DONE);
+                    ButtonType cancelButtonType =
+                        new ButtonType(confirmationResources.getString("cancelButton"),
+                            ButtonBar.ButtonData.CANCEL_CLOSE);
+                    confirmationAlert.getButtonTypes().setAll(okButtonType, cancelButtonType);
 
-            Optional<ButtonType> result = confirmationAlert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-              // Remove the link from the story
-              // @TODO Fix this
-              deadLinksTableView
-                  .getItems()
-                  .removeAll(deadLinksTableView.getSelectionModel().getSelectedItems());
-              // Remove the link from the database
-              // Or update the story in the database
-            } else {
-              confirmationAlert.close();
-            }
-          } else {
-            WarningAlert warningAlert =
-                new WarningAlert(warningResources.getString("deleteLinkContentText"));
-            warningAlert.showAndWait();
-          }
-        });
+                    Optional<ButtonType> result = confirmationAlert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        // Remove the link from the story
+                        // @TODO Fix this
+                        deadLinksTableView
+                            .getItems()
+                            .removeAll(deadLinksTableView.getSelectionModel().getSelectedItems());
+                        // Remove the link from the database
+                        // Or update the story in the database
+                    } else {
+                        confirmationAlert.close();
+                    }
+                } else {
+                    WarningAlert warningAlert =
+                        new WarningAlert(warningResources.getString("deleteLinkContentText"));
+                    warningAlert.setTitle(warningResources.getString("dialogTitle"));
+                    warningAlert.setHeaderText(warningResources.getString("dialogHeader"));
+                    ButtonType okButtonType =
+                        new ButtonType(warningResources.getString("okButton"),
+                            ButtonBar.ButtonData.OK_DONE);
+                    warningAlert.getButtonTypes().setAll(okButtonType);
+                    warningAlert.showAndWait();
+                }
+            });
 
     updateDeadLinksButton.setOnAction(event -> updateDeadLinkTable(deadLinksTableView));
   }
