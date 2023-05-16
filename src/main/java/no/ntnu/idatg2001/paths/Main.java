@@ -33,7 +33,7 @@ public class Main {
       createTrollStory();
     }
 
-    PathsStoryFileReader.getInstance().readStoryFromFile("ForestStory.paths");
+    //PathsStoryFileReader.getInstance().readStoryFromFile("ForestStory.paths");
     PathsStoryFileWriter.writeStoryToFile(StoryDAO.getInstance().getAll().get(0));
 
     Launcher.launch(args);

@@ -1,14 +1,18 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.Link;
@@ -17,6 +21,7 @@ import no.ntnu.idatg2001.paths.model.dao.GameDAO;
 import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
 import no.ntnu.idatg2001.paths.model.units.Player;
+import no.ntnu.idatg2001.paths.model.utilities.PathsStoryFileReader;
 import no.ntnu.idatg2001.paths.ui.alerts.ConfirmationAlert;
 import no.ntnu.idatg2001.paths.ui.alerts.ExceptionAlert;
 import no.ntnu.idatg2001.paths.ui.alerts.WarningAlert;
@@ -134,6 +139,23 @@ public class NewGameController implements Controller {
                 new WarningAlert(warningResources.getString("deleteStoryContentText"));
             warningAlert.showAndWait();
           }
+        });
+  }
+
+  public void onImportStory(TableView<Story> storiesTableView) {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PATHS", "*.paths"));
+    // TODO: MAKE THIS LANGUAGE DEPENDENT
+    fileChooser.setTitle("Open Story File");
+    Optional<File> result = Optional.ofNullable(fileChooser.showOpenDialog(stage));
+    result.ifPresent(
+        file -> {
+          try {
+            PathsStoryFileReader.readStoryFromFile(file);
+          } catch (IOException e) {
+            new ExceptionAlert(e).showAndWait();
+          }
+          updateStoryTable(storiesTableView);
         });
   }
 

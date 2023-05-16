@@ -103,6 +103,9 @@ public class NewGameView implements View {
     newStoryButton = new Button();
     deleteStoryButton = new Button();
     importStoryButton = new Button();
+    importStoryButton.setOnAction(
+        event -> controller.onImportStory(storiesTableView)
+    );
     HBox storiesButtonsHBox = new HBox(editStoryButton, newStoryButton, deleteStoryButton, importStoryButton);
 
     editPlayerButton = new Button();

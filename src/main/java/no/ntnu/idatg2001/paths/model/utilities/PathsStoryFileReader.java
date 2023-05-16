@@ -25,10 +25,8 @@ public class PathsStoryFileReader {
     return instance;
   }
 
-  public Story readStoryFromFile(String fileName) throws IOException {
+  public static void readStoryFromFile(File file) throws IOException {
     try {
-      File file = new File(fileName);
-
       Scanner fileScanner = new Scanner(file);
       Story story = new Story();
       StoryDAO.getInstance().add(story);
@@ -89,10 +87,8 @@ public class PathsStoryFileReader {
           StoryDAO.getInstance().update(story);
         }
       }
-
-      return story;
     } catch (IOException e) {
-      throw new IOException("Could not read file: " + fileName, e);
+      throw new IOException("Could not read file: " + file, e);
     }
   }
 }
