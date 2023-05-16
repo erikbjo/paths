@@ -35,7 +35,7 @@ public class GameController implements Controller {
     for (Link link : links) {
       Hyperlink hyperlink = new Hyperlink();
 
-      /*if (link == previousLink) {
+      if (link == previousLink) {
         hyperlink.setVisited(true);
         if (CurrentGameHandler.getCurrentGame().getCurrentPassage()
             == CurrentGameHandler.getCurrentGame().getStory().getOpeningPassage()) {
@@ -46,7 +46,7 @@ public class GameController implements Controller {
       } else {
         hyperlink.setVisited(false);
         hyperlink.setText(link.getText());
-      }*/
+      }
 
       hyperlink.setOnAction(
           event -> {
@@ -65,7 +65,7 @@ public class GameController implements Controller {
 
   private void setPassageTitleText(Text passageTitleText) {
     passageTitleText.setText(
-        CurrentGameHandler.getCurrentGame().getStory().getTitle());
+        CurrentGameHandler.getCurrentGame().getCurrentPassage().getTitle());
   }
 
   private void setPassageContentTextArea(TextArea passageContentTextArea) {
