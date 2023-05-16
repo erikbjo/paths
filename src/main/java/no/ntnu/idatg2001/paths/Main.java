@@ -34,7 +34,7 @@ public class Main {
     }
 
     //PathsStoryFileReader.getInstance().readStoryFromFile("ForestStory.paths");
-    PathsStoryFileWriter.writeStoryToFile(StoryDAO.getInstance().getAll().get(0));
+    //PathsStoryFileWriter.writeStoryToFile(StoryDAO.getInstance().getAll().get(0));
 
     Launcher.launch(args);
   }
