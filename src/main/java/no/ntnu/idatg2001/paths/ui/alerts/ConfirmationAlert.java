@@ -6,7 +6,7 @@ import javafx.stage.Modality;
 /**
  * General alert for confirmation's.
  *
- * @author Erik Bjørnsen
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 public class ConfirmationAlert extends Alert {
     /**
