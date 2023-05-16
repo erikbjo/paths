@@ -36,8 +36,9 @@ public class PathsStoryFileReader {
       boolean firstLine = true;
       boolean firstPassage = true;
 
-      // Blocks of text between :: and )
-      String pattern = "(?s)::(.*?)\\)";
+      // Blocks of text between :: and ::, or :: and end of file
+      String pattern = "(?s)::(.*?)(?=::|$)";
+
 
       if (firstLine) {
         String title = fileScanner.next();
@@ -48,31 +49,33 @@ public class PathsStoryFileReader {
 
       while (fileScanner.findWithinHorizon(pattern, 0) != null) {
         StringBuilder content = new StringBuilder();
-        Passage passage = new Passage();
+        Passage passage = new Passage(null,null);
 
         MatchResult matchResult = fileScanner.match();
-        String passageBlock = matchResult.group(1);
+        String passageBlock = matchResult.group(0);
         String[] lines = passageBlock.split("\n");
         for (String line : lines) {
-          if (line.startsWith("::")) {
-            passage.setTitle(line.substring(2).trim());
-          } else if (line.startsWith("[")) {
-            int endBracket = line.indexOf(']');
-            int startParenthesis = line.indexOf('(');
-            int endParenthesis = line.indexOf(')');
+          switch (line.substring(0, 1)) {
+            case ":" -> passage.setTitle(line.substring(2).trim());
+            case "[" -> {
+              int endBracket = line.indexOf(']');
+              int startParenthesis = line.indexOf('(');
+              int endParenthesis = line.indexOf(')');
+              if (endBracket != -1 && startParenthesis != -1 && endParenthesis != -1) {
+                String linkText = line.substring(1, endBracket);
+                String linkReference = line.substring(startParenthesis + 1, endParenthesis);
 
-            if (endBracket != -1 && startParenthesis != -1 && endParenthesis != -1) {
-              String linkText = line.substring(1, endBracket);
-              String linkReference = line.substring(startParenthesis + 1, endParenthesis);
+                Link link = new Link();
+                link.setText(linkText);
+                link.setReference(linkReference);
 
-              Link link = new Link();
-              link.setText(linkText);
-              link.setReference(linkReference);
-
-              passage.getLinks().add(link);
+                passage.getLinks().add(link);
+              }
             }
-          } else {
-            content.append(line).append("\n");
+            case "\n" -> {
+              // Do nothing
+            }
+            default -> content.append(line).append("\n");
           }
         }
         passage.setContent(content.toString().trim());
@@ -93,3 +96,26 @@ public class PathsStoryFileReader {
     }
   }
 }
+
+/*
+if (line.startsWith("::")) {
+            passage.setTitle(line.substring(2).trim());
+          } else if (line.startsWith("[")) {
+            int endBracket = line.indexOf(']');
+            int startParenthesis = line.indexOf('(');
+            int endParenthesis = line.indexOf(')');
+
+            if (endBracket != -1 && startParenthesis != -1 && endParenthesis != -1) {
+              String linkText = line.substring(1, endBracket);
+              String linkReference = line.substring(startParenthesis + 1, endParenthesis);
+
+              Link link = new Link();
+              link.setText(linkText);
+              link.setReference(linkReference);
+
+              passage.getLinks().add(link);
+            }
+          } else {
+            content.append(line).append("\n");
+          }
+ */

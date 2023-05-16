@@ -31,13 +31,11 @@ public class GameController implements Controller {
     linksHBox.getChildren().clear();
     List<Link> links =
         CurrentGameHandler.getCurrentGame()
-            .getStory()
-            .getLinksConnectedWithPassage(
-                CurrentGameHandler.getCurrentGame().getCurrentPassage());
+            .getCurrentPassage().getLinks();
     for (Link link : links) {
       Hyperlink hyperlink = new Hyperlink();
 
-      if (link == previousLink) {
+      /*if (link == previousLink) {
         hyperlink.setVisited(true);
         if (CurrentGameHandler.getCurrentGame().getCurrentPassage()
             == CurrentGameHandler.getCurrentGame().getStory().getOpeningPassage()) {
@@ -48,7 +46,7 @@ public class GameController implements Controller {
       } else {
         hyperlink.setVisited(false);
         hyperlink.setText(link.getText());
-      }
+      }*/
 
       hyperlink.setOnAction(
           event -> {

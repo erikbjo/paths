@@ -32,7 +32,7 @@ public class Main {
       createTrollStory();
     }
 
-    PathsStoryFileReader.getInstance().readStoryFromFile("testStory.paths");
+    PathsStoryFileReader.getInstance().readStoryFromFile("ForestStory.paths");
 
     Launcher.launch(args);
   }
