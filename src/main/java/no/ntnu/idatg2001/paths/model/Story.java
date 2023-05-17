@@ -33,15 +33,18 @@ public class Story implements Serializable {
     this.passages = new HashMap<>();
     this.title = title;
     this.openingPassage = openingPassage;
+    addPassage(openingPassage);
   }
 
   public Story(String title) {
     this.title = title;
     this.passages = new HashMap<>();
+    this.openingPassage = null;
   }
 
   public Story() {
     this.passages = new HashMap<>();
+    this.openingPassage = null;
   }
 
   public Map<Link, Passage> getPassagesHashMap() {
@@ -75,7 +78,11 @@ public class Story implements Serializable {
   }
 
   public void setOpeningPassage(Passage openingPassage) {
+    if (this.openingPassage != null) {
+      passages.remove(new Link(this.openingPassage.getTitle(), this.openingPassage.getTitle()));
+    }
     this.openingPassage = openingPassage;
+    addPassage(openingPassage);
   }
 
   /**
@@ -128,10 +135,7 @@ public class Story implements Serializable {
 
   public List<Passage> getPassages() {
     // opening passage and passages.values().stream().filter(Objects::nonNull).toList();
-    List<Passage> passageList = new ArrayList<>();
-    passageList.add(openingPassage);
-    passageList.addAll(passages.values());
-    return passageList;
+    return new ArrayList<>(passages.values());
   }
 
   public Link getRealLinkBetweenPassages(Passage passage1, Passage passage2) {
@@ -178,9 +182,5 @@ public class Story implements Serializable {
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public void setStartingPassage(Passage startingPassage) {
-    this.openingPassage = startingPassage;
   }
 }
