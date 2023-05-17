@@ -1,12 +1,7 @@
 package no.ntnu.idatg2001.paths.ui.storyvisualizers;
 
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.regex.Pattern;
-
 import javafx.scene.Group;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import no.ntnu.idatg2001.paths.model.Link;
@@ -24,10 +19,13 @@ public class LinkLine extends Line {
     this.link = link;
     this.arrows = new Group();
 
-    startXProperty().bind(startPane.layoutXProperty().add(startPane.widthProperty().divide(2)).add(20));
-    startYProperty().bind(startPane.layoutYProperty().add(startPane.heightProperty().divide(2)).subtract(20));
+    startXProperty()
+        .bind(startPane.layoutXProperty().add(startPane.widthProperty().divide(2)).add(20));
+    startYProperty()
+        .bind(startPane.layoutYProperty().add(startPane.heightProperty().divide(2)).subtract(20));
 
-    endXProperty().bind(endPane.layoutXProperty().add(endPane.widthProperty().divide(2)).subtract(20));
+    endXProperty()
+        .bind(endPane.layoutXProperty().add(endPane.widthProperty().divide(2)).subtract(20));
     endYProperty().bind(endPane.layoutYProperty().add(endPane.heightProperty().divide(2)).add(20));
 
     this.linkText = new Text(link.getText());
@@ -37,8 +35,7 @@ public class LinkLine extends Line {
     double numberOfArrows = 5;
     for (int i = 0; i < numberOfArrows; i++) {
       double t = i / numberOfArrows;
-      Arrow arrow =
-          new Arrow(0, 0, 0);
+      Arrow arrow = new Arrow(0, 0, 0);
       this.arrows.getChildren().add(arrow);
 
       // Update the arrow's position and angle when the line's properties change

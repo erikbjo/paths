@@ -1,12 +1,10 @@
 package no.ntnu.idatg2001.paths.ui.storyvisualizers;
 
 import java.util.Optional;
-
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextBoundsType;
 import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.ui.dialogs.EditPassageDialog;
 

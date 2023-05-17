@@ -63,4 +63,5 @@ gen
 
 pathDB
 *.paths
+!stories/*.paths
 paths.settings
