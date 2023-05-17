@@ -1,19 +1,19 @@
 package no.ntnu.idatg2001.paths.ui.storyvisualizers;
 
-import java.util.Optional;
 import javafx.scene.Group;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import no.ntnu.idatg2001.paths.model.Link;
-import no.ntnu.idatg2001.paths.ui.dialogs.EditLinkDialog;
 
 public class LinkLine extends Line {
 
   private static final String ARROW = "M 0 0 L 1 0.5 L 0 1 z";
 
-  private final Text linkText;
+  private final Text linkText; // might be useless, might be useful for hover text
   private final Group arrows;
   private Link link;
+  private PassagePane startPane;
+    private PassagePane endPane;
 
   public LinkLine(Link link, PassagePane startPane, PassagePane endPane) {
     this.link = link;
@@ -58,15 +58,14 @@ public class LinkLine extends Line {
           setStrokeWidth(3);
           setStyle("-fx-stroke: black");
         });
+  }
 
-    this.setOnMouseClicked(
-        mouseEvent -> {
-          // open edit link dialog
-          EditLinkDialog editLinkDialog = new EditLinkDialog(link);
+  public PassagePane getStartPane() {
+    return startPane;
+  }
 
-          Optional<Link> result = editLinkDialog.showAndWait();
-          result.ifPresent(link1 -> this.link = link1);
-        });
+  public PassagePane getEndPane() {
+    return endPane;
   }
 
   private void updateArrow(Arrow arrow, double t) {
@@ -87,6 +86,11 @@ public class LinkLine extends Line {
 
   public Link getLink() {
     return link;
+  }
+
+  public void setLink(Link link) {
+    this.link = link;
+    this.linkText.setText(link.getText());
   }
 
   public Text getLinkText() {
