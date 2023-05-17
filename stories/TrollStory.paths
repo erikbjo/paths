@@ -1,0 +1,25 @@
+Troll story
+
+::You see a troll
+You are in a forest. You see a troll.
+[Attack the troll](Attack the troll)
+[Run away](Run away)
+
+::Attack the troll with a magic spell
+The troll is defeated. You win!
+
+::Attack the troll
+How do you want to attack?
+[Attack the troll with a magic spell](Attack the troll with a magic spell)
+[Attack the troll with your sword](Attack the troll with your sword)
+
+::Keep running
+You run into a wall and die.
+
+::Run away
+The troll sees you and runs after you.
+[Keep running](Keep running)
+[Stop running and attack the troll with a magic spell](Attack the troll with a magic spell)
+
+::Attack the troll with your sword
+The sword only tickles the troll. It rips your arm off and eats it.
