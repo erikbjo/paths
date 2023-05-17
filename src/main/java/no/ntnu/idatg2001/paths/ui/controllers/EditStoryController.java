@@ -7,8 +7,8 @@ import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
-import no.ntnu.idatg2001.paths.ui.dialogs.EditLinkDialog;
-import no.ntnu.idatg2001.paths.ui.dialogs.EditPassageDialog;
+import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
+import no.ntnu.idatg2001.paths.ui.dialogs.*;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.storyvisualizers.LinkLine;
 import no.ntnu.idatg2001.paths.ui.storyvisualizers.PassagePane;
@@ -17,9 +17,9 @@ import no.ntnu.idatg2001.paths.ui.views.EditStoryView;
 public class EditStoryController implements Controller {
 
   private final Map<Link, Passage> storyMap;
-  private final Story story;
   private final Stage stage;
   private final EditStoryView view;
+  private Story story;
   private Pane pane;
   private double dragInitialX;
   private double dragInitialY;
@@ -173,8 +173,6 @@ public class EditStoryController implements Controller {
             System.out.println(startDrag);
             System.out.println(endDrag);
 
-
-
             if (startDrag != null && endDrag != null) {
               Link link =
                   new Link("Go to " + endDrag.getTitle().getText(), endDrag.getTitle().getText());
@@ -218,5 +216,44 @@ public class EditStoryController implements Controller {
   public void updatePane() {
     pane.getChildren().clear();
     visualizeHashMap(pane);
+  }
+
+  public void onNewLinkButtonPressed() {
+    NewLinkDialogWithStartPassage newLinkDialogWithStartPassage =
+        new NewLinkDialogWithStartPassage(story);
+
+    Optional<Link> result = newLinkDialogWithStartPassage.showAndWait();
+    result.ifPresent(link -> updatePane());
+  }
+
+  public void onNewPassageButtonPressed() {
+    NewPassageDialog newPassageDialog = new NewPassageDialog();
+
+    Optional<Passage> result = newPassageDialog.showAndWait();
+    result.ifPresent(
+        passage -> {
+          story.addPassage(passage);
+          pane.getChildren().add(new PassagePane(passage));
+        });
+  }
+
+  public void onSaveButtonPressed() {
+    StoryDAO.getInstance().update(story);
+  }
+
+  public void onLoadButtonPressed() {
+    // TODO: FIX THIS, THE REFRESH IS NOT WORKING
+    double oldStoryId = story.getId();
+    this.story = StoryDAO.getInstance().find(story.getId()).orElse(story);
+    if (oldStoryId != story.getId()) {
+      updatePane();
+    } else {
+      updatePane();
+      System.out.println("Story not found");
+    }
+  }
+
+  public void onBackButtonPressed() {
+    new NewGameController(stage);
   }
 }

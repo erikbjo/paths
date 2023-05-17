@@ -13,20 +13,22 @@ import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.ui.controllers.GenericDialogController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
-public class NewLinkDialog extends Dialog<Link> implements StandardDialog<Link> {
+public class NewLinkDialogWithStartPassage extends Dialog<Link> implements StandardDialog<Link> {
   private final GenericDialogController controller = new GenericDialogController();
   private final ResourceBundle resources =
       ResourceBundle.getBundle(
           "languages/newLinkDialog",
           Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+  private final Story story;
   private TextField referenceTextField;
   private TextField linkTextTextField;
   private Text referenceText;
   private Text linkText;
-  private Story story;
   private ComboBox<Passage> referenceComboBox;
+  private ComboBox<Passage> startingPassageComboBox;
+  private Text startingPassageText;
 
-  public NewLinkDialog(Story story) {
+  public NewLinkDialogWithStartPassage(Story story) {
     this.story = story;
     initComponents();
     addComponentsToDialog();
@@ -40,7 +42,10 @@ public class NewLinkDialog extends Dialog<Link> implements StandardDialog<Link> 
   // i stedet for en textfield
 
   public void initComponents() {
-    //referenceTextField = new TextField();
+    startingPassageComboBox = new ComboBox<>();
+    startingPassageComboBox.getItems().addAll(story.getPassages());
+    startingPassageComboBox.setCellFactory(controller.createPassageCallBack());
+    startingPassageComboBox.setButtonCell(controller.createPassageListCell());
 
     referenceComboBox = new ComboBox<>();
     referenceComboBox.getItems().addAll(story.getPassages());
@@ -49,10 +54,10 @@ public class NewLinkDialog extends Dialog<Link> implements StandardDialog<Link> 
 
     linkTextTextField = new TextField();
 
+    startingPassageText = new Text();
     referenceText = new Text();
     linkText = new Text();
 
-    //controller.makeTextFieldNotStartWithSpace(referenceTextField);
     controller.makeTextFieldNotStartWithSpace(linkTextTextField);
 
     setResultConverter(createCallback());
@@ -61,7 +66,9 @@ public class NewLinkDialog extends Dialog<Link> implements StandardDialog<Link> 
   public Callback<ButtonType, Link> createCallback() {
     return buttonType -> {
       if (buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
-        Link newLink = new Link(linkTextTextField.getText(), referenceComboBox.getValue().getTitle());
+        Link newLink =
+            new Link(linkTextTextField.getText(), referenceComboBox.getValue().getTitle());
+        startingPassageComboBox.getValue().addLink(newLink);
 
         return newLink;
       }
@@ -80,10 +87,12 @@ public class NewLinkDialog extends Dialog<Link> implements StandardDialog<Link> 
     gridPane.setHgap(10);
     gridPane.setVgap(10);
 
-    gridPane.add(referenceText, 0, 0);
-    gridPane.add(referenceComboBox, 1, 0);
-    gridPane.add(linkText, 0, 1);
-    gridPane.add(linkTextTextField, 1, 1);
+    gridPane.add(startingPassageText, 0, 0);
+    gridPane.add(startingPassageComboBox, 1, 0);
+    gridPane.add(referenceText, 0, 1);
+    gridPane.add(referenceComboBox, 1, 1);
+    gridPane.add(linkText, 0, 2);
+    gridPane.add(linkTextTextField, 1, 2);
 
     getDialogPane().setContent(gridPane);
   }
@@ -92,6 +101,7 @@ public class NewLinkDialog extends Dialog<Link> implements StandardDialog<Link> 
     setTitle(resources.getString("dialogTitle"));
     setHeaderText(resources.getString("headerText"));
 
+    startingPassageText.setText(resources.getString("startingPassageText"));
     referenceText.setText(resources.getString("referenceText"));
     linkText.setText(resources.getString("linkText"));
 
