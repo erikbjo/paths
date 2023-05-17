@@ -33,6 +33,12 @@ public class EditStoryController implements Controller {
     return stage;
   }
 
+  /**
+   * Visualizes the story as panes and lines. The panes and lines are clickable and can be used to
+   * edit them. Uses panes over canvas as it is easier to add click events to the objects.
+   *
+   * @param pane The pane to add the story to.
+   */
   public void visualizeHashMap(Pane pane) {
     HashMap<Passage, PassagePane> passagePanes = new HashMap<>();
     int gap = 200; // Gap between nodes
@@ -40,8 +46,8 @@ public class EditStoryController implements Controller {
     Queue<PassagePane> queue = new LinkedList<>();
 
     PassagePane openingPane = new PassagePane(story.getOpeningPassage());
-    openingPane.setLayoutX(10);
-    openingPane.setLayoutY(10);
+    openingPane.setLayoutX(0);
+    openingPane.setLayoutY(0);
     passagePanes.put(story.getOpeningPassage(), openingPane);
     queue.add(openingPane);
     pane.getChildren().add(openingPane);
@@ -66,12 +72,16 @@ public class EditStoryController implements Controller {
             pane.getChildren().add(linkedPane);
 
             LinkLine linkLine = new LinkLine(link, currentPane, linkedPane);
-            pane.getChildren().add(linkLine);
+            pane.getChildren().addAll(linkLine, linkLine.getArrows());
+
             linkLine.toBack();
+            linkLine.getArrows().toBack();
           } else {
             LinkLine linkLine = new LinkLine(link, currentPane, passagePanes.get(passage));
-            pane.getChildren().add(linkLine);
+            pane.getChildren().addAll(linkLine, linkLine.getArrows());
+
             linkLine.toBack();
+            linkLine.getArrows().toBack();
           }
           offsetX += gap;
         }
