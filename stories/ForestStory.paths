@@ -1,0 +1,51 @@
+Forest story
+
+::Open field
+You are in an open field west of a white house with a boarded front door.
+[Try to open the door](Door boarded)
+
+::Door boarded
+The door is boarded and you can't open it.
+[Go around back](Back of house)
+[Knock on the door](Knock on door)
+
+::Knock on door
+A voice behind the door says, "Nobody's home!".
+[Go around back](Back of house)
+
+::Back of house
+You are behind the white house. In one corner of the house there is a small window which is slightly ajar.
+[Look in window](Look in window)
+[Go back to the front](Front of house)
+
+::Look in window
+You see a kitchen. There is a table with a plate of cookies. There is a door leading to a staircase. The door is also boarded up.
+[Go back to the front](Front of house)
+
+::Front of house
+You are in front of the white house. There is a mailbox here.
+[Open mailbox](Open mailbox)
+[Go around back](Back of house)
+
+::Open mailbox
+Opening the mailbox reveals a leaflet. It reads, "Welcome to the forest! You are now entering the forest. You will encounter many dangers in the forest. You must find the magic potion to get out of the forest. Good luck!"
+[What is happening?](What is happening?)
+
+::What is happening?
+You are in a forest. There is a path to the north.
+[Go north](Forest path)
+
+::Forest path
+You are on a path in the forest. There is a fork in the path.
+[Go left](Left path)
+[Go right](Right path)
+
+::Left path
+You are on a path in the forest. There is a fork in the path.
+[Go left](Left path)
+[Go right](Right path)
+
+::Right path
+You are on a path in the forest. There is a fork in the path.
+[Go left](Left path)
+[Go right](Right path)
