@@ -24,11 +24,11 @@ public class LinkLine extends Line {
     this.link = link;
     this.arrows = new Group();
 
-    startXProperty().bind(startPane.layoutXProperty().add(startPane.widthProperty().divide(2)));
-    startYProperty().bind(startPane.layoutYProperty().add(startPane.heightProperty().divide(2)));
+    startXProperty().bind(startPane.layoutXProperty().add(startPane.widthProperty().divide(2)).add(20));
+    startYProperty().bind(startPane.layoutYProperty().add(startPane.heightProperty().divide(2)).subtract(20));
 
-    endXProperty().bind(endPane.layoutXProperty().add(endPane.widthProperty().divide(2)));
-    endYProperty().bind(endPane.layoutYProperty().add(endPane.heightProperty().divide(2)));
+    endXProperty().bind(endPane.layoutXProperty().add(endPane.widthProperty().divide(2)).subtract(20));
+    endYProperty().bind(endPane.layoutYProperty().add(endPane.heightProperty().divide(2)).add(20));
 
     this.linkText = new Text(link.getText());
     setStrokeWidth(3);
