@@ -13,12 +13,11 @@ import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.ui.controllers.GenericDialogController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
-public class EditLinkDialog extends Dialog<Link> implements StandardDialog<Link> {
-  private final Link link;
+public class NewLinkDialogWithStartPassage extends Dialog<Link> implements StandardDialog<Link> {
   private final GenericDialogController controller = new GenericDialogController();
   private final ResourceBundle resources =
       ResourceBundle.getBundle(
-          "languages/editLinkDialog",
+          "languages/newLinkDialog",
           Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
   private final Story story;
   private TextField referenceTextField;
@@ -26,57 +25,36 @@ public class EditLinkDialog extends Dialog<Link> implements StandardDialog<Link>
   private Text referenceText;
   private Text linkText;
   private ComboBox<Passage> referenceComboBox;
+  private ComboBox<Passage> startingPassageComboBox;
+  private Text startingPassageText;
 
-  public EditLinkDialog(Link link, Story story) {
-    this.link = link;
+  public NewLinkDialogWithStartPassage(Story story) {
     this.story = story;
-
     initComponents();
     addComponentsToDialog();
     updateLanguage();
   }
 
+  // TODO: REMOVE THIS
+  //
+  // reference skal være en annen passage sin title,
+  // lag derfor en combobox med alle navnene på passages
+  // i stedet for en textfield
+
   public void initComponents() {
+    startingPassageComboBox = new ComboBox<>();
+    startingPassageComboBox.getItems().addAll(story.getPassages());
+    startingPassageComboBox.setCellFactory(controller.createPassageCallBack());
+    startingPassageComboBox.setButtonCell(controller.createPassageListCell());
+
     referenceComboBox = new ComboBox<>();
-    // add all passages by the passage title
-    referenceComboBox.setCellFactory(
-        new Callback<>() {
-          @Override
-          public ListCell<Passage> call(ListView<Passage> p) {
-            return new ListCell<>() {
-              @Override
-              protected void updateItem(Passage item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (item == null || empty) {
-                  setGraphic(null);
-                } else {
-                  setText(item.getTitle());
-                }
-              }
-            };
-          }
-        });
-
-    referenceComboBox.setButtonCell(
-        new ListCell<>() {
-          @Override
-          protected void updateItem(Passage item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty || item == null) {
-              setGraphic(null);
-            } else {
-              setText(item.getTitle());
-            }
-          }
-        });
-
     referenceComboBox.getItems().addAll(story.getPassages());
-    referenceComboBox.getSelectionModel().select(story.getLinkedPassage(link));
+    referenceComboBox.setCellFactory(controller.createPassageCallBack());
+    referenceComboBox.setButtonCell(controller.createPassageListCell());
 
     linkTextTextField = new TextField();
-    linkTextTextField.setText(link.getText());
 
+    startingPassageText = new Text();
     referenceText = new Text();
     linkText = new Text();
 
@@ -88,10 +66,11 @@ public class EditLinkDialog extends Dialog<Link> implements StandardDialog<Link>
   public Callback<ButtonType, Link> createCallback() {
     return buttonType -> {
       if (buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
-        link.setReference(referenceComboBox.getSelectionModel().getSelectedItem().getTitle());
-        link.setText(linkTextTextField.getText());
+        Link newLink =
+            new Link(linkTextTextField.getText(), referenceComboBox.getValue().getTitle());
+        startingPassageComboBox.getValue().addLink(newLink);
 
-        return link;
+        return newLink;
       }
       return null;
     };
@@ -108,10 +87,12 @@ public class EditLinkDialog extends Dialog<Link> implements StandardDialog<Link>
     gridPane.setHgap(10);
     gridPane.setVgap(10);
 
-    gridPane.add(referenceText, 0, 0);
-    gridPane.add(referenceComboBox, 1, 0);
-    gridPane.add(linkText, 0, 1);
-    gridPane.add(linkTextTextField, 1, 1);
+    gridPane.add(startingPassageText, 0, 0);
+    gridPane.add(startingPassageComboBox, 1, 0);
+    gridPane.add(referenceText, 0, 1);
+    gridPane.add(referenceComboBox, 1, 1);
+    gridPane.add(linkText, 0, 2);
+    gridPane.add(linkTextTextField, 1, 2);
 
     getDialogPane().setContent(gridPane);
   }
@@ -120,6 +101,7 @@ public class EditLinkDialog extends Dialog<Link> implements StandardDialog<Link>
     setTitle(resources.getString("dialogTitle"));
     setHeaderText(resources.getString("headerText"));
 
+    startingPassageText.setText(resources.getString("startingPassageText"));
     referenceText.setText(resources.getString("referenceText"));
     linkText.setText(resources.getString("linkText"));
 

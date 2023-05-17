@@ -66,7 +66,7 @@ public class NewStoryController implements Controller {
     if (linkCreationTableView.getSelectionModel().getSelectedItems().size() == 1) {
       Link link = linkCreationTableView.getSelectionModel().getSelectedItem();
 
-      EditLinkDialog editLinkDialog = new EditLinkDialog(link);
+      EditLinkDialog editLinkDialog = new EditLinkDialog(link, story);
 
       Optional<Link> result = editLinkDialog.showAndWait();
       result.ifPresent(

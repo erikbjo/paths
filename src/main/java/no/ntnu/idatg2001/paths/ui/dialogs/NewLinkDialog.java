@@ -44,6 +44,8 @@ public class NewLinkDialog extends Dialog<Link> implements StandardDialog<Link> 
 
     referenceComboBox = new ComboBox<>();
     referenceComboBox.getItems().addAll(story.getPassages());
+    referenceComboBox.setCellFactory(controller.createPassageCallBack());
+    referenceComboBox.setButtonCell(controller.createPassageListCell());
 
     linkTextTextField = new TextField();
 
