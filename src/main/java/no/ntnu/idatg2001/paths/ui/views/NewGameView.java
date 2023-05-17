@@ -24,29 +24,29 @@ public class NewGameView implements View {
 
   private final Stage primaryStage;
   private final Button startNewGameButton;
-  private final TableView<Story> storiesTableView;
-  private final TableColumn<Story, String> storiesTableColumn;
-  private final TableView<Player> playersTableView;
-  private final TableColumn<Player, String> playersTableColumn;
-  private final TableView<Link> deadLinksTableView;
-  private final TableColumn<Link, String> deadLinksTableColumn;
+  private TableView<Player> playersTableView;
+  private TableColumn<Player, String> playersTableColumn;
+  private TableView<Link> deadLinksTableView;
+  private TableColumn<Link, String> deadLinksTableColumn;
   private final Text informationText;
-  private final Text deadLinksText;
-  private final Text playersText;
-  private final Text storiesText;
+  private Text deadLinksText;
+  private Text playersText;
+  private Text storiesText;
   private final Text pathsGameText;
-  private final Button editStoryButton;
-  private final Button newStoryButton;
-  private final Button deleteStoryButton;
-  private final Button editPlayerButton;
-  private final Button newPlayerButton;
-  private final Button deletePlayerButton;
-  private final Button deleteLinkButton;
-  private final Button updateDeadLinksButton;
+  private Button editStoryButton;
+  private Button newStoryButton;
+  private Button deleteStoryButton;
+  private Button editPlayerButton;
+  private Button newPlayerButton;
+  private Button deletePlayerButton;
+  private Button deleteLinkButton;
+  private Button updateDeadLinksButton;
   private final Button continueButton;
   private final Button deleteButton;
   private final NewGameController controller;
-  private final Button importStoryButton;
+  private Button importStoryButton;
+  private TableView<Story> storiesTableView;
+  private TableColumn<Story, String> storiesTableColumn;
 
   public NewGameView(NewGameController controller, Stage primaryStage) {
     this.controller = controller;
@@ -73,58 +73,21 @@ public class NewGameView implements View {
     deadLinksAndInformationHBox.setAlignment(Pos.CENTER);
 
     // VBOXES
-    VBox storiesVBox = new VBox();
-    VBox playersVBox = new VBox();
-    VBox deadLinksVBox = new VBox();
+    VBox storiesVBox = createStoriesVBox();
+    VBox playersVBox = createPlayersVBox();
+    VBox deadLinksVBox = createDeadLinksVBox();
     VBox informationVBox = new VBox();
-
-    // TABLEVIEWS
-    storiesTableView = new TableView<>();
-    storiesTableColumn = new TableColumn<>();
-    storiesTableView.getColumns().add(storiesTableColumn);
-
-    playersTableView = new TableView<>();
-    playersTableColumn = new TableColumn<>();
-    playersTableView.getColumns().add(playersTableColumn);
-
-    deadLinksTableView = new TableView<>();
-    deadLinksTableColumn = new TableColumn<>();
-    deadLinksTableView.getColumns().add(deadLinksTableColumn);
 
     // TEXTS
     pathsGameText = new Text();
-    storiesText = new Text();
-    playersText = new Text();
-    deadLinksText = new Text();
     informationText = new Text();
 
     // BUTTONS
-    editStoryButton = new Button();
-    newStoryButton = new Button();
-    deleteStoryButton = new Button();
-    importStoryButton = new Button();
-    importStoryButton.setOnAction(
-        event -> controller.onImportStory(storiesTableView)
-    );
-    HBox storiesButtonsHBox = new HBox(editStoryButton, newStoryButton, deleteStoryButton, importStoryButton);
-
-    editPlayerButton = new Button();
-    newPlayerButton = new Button();
-    deletePlayerButton = new Button();
-    HBox playersButtonsHBox = new HBox(editPlayerButton, newPlayerButton, deletePlayerButton);
-
-    deleteLinkButton = new Button();
-    updateDeadLinksButton = new Button();
-    HBox deadLinksButtonsHBox = new HBox(deleteLinkButton, updateDeadLinksButton);
-
     continueButton = new Button();
     deleteButton = new Button();
     HBox ongoingGamesButtonsHBox = new HBox(continueButton, deleteButton);
 
     // ADDING TO VBOXES
-    storiesVBox.getChildren().addAll(storiesText, storiesTableView, storiesButtonsHBox);
-    playersVBox.getChildren().addAll(playersText, playersTableView, playersButtonsHBox);
-    deadLinksVBox.getChildren().addAll(deadLinksText, deadLinksTableView, deadLinksButtonsHBox);
     informationVBox.getChildren().addAll();
 
     // ADDING TO HBOXES
@@ -158,7 +121,6 @@ public class NewGameView implements View {
     controller.configureTableColumns(storiesTableColumn, playersTableColumn, deadLinksTableColumn);
     controller.updateAllTables(storiesTableView, playersTableView, deadLinksTableView);
 
-
     primaryStage.getScene().setRoot(root);
   }
 
@@ -191,5 +153,66 @@ public class NewGameView implements View {
     continueButton.setText(resources.getString("continueButton"));
     deleteButton.setText(resources.getString("deleteButton"));
     startNewGameButton.setText(resources.getString("startNewGameButton"));
+  }
+
+  private VBox createStoriesVBox() {
+    VBox storiesVBox = new VBox();
+
+    storiesTableView = new TableView<>();
+    storiesTableColumn = new TableColumn<>();
+    storiesTableView.getColumns().add(storiesTableColumn);
+
+    storiesText = new Text();
+
+    editStoryButton = new Button();
+    newStoryButton = new Button();
+    deleteStoryButton = new Button();
+    importStoryButton = new Button();
+    importStoryButton.setOnAction(
+            event -> controller.onImportStory(storiesTableView)
+    );
+    HBox storiesButtonsHBox = new HBox(editStoryButton, newStoryButton, deleteStoryButton, importStoryButton);
+
+    storiesVBox.getChildren().addAll(storiesText, storiesTableView, storiesButtonsHBox);
+
+    return storiesVBox;
+  }
+
+  private VBox createPlayersVBox() {
+    VBox playersVBox = new VBox();
+
+    playersTableView = new TableView<>();
+    playersTableColumn = new TableColumn<>();
+    playersTableView.getColumns().add(playersTableColumn);
+
+    playersText = new Text();
+
+    editPlayerButton = new Button();
+    newPlayerButton = new Button();
+    deletePlayerButton = new Button();
+    HBox playersButtonsHBox = new HBox(editPlayerButton, newPlayerButton, deletePlayerButton);
+
+    playersVBox.getChildren().addAll(playersText, playersTableView, playersButtonsHBox);
+
+    return playersVBox;
+  }
+
+  private VBox createDeadLinksVBox() {
+    VBox deadLinksVBox = new VBox();
+
+
+    deadLinksTableView = new TableView<>();
+    deadLinksTableColumn = new TableColumn<>();
+    deadLinksTableView.getColumns().add(deadLinksTableColumn);
+
+    deadLinksText = new Text();
+
+    deleteLinkButton = new Button();
+    updateDeadLinksButton = new Button();
+    HBox deadLinksButtonsHBox = new HBox(deleteLinkButton, updateDeadLinksButton);
+
+    deadLinksVBox.getChildren().addAll(deadLinksText, deadLinksTableView, deadLinksButtonsHBox);
+
+    return deadLinksVBox;
   }
 }
