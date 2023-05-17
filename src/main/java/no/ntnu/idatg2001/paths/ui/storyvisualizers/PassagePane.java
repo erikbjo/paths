@@ -30,12 +30,12 @@ public class PassagePane extends Region {
     content.setLayoutX(10);
     content.setLayoutY(40);
 
-    getChildren().addAll(rectangle, title, content);
+    getChildren().addAll(rectangle, title);
 
     this.setOnMouseEntered(
         mouseEvent -> {
-            rectangle.setStrokeWidth(3);
-            rectangle.setStroke(Color.BLUE);
+          rectangle.setStrokeWidth(3);
+          rectangle.setStroke(Color.BLUE);
         });
 
     this.setOnMouseExited(

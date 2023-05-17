@@ -1,10 +1,9 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.*;
+
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Passage;
@@ -24,10 +23,9 @@ public class EditStoryController implements Controller {
   public EditStoryController(Stage stage, Story story) {
     this.stage = stage;
     this.story = story;
+    this.storyMap = story.getPassagesHashMap();
     this.view = new EditStoryView(this, stage, story);
-    LanguageHandler.getObservableIntegerCounter()
-            .addListener((a, b, c) -> view.updateLanguage());
-    storyMap = story.getPassagesHashMap();
+    LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> view.updateLanguage());
   }
 
   @Override
@@ -35,39 +33,49 @@ public class EditStoryController implements Controller {
     return stage;
   }
 
-// removed until further notice
-/*  public void visualizeHashMap(Pane pane) {
+  public void visualizeHashMap(Pane pane) {
     HashMap<Passage, PassagePane> passagePanes = new HashMap<>();
+    int gap = 200; // Gap between nodes
 
-    for (Passage[] passages : storyMap.values()) {
-      for (Passage passage : passages) {
-        if (!passagePanes.containsKey(passage)) {
-          PassagePane passagePane = new PassagePane(passage);
-          passagePanes.put(passage, passagePane);
-          pane.getChildren().add(passagePane);
+    Queue<PassagePane> queue = new LinkedList<>();
+
+    PassagePane openingPane = new PassagePane(story.getOpeningPassage());
+    openingPane.setLayoutX(10);
+    openingPane.setLayoutY(10);
+    passagePanes.put(story.getOpeningPassage(), openingPane);
+    queue.add(openingPane);
+    pane.getChildren().add(openingPane);
+
+    while (!queue.isEmpty()) {
+      PassagePane currentPane = queue.remove();
+      List<Link> links = currentPane.getPassage().getLinks();
+
+      int offsetX = gap;
+
+      for (Link link : links) {
+        List<Passage> linkedPassages = story.getPassagesConnectedWithLink(link);
+
+        for (Passage passage : linkedPassages) {
+          // If the passage is not yet drawn
+          if (!passagePanes.containsKey(passage)) {
+            PassagePane linkedPane = new PassagePane(passage);
+            linkedPane.setLayoutX(currentPane.getLayoutX() + offsetX);
+            linkedPane.setLayoutY(currentPane.getLayoutY() + gap);
+            passagePanes.put(passage, linkedPane);
+            queue.add(linkedPane);
+            pane.getChildren().add(linkedPane);
+
+            LinkLine linkLine = new LinkLine(link, currentPane, linkedPane);
+            pane.getChildren().add(linkLine);
+            linkLine.toBack();
+          } else {
+            LinkLine linkLine = new LinkLine(link, currentPane, passagePanes.get(passage));
+            pane.getChildren().add(linkLine);
+            linkLine.toBack();
+          }
+          offsetX += gap;
         }
       }
     }
-
-    int x = 10;
-    int y = 10;
-
-    for (Map.Entry<Link, Passage[]> entry : storyMap.entrySet()) {
-      PassagePane startPane = passagePanes.get(entry.getValue()[0]);
-      PassagePane endPane = passagePanes.get(entry.getValue()[1]);
-
-      startPane.setLayoutX(x);
-      startPane.setLayoutY(y);
-
-      endPane.setLayoutX(x + 250);
-      endPane.setLayoutY(y);
-
-      LinkLine linkLine = new LinkLine(entry.getKey(), startPane, endPane);
-      pane.getChildren().addAll(linkLine);
-
-      linkLine.toBack();
-
-      y += 150;
-    }
-  }*/
+  }
 }

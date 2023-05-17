@@ -114,9 +114,7 @@ public class Story implements Serializable {
     // get the passage list of links and return the ones that have the same reference as the
     // passage title
     List<Link> links = passage.getLinks();
-    return passages.keySet().stream()
-        .filter(links::contains)
-        .toList();
+    return passages.keySet().stream().filter(links::contains).toList();
   }
 
   /**
@@ -134,6 +132,31 @@ public class Story implements Serializable {
     passageList.add(openingPassage);
     passageList.addAll(passages.values());
     return passageList;
+  }
+
+  public Link getRealLinkBetweenPassages(Passage passage1, Passage passage2) {
+    return passage1.getLinks().stream()
+        .filter(link -> link.getReference().equals(passage2.getTitle()))
+        .findFirst()
+        .orElse(null);
+  }
+
+  public Passage getSourcePassage(Link link) {
+    return this.getPassages().stream()
+        .filter(passage -> passage.getLinks().contains(link))
+        .findFirst()
+        .orElse(null);
+  }
+
+  public Link reverseLink(Link link) {
+    return this.getPassagesHashMap().keySet().stream()
+        .filter(l -> l.equals(link))
+        .findFirst()
+        .orElseThrow();
+  }
+
+  public Passage getLinkedPassage(Link link) {
+    return passages.get(link);
   }
 
   public void removePassage(Link link) {
