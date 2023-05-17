@@ -80,7 +80,7 @@ public class Game {
   public Passage go(Link link) {
     List<Link> availableLinks = getCurrentPassage().getLinks();
     if (availableLinks.contains(link)) {
-      Link reversedLink = reverseLink(link);
+      Link reversedLink = story.reverseLink(link);
       setCurrentPassage(story.getPassagesHashMap().get(reversedLink));
       return story.getPassagesHashMap().get(reversedLink);
     } else {
@@ -88,12 +88,7 @@ public class Game {
     }
   }
 
-  private Link reverseLink(Link link) {
-    return story.getPassagesHashMap().keySet().stream()
-        .filter(l -> l.equals(link))
-        .findFirst()
-        .orElseThrow();
-  }
+
 
   /**
    * Returns the game id.

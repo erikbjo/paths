@@ -148,7 +148,7 @@ public class NewStoryController implements Controller {
     Passage openingPassage =
         new Passage(
             openingPassageTitleTextField.getText(), openingPassageContentTextArea.getText());
-    story.setStartingPassage(openingPassage);
+    story.setOpeningPassage(openingPassage);
     openingVBox.setManaged(false);
     openingVBox.setVisible(false);
     mainVBox.setManaged(true);

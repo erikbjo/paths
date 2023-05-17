@@ -130,59 +130,48 @@ public class NewGameController implements Controller {
 
         newStoryButton.setOnAction(event -> new NewStoryController(stage));
 
-        deleteStoryButton.setOnAction(
-            event -> {
-                if (storiesTableView
-                    .getSelectionModel()
-                    .isSelected(storiesTableView.getSelectionModel().getSelectedIndex())) {
-                    Story selectedStory =
-                        storiesTableView
-                            .getItems()
-                            .get(storiesTableView.getSelectionModel().getSelectedIndex());
+    deleteStoryButton.setOnAction(
+        event -> {
+          if (storiesTableView
+              .getSelectionModel()
+              .isSelected(storiesTableView.getSelectionModel().getSelectedIndex())) {
+            Story selectedStory =
+                storiesTableView
+                    .getItems()
+                    .get(storiesTableView.getSelectionModel().getSelectedIndex());
 
-                    ConfirmationAlert confirmationAlert =
-                        new ConfirmationAlert(
-                            confirmationResources.getString("deleteStoryTitle"),
-                            confirmationResources
-                                .getString("deleteStoryContentStart")
-                                + "\n"
-                                + selectedStory.getTitle()
-                                + "\n"
-                                + confirmationResources
-                                .getString("deleteStoryContentEnd"));
-                    confirmationAlert.setHeaderText
-                        (confirmationResources.getString("confirmationText"));
-                    ButtonType okButtonType =
-                        new ButtonType(confirmationResources.getString("okButton"),
-                            ButtonBar.ButtonData.OK_DONE);
-                    ButtonType cancelButtonType =
-                        new ButtonType(confirmationResources.getString("cancelButton"),
-                            ButtonBar.ButtonData.CANCEL_CLOSE);
-                    confirmationAlert.getButtonTypes().setAll(okButtonType, cancelButtonType);
+            ConfirmationAlert confirmationAlert =
+                new ConfirmationAlert(
+                    confirmationResources.getString("deleteStoryTitle"),
+                    confirmationResources.getString("deleteStoryContentStart")
+                        + "\n"
+                        + selectedStory.getTitle()
+                        + "\n"
+                        + confirmationResources.getString("deleteStoryContentEnd"));
 
-                    Optional<ButtonType> result = confirmationAlert.showAndWait();
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
-                        storiesTableView
-                            .getItems()
-                            .removeAll(storiesTableView.getSelectionModel().getSelectedItems());
-                        StoryDAO.getInstance().remove(selectedStory);
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+              storiesTableView
+                  .getItems()
+                  .removeAll(storiesTableView.getSelectionModel().getSelectedItems());
+              StoryDAO.getInstance().remove(selectedStory);
 
-                        updateStoryTable(storiesTableView);
-                    } else {
-                        confirmationAlert.close();
-                    }
-                } else {
-                    WarningAlert warningAlert =
-                        new WarningAlert(warningResources.getString("deleteStoryContentText"));
-                    warningAlert.setTitle(warningResources.getString("dialogTitle"));
-                    warningAlert.setHeaderText(warningResources.getString("dialogHeader"));
-                    ButtonType okButtonType =
-                        new ButtonType(warningResources.getString("okButton"),
-                            ButtonBar.ButtonData.OK_DONE);
-                    warningAlert.getButtonTypes().setAll(okButtonType);
-                    warningAlert.showAndWait();
-                }
-            });
+              updateStoryTable(storiesTableView);
+            } else {
+              confirmationAlert.close();
+            }
+          } else {
+            WarningAlert warningAlert =
+                new WarningAlert(warningResources.getString("deleteStoryContentText"));
+            warningAlert.setTitle(warningResources.getString("dialogTitle"));
+            warningAlert.setHeaderText(warningResources.getString("dialogHeader"));
+            ButtonType okButtonType =
+                new ButtonType(
+                    warningResources.getString("okButton"), ButtonBar.ButtonData.OK_DONE);
+            warningAlert.getButtonTypes().setAll(okButtonType);
+            warningAlert.showAndWait();
+          }
+        });
     }
 
     public void onImportStory(TableView<Story> storiesTableView) {
@@ -266,15 +255,6 @@ public class NewGameController implements Controller {
                                 + "\n"
                                 + confirmationResources
                                 .getString("deletePlayerContentTextEnd"));
-                    confirmationAlert.setHeaderText
-                        (confirmationResources.getString("confirmationText"));
-                    ButtonType okButtonType =
-                        new ButtonType(confirmationResources.getString("okButton"),
-                            ButtonBar.ButtonData.OK_DONE);
-                    ButtonType cancelButtonType =
-                        new ButtonType(confirmationResources.getString("cancelButton"),
-                            ButtonBar.ButtonData.CANCEL_CLOSE);
-                    confirmationAlert.getButtonTypes().setAll(okButtonType, cancelButtonType);
 
                     Optional<ButtonType> result = confirmationAlert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {
