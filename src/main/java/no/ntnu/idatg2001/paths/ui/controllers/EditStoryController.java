@@ -1,6 +1,8 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
+
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -105,6 +107,44 @@ public class EditStoryController implements Controller {
         }
       }
     }
+
+    AtomicReference<Double> unLinkedPassageX = new AtomicReference<>((double) 200);
+    AtomicReference<Double> unLinkedPassageY = new AtomicReference<>((double) 0);
+    story
+        .getAllPassagesThatDoesNotHaveALinkPointingToThem()
+        .forEach(
+            passage -> {
+              if (!passagePanes.containsKey(passage)) {
+                PassagePane passagePane = new PassagePane(passage);
+                setActionsForPassagePane(passagePane);
+                passagePane.setLayoutX(unLinkedPassageX.get());
+                passagePane.setLayoutY(unLinkedPassageY.get());
+                passagePanes.put(passage, passagePane);
+
+                // TODO: add links from unlinked passages to other passages
+                passage
+                    .getLinks()
+                    .forEach(
+                        link -> {
+                          List<Passage> linkedPassages = story.getPassagesConnectedWithLink(link);
+                          for (Passage linkedPassage : linkedPassages) {
+                            if (passagePanes.containsKey(linkedPassage)) {
+                              LinkLine linkLine =
+                                  new LinkLine(link, passagePane, passagePanes.get(linkedPassage));
+                              setActionsForLinkLine(linkLine);
+                              pane.getChildren().addAll(linkLine, linkLine.getArrows());
+
+                              linkLine.toBack();
+                              linkLine.getArrows().toBack();
+                            }
+                          }
+                        });
+
+                pane.getChildren().add(passagePane);
+                unLinkedPassageX.set(unLinkedPassageX.get() + 200);
+                unLinkedPassageY.set(unLinkedPassageY.get() + 50);
+              }
+            });
   }
 
   public void setActionsForLinkLine(LinkLine linkLine) {

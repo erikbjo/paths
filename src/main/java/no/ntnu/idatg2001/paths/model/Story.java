@@ -163,6 +163,18 @@ public class Story implements Serializable {
         .orElseThrow();
   }
 
+  public List<Passage> getAllPassagesThatDoesNotHaveALinkPointingToThem() {
+    return passages.values().stream()
+        .filter(
+            passage ->
+                passages.values().stream()
+                    .noneMatch(
+                        p ->
+                            p.getLinks()
+                                .contains(new Link(passage.getTitle(), passage.getTitle()))))
+        .toList();
+  }
+
   public Passage getLinkedPassage(Link link) {
     return passages.get(link);
   }
