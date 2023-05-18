@@ -1,6 +1,8 @@
 package no.ntnu.idatg2001.paths.model.actions;
 
 import jakarta.persistence.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
@@ -29,4 +31,6 @@ public abstract class Action {
   public abstract Object getActionValue();
 
   public abstract void setActionValue(Object actionValue);
+
+  public abstract Boolean getActionIsPositive();
 }

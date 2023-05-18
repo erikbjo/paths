@@ -27,11 +27,11 @@ public class Main {
     // TODO: Remove this when the game is finished
     // MAYBE SHIP THE DATABASE WITH THE STORY
 
-    if (StoryDAO.getInstance().getAll().stream()
+    /*if (StoryDAO.getInstance().getAll().stream()
         .noneMatch(story -> story.getTitle().equals("Troll story"))) {
 
       createTrollStory();
-    }
+    }*/
 
     //PathsStoryFileReader.getInstance().readStoryFromFile("ForestStory.paths");
     //PathsStoryFileWriter.writeStoryToFile(StoryDAO.getInstance().getAll().get(0));

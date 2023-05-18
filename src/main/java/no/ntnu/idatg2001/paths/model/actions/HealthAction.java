@@ -79,4 +79,9 @@ public class HealthAction extends Action {
   public void setActionValue(Object actionValue) {
     this.health = actionValue instanceof Integer ? (int) actionValue : 0;
   }
+
+  @Override
+  public Boolean getActionIsPositive() {
+    return getIsPositive();
+  }
 }
