@@ -51,6 +51,7 @@ public class GameController implements Controller {
       hyperlink.setOnAction(
           event -> {
             CurrentGameHandler.getCurrentGame().go(link);
+            view.updatePlayerInformation();
             previousLink = link;
             updateStoryViewToNewPath(
                 storyHeadlineText, passageTitleText, passageContentTextArea, linksHBox);
