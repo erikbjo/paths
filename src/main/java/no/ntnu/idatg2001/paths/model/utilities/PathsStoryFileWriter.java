@@ -1,14 +1,11 @@
 package no.ntnu.idatg2001.paths.model.utilities;
 
-import no.ntnu.idatg2001.paths.model.Story;
-import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
-import no.ntnu.idatg2001.paths.ui.handlers.VolumeHandler;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import no.ntnu.idatg2001.paths.model.Story;
 
 public class PathsStoryFileWriter {
   private static final PathsStoryFileWriter instance = new PathsStoryFileWriter();
@@ -24,26 +21,83 @@ public class PathsStoryFileWriter {
     if (!fileExists(fileName)) {
       createFile(fileName);
     }
-    StringBuilder content =
-        new StringBuilder(
-            story.getTitle());
+    StringBuilder content = new StringBuilder(story.getTitle());
     content.append("\n");
 
-    story.getPassages().forEach(passage -> {
-      content.append("\n::")
-          .append(passage.getTitle())
-          .append("\n")
-          .append(passage.getContent())
-          .append("\n");
-        passage.getLinks().forEach(link -> content.append("[")
-            .append(link.getText())
-            .append("]")
-            .append("(")
-            .append(link.getReference())
-            .append(")")
-                .append("\n"));
-    });
+    // OPENING PASSAGE FIRST
+    content
+        .append("\n::")
+        .append(story.getOpeningPassage().getTitle())
+        .append("\n")
+        .append(story.getOpeningPassage().getContent())
+        .append("\n");
+    story
+        .getOpeningPassage()
+        .getLinks()
+        .forEach(
+            link -> {
+              content
+                  .append("[")
+                  .append(link.getText())
+                  .append("]")
+                  .append("(")
+                  .append(link.getReference())
+                  .append(")")
+                  .append("\n");
+              link.getActions()
+                  .forEach(
+                      action -> {
+                        content
+                            .append("{")
+                            .append(action.getClass().getSimpleName())
+                            .append("}")
+                            .append("<")
+                            .append(action.getActionValue())
+                            .append(">")
+                            .append("(")
+                            .append(action.getActionIsPositive())
+                            .append(")")
+                            .append("\n");
+                      });
+            });
 
+    // ALL OTHER PASSAGES
+    story
+        .getPassagesExceptForOpeningPassage()
+        .forEach(
+            passage -> {
+              content
+                  .append("\n::")
+                  .append(passage.getTitle())
+                  .append("\n")
+                  .append(passage.getContent())
+                  .append("\n");
+              passage
+                  .getLinks()
+                  .forEach(
+                      link -> {
+                        content
+                            .append("[")
+                            .append(link.getText())
+                            .append("]")
+                            .append("(")
+                            .append(link.getReference())
+                            .append(")")
+                            .append("\n");
+                        link.getActions()
+                            .forEach(
+                                action -> {
+                                  content
+                                      .append("{")
+                                      .append(action.getClass())
+                                      .append("}")
+                                      .append("<")
+                                      .append(action.getActionValue())
+                                      .append(">")
+                                      .append("\n");
+                                });
+                      });
+            });
 
     Path filePath = Paths.get(fileName);
 

@@ -1,6 +1,8 @@
 package no.ntnu.idatg2001.paths.model.actions;
 
 import jakarta.persistence.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
@@ -13,9 +15,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Action {
-  @Id
-  @GeneratedValue
-  private Long id;
+  @Id @GeneratedValue private Long id;
 
   @ManyToOne
   @JoinColumn(name = "link_id")
@@ -27,4 +27,10 @@ public abstract class Action {
    * @param player the player who is performing the action
    */
   public abstract void execute(Player player);
+
+  public abstract Object getActionValue();
+
+  public abstract void setActionValue(Object actionValue);
+
+  public abstract Boolean getActionIsPositive();
 }

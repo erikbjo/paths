@@ -1,5 +1,7 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -17,22 +19,22 @@ import no.ntnu.idatg2001.paths.ui.controllers.NewGameController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.standardobjects.StandardMenuBar;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 public class NewGameView implements View {
 
   private final Stage primaryStage;
   private final Button startNewGameButton;
+  private final Text informationText;
+  private final Text pathsGameText;
+  private final Button continueButton;
+  private final Button deleteButton;
+  private final NewGameController controller;
   private TableView<Player> playersTableView;
   private TableColumn<Player, String> playersTableColumn;
   private TableView<Link> deadLinksTableView;
   private TableColumn<Link, String> deadLinksTableColumn;
-  private final Text informationText;
   private Text deadLinksText;
   private Text playersText;
   private Text storiesText;
-  private final Text pathsGameText;
   private Button editStoryButton;
   private Button newStoryButton;
   private Button deleteStoryButton;
@@ -41,12 +43,10 @@ public class NewGameView implements View {
   private Button deletePlayerButton;
   private Button deleteLinkButton;
   private Button updateDeadLinksButton;
-  private final Button continueButton;
-  private final Button deleteButton;
-  private final NewGameController controller;
   private Button importStoryButton;
   private TableView<Story> storiesTableView;
   private TableColumn<Story, String> storiesTableColumn;
+  private Button exportButton;
 
   public NewGameView(NewGameController controller, Stage primaryStage) {
     this.controller = controller;
@@ -171,7 +171,11 @@ public class NewGameView implements View {
     importStoryButton.setOnAction(
             event -> controller.onImportStory(storiesTableView)
     );
-    HBox storiesButtonsHBox = new HBox(editStoryButton, newStoryButton, deleteStoryButton, importStoryButton);
+    exportButton = new Button();
+    exportButton.setOnAction(
+            event -> controller.onExportStory(storiesTableView)
+    );
+    HBox storiesButtonsHBox = new HBox(editStoryButton, newStoryButton, deleteStoryButton, importStoryButton, exportButton);
 
     storiesVBox.getChildren().addAll(storiesText, storiesTableView, storiesButtonsHBox);
 

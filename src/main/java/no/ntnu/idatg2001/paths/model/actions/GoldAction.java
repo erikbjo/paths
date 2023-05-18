@@ -1,8 +1,6 @@
 package no.ntnu.idatg2001.paths.model.actions;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -70,5 +68,20 @@ public class GoldAction extends Action {
   @Override
   public void execute(Player player) {
     player.addGold(gold);
+  }
+
+  @Override
+  public Object getActionValue() {
+    return getGold();
+  }
+
+  @Override
+  public void setActionValue(Object actionValue) {
+    this.gold = actionValue instanceof Integer ? (int) actionValue : 0;
+  }
+
+  @Override
+  public Boolean getActionIsPositive() {
+    return getIsPositive();
   }
 }

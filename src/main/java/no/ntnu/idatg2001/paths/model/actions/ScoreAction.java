@@ -1,8 +1,6 @@
 package no.ntnu.idatg2001.paths.model.actions;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -70,5 +68,20 @@ public class ScoreAction extends Action {
   @Override
   public void execute(Player player) {
     player.setScore(player.getScore() + points);
+  }
+
+  @Override
+  public Object getActionValue() {
+    return getPoints();
+  }
+
+  @Override
+  public void setActionValue(Object actionValue) {
+    this.points = actionValue instanceof Integer ? (int) actionValue : 0;
+  }
+
+  @Override
+  public Boolean getActionIsPositive() {
+    return getIsPositive();
   }
 }

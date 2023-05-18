@@ -13,7 +13,7 @@ import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.ui.controllers.GenericDialogController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
-public class EditLinkDialog extends Dialog<Link> implements StandardDialog<Link> {
+public class EditLinkDialog extends LinkDialog implements StandardDialog<Link> {
   private final Link link;
   private final GenericDialogController controller = new GenericDialogController();
   private final ResourceBundle resources =
@@ -90,6 +90,7 @@ public class EditLinkDialog extends Dialog<Link> implements StandardDialog<Link>
       if (buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
         link.setReference(referenceComboBox.getSelectionModel().getSelectedItem().getTitle());
         link.setText(linkTextTextField.getText());
+        super.getActionsTableView().getItems().forEach(link::addAction);
 
         return link;
       }
@@ -112,6 +113,7 @@ public class EditLinkDialog extends Dialog<Link> implements StandardDialog<Link>
     gridPane.add(referenceComboBox, 1, 0);
     gridPane.add(linkText, 0, 1);
     gridPane.add(linkTextTextField, 1, 1);
+    gridPane.add(super.createActionsVBox(), 0, 2, 2, 1);
 
     getDialogPane().setContent(gridPane);
   }
@@ -128,5 +130,7 @@ public class EditLinkDialog extends Dialog<Link> implements StandardDialog<Link>
     ButtonType cancelButtonType =
         new ButtonType(resources.getString("cancelButton"), ButtonBar.ButtonData.CANCEL_CLOSE);
     getDialogPane().getButtonTypes().setAll(primaryButtonType, cancelButtonType);
+
+    super.updateLanguage();
   }
 }
