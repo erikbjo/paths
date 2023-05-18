@@ -13,7 +13,7 @@ import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.ui.controllers.GenericDialogController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
-public class NewLinkDialogWithStartPassage extends Dialog<Link> implements StandardDialog<Link> {
+public class NewLinkDialogWithStartPassage extends LinkDialog implements StandardDialog<Link> {
   private final GenericDialogController controller = new GenericDialogController();
   private final ResourceBundle resources =
       ResourceBundle.getBundle(
@@ -93,6 +93,7 @@ public class NewLinkDialogWithStartPassage extends Dialog<Link> implements Stand
     gridPane.add(referenceComboBox, 1, 1);
     gridPane.add(linkText, 0, 2);
     gridPane.add(linkTextTextField, 1, 2);
+    gridPane.add(super.createActionsVBox(), 0, 3, 2, 1);
 
     getDialogPane().setContent(gridPane);
   }
@@ -110,5 +111,7 @@ public class NewLinkDialogWithStartPassage extends Dialog<Link> implements Stand
     ButtonType cancelButtonType =
         new ButtonType(resources.getString("cancelButton"), ButtonBar.ButtonData.CANCEL_CLOSE);
     getDialogPane().getButtonTypes().setAll(primaryButtonType, cancelButtonType);
+
+    super.updateLanguage();
   }
 }
