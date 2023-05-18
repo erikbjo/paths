@@ -90,6 +90,7 @@ public class EditLinkDialog extends LinkDialog implements StandardDialog<Link> {
       if (buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
         link.setReference(referenceComboBox.getSelectionModel().getSelectedItem().getTitle());
         link.setText(linkTextTextField.getText());
+        super.getActionsTableView().getItems().forEach(link::addAction);
 
         return link;
       }

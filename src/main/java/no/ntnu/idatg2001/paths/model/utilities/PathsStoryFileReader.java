@@ -1,20 +1,19 @@
 package no.ntnu.idatg2001.paths.model.utilities;
 
-import no.ntnu.idatg2001.paths.model.Link;
-import no.ntnu.idatg2001.paths.model.Passage;
-import no.ntnu.idatg2001.paths.model.Story;
-import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
-
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
-import java.util.stream.Collectors;
+import no.ntnu.idatg2001.paths.model.Link;
+import no.ntnu.idatg2001.paths.model.Passage;
+import no.ntnu.idatg2001.paths.model.Story;
+import no.ntnu.idatg2001.paths.model.actions.Action;
+import no.ntnu.idatg2001.paths.model.actions.GoldAction;
+import no.ntnu.idatg2001.paths.model.actions.HealthAction;
+import no.ntnu.idatg2001.paths.model.actions.ScoreAction;
+import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
 
 public class PathsStoryFileReader {
   private static final PathsStoryFileReader instance = new PathsStoryFileReader();
@@ -37,7 +36,6 @@ public class PathsStoryFileReader {
       // Blocks of text between :: and ::, or :: and end of file
       String pattern = "(?s)::(.*?)(?=::|$)";
 
-
       if (firstLine) {
         String title = fileScanner.next();
         story.setTitle(title);
@@ -47,7 +45,8 @@ public class PathsStoryFileReader {
 
       while (fileScanner.findWithinHorizon(pattern, 0) != null) {
         StringBuilder content = new StringBuilder();
-        Passage passage = new Passage(null,null);
+        Passage passage = new Passage(null, null);
+        Link link = null;
 
         MatchResult matchResult = fileScanner.match();
         String passageBlock = matchResult.group(0);
@@ -63,11 +62,57 @@ public class PathsStoryFileReader {
                 String linkText = line.substring(1, endBracket);
                 String linkReference = line.substring(startParenthesis + 1, endParenthesis);
 
-                Link link = new Link();
-                link.setText(linkText);
-                link.setReference(linkReference);
+                link = new Link(linkText, linkReference);
 
                 passage.getLinks().add(link);
+              }
+            }
+            case "{" -> {
+              int endCurlyBracket = line.indexOf('}');
+              int startCrocodile = line.indexOf('<');
+              int endCrocodile = line.indexOf('>');
+              int startBracket = line.indexOf('(');
+              int endBracket = line.indexOf(')');
+
+              if (endCurlyBracket != -1
+                  && startCrocodile != -1
+                  && endCrocodile != -1
+                  && startBracket != -1
+                  && endBracket != -1) {
+                String actionClass = line.substring(1, endCurlyBracket);
+                String actionValue = line.substring(startCrocodile + 1, endCrocodile);
+                String actionIsPositive = line.substring(startBracket + 1, endBracket);
+
+                Action action = null;
+                switch (actionClass) {
+                  case "HealthAction" -> {
+                    action =
+                        new HealthAction(
+                            Integer.parseInt(actionValue), Boolean.getBoolean(actionIsPositive));
+                  }
+                  case "ScoreAction" -> {
+                    action =
+                        new ScoreAction(
+                            Integer.parseInt(actionValue), Boolean.getBoolean(actionIsPositive));
+                  }
+                  case "item" -> {
+                    // TODO: FIX THIS
+                    // action = new InventoryAction(actionValue,
+                    // Boolean.getBoolean(actionIsPositive));
+                  }
+                  case "GoldAction" -> {
+                    action =
+                        new GoldAction(
+                            Integer.parseInt(actionValue), Boolean.getBoolean(actionIsPositive));
+                  }
+                  default -> System.out.println("Could not find action class");
+                }
+
+                if (action != null && link != null) {
+                  link.addAction(action);
+                } else {
+                  System.out.println("Could not add action to link");
+                }
               }
             }
             case "\n" -> {

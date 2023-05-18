@@ -70,6 +70,10 @@ public abstract class LinkDialog extends Dialog<Link> {
     isPositiveScoreActionText.setText(resources.getString("isPositiveText"));
   }
 
+  public TableView<Action> getActionsTableView() {
+    return actionsTableView;
+  }
+
   public VBox createActionsVBox() {
     VBox actionsVBox = new VBox();
     actionsTableView = new TableView<>();
