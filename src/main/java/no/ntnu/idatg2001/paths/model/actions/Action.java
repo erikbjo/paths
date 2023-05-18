@@ -13,9 +13,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Action {
-  @Id
-  @GeneratedValue
-  private Long id;
+  @Id @GeneratedValue private Long id;
 
   @ManyToOne
   @JoinColumn(name = "link_id")
@@ -27,4 +25,8 @@ public abstract class Action {
    * @param player the player who is performing the action
    */
   public abstract void execute(Player player);
+
+  public abstract Object getActionValue();
+
+  public abstract void setActionValue(Object actionValue);
 }

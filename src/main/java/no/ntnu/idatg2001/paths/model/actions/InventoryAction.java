@@ -76,4 +76,14 @@ public class InventoryAction extends Action {
       }
     }
   }
+
+  @Override
+  public Object getActionValue() {
+    return getItem();
+  }
+
+  @Override
+  public void setActionValue(Object actionValue) {
+    this.item = actionValue instanceof Item ? (Item) actionValue : null;
+  }
 }

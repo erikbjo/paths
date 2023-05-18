@@ -1,8 +1,6 @@
 package no.ntnu.idatg2001.paths.model.actions;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
@@ -70,5 +68,15 @@ public class HealthAction extends Action {
   @Override
   public void execute(Player player) {
     player.addHealth(health);
+  }
+
+  @Override
+  public Object getActionValue() {
+    return getHealth();
+  }
+
+  @Override
+  public void setActionValue(Object actionValue) {
+    this.health = actionValue instanceof Integer ? (int) actionValue : 0;
   }
 }

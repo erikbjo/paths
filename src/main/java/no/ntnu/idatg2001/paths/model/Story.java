@@ -138,6 +138,10 @@ public class Story implements Serializable {
     return new ArrayList<>(passages.values());
   }
 
+  public List<Passage> getPassagesExceptForOpeningPassage() {
+    return passages.values().stream().filter(passage -> !passage.equals(openingPassage)).toList();
+  }
+
   public Link getRealLinkBetweenPassages(Passage passage1, Passage passage2) {
     return passage1.getLinks().stream()
         .filter(link -> link.getReference().equals(passage2.getTitle()))
