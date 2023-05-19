@@ -13,7 +13,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * @version 2023.02.02
  */
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Action {
   @Id @GeneratedValue private Long id;
 

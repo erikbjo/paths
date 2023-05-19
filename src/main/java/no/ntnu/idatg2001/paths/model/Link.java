@@ -23,8 +23,11 @@ public class Link {
   private String reference;
 
   @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "link_id")
   private List<Action> actions;
+
+  @ManyToOne(cascade = CascadeType.PERSIST)
+  @JoinColumn(name="story_id", nullable=false)
+  private Story story;
 
   /**
    * A constructor that initializes the declared fields for text, reference and actions.
@@ -40,6 +43,14 @@ public class Link {
   }
 
   public Link() {}
+
+  public Story getStory() {
+    return story;
+  }
+
+  public void setStory(Story story) {
+    this.story = story;
+  }
 
   public Long getId() {
     return id;

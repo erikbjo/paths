@@ -62,7 +62,7 @@ public class NewStoryView implements View {
 
     // Create a borderpane and a standard menubar
     BorderPane root = new BorderPane();
-    StandardMenuBar menuBar = new StandardMenuBar(stage);
+    StandardMenuBar menuBar = new StandardMenuBar(stage, story);
     root.setTop(menuBar);
     AnchorPane rootAnchorPane = new AnchorPane();
 
