@@ -22,12 +22,13 @@ public class ScoreGoal extends Goal {
     this.minimumPoints = minimumPoints;
   }
 
+  /** Default constructor for the ScoreGoal class. */
   protected ScoreGoal() {}
 
   /**
    * Adds points to the minimum points the player must have to fulfill the goal.
    *
-   * @param points The amount of points to add.
+   * @param points The number of points to add.
    */
   public void addPointsToScoreGoal(int points) {
     minimumPoints += points;
@@ -36,48 +37,64 @@ public class ScoreGoal extends Goal {
   /**
    * Removes points from the minimum points the player must have to fulfill the goal.
    *
-   * @param points The amount of points to remove.
+   * @param points The number of points to remove.
+   * @throws IllegalArgumentException if the score goal is negative.
    */
   public void removePointsFromScoreGoal(int points) {
+    if (minimumPoints - points < 0) {
+      throw new IllegalArgumentException("The score goal cannot be negative.");
+    }
+
     minimumPoints -= points;
   }
 
   /**
    * Sets the minimum points the player must have to fulfill the goal.
    *
-   * @param points The amount of points to set.
+   * @param points The number of points to set.
    */
   public void setPointsToScoreGoal(int points) {
     minimumPoints = points;
   }
 
+  /**
+   * Gets the minimum points the player must have to fulfill the goal.
+   *
+   * @return The minimum points the player must have to fulfill the goal.
+   */
   public int getMinimumPoints() {
     return minimumPoints;
   }
 
+  /**
+   * Sets the minimum points the player must have to fulfill the goal.
+   *
+   * @param minimumPoints The amount of points to set.
+   */
   public void setMinimumPoints(int minimumPoints) {
     this.minimumPoints = minimumPoints;
   }
 
-  /**
-   * Checks if the player has fulfilled the goal.
-   *
-   * @param player The player to check.
-   * @return True if the player has fulfilled the goal, false otherwise.
-   */
+  /** {@inheritDoc} */
   @Override
   public boolean isFulfilled(Player player) {
     int playerScore = player.getScore();
     return minimumPoints <= playerScore;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Object getGoalValue() {
     return getMinimumPoints();
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setGoalValue(Object goalValue) {
+    if (!(goalValue instanceof Integer)) {
+      throw new IllegalArgumentException("The goal value must be an integer.");
+    }
+
     setMinimumPoints((int) goalValue);
   }
 }

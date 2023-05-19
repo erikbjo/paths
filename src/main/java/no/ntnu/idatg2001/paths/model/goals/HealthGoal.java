@@ -62,34 +62,31 @@ public class HealthGoal extends Goal {
    * Sets the minimum health the player must have to fulfill the goal.
    *
    * @param health The amount of health to set.
-   * @throws IllegalArgumentException if the health goal is negative.
    */
   public void setHealthToHealthGoal(int health) {
-    if (health < 0) {
-      throw new IllegalArgumentException("The health goal cannot be negative.");
-    }
     minimumHealth = health;
   }
 
-  /**
-   * Checks if the player has the minimum health to fulfill the goal.
-   *
-   * @param player The player to check.
-   * @return A boolean value.
-   */
+  /** {@inheritDoc} */
   @Override
   public boolean isFulfilled(Player player) {
     int playerHealth = player.getHealth();
     return minimumHealth <= playerHealth;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Object getGoalValue() {
     return getMinimumHealth();
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setGoalValue(Object goalValue) {
+    if (!(goalValue instanceof Integer)) {
+      throw new IllegalArgumentException("The goal value must be an integer.");
+    }
+
     setMinimumHealth((int) goalValue);
   }
 }

@@ -17,15 +17,12 @@ public class GoldGoal extends Goal {
    * Constructor for the GoldGoal class.
    *
    * @param minimumGold The minimum gold the player must have to fulfill the goal.
-   * @throws IllegalArgumentException if the minimum gold is negative.
    */
   public GoldGoal(int minimumGold) {
-    if (minimumGold < 0) {
-      throw new IllegalArgumentException("The gold goal cannot be negative.");
-    }
     this.minimumGold = minimumGold;
   }
 
+  /** Default constructor for the GoldGoal class. Used by JPA. */
   protected GoldGoal() {}
 
   /**
@@ -54,41 +51,49 @@ public class GoldGoal extends Goal {
    * Sets the minimum gold the player must have to fulfill the goal.
    *
    * @param gold The amount of gold to set.
-   * @throws IllegalArgumentException if the gold goal is negative.
    */
   public void setGoldToGoldGoal(int gold) {
-    if (gold < 0) {
-      throw new IllegalArgumentException("The gold goal cannot be negative.");
-    }
     minimumGold = gold;
   }
 
   /**
-   * Checks if the player has fulfilled the goal.
+   * Gets the minimum gold the player must have to fulfill the goal.
    *
-   * @param player The player to check.
-   * @return True if the player has fulfilled the goal, false otherwise.
+   * @return The minimum gold the player must have to fulfill the goal.
    */
+  public int getMinimumGold() {
+    return minimumGold;
+  }
+
+  /**
+   * Sets the minimum gold the player must have to fulfill the goal.
+   *
+   * @param minimumGold The amount of gold to set.
+   */
+  public void setMinimumGold(int minimumGold) {
+    this.minimumGold = minimumGold;
+  }
+
+  /** {@inheritDoc} */
+  @Override
   public boolean isFulfilled(Player player) {
     int playerGold = player.getGold();
     return minimumGold <= playerGold;
   }
 
-  public int getMinimumGold() {
-    return minimumGold;
-  }
-
-  public void setMinimumGold(int minimumGold) {
-    this.minimumGold = minimumGold;
-  }
-
+  /** {@inheritDoc} */
   @Override
   public Object getGoalValue() {
     return getMinimumGold();
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setGoalValue(Object goalValue) {
+    if (!(goalValue instanceof Integer)) {
+      throw new IllegalArgumentException("The goal value must be an integer.");
+    }
+
     setGoldToGoldGoal((int) goalValue);
   }
 }
