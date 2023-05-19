@@ -25,12 +25,14 @@ import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.model.dao.GameDAO;
 import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
+import no.ntnu.idatg2001.paths.model.goals.Goal;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.model.utilities.PathsStoryFileReader;
 import no.ntnu.idatg2001.paths.model.utilities.PathsStoryFileWriter;
 import no.ntnu.idatg2001.paths.ui.alerts.ConfirmationAlert;
 import no.ntnu.idatg2001.paths.ui.alerts.ExceptionAlert;
 import no.ntnu.idatg2001.paths.ui.alerts.WarningAlert;
+import no.ntnu.idatg2001.paths.ui.dialogs.CreateGoalsForNewGameDialog;
 import no.ntnu.idatg2001.paths.ui.dialogs.NewPlayerDialog;
 import no.ntnu.idatg2001.paths.ui.handlers.CurrentGameHandler;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
@@ -86,12 +88,26 @@ public class NewGameController implements Controller {
       }
 
       Game game = new Game(player, story, new ArrayList<>());
-      GameDAO gameDAO = GameDAO.getInstance();
-      gameDAO.add(game);
+      GameDAO.getInstance().add(game);
 
-      CurrentGameHandler.setCurrentGame(game);
+      CreateGoalsForNewGameDialog createGoalsForNewGameDialog =
+          new CreateGoalsForNewGameDialog(game);
+      Optional<List<Goal>> result = createGoalsForNewGameDialog.showAndWait();
+      if (result.isPresent() && !result.get().isEmpty()) {
+        result
+            .get()
+            .forEach(
+                goal -> {
+                  goal.setGame(game);
+                  game.addGoal(goal);
+                });
 
-      new GameController(stage);
+        GameDAO.getInstance().update(game);
+        CurrentGameHandler.setCurrentGame(game);
+        new GameController(stage);
+      } else {
+        GameDAO.getInstance().remove(game);
+      }
     } catch (NullPointerException e) {
       ExceptionAlert exceptionAlert = new ExceptionAlert(e);
       exceptionAlert.setTitle(exceptionResources.getString("alertTitle"));
@@ -175,7 +191,6 @@ public class NewGameController implements Controller {
   public void onImportStory(TableView<Story> storiesTableView) {
     FileChooser fileChooser = new FileChooser();
     fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PATHS", "*.paths"));
-    // TODO: MAKE THIS LANGUAGE DEPENDENT
     fileChooser.setTitle(newGameResources.getString("fileChooserTitle"));
     Optional<File> result = Optional.ofNullable(fileChooser.showOpenDialog(stage));
     if (result.isPresent()) {

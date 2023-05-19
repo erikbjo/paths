@@ -24,6 +24,7 @@ public class NewStoryController implements Controller {
   public NewStoryController(Stage stage) {
     this.stage = stage;
     this.view = new NewStoryView(this, stage, story);
+    StoryDAO.getInstance().add(story);
     LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> view.updateLanguage());
   }
 
@@ -98,12 +99,15 @@ public class NewStoryController implements Controller {
 
       Link link = linkCreationTableView.getSelectionModel().getSelectedItems().get(0);
 
-      passageCreationTableView.getSelectionModel().getSelectedItems().forEach(passage -> passage.addLink(link));
+      passageCreationTableView
+          .getSelectionModel()
+          .getSelectedItems()
+          .forEach(passage -> passage.addLink(link));
 
       passageCreationTableView.getSelectionModel().clearSelection();
       linkCreationTableView.getSelectionModel().clearSelection();
 
-      //view.updateStartingPassageTableView();
+      // view.updateStartingPassageTableView();
       view.updatePassagesTableView();
       StoryDAO.getInstance().update(story);
     }
@@ -111,11 +115,10 @@ public class NewStoryController implements Controller {
 
   public void onCreateStoryButtonClicked() {
     try {
-        StoryDAO.getInstance().update(story);
+      StoryDAO.getInstance().update(story);
 
-        new NewGameController(stage);
-      }
-    catch (Exception e) {
+      new NewGameController(stage);
+    } catch (Exception e) {
       //            ExceptionAlert alert = new ExceptionAlert(e);
       //            alert.showAndWait();
       e.printStackTrace();
@@ -123,6 +126,7 @@ public class NewStoryController implements Controller {
   }
 
   public void onCancelButtonClicked() {
+    StoryDAO.getInstance().remove(story);
     new NewGameController(stage);
   }
 
@@ -145,15 +149,16 @@ public class NewStoryController implements Controller {
       VBox openingVBox,
       VBox mainVBox) {
     story.setTitle(storyTitleTextField.getText());
+    StoryDAO.getInstance().update(story); // Maybe not needed
     Passage openingPassage =
         new Passage(
             openingPassageTitleTextField.getText(), openingPassageContentTextArea.getText());
     story.setOpeningPassage(openingPassage);
+    StoryDAO.getInstance().update(story);
     openingVBox.setManaged(false);
     openingVBox.setVisible(false);
     mainVBox.setManaged(true);
     mainVBox.setVisible(true);
     view.updatePassagesTableView();
-    StoryDAO.getInstance().add(story);
   }
 }

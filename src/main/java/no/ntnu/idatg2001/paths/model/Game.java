@@ -10,7 +10,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
 @Entity
 @Table(name = "game")
 public class Game {
-  @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST)
+  @OneToMany(mappedBy = "game")
   private final List<Goal> goals = new ArrayList<>();
 
   @Id
@@ -24,9 +24,8 @@ public class Game {
   @ManyToOne
   @JoinColumn(name = "story_id")
   private Story story;
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "current_passage_id")
-  private Passage currentPassage;
+
+  @OneToOne private Passage currentPassage;
 
   /**
    * Constructor for the Game class.
@@ -73,6 +72,28 @@ public class Game {
     return goals;
   }
 
+  public void setGoals(List<Goal> goals) {
+    removeAllGoals();
+    goals.forEach(this::addGoal);
+  }
+
+  public void addGoals(List<Goal> goals) {
+    goals.forEach(this::addGoal);
+  }
+
+  public void addGoal(Goal goal) {
+    goal.setGame(this);
+    goals.add(goal);
+  }
+
+  public void removeGoal(Goal goal) {
+    goals.remove(goal);
+  }
+
+  public void removeAllGoals() {
+    goals.clear();
+  }
+
   public Passage begin() {
     return story.getOpeningPassage();
   }
@@ -80,6 +101,12 @@ public class Game {
   public Passage go(Link link) {
     List<Link> availableLinks = getCurrentPassage().getLinks();
     if (availableLinks.contains(link)) {
+      link.getActions()
+          .forEach(
+              action -> {
+                action.execute(player);
+              });
+
       Link reversedLink = story.reverseLink(link);
       setCurrentPassage(story.getPassagesHashMap().get(reversedLink));
       return story.getPassagesHashMap().get(reversedLink);
@@ -87,8 +114,6 @@ public class Game {
       throw new IllegalArgumentException("Link not available");
     }
   }
-
-
 
   /**
    * Returns the game id.

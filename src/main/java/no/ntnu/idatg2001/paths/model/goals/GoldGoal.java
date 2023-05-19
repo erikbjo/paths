@@ -73,4 +73,22 @@ public class GoldGoal extends Goal {
     int playerGold = player.getGold();
     return minimumGold <= playerGold;
   }
+
+  public int getMinimumGold() {
+    return minimumGold;
+  }
+
+  public void setMinimumGold(int minimumGold) {
+    this.minimumGold = minimumGold;
+  }
+
+  @Override
+  public Object getGoalValue() {
+    return getMinimumGold();
+  }
+
+  @Override
+  public void setGoalValue(Object goalValue) {
+    setGoldToGoldGoal((int) goalValue);
+  }
 }

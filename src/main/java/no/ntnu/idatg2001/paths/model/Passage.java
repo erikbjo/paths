@@ -24,10 +24,13 @@ public class Passage {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private Long id;
 
-  
-  
+  @ManyToOne
+  @JoinColumn(name = "story_id", nullable = false)
+  private Story story;
+
   /**
    * A constructor that initializes the declared fields for title, content and links.
    *
@@ -41,6 +44,14 @@ public class Passage {
   }
 
   public Passage() {}
+
+  public Story getStory() {
+    return story;
+  }
+
+  public void setStory(Story story) {
+    this.story = story;
+  }
 
   /**
    * This function returns the title of the book
@@ -77,6 +88,7 @@ public class Passage {
   public boolean addLink(Link link) {
     boolean success = false;
     try {
+      link.setStory(story);
       links.add(link);
       success = true;
     } catch (Exception e) {

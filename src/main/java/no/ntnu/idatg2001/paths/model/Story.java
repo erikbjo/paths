@@ -13,18 +13,17 @@ import java.util.*;
  */
 @Entity
 @Table(name = "story")
-public class Story implements Serializable {
+public class Story {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long id;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "story_id")
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "story")
   private Map<Link, Passage> passages;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "opening_passage_id")
+  @OneToOne(cascade = {CascadeType.ALL})
+  @JoinColumn
   private Passage openingPassage;
 
   private String title;
@@ -107,7 +106,10 @@ public class Story implements Serializable {
     if (passages.containsValue(passage)) {
       return false;
     } else {
-      passages.put(new Link(passage.getTitle(), passage.getTitle()), passage);
+      passage.setStory(this);
+      Link link = new Link(passage.getTitle(), passage.getTitle());
+      link.setStory(this);
+      passages.put(link, passage);
       return true;
     }
   }

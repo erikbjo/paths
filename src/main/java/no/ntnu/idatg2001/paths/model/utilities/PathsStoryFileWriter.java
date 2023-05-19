@@ -89,11 +89,14 @@ public class PathsStoryFileWriter {
                                 action -> {
                                   content
                                       .append("{")
-                                      .append(action.getClass())
+                                      .append(action.getClass().getSimpleName())
                                       .append("}")
                                       .append("<")
                                       .append(action.getActionValue())
                                       .append(">")
+                                      .append("(")
+                                      .append(action.getActionIsPositive())
+                                      .append(")")
                                       .append("\n");
                                 });
                       });

@@ -87,7 +87,7 @@ public class NewLinkDialog extends LinkDialog implements StandardDialog<Link> {
       if (buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
         Link newLink =
             new Link(linkTextTextField.getText(), referenceComboBox.getValue().getTitle());
-        actionsTableView.getItems().forEach(newLink::addAction);
+        super.getActionsTableView().getItems().forEach(newLink::addAction);
 
         return newLink;
       }

@@ -51,6 +51,14 @@ public class ScoreGoal extends Goal {
     minimumPoints = points;
   }
 
+  public int getMinimumPoints() {
+    return minimumPoints;
+  }
+
+  public void setMinimumPoints(int minimumPoints) {
+    this.minimumPoints = minimumPoints;
+  }
+
   /**
    * Checks if the player has fulfilled the goal.
    *
@@ -61,5 +69,15 @@ public class ScoreGoal extends Goal {
   public boolean isFulfilled(Player player) {
     int playerScore = player.getScore();
     return minimumPoints <= playerScore;
+  }
+
+  @Override
+  public Object getGoalValue() {
+    return getMinimumPoints();
+  }
+
+  @Override
+  public void setGoalValue(Object goalValue) {
+    setMinimumPoints((int) goalValue);
   }
 }

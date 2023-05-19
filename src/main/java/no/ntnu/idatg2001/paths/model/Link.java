@@ -22,9 +22,12 @@ public class Link {
   private String text;
   private String reference;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "link_id")
-  private List<Action> actions;
+  @OneToMany(mappedBy = "link")
+  private final List<Action> actions = new ArrayList<>();
+
+  @ManyToOne
+  @JoinColumn(name = "story_id", nullable = false)
+  private Story story;
 
   /**
    * A constructor that initializes the declared fields for text, reference and actions.
@@ -36,10 +39,17 @@ public class Link {
   public Link(String text, String reference) {
     this.text = text;
     this.reference = reference;
-    this.actions = new ArrayList<>();
   }
 
   public Link() {}
+
+  public Story getStory() {
+    return story;
+  }
+
+  public void setStory(Story story) {
+    this.story = story;
+  }
 
   public Long getId() {
     return id;
@@ -91,6 +101,7 @@ public class Link {
    * @param action Represents the action that gets added to the list of actions.
    */
   public void addAction(Action action) {
+    action.setLink(this);
     actions.add(action);
   }
 

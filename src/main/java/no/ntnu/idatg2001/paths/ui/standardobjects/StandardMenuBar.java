@@ -6,6 +6,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
+import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.model.dao.GameDAO;
 import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
@@ -68,6 +69,45 @@ public class StandardMenuBar extends MenuBar {
           });
       fileMenu.getItems().add(0, homeItem);
     }
+
+    LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> updateLanguage());
+  }
+
+  public StandardMenuBar(Stage stage, Story story) {
+    // Create menu items
+    helpItem = new MenuItem(resourceBundle.getString("helpItem"));
+    helpItem.setOnAction(actionEvent -> onHelp());
+    aboutItem = new MenuItem(resourceBundle.getString("aboutItem"));
+    aboutItem.setOnAction(actionEvent -> onAbout());
+    settingsItem = new MenuItem(resourceBundle.getString("settingsItem"));
+    settingsItem.setOnAction(event -> settingsController = new SettingsController(event));
+    quitItem = new MenuItem(resourceBundle.getString("quitItem"));
+    quitItem.setOnAction(
+        actionEvent -> {
+          actionEvent.consume();
+          GameDAO.getInstance().close();
+          StoryDAO.getInstance().close();
+          PlayerDAO.getInstance().close();
+          Platform.exit();
+        });
+
+    // Create menus and add items
+    fileMenu = new Menu(resourceBundle.getString("fileMenu"));
+    fileMenu.getItems().addAll(settingsItem, quitItem);
+
+    helpMenu = new Menu(resourceBundle.getString("helpMenu"));
+    helpMenu.getItems().addAll(helpItem, aboutItem);
+
+    // add menus
+    this.getMenus().addAll(fileMenu, helpMenu);
+
+    MenuItem homeItem = new MenuItem(resourceBundle.getString("homeItem"));
+    homeItem.setOnAction(
+        actionEvent -> {
+          StoryDAO.getInstance().remove(story);
+          onHome(stage);
+        });
+    fileMenu.getItems().add(0, homeItem);
 
     LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> updateLanguage());
   }

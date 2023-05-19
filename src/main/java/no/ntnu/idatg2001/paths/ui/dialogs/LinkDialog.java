@@ -309,4 +309,9 @@ public abstract class LinkDialog extends Dialog<Link> {
     healthActionsVBox.getChildren().add(healthGridPane);
     return healthActionsVBox;
   }
+
+  public void updateActionTableView(Link link) {
+    actionsTableView.getItems().clear();
+    actionsTableView.getItems().addAll(link.getActions());
+  }
 }

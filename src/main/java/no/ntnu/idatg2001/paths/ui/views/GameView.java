@@ -5,23 +5,39 @@ import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import no.ntnu.idatg2001.paths.model.Game;
+import no.ntnu.idatg2001.paths.model.goals.Goal;
 import no.ntnu.idatg2001.paths.ui.controllers.GameController;
+import no.ntnu.idatg2001.paths.ui.handlers.CurrentGameHandler;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.standardobjects.StandardMenuBar;
 
 public class GameView implements View {
+  private final Game game = CurrentGameHandler.getCurrentGame();
   private final GameController controller;
   private final HBox linksHBox;
   private final Text storyHeadlineText;
   private final Text passageTitleText;
   private final TextArea passageContentTextArea;
   private ResourceBundle resources;
+  private Text playerEnergyText;
+  private Text playerInformationText;
+  private Text nameText;
+  private Text playerNameText;
+  private Text scoreText;
+  private Text playerScoreText;
+  private Text goldText;
+  private Text playerGoldText;
+  private Text healthText;
+  private Text playerHealthText;
+  private Text manaText;
+  private Text playerManaText;
+  private Text energyText;
+  private GridPane goalInformationGridPane;
+  private Text goalInformationText;
 
   public GameView(GameController controller, Stage stage) {
     this.controller = controller;
@@ -30,7 +46,7 @@ public class GameView implements View {
     // gets the correct resource bundle, depending on the current language in database
     resources =
         ResourceBundle.getBundle(
-            "languages/story",
+            "languages/game",
             Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
 
     // Create a borderpane and a standard menubar
@@ -63,8 +79,18 @@ public class GameView implements View {
     rootAnchorPane.getChildren().add(rootVBox);
     root.setCenter(rootAnchorPane);
 
+    VBox leftVBox = new VBox();
+    VBox playerInformationVBox = createPlayerInformationVBox();
+    VBox goalInformationVBox = createGoalInformationVBox();
+
+    leftVBox.getChildren().addAll(playerInformationVBox, goalInformationVBox);
+    root.setLeft(leftVBox);
+
     controller.updateStoryViewToNewPath(
         storyHeadlineText, passageTitleText, passageContentTextArea, linksHBox);
+
+    updateLanguage();
+    updatePlayerInformation();
 
     stage.getScene().setRoot(root);
   }
@@ -73,7 +99,16 @@ public class GameView implements View {
     // update resources
     resources =
         ResourceBundle.getBundle(
-            "story", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+            "languages/game",
+            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+    nameText.setText(resources.getString("nameText"));
+    scoreText.setText(resources.getString("scoreText"));
+    goldText.setText(resources.getString("goldText"));
+    healthText.setText(resources.getString("healthText"));
+    manaText.setText(resources.getString("manaText"));
+    energyText.setText(resources.getString("energyText"));
+    playerInformationText.setText(resources.getString("playerInformationText"));
+    goalInformationText.setText(resources.getString("goalInformationText"));
   }
 
   public HBox getLinksHBox() {
@@ -90,5 +125,88 @@ public class GameView implements View {
 
   public TextArea getPassageContentTextArea() {
     return passageContentTextArea;
+  }
+
+  private VBox createPlayerInformationVBox() {
+    VBox playerInformationVBox = new VBox();
+
+    playerInformationText = new Text();
+    nameText = new Text();
+    playerNameText = new Text();
+    scoreText = new Text();
+    playerScoreText = new Text();
+    goldText = new Text();
+    playerGoldText = new Text();
+    healthText = new Text();
+    playerHealthText = new Text();
+    manaText = new Text();
+    playerManaText = new Text();
+    energyText = new Text();
+    playerEnergyText = new Text();
+
+    GridPane playerInformationGridPane = new GridPane();
+    playerInformationGridPane.add(nameText, 0, 0);
+    playerInformationGridPane.add(playerNameText, 1, 0);
+    playerInformationGridPane.add(scoreText, 0, 1);
+    playerInformationGridPane.add(playerScoreText, 1, 1);
+    playerInformationGridPane.add(goldText, 0, 2);
+    playerInformationGridPane.add(playerGoldText, 1, 2);
+    playerInformationGridPane.add(healthText, 0, 3);
+    playerInformationGridPane.add(playerHealthText, 1, 3);
+    playerInformationGridPane.add(manaText, 0, 4);
+    playerInformationGridPane.add(playerManaText, 1, 4);
+    playerInformationGridPane.add(energyText, 0, 5);
+    playerInformationGridPane.add(playerEnergyText, 1, 5);
+
+    playerInformationVBox.getChildren().addAll(playerInformationText, playerInformationGridPane);
+    return playerInformationVBox;
+  }
+
+  public void updatePlayerInformation() {
+    playerNameText.setText(game.getPlayer().getName());
+    playerScoreText.setText(String.valueOf(game.getPlayer().getScore()));
+    playerGoldText.setText(String.valueOf(game.getPlayer().getGold()));
+    playerHealthText.setText(String.valueOf(game.getPlayer().getHealth()));
+    playerManaText.setText(String.valueOf(game.getPlayer().getMana()));
+    playerEnergyText.setText(String.valueOf(game.getPlayer().getEnergy()));
+  }
+
+  private VBox createGoalInformationVBox() {
+    VBox goalInformationVBox = new VBox();
+
+    goalInformationText = new Text();
+
+    goalInformationGridPane = new GridPane();
+    updateGoalInformation();
+
+    goalInformationVBox.getChildren().addAll(goalInformationText, goalInformationGridPane);
+    return goalInformationVBox;
+  }
+
+  public void updateGoalInformation() {
+    goalInformationGridPane.getChildren().clear();
+    int i = 0;
+    for (Goal goal : CurrentGameHandler.getCurrentGame().getGoals()) {
+      String goalType = goal.getClass().getSimpleName();
+      String goalProgress = null;
+      switch (goalType) {
+        case "HealthGoal" -> goalProgress =
+            game.getPlayer().getHealth() + "/" + goal.getGoalValue();
+        case "ScoreGoal" -> goalProgress = game.getPlayer().getScore() + "/" + goal.getGoalValue();
+        case "GoldGoal" -> goalProgress = game.getPlayer().getGold() + "/" + goal.getGoalValue();
+      }
+
+      Text goalNameText = new Text(goalType);
+      if (goalProgress == null) {
+        goalProgress = "0/0";
+      }
+
+      Text goalProgressText = new Text(goalProgress);
+
+      goalInformationGridPane.add(goalNameText, 0, i);
+      goalInformationGridPane.add(goalProgressText, 1, i);
+
+      i++;
+    }
   }
 }
