@@ -22,11 +22,11 @@ public class Link {
   private String text;
   private String reference;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  private List<Action> actions;
+  @OneToMany(mappedBy = "link")
+  private final List<Action> actions = new ArrayList<>();
 
-  @ManyToOne(cascade = CascadeType.PERSIST)
-  @JoinColumn(name="story_id", nullable=false)
+  @ManyToOne
+  @JoinColumn(name = "story_id", nullable = false)
   private Story story;
 
   /**
@@ -39,7 +39,6 @@ public class Link {
   public Link(String text, String reference) {
     this.text = text;
     this.reference = reference;
-    this.actions = new ArrayList<>();
   }
 
   public Link() {}
