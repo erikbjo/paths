@@ -10,7 +10,7 @@ import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
  * A class that represents a player with different actions that can be used in a story.
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
- * @version 2023.02.03
+ * @version 2023.04.19
  */
 @Entity
 @Table(name = "Player")
@@ -31,6 +31,11 @@ public class Player extends Unit {
   @OneToOne(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
   private Attributes attributes;
 
+  /**
+   * Creates a new player. This constructor is used by the PlayerBuilder.
+   *
+   * @param builder the player builder
+   */
   private Player(PlayerBuilder builder) {
     super(builder);
     this.inventory = builder.inventory;
@@ -38,6 +43,7 @@ public class Player extends Unit {
     this.attributes = builder.attributes;
   }
 
+  /** Used by DB */
   protected Player() {
     super();
   }
@@ -114,6 +120,11 @@ public class Player extends Unit {
     equippedItems.remove(item);
   }
 
+  /**
+   * Dialog for the player.
+   *
+   * @return A string with the dialog.
+   */
   public String dialog() {
     return "Hello, my name is " + super.getName();
   }
@@ -182,6 +193,11 @@ public class Player extends Unit {
     }
   }
 
+  /**
+   * Gets the id of the player.
+   *
+   * @return the id of the player
+   */
   public Long getId() {
     return super.getId();
   }
@@ -204,26 +220,52 @@ public class Player extends Unit {
     this.attributes = attributes;
   }
 
+  /**
+   * The Class PlayerBuilder. This is used to build a player. It extends the UnitBuilder.
+   *
+   * @see UnitBuilder
+   * @see Player
+   * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
+   */
   public static class PlayerBuilder extends UnitBuilder<PlayerBuilder> {
     private List<Item> inventory;
     private List<Equipable> equippedItems;
     private Attributes attributes;
 
+    /**
+     * Sets the inventory.
+     *
+     * @param inventory the inventory
+     * @return the player builder
+     */
     public PlayerBuilder withInventory(List<Item> inventory) {
       this.inventory = inventory;
       return this;
     }
 
+    /**
+     * Sets the equipped items.
+     *
+     * @param equippedItems the equipped items
+     * @return the player builder
+     */
     public PlayerBuilder withEquippedItems(List<Equipable> equippedItems) {
       this.equippedItems = equippedItems;
       return this;
     }
 
+    /**
+     * Sets the attributes of the player.
+     *
+     * @param attributes the attributes of the player
+     * @return the player builder
+     */
     public PlayerBuilder withAttributes(Attributes attributes) {
       this.attributes = attributes;
       return this;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Player build() {
       return new Player(this);

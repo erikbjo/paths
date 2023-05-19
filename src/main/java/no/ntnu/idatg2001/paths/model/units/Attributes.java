@@ -2,7 +2,11 @@ package no.ntnu.idatg2001.paths.model.units;
 
 import jakarta.persistence.*;
 
-/** The SpecialAttributes interface represents the special attributes of a unit. */
+/**
+ * The Attributes class represents the attributes of a player.
+ *
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
+ */
 @Entity
 public class Attributes {
   @Id
@@ -19,18 +23,11 @@ public class Attributes {
   private int luck;
 
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinTable(name = "Attributes_player",
-          joinColumns = @JoinColumn(name = "attributes_id"),
-          inverseJoinColumns = @JoinColumn(name = "player_id"))
+  @JoinTable(
+      name = "Attributes_player",
+      joinColumns = @JoinColumn(name = "attributes_id"),
+      inverseJoinColumns = @JoinColumn(name = "player_id"))
   private Player player;
-
-  public Player getPlayer() {
-    return player;
-  }
-
-  public void setPlayer(Player player) {
-    this.player = player;
-  }
 
   /**
    * Instantiates a new Attributes.
@@ -60,9 +57,18 @@ public class Attributes {
     this.luck = luck;
   }
 
+  /** Used by DB */
   protected Attributes() {}
 
+  /**
+   * Instantiates a new Attributes from the enum DefaultAttributes.
+   *
+   * @param defaultAttributes the default attributes to copy
+   * @throws IllegalArgumentException if defaultAttributes is null
+   */
   public Attributes(DefaultAttributes defaultAttributes) {
+    if (defaultAttributes == null) throw new IllegalArgumentException("DefaultAttributes is null");
+
     this.strength = defaultAttributes.getAttributes().getStrength();
     this.perception = defaultAttributes.getAttributes().getPerception();
     this.endurance = defaultAttributes.getAttributes().getEndurance();
@@ -70,6 +76,24 @@ public class Attributes {
     this.intelligence = defaultAttributes.getAttributes().getIntelligence();
     this.agility = defaultAttributes.getAttributes().getAgility();
     this.luck = defaultAttributes.getAttributes().getLuck();
+  }
+
+  /**
+   * Gets player that owns the attributes.
+   *
+   * @return the player that owns the attributes
+   */
+  public Player getPlayer() {
+    return player;
+  }
+
+  /**
+   * Sets player that owns the attributes.
+   *
+   * @param player the player that owns the attributes
+   */
+  public void setPlayer(Player player) {
+    this.player = player;
   }
 
   /**
@@ -202,8 +226,13 @@ public class Attributes {
    * Merges two attributes together.
    *
    * @param attributes the attributes to merge
+   * @throws IllegalArgumentException if the attributes are null
    */
   public void addAttributes(Attributes attributes) {
+    if (attributes == null) {
+      throw new IllegalArgumentException("Attributes cannot be null");
+    }
+
     this.setStrength(this.getStrength() + attributes.getStrength());
     this.setPerception(this.getPerception() + attributes.getPerception());
     this.setEndurance(this.getEndurance() + attributes.getEndurance());
@@ -217,8 +246,24 @@ public class Attributes {
    * Subtracts two attributes from each other.
    *
    * @param attributes the attributes to subtract
+   * @throws IllegalArgumentException if the attributes are null
+   * @throws IllegalArgumentException if the attributes are greater than the current attributes
    */
   public void subtractAttributes(Attributes attributes) {
+    if (attributes == null) {
+      throw new IllegalArgumentException("Attributes cannot be null");
+    }
+
+    if (attributes.getStrength() > this.getStrength()
+        || attributes.getPerception() > this.getPerception()
+        || attributes.getEndurance() > this.getEndurance()
+        || attributes.getCharisma() > this.getCharisma()
+        || attributes.getIntelligence() > this.getIntelligence()
+        || attributes.getAgility() > this.getAgility()
+        || attributes.getLuck() > this.getLuck()) {
+      throw new IllegalArgumentException("Attributes cannot be negative");
+    }
+
     this.setStrength(this.getStrength() - attributes.getStrength());
     this.setPerception(this.getPerception() - attributes.getPerception());
     this.setEndurance(this.getEndurance() - attributes.getEndurance());

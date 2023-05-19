@@ -2,17 +2,22 @@ package no.ntnu.idatg2001.paths.model.units;
 
 import jakarta.persistence.*;
 
-/** The Unit class represents a unit in the game. */
+/**
+ * The Unit class represents a unit in the game.
+ *
+ * @see UnitBuilder
+ * @author Erik Bjørsen and Emil Klevgård-Slåttsveen
+ */
 @Entity
 @Table(name = "Unit")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Unit {
+  protected String name;
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  // Information
-  protected String name;
   private int score;
   private int gold;
   // Standard stats
@@ -20,6 +25,11 @@ public abstract class Unit {
   private int mana;
   private int energy;
 
+  /**
+   * Constructor for the Unit class.
+   *
+   * @param builder the builder to build the unit
+   */
   protected Unit(UnitBuilder<?> builder) {
     this.name = builder.name;
     this.score = builder.score;
@@ -147,14 +157,29 @@ public abstract class Unit {
     this.energy = energy;
   }
 
+  /**
+   * Gets the id.
+   *
+   * @return the id
+   */
   protected Long getId() {
     return id;
   }
 
+  /**
+   * Sets the id.
+   *
+   * @param id the id
+   */
   public void setId(Long id) {
     this.id = id;
   }
 
+  /**
+   * ToString method for the Unit class.
+   *
+   * @return String with the information of the unit
+   */
   @Override
   public String toString() {
     return name + ", score: " + score + ", gold: " + gold;
@@ -174,36 +199,77 @@ public abstract class Unit {
     private int mana;
     private int energy;
 
+    /**
+     * Sets the name of the unit.
+     *
+     * @param name the name of the unit
+     * @return the unit builder
+     */
     public T withName(String name) {
       this.name = name;
       return (T) this;
     }
 
+    /**
+     * Sets the score of the unit.
+     *
+     * @param score the score of the unit
+     * @return the unit builder
+     */
     public T withScore(int score) {
       this.score = score;
       return (T) this;
     }
 
+    /**
+     * Sets the gold of the unit.
+     *
+     * @param gold the gold of the unit
+     * @return the unit builder
+     */
     public T withGold(int gold) {
       this.gold = gold;
       return (T) this;
     }
 
+    /**
+     * Sets the health of the unit.
+     *
+     * @param health the health of the unit
+     * @return the unit builder
+     */
     public T withHealth(int health) {
       this.health = health;
       return (T) this;
     }
 
+    /**
+     * Sets the mana of the unit.
+     *
+     * @param mana the mana of the unit
+     * @return the unit builder
+     */
     public T withMana(int mana) {
       this.mana = mana;
       return (T) this;
     }
 
+    /**
+     * Sets the energy of the unit.
+     *
+     * @param energy the energy of the unit
+     * @return the unit builder
+     */
     public T withEnergy(int energy) {
       this.energy = energy;
       return (T) this;
     }
 
+    /**
+     * Builds the unit.
+     *
+     * @return the unit
+     */
     public abstract Unit build();
   }
 }
