@@ -7,6 +7,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * The HealthAction class represents an action that gives the player health.
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
+ * @version 2023-04-19
  */
 @Entity
 public class HealthAction extends Action {
@@ -23,6 +24,7 @@ public class HealthAction extends Action {
     this.isPositive = isPositive;
   }
 
+  /** Empty constructor for the HealthAction class. Used by JPA. */
   public HealthAction() {}
 
   /**
@@ -34,6 +36,11 @@ public class HealthAction extends Action {
     return isPositive;
   }
 
+  /**
+   * Sets whether the action is positive or not.
+   *
+   * @param isPositive whether the action is positive or not
+   */
   public void setIsPositive(boolean isPositive) {
     this.isPositive = isPositive;
   }
@@ -47,6 +54,11 @@ public class HealthAction extends Action {
     return health;
   }
 
+  /**
+   * Sets the amount of health the action gives.
+   *
+   * @param health the amount of health the action gives
+   */
   public void setHealth(int health) {
     this.health = health;
   }
@@ -60,26 +72,29 @@ public class HealthAction extends Action {
     this.health += health;
   }
 
-  /**
-   * Executes the action.
-   *
-   * @param player the player who is performing the action
-   */
+  /** {@inheritDoc} */
   @Override
   public void execute(Player player) {
     player.addHealth(health);
   }
 
+  /** {@inheritDoc} */
   @Override
   public Object getActionValue() {
     return getHealth();
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setActionValue(Object actionValue) {
-    this.health = actionValue instanceof Integer ? (int) actionValue : 0;
+    if (!(actionValue instanceof Integer)) {
+      throw new IllegalArgumentException("Action value must be an integer");
+    }
+
+    setHealth((Integer) actionValue);
   }
 
+  /** {@inheritDoc} */
   @Override
   public Boolean getActionIsPositive() {
     return getIsPositive();

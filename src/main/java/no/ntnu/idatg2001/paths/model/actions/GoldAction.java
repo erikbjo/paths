@@ -7,6 +7,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * The GoldAction class represents an action that gives the player gold.
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
+ * @version 2023-04-19
  */
 @Entity
 public class GoldAction extends Action {
@@ -23,6 +24,7 @@ public class GoldAction extends Action {
     this.isPositive = isPositive;
   }
 
+  /** Empty constructor for the GoldAction class. Used by JPA. */
   public GoldAction() {}
 
   /**
@@ -70,16 +72,23 @@ public class GoldAction extends Action {
     player.addGold(gold);
   }
 
+  /** {@inheritDoc} */
   @Override
   public Object getActionValue() {
     return getGold();
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setActionValue(Object actionValue) {
-    this.gold = actionValue instanceof Integer ? (int) actionValue : 0;
+    if (!(actionValue instanceof Integer)) {
+      throw new IllegalArgumentException("Action value must be an integer");
+    }
+
+    setGold((int) actionValue);
   }
 
+  /** {@inheritDoc} */
   @Override
   public Boolean getActionIsPositive() {
     return getIsPositive();
