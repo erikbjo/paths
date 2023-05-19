@@ -6,9 +6,11 @@ import no.ntnu.idatg2001.paths.model.units.Attributes;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
- * The Armor class represents an armor in the game. It extends the Item class and implements the
- * equipable interface.
+ * The Armor class represents an armor in the game. It is a subclass of Equipable. It has attributes
+ * that can be added to the player when equipped.
  *
+ * @see Equipable
+ * @see Attributes
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 @Entity

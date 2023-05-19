@@ -7,6 +7,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
  * The ScoreAction class represents an action that gives the player score.
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
+ * @version 2023-04-19
  */
 @Entity
 public class ScoreAction extends Action {
@@ -23,6 +24,7 @@ public class ScoreAction extends Action {
     this.isPositive = isPositive;
   }
 
+  /** Empty constructor for the ScoreAction class. Used by JPA. */
   public ScoreAction() {}
 
   /**
@@ -47,6 +49,11 @@ public class ScoreAction extends Action {
     return points;
   }
 
+  /**
+   * Sets the amount of points the action gives.
+   *
+   * @param points the amount of points the action gives
+   */
   public void setPoints(int points) {
     this.points = points;
   }
@@ -60,26 +67,28 @@ public class ScoreAction extends Action {
     this.points += points;
   }
 
-  /**
-   * Executes the action.
-   *
-   * @param player the player who is performing the action
-   */
+  /** {@inheritDoc} */
   @Override
   public void execute(Player player) {
     player.setScore(player.getScore() + points);
   }
 
+  /** {@inheritDoc} */
   @Override
   public Object getActionValue() {
     return getPoints();
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setActionValue(Object actionValue) {
-    this.points = actionValue instanceof Integer ? (int) actionValue : 0;
+    if (!(actionValue instanceof Integer))
+      throw new IllegalArgumentException("Action value must be an integer");
+
+    setPoints((Integer) actionValue);
   }
 
+  /** {@inheritDoc} */
   @Override
   public Boolean getActionIsPositive() {
     return getIsPositive();

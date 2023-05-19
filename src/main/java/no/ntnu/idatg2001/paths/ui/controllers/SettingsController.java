@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.event.Event;
 import no.ntnu.idatg2001.paths.model.Languages;
-import no.ntnu.idatg2001.paths.model.utilities.SettingsFileWriter;
+import no.ntnu.idatg2001.paths.model.utilities.SettingsFileWriterReader;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.handlers.VolumeHandler;
 import no.ntnu.idatg2001.paths.ui.dialogs.SettingsDialog;
@@ -39,7 +39,7 @@ public class SettingsController {
 
     LanguageHandler.setCurrentLanguage(language);
     VolumeHandler.setCurrentVolume(volume);
-    SettingsFileWriter.saveSettings();
+    SettingsFileWriterReader.saveSettings();
     view.close();
   }
 }

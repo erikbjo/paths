@@ -4,11 +4,11 @@ import jakarta.persistence.*;
 import no.ntnu.idatg2001.paths.model.items.Item;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
-import java.io.Serializable;
-
 /**
- * The Equipable interface represents an item that can be equipped by the player.
+ * The Equipable class represents an item that can be equipped by the player. It is a subclass of
+ * Item.
  *
+ * @see Item
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 @Entity
@@ -25,6 +25,7 @@ public abstract class Equipable extends Item {
     super(name, itemScore, goldValue);
   }
 
+  /** Used by DB */
   protected Equipable() {}
 
   /**

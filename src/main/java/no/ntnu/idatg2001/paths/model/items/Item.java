@@ -1,17 +1,13 @@
 package no.ntnu.idatg2001.paths.model.items;
 
 import jakarta.persistence.*;
-import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.units.Player;
-
-import java.io.Serializable;
 
 /**
  * The Item class represents an item in the game.
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
-
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Item {
@@ -24,14 +20,11 @@ public abstract class Item {
   @JoinColumn(name = "player_id")
   protected Player player;
 
-  @Column
-  protected String name;
+  @Column protected String name;
 
-  @Column
-  protected int itemScore;
+  @Column protected int itemScore;
 
-  @Column
-  protected int goldValue;
+  @Column protected int goldValue;
 
   /**
    * Constructor for the Item class.
@@ -47,6 +40,5 @@ public abstract class Item {
   }
 
   /** Used by DB */
-  protected Item() {
-  }
+  protected Item() {}
 }

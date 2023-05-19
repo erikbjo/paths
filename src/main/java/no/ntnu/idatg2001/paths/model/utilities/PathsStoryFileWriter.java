@@ -7,15 +7,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import no.ntnu.idatg2001.paths.model.Story;
 
+/**
+ * Story file writer that writes a story to a file.
+ *
+ * @see Story
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
+ */
 public class PathsStoryFileWriter {
-  private static final PathsStoryFileWriter instance = new PathsStoryFileWriter();
 
-  private PathsStoryFileWriter() {}
-
-  public static PathsStoryFileWriter getInstance() {
-    return instance;
-  }
-
+  /**
+   * Writes a story to a file. The file is saved in the same directory as the program.
+   *
+   * @param story the story to write
+   */
   public static void writeStoryToFile(Story story) {
     String fileName = story.getTitle() + ".paths";
     if (!fileExists(fileName)) {
@@ -121,6 +125,12 @@ public class PathsStoryFileWriter {
     }
   }
 
+  /**
+   * Checks if a file exists.
+   *
+   * @param fileName the file name
+   * @return true if the file exists, false otherwise
+   */
   private static boolean fileExists(String fileName) {
     boolean fileExists = false;
 
@@ -135,6 +145,11 @@ public class PathsStoryFileWriter {
     return fileExists;
   }
 
+  /**
+   * Creates a file.
+   *
+   * @param fileName the file name
+   */
   private static void createFile(String fileName) {
     try {
       Path filePath = Paths.get(fileName);

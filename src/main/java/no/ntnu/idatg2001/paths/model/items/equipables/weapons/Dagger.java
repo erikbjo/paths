@@ -7,6 +7,7 @@ import jakarta.persistence.Table;
 /**
  * The Dagger class represents a dagger in the game. It extends the Weapon class.
  *
+ * @see Weapon
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 @Entity(name = "Dagger")
@@ -24,5 +25,6 @@ public class Dagger extends Weapon {
     super(name, itemScore, goldValue, damage);
   }
 
+    /** Used by DB */
   protected Dagger() {}
 }

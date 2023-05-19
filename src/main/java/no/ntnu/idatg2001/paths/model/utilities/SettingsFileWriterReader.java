@@ -10,9 +10,21 @@ import no.ntnu.idatg2001.paths.model.Languages;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.handlers.VolumeHandler;
 
-public class SettingsFileWriter {
+/**
+ * Settings file writer that writes the current settings to a file.
+ *
+ * @see LanguageHandler
+ * @see VolumeHandler
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
+ */
+public class SettingsFileWriterReader {
   private static final String FILENAME = "paths.settings";
 
+  /**
+   * Saves the current settings to a file. The file is saved in the same directory as the program.
+   * If the file already exists, it will be overwritten. If the file does not exist, it will be
+   * created.
+   */
   public static void saveSettings() {
     if (fileExists()) {
       String content =
@@ -43,6 +55,10 @@ public class SettingsFileWriter {
     }
   }
 
+  /**
+   * Reads the current settings from a file. The file is saved in the same directory as the program.
+   * If the file does not exist, it will be created.
+   */
   public static void readSettings() {
     if (fileExists()) {
       Path filePath = Paths.get(FILENAME);
@@ -69,6 +85,11 @@ public class SettingsFileWriter {
     }
   }
 
+  /**
+   * Checks if the file exists.
+   *
+   * @return true if the file exists, false otherwise
+   */
   private static boolean fileExists() {
     boolean fileExists = false;
 
@@ -83,6 +104,7 @@ public class SettingsFileWriter {
     return fileExists;
   }
 
+  /** Creates the file. */
   private static void createFile() {
     try {
       Path filePath = Paths.get(FILENAME);

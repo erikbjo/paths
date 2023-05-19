@@ -10,20 +10,44 @@ import java.util.Optional;
 import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.Story;
 
+/**
+ * {@inheritDoc} The StoryDAO class is a Data Access Object for the Story class.
+ *
+ * <p>It is used to retrieve and store Story objects to and from the database.
+ *
+ * <p>It implements the DAO interface.
+ *
+ * <p>It is a singleton class.
+ *
+ * @see DAO
+ * @see Story
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
+ */
 public class StoryDAO implements DAO<Story> {
   private static final StoryDAO instance = new StoryDAO();
   private final EntityManagerFactory emf;
   private final EntityManager em;
 
+  /**
+   * Constructor for the StoryDAO class.
+   *
+   * <p>Initializes the EntityManagerFactory and EntityManager.
+   */
   public StoryDAO() {
     this.emf = Persistence.createEntityManagerFactory("pathDB");
     this.em = this.emf.createEntityManager();
   }
 
+  /**
+   * Returns the instance of the StoryDAO class.
+   *
+   * @return the instance of the StoryDAO class
+   */
   public static StoryDAO getInstance() {
     return instance;
   }
 
+  /** {@inheritDoc} */
   @Override
   public void add(Story story) {
     if (getInstance().getAll().contains(story)) {
@@ -35,6 +59,7 @@ public class StoryDAO implements DAO<Story> {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public void remove(Story story) {
     List<Game> gamesWithStory = GameDAO.getInstance().findGamesByStory(story);
@@ -48,6 +73,7 @@ public class StoryDAO implements DAO<Story> {
     em.getTransaction().commit();
   }
 
+  /** {@inheritDoc} */
   @Override
   public void update(Story story) {
     em.getTransaction().begin();
@@ -56,32 +82,26 @@ public class StoryDAO implements DAO<Story> {
     em.getTransaction().commit();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Iterator<Story> iterator() {
     TypedQuery<Story> query = this.em.createQuery("SELECT a FROM Story a", Story.class);
     return query.getResultList().iterator();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Optional<Story> find(Long id) {
     return Optional.ofNullable(em.find(Story.class, id));
   }
 
-  /**
-   * Retrieves all stories in the database.
-   *
-   * @return a list of all stories.
-   */
+  /** {@inheritDoc} */
   @Override
   public List<Story> getAll() {
     return em.createQuery("SELECT a FROM Story a", Story.class).getResultList();
   }
 
-  public List<Long> getAllStoryIDs() {
-    return em.createQuery("SELECT a.id FROM Story a", Long.class).getResultList();
-  }
-
-  /** Prints details for all stories in the database. */
+  /** {@inheritDoc} */
   @Override
   public void printAllDetails() {
     List<Story> storyList = getAll();
@@ -90,7 +110,7 @@ public class StoryDAO implements DAO<Story> {
     }
   }
 
-  /** Closes the EntityManager and EntityManagerFactory. */
+  /** {@inheritDoc} */
   @Override
   public void close() {
     if (em.isOpen()) {

@@ -2,11 +2,11 @@ package no.ntnu.idatg2001.paths.model.items.equipables.weapons;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 
 /**
  * The Mace class represents a mace in the game. It extends the Weapon class.
  *
+ * @see Weapon
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 @Entity(name = "Mace")
@@ -24,5 +24,6 @@ public class Mace extends Weapon {
     super(name, itemScore, goldValue, damage);
   }
 
+  /** Used by DB */
   protected Mace() {}
 }

@@ -2,12 +2,12 @@ package no.ntnu.idatg2001.paths.model.items.equipables.armor;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import no.ntnu.idatg2001.paths.model.units.Attributes;
 
 /**
- * The Belt class represents a belt in the game. It extends the Armor class.
+ * The Belt class represents a belt in the game. It is a subclass of Armor.
  *
+ * @see Armor
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 @Entity(name = "Belt")
@@ -26,5 +26,6 @@ public class Belt extends Armor {
     super(name, itemScore, goldValue, attributes);
   }
 
+  /** Used by DB */
   protected Belt() {}
 }

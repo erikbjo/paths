@@ -7,24 +7,47 @@ import jakarta.persistence.TypedQuery;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-
 import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
+/**
+ * {@inheritDoc} The StoryDAO class is a Data Access Object for the Player class.
+ *
+ * <p>It is used to retrieve and store Player objects to and from the database.
+ *
+ * <p>It implements the DAO interface.
+ *
+ * <p>It is a singleton class.
+ *
+ * @see DAO
+ * @see Player
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
+ */
 public class PlayerDAO implements DAO<Player> {
   private static final PlayerDAO instance = new PlayerDAO();
   private final EntityManagerFactory emf;
   private final EntityManager em;
 
+  /**
+   * Constructor for the PlayerDAO class.
+   *
+   * <p>Initializes the EntityManagerFactory and EntityManager.
+   */
   public PlayerDAO() {
     this.emf = Persistence.createEntityManagerFactory("pathDB");
     this.em = this.emf.createEntityManager();
   }
 
+  /**
+   * Returns the instance of the PlayerDAO class.
+   *
+   * @return the instance of the PlayerDAO class.
+   */
   public static PlayerDAO getInstance() {
     return instance;
   }
 
+  /** {@inheritDoc} */
   @Override
   public void add(Player player) {
     if (getInstance().getAll().contains(player)) {
@@ -36,13 +59,9 @@ public class PlayerDAO implements DAO<Player> {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public void remove(Player player) {
-//    Player foundPlayer = em.find(Player.class, player.getId());
-//    em.getTransaction().begin();
-//    em.remove(foundPlayer);
-//    em.getTransaction().commit();
-
     List<Game> gamesWithPlayer = GameDAO.getInstance().findGamesByPlayer(player);
     for (Game game : gamesWithPlayer) {
       game.setPlayer(null);
@@ -54,6 +73,7 @@ public class PlayerDAO implements DAO<Player> {
     em.getTransaction().commit();
   }
 
+  /** {@inheritDoc} */
   @Override
   public void update(Player player) {
     em.getTransaction().begin();
@@ -62,32 +82,26 @@ public class PlayerDAO implements DAO<Player> {
     em.getTransaction().commit();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Iterator<Player> iterator() {
     TypedQuery<Player> query = this.em.createQuery("SELECT a FROM Player a", Player.class);
     return query.getResultList().iterator();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Optional<Player> find(Long id) {
     return Optional.ofNullable(em.find(Player.class, id));
   }
 
-  /**
-   * Retrieves all players in the database.
-   *
-   * @return a list of all players.
-   */
+  /** {@inheritDoc} */
   @Override
   public List<Player> getAll() {
     return em.createQuery("SELECT a FROM Player a", Player.class).getResultList();
   }
 
-  public List<Long> getAllPlayerIDs() {
-    return em.createQuery("SELECT a.id FROM Player a", Long.class).getResultList();
-  }
-
-  /** Prints details for all players in the database. */
+  /** {@inheritDoc} */
   @Override
   public void printAllDetails() {
     List<Player> playerList = getAll();
@@ -96,7 +110,7 @@ public class PlayerDAO implements DAO<Player> {
     }
   }
 
-  /** Closes the EntityManager and EntityManagerFactory. */
+  /** {@inheritDoc} */
   @Override
   public void close() {
     if (em.isOpen()) {

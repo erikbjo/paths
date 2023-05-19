@@ -1,6 +1,12 @@
 package no.ntnu.idatg2001.paths.model.units;
 
-// @TODO: ADD LANGUAGE SUPPORT FOR THIS
+/**
+ * The DefaultAttributes enum represents the default attributes of the different classes in the
+ * game.
+ *
+ * @see Attributes
+ * @author Erik Bjørnsen and Emil Klevgård-Slåtssveen
+ */
 public enum DefaultAttributes {
   HUNTER(3, 5, 2, 2, 6, 7, 3),
   WARRIOR(7, 3, 5, 4, 3, 4, 4),
@@ -14,6 +20,17 @@ public enum DefaultAttributes {
 
   private final Attributes attributes;
 
+  /**
+   * Constructor for the DefaultAttributes enum.
+   *
+   * @param strength the strength of the class
+   * @param perception the perception of the class
+   * @param endurance the endurance of the class
+   * @param charisma the charisma of the class
+   * @param intelligence the intelligence of the class
+   * @param agility the agility of the class
+   * @param luck the luck of the class
+   */
   DefaultAttributes(
       int strength,
       int perception,
@@ -26,6 +43,11 @@ public enum DefaultAttributes {
         new Attributes(strength, perception, endurance, charisma, intelligence, agility, luck);
   }
 
+  /**
+   * Gets the attributes of the class.
+   *
+   * @return the attributes of the class
+   */
   public Attributes getAttributes() {
     return attributes;
   }
