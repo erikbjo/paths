@@ -104,7 +104,6 @@ public class Game {
       link.getActions()
           .forEach(
               action -> {
-                System.out.println(action);
                 action.execute(player);
               });
 

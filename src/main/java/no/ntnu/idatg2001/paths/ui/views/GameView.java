@@ -184,7 +184,6 @@ public class GameView implements View {
   }
 
   public void updateGoalInformation() {
-    System.out.println(game.getGoals());
     goalInformationGridPane.getChildren().clear();
     int i = 0;
     for (Goal goal : CurrentGameHandler.getCurrentGame().getGoals()) {

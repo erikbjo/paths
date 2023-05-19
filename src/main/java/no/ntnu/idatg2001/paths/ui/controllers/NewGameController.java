@@ -88,19 +88,25 @@ public class NewGameController implements Controller {
       }
 
       Game game = new Game(player, story, new ArrayList<>());
-      GameDAO gameDAO = GameDAO.getInstance();
-      gameDAO.add(game);
+      GameDAO.getInstance().add(game);
 
       CreateGoalsForNewGameDialog createGoalsForNewGameDialog =
           new CreateGoalsForNewGameDialog(game);
       Optional<List<Goal>> result = createGoalsForNewGameDialog.showAndWait();
       if (result.isPresent() && !result.get().isEmpty()) {
-        game.setGoals(result.get());
-        gameDAO.update(game);
+        result
+            .get()
+            .forEach(
+                goal -> {
+                  goal.setGame(game);
+                  game.addGoal(goal);
+                });
+
+        GameDAO.getInstance().update(game);
         CurrentGameHandler.setCurrentGame(game);
         new GameController(stage);
       } else {
-        gameDAO.remove(game);
+        GameDAO.getInstance().remove(game);
       }
     } catch (NullPointerException e) {
       ExceptionAlert exceptionAlert = new ExceptionAlert(e);
