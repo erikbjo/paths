@@ -1,23 +1,19 @@
 package no.ntnu.idatg2001.paths.model.items.equipables.weapons;
 
 import jakarta.persistence.*;
-import no.ntnu.idatg2001.paths.model.items.Item;
 import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
-import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
- * The Weapon class represents a weapon in the game. It extends the Item class and implements the
- * equipable interface.
+ * The Weapon class represents a weapon in the game. It is a subclass of Equipable.
  *
+ * @see Equipable
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
-
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Weapon extends Equipable {
 
-  @Column
-  private int damage;
+  @Column private int damage;
 
   /** Constructor for the Weapon class. */
   protected Weapon(String name, int itemScore, int goldValue, int damage) {
@@ -25,6 +21,7 @@ public abstract class Weapon extends Equipable {
     this.damage = damage;
   }
 
+  /** Used by DB */
   protected Weapon() {}
 
   /**

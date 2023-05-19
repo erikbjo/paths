@@ -1,12 +1,13 @@
 package no.ntnu.idatg2001.paths.model.dao;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Iterator;
+import java.util.Optional;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.Iterator;
-import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerDAOTest {
   private PlayerDAO playerDAO;
@@ -26,6 +27,14 @@ class PlayerDAOTest {
     if (playerDAO.getAll().contains(testPlayer)) {
       playerDAO.remove(testPlayer);
     }
+
+    playerDAO.getAll().stream()
+        .filter(player -> player.getName().equals("Ozzy"))
+        .forEach(playerDAO::remove);
+    playerDAO.getAll().stream()
+        .filter(player -> player.getName().equals("Test"))
+        .forEach(playerDAO::remove);
+
     playerDAO.close();
   }
 

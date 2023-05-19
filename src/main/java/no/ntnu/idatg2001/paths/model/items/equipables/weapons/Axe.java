@@ -7,6 +7,7 @@ import jakarta.persistence.Table;
 /**
  * The Axe class represents an axe in the game. It extends the Weapon class.
  *
+ * @see Weapon
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 @Entity(name = "Axe")
@@ -24,5 +25,6 @@ public class Axe extends Weapon {
     super(name, itemScore, goldValue, damage);
   }
 
+    /** Used by DB */
   protected Axe() {}
 }

@@ -2,12 +2,12 @@ package no.ntnu.idatg2001.paths.model.items.equipables.armor;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import no.ntnu.idatg2001.paths.model.units.Attributes;
 
 /**
  * The Chest class represents a chest in the game. It extends the Armor class.
  *
+ * @see Armor
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 @Entity(name = "Chest")
@@ -26,5 +26,6 @@ public class Chest extends Armor {
     super(name, itemScore, goldValue, attributes);
   }
 
+  /** Used by DB */
   protected Chest() {}
 }
