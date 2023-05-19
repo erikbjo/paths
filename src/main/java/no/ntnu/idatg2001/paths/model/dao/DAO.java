@@ -8,7 +8,8 @@ import java.util.Optional;
  * Data Access Object used to access data from a database.
  *
  * @param <T> the type of the entity to be stored in the database.
- * @version 1.0
+ * @version 1.1
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
  */
 public interface DAO<T> extends Iterable<T> {
   /**
