@@ -2,7 +2,6 @@ package no.ntnu.idatg2001.paths.model.utilities;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
@@ -15,16 +14,23 @@ import no.ntnu.idatg2001.paths.model.actions.HealthAction;
 import no.ntnu.idatg2001.paths.model.actions.ScoreAction;
 import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
 
+/**
+ * Story file reader that reads a story from a file and creates a story object. The story object is
+ * then saved to the database.
+ *
+ * @see Story
+ * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
+ */
 public class PathsStoryFileReader {
-  private static final PathsStoryFileReader instance = new PathsStoryFileReader();
   private static Story story;
 
-  private PathsStoryFileReader() {}
-
-  public static PathsStoryFileReader getInstance() {
-    return instance;
-  }
-
+  /**
+   * Reads a story from a file and creates a story object. The story object is then saved to the
+   * database.
+   *
+   * @param file the file to read from
+   * @throws IOException if an I/O error occurs
+   */
   public static void readStoryFromFile(File file) throws IOException {
     try {
       Scanner fileScanner = new Scanner(file);
@@ -141,26 +147,3 @@ public class PathsStoryFileReader {
     }
   }
 }
-
-/*
-if (line.startsWith("::")) {
-            passage.setTitle(line.substring(2).trim());
-          } else if (line.startsWith("[")) {
-            int endBracket = line.indexOf(']');
-            int startParenthesis = line.indexOf('(');
-            int endParenthesis = line.indexOf(')');
-
-            if (endBracket != -1 && startParenthesis != -1 && endParenthesis != -1) {
-              String linkText = line.substring(1, endBracket);
-              String linkReference = line.substring(startParenthesis + 1, endParenthesis);
-
-              Link link = new Link();
-              link.setText(linkText);
-              link.setReference(linkReference);
-
-              passage.getLinks().add(link);
-            }
-          } else {
-            content.append(line).append("\n");
-          }
- */
