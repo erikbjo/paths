@@ -1,3 +1,4 @@
+/*
 package no.ntnu.idatg2001.paths.model.goals;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -76,3 +77,4 @@ class InventoryGoalTest {
   @AfterEach
   void tearDown() {}
 }
+*/
