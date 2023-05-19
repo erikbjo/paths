@@ -64,6 +64,7 @@ public class PathsStoryFileReader {
 
                 link = new Link(linkText, linkReference);
 
+                passage.setStory(story);
                 passage.getLinks().add(link);
               }
             }
@@ -109,6 +110,7 @@ public class PathsStoryFileReader {
                 }
 
                 if (action != null && link != null) {
+                  link.setStory(story);
                   link.addAction(action);
                 } else {
                   System.out.println("Could not add action to link");
