@@ -25,8 +25,7 @@ public class Game {
   @JoinColumn(name = "story_id")
   private Story story;
 
-  @OneToOne
-  private Passage currentPassage;
+  @OneToOne private Passage currentPassage;
 
   /**
    * Constructor for the Game class.
@@ -71,6 +70,23 @@ public class Game {
 
   public List<Goal> getGoals() {
     return goals;
+  }
+
+  public void setGoals(List<Goal> goals) {
+    removeAllGoals();
+    goals.forEach(this::addGoal);
+  }
+
+  public void addGoal(Goal goal) {
+    goals.add(goal);
+  }
+
+  public void removeGoal(Goal goal) {
+    goals.remove(goal);
+  }
+
+  public void removeAllGoals() {
+    goals.clear();
   }
 
   public Passage begin() {

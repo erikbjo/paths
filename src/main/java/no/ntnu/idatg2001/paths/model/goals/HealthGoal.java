@@ -50,6 +50,14 @@ public class HealthGoal extends Goal {
     minimumHealth -= health;
   }
 
+  public int getMinimumHealth() {
+    return minimumHealth;
+  }
+
+  public void setMinimumHealth(int minimumHealth) {
+    this.minimumHealth = minimumHealth;
+  }
+
   /**
    * Sets the minimum health the player must have to fulfill the goal.
    *
@@ -73,5 +81,15 @@ public class HealthGoal extends Goal {
   public boolean isFulfilled(Player player) {
     int playerHealth = player.getHealth();
     return minimumHealth <= playerHealth;
+  }
+
+  @Override
+  public Object getGoalValue() {
+    return getMinimumHealth();
+  }
+
+  @Override
+  public void setGoalValue(Object goalValue) {
+    setMinimumHealth((int) goalValue);
   }
 }

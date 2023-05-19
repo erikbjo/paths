@@ -18,4 +18,8 @@ public abstract class Goal {
   private Game game;
 
   public abstract boolean isFulfilled(Player player);
+
+  public abstract Object getGoalValue();
+
+  public abstract void setGoalValue(Object goalValue);
 }
