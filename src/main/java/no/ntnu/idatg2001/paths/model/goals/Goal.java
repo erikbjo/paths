@@ -11,11 +11,29 @@ import no.ntnu.idatg2001.paths.model.units.Player;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Goal {
-  @Id @GeneratedValue Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
   @ManyToOne
   @JoinColumn(name = "game_id")
   private Game game;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Game getGame() {
+    return game;
+  }
+
+  public void setGame(Game game) {
+    this.game = game;
+  }
 
   public abstract boolean isFulfilled(Player player);
 

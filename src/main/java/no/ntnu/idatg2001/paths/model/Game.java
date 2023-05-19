@@ -10,7 +10,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
 @Entity
 @Table(name = "game")
 public class Game {
-  @OneToMany(cascade = CascadeType.PERSIST)
+  @OneToMany(mappedBy = "game")
   private final List<Goal> goals = new ArrayList<>();
 
   @Id
@@ -77,7 +77,12 @@ public class Game {
     goals.forEach(this::addGoal);
   }
 
+  public void addGoals(List<Goal> goals) {
+    goals.forEach(this::addGoal);
+  }
+
   public void addGoal(Goal goal) {
+    goal.setGame(this);
     goals.add(goal);
   }
 
