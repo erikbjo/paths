@@ -25,7 +25,7 @@ public class Game {
   @JoinColumn(name = "story_id")
   private Story story;
 
-  @OneToOne(cascade = {CascadeType.ALL})
+  @OneToOne
   private Passage currentPassage;
 
   /**

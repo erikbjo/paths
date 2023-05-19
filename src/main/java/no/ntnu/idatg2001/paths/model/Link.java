@@ -102,6 +102,7 @@ public class Link {
    * @param action Represents the action that gets added to the list of actions.
    */
   public void addAction(Action action) {
+    action.setLink(this);
     actions.add(action);
   }
 

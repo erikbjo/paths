@@ -21,6 +21,14 @@ public abstract class Action {
   @JoinColumn(name = "link_id")
   private Link link;
 
+  public Link getLink() {
+    return link;
+  }
+
+  public void setLink(Link link) {
+    this.link = link;
+  }
+
   /**
    * Executes the action.
    *
