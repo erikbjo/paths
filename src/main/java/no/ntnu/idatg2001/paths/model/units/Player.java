@@ -130,67 +130,107 @@ public class Player extends Unit {
   }
 
   /**
-   * If the health is greater than 0, add it to the current health and return true. Otherwise,
-   * return false
+   * Adds health to the player.
    *
    * @param health The amount of health to add to the player.
-   * @return A boolean value.
+   * @throws IllegalArgumentException if the health is negative.
    */
-  public boolean addHealth(int health) {
-    if (health > 0) {
-      super.setHealth(super.getHealth() + health);
-      return true;
-    } else {
-      return false;
+  public void addHealth(int health) {
+    if (health < 0) {
+      throw new IllegalArgumentException("Health cannot be negative");
     }
+    super.setHealth(super.getHealth() + health);
   }
 
   /**
-   * If the mana is greater than 0, add it to the current mana and return true. Otherwise, return
-   * false
+   * Removes health from the player.
+   *
+   * @param health The amount of health to remove from the player.
+   * @throws IllegalArgumentException if the health is negative.
+   */
+  public void removeHealth(int health) {
+    if (health < 0) {
+      throw new IllegalArgumentException("Health cannot be negative");
+    }
+    super.setHealth(super.getHealth() - health);
+  }
+
+  /**
+   * Adds mana to the player.
    *
    * @param mana The amount of mana to add to the player.
-   * @return A boolean value.
+   * @throws IllegalArgumentException if the mana is negative.
    */
-  public boolean addMana(int mana) {
-    if (mana > 0) {
-      super.setMana(super.getMana() + mana);
-      return true;
-    } else {
-      return false;
+  public void addMana(int mana) {
+    if (mana < 0) {
+      throw new IllegalArgumentException("Mana cannot be negative");
     }
+    super.setMana(super.getMana() + mana);
   }
 
   /**
-   * If the energy is greater than 0, add it to the current energy and return true. Otherwise,
-   * return false
+   * Removes mana from the player.
    *
-   * @param energy The amount of energy to add to the robot.
-   * @return The boolean value of the if statement.
+   * @param mana The amount of mana to remove from the player.
+   * @throws IllegalArgumentException if the mana is negative.
    */
-  public boolean addEnergy(int energy) {
-    if (energy > 0) {
-      super.setEnergy(super.getEnergy() + energy);
-      return true;
-    } else {
-      return false;
+  public void removeMana(int mana) {
+    if (mana < 0) {
+      throw new IllegalArgumentException("Mana cannot be negative");
     }
+    super.setMana(super.getMana() - mana);
   }
 
   /**
-   * If the gold is greater than or equal to zero, add the gold to the player's gold, and return
-   * true. Otherwise, return false
+   * Adds energy to the player.
    *
-   * @param gold The amount of gold to add to the player's gold.
-   * @return A boolean value.
+   * @param energy The amount of energy to add to the player.
+   * @throws IllegalArgumentException if the energy is negative.
    */
-  public boolean addGold(int gold) {
-    if (gold >= 0) {
-      super.setGold(super.getGold() + gold);
-      return true;
-    } else {
-      return false;
+  public void addEnergy(int energy) {
+    if (energy < 0) {
+      throw new IllegalArgumentException("Energy cannot be negative");
     }
+    super.setEnergy(super.getEnergy() + energy);
+  }
+
+  /**
+   * Removes energy from the player.
+   *
+   * @param energy The amount of energy to remove from the player.
+   * @throws IllegalArgumentException if the energy is negative.
+   */
+  public void removeEnergy(int energy) {
+    if (energy < 0) {
+      throw new IllegalArgumentException("Energy cannot be negative");
+    }
+    super.setEnergy(super.getEnergy() - energy);
+  }
+
+  /**
+   * Adds gold to the player.
+   *
+   * @param gold The amount of gold to add to the player.
+   * @throws IllegalArgumentException if the gold is negative.
+   */
+  public void addGold(int gold) {
+    if (gold < 0) {
+      throw new IllegalArgumentException("Gold cannot be negative");
+    }
+    super.setGold(super.getGold() + gold);
+  }
+
+  /**
+   * Removes gold from the player.
+   *
+   * @param gold The amount of gold to remove from the player.
+   * @throws IllegalArgumentException if the gold is negative.
+   */
+  public void removeGold(int gold) {
+    if (gold < 0) {
+      throw new IllegalArgumentException("Gold cannot be negative");
+    }
+    super.setGold(super.getGold() - gold);
   }
 
   /**

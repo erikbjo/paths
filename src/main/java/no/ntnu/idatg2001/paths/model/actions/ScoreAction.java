@@ -20,8 +20,8 @@ public class ScoreAction extends Action {
    * @param points the amount of points to give the player
    */
   public ScoreAction(int points, boolean isPositive) {
-    this.points = points;
-    this.isPositive = isPositive;
+    setPoints(points);
+    setIsPositive(isPositive);
   }
 
   /** Empty constructor for the ScoreAction class. Used by JPA. */
@@ -36,6 +36,11 @@ public class ScoreAction extends Action {
     return isPositive;
   }
 
+  /**
+   * Sets whether the action is positive or not.
+   *
+   * @param isPositive whether the action is positive or not
+   */
   public void setIsPositive(boolean isPositive) {
     this.isPositive = isPositive;
   }
@@ -53,18 +58,13 @@ public class ScoreAction extends Action {
    * Sets the amount of points the action gives.
    *
    * @param points the amount of points the action gives
+   * @throws IllegalArgumentException if the points value is negative
    */
   public void setPoints(int points) {
+    if (points < 0) {
+      throw new IllegalArgumentException("Points cannot be negative");
+    }
     this.points = points;
-  }
-
-  /**
-   * Adds points to the action.
-   *
-   * @param points the amount of points to add
-   */
-  public void addPoints(int points) {
-    this.points += points;
   }
 
   /** {@inheritDoc} */
