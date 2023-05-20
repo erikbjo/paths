@@ -15,19 +15,25 @@ import no.ntnu.idatg2001.paths.model.actions.Action;
  */
 @Entity
 public class Link {
+  @OneToMany(mappedBy = "link", cascade = CascadeType.ALL)
+  private final List<Action> actions = new ArrayList<>();
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
   private String text;
   private String reference;
 
-  @OneToMany(mappedBy = "link")
-  private final List<Action> actions = new ArrayList<>();
-
-  @ManyToOne
-  @JoinColumn(name = "story_id", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "story_id")
   private Story story;
+
+  public Story getStory() {
+    return story;
+  }
+
+  public void setStory(Story story) {
+    this.story = story;
+  }
 
   /**
    * A constructor that initializes the declared fields for text, reference and actions.
@@ -43,13 +49,7 @@ public class Link {
 
   public Link() {}
 
-  public Story getStory() {
-    return story;
-  }
 
-  public void setStory(Story story) {
-    this.story = story;
-  }
 
   public Long getId() {
     return id;

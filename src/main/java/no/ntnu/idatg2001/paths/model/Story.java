@@ -19,7 +19,11 @@ public class Story {
   @Column(name = "id")
   private Long id;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "story")
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "story_passage_mapping",
+          joinColumns = {@JoinColumn(name = "story_id", referencedColumnName = "id")},
+          inverseJoinColumns = {@JoinColumn(name = "passage_id", referencedColumnName = "id")})
+  @MapKeyJoinColumn(name = "link_id")
   private Map<Link, Passage> passages;
 
   @OneToOne(cascade = {CascadeType.ALL})
@@ -31,8 +35,7 @@ public class Story {
   public Story(String title, Passage openingPassage) {
     this.passages = new HashMap<>();
     this.title = title;
-    this.openingPassage = openingPassage;
-    addPassage(openingPassage);
+    setOpeningPassage(openingPassage);
   }
 
   public Story(String title) {
@@ -132,7 +135,7 @@ public class Story {
    * @return A list of all the passages connected to a link.
    */
   public List<Passage> getPassagesConnectedWithLink(Link link) {
-    return new ArrayList<>(List.of(passages.get(link)));
+    return passages.values().stream().filter(passage -> passage.getLinks().contains(link)).toList();
   }
 
   public List<Passage> getPassages() {
@@ -185,8 +188,16 @@ public class Story {
     passages.remove(link);
   }
 
+  /**
+   * This function returns a list of all the links that are broken. A broken link is a link that
+   * points to a passage that does not exist.
+   *
+   * @return A list of all the links that are broken.
+   */
   public List<Link> getBrokenLinks() {
-    return passages.keySet().stream().filter(link -> passages.get(link) == null).toList();
+    return passages.values().stream()
+        .flatMap(passage -> passage.getLinks().stream().filter(link -> !passages.containsKey(link)))
+        .toList();
   }
 
   @Override
