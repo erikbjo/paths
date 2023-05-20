@@ -61,9 +61,13 @@ public abstract class Unit {
   /**
    * Sets the name.
    *
-   * @param name the name
+   * @param name the name of the unit
+   * @throws IllegalArgumentException if the name is null or blank/empty
    */
   public void setName(String name) {
+    if (name == null || name.isBlank() || name.isEmpty()) {
+      throw new IllegalArgumentException("Name cannot be null");
+    }
     this.name = name;
   }
 
@@ -80,8 +84,12 @@ public abstract class Unit {
    * Sets the score.
    *
    * @param score the score
+   * @throws IllegalArgumentException if the score is negative
    */
   public void setScore(int score) {
+    if (score < 0) {
+      throw new IllegalArgumentException("Score cannot be negative");
+    }
     this.score = score;
   }
 
@@ -97,9 +105,13 @@ public abstract class Unit {
   /**
    * Sets the gold.
    *
-   * @param gold the gold
+   * @param gold the gold of the unit
+   * @throws IllegalArgumentException if the gold is negative
    */
   public void setGold(int gold) {
+    if (gold < 0) {
+      throw new IllegalArgumentException("Gold cannot be negative");
+    }
     this.gold = gold;
   }
 
@@ -116,8 +128,12 @@ public abstract class Unit {
    * Sets the health of the unit.
    *
    * @param health the health of the unit
+   * @throws IllegalArgumentException if the health is negative
    */
   public void setHealth(int health) {
+    if (health < 0) {
+      throw new IllegalArgumentException("Health cannot be negative");
+    }
     this.health = health;
   }
 
@@ -134,8 +150,12 @@ public abstract class Unit {
    * Sets the mana of the unit.
    *
    * @param mana the mana of the unit
+   * @throws IllegalArgumentException if the mana is negative
    */
   public void setMana(int mana) {
+    if (mana < 0) {
+      throw new IllegalArgumentException("Mana cannot be negative");
+    }
     this.mana = mana;
   }
 
@@ -152,8 +172,12 @@ public abstract class Unit {
    * Sets the energy of the unit.
    *
    * @param energy the energy of the unit
+   * @throws IllegalArgumentException if the energy is negative
    */
   public void setEnergy(int energy) {
+    if (energy < 0) {
+      throw new IllegalArgumentException("Energy cannot be negative");
+    }
     this.energy = energy;
   }
 
@@ -204,8 +228,12 @@ public abstract class Unit {
      *
      * @param name the name of the unit
      * @return the unit builder
+     * @throws IllegalArgumentException if the name is null or blank/empty
      */
     public T withName(String name) {
+      if (name == null || name.isBlank() || name.isEmpty()) {
+        throw new IllegalArgumentException("Name cannot be null");
+      }
       this.name = name;
       return (T) this;
     }
@@ -215,8 +243,12 @@ public abstract class Unit {
      *
      * @param score the score of the unit
      * @return the unit builder
+     * @throws IllegalArgumentException if the score is negative
      */
     public T withScore(int score) {
+      if (score < 0) {
+        throw new IllegalArgumentException("Score cannot be negative");
+      }
       this.score = score;
       return (T) this;
     }
@@ -226,8 +258,12 @@ public abstract class Unit {
      *
      * @param gold the gold of the unit
      * @return the unit builder
+     * @throws IllegalArgumentException if the gold is negative
      */
     public T withGold(int gold) {
+      if (gold < 0) {
+        throw new IllegalArgumentException("Gold cannot be negative");
+      }
       this.gold = gold;
       return (T) this;
     }
@@ -237,8 +273,12 @@ public abstract class Unit {
      *
      * @param health the health of the unit
      * @return the unit builder
+     * @throws IllegalArgumentException if the health is negative
      */
     public T withHealth(int health) {
+      if (health < 0) {
+        throw new IllegalArgumentException("Health cannot be negative");
+      }
       this.health = health;
       return (T) this;
     }
@@ -248,8 +288,12 @@ public abstract class Unit {
      *
      * @param mana the mana of the unit
      * @return the unit builder
+     * @throws IllegalArgumentException if the mana is negative
      */
     public T withMana(int mana) {
+      if (mana < 0) {
+        throw new IllegalArgumentException("Mana cannot be negative");
+      }
       this.mana = mana;
       return (T) this;
     }
@@ -259,8 +303,12 @@ public abstract class Unit {
      *
      * @param energy the energy of the unit
      * @return the unit builder
+     * @throws IllegalArgumentException if the energy is negative
      */
     public T withEnergy(int energy) {
+      if (energy < 0) {
+        throw new IllegalArgumentException("Energy cannot be negative");
+      }
       this.energy = energy;
       return (T) this;
     }

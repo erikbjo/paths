@@ -61,8 +61,18 @@ public class Player extends Unit {
    * Sets the inventory.
    *
    * @param inventory the inventory
+   * @throws IllegalArgumentException if the inventory is null
+   * @throws IllegalArgumentException if the inventory contains a null item
    */
   public void setInventory(List<Item> inventory) {
+    if (inventory == null) {
+      throw new IllegalArgumentException("Inventory cannot be null");
+    }
+    for (Item item : inventory) {
+      if (item == null) {
+        throw new IllegalArgumentException("Item cannot be null");
+      }
+    }
     this.inventory = inventory;
   }
 
@@ -70,8 +80,12 @@ public class Player extends Unit {
    * Adds an item to the inventory.
    *
    * @param item the item to add
+   * @throws IllegalArgumentException if the item is null
    */
   public void addToInventory(Item item) {
+    if (item == null) {
+      throw new IllegalArgumentException("Item cannot be null");
+    }
     inventory.add(item);
   }
 
@@ -79,8 +93,17 @@ public class Player extends Unit {
    * Removes an item from the inventory.
    *
    * @param item the item to remove
+   * @throws IllegalArgumentException if the item is null
+   * @throws IllegalArgumentException if the item is not in the inventory
    */
   public void removeFromInventory(Item item) {
+    if (item == null) {
+      throw new IllegalArgumentException("Item cannot be null");
+    }
+    if (!inventory.contains(item)) {
+      throw new IllegalArgumentException("Item is not in inventory");
+    }
+
     inventory.remove(item);
   }
 
@@ -97,17 +120,32 @@ public class Player extends Unit {
    * Sets the equipped items.
    *
    * @param inventory the equipped items
+   * @throws IllegalArgumentException if the inventory is null
+   * @throws IllegalArgumentException if the inventory contains a null item
    */
   public void setEquippedItems(List<Equipable> inventory) {
-    this.equippedItems = inventory;
+    if (inventory == null) {
+      throw new IllegalArgumentException("Inventory cannot be null");
+    }
+    for (Equipable item : inventory) {
+      if (item == null) {
+        throw new IllegalArgumentException("Item cannot be null");
+      }
+
+      this.equippedItems = inventory;
+    }
   }
 
   /**
    * Adds an item to the equipped items.
    *
    * @param item the item to add
+   * @throws IllegalArgumentException if the item is null
    */
   public void addToEquippedItems(Equipable item) {
+    if (item == null) {
+      throw new IllegalArgumentException("Item cannot be null");
+    }
     equippedItems.add(item);
   }
 
@@ -115,8 +153,16 @@ public class Player extends Unit {
    * Removes an item from the equipped items.
    *
    * @param item the item to remove
+   * @throws IllegalArgumentException if the item is null
+   * @throws IllegalArgumentException if the item is not in the inventory
    */
   public void removeFromEquippedItems(Equipable item) {
+    if (item == null) {
+      throw new IllegalArgumentException("Item cannot be null");
+    }
+    if (!equippedItems.contains(item)) {
+      throw new IllegalArgumentException("Item is not in inventory");
+    }
     equippedItems.remove(item);
   }
 
@@ -255,8 +301,12 @@ public class Player extends Unit {
    * Sets the attributes of the unit.
    *
    * @param attributes the attributes of the unit
+   * @throws IllegalArgumentException if the attributes are null
    */
   public void setAttributes(Attributes attributes) {
+    if (attributes == null) {
+      throw new IllegalArgumentException("Attributes cannot be null");
+    }
     this.attributes = attributes;
   }
 
@@ -277,8 +327,18 @@ public class Player extends Unit {
      *
      * @param inventory the inventory
      * @return the player builder
+     * @throws IllegalArgumentException if the inventory is null
+     * @throws IllegalArgumentException if any of the items in the inventory are null
      */
     public PlayerBuilder withInventory(List<Item> inventory) {
+      if (inventory == null) {
+        throw new IllegalArgumentException("Inventory cannot be null");
+      }
+      for (Item item : inventory) {
+        if (item == null) {
+          throw new IllegalArgumentException("Inventory item cannot be null");
+        }
+      }
       this.inventory = inventory;
       return this;
     }
@@ -288,8 +348,18 @@ public class Player extends Unit {
      *
      * @param equippedItems the equipped items
      * @return the player builder
+     * @throws IllegalArgumentException if the equipped items are null
+     * @throws IllegalArgumentException if any of the equipped items are null
      */
     public PlayerBuilder withEquippedItems(List<Equipable> equippedItems) {
+      if (equippedItems == null) {
+        throw new IllegalArgumentException("Equipped items cannot be null");
+      }
+      for (Equipable item : equippedItems) {
+        if (item == null) {
+          throw new IllegalArgumentException("Equipped item cannot be null");
+        }
+      }
       this.equippedItems = equippedItems;
       return this;
     }
@@ -299,8 +369,12 @@ public class Player extends Unit {
      *
      * @param attributes the attributes of the player
      * @return the player builder
+     * @throws IllegalArgumentException if the attributes are null
      */
     public PlayerBuilder withAttributes(Attributes attributes) {
+      if (attributes == null) {
+        throw new IllegalArgumentException("Attributes cannot be null");
+      }
       this.attributes = attributes;
       return this;
     }
