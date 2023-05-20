@@ -37,8 +37,8 @@ public class InventoryAction extends Action {
     if (item == null) {
       throw new IllegalArgumentException("Item cannot be null");
     }
-    this.item = item;
-    this.isAdditionToInventory = isAdditionToInventory;
+    setItem(item);
+    setIsAdditionToInventory(isAdditionToInventory);
   }
 
   /** Default constructor for the InventoryAction class. This is required by JPA. */
@@ -75,6 +75,16 @@ public class InventoryAction extends Action {
    */
   public boolean getIsAdditionToInventory() {
     return isAdditionToInventory;
+  }
+
+  /**
+   * Sets whether the action is an addition to the inventory or a removal from the inventory.
+   *
+   * @param isAdditionToInventory true if the action is an addition to the inventory, false if it is
+   *     a removal from the inventory
+   */
+  public void setIsAdditionToInventory(boolean isAdditionToInventory) {
+    this.isAdditionToInventory = isAdditionToInventory;
   }
 
   /**

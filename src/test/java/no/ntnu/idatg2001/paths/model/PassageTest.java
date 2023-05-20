@@ -28,19 +28,4 @@ class PassageTest {
   void tearDown() {
 
   }
-  @Test
-  void addLinksShouldReturnTrue() {
-    passage.setLinks(links);
-    boolean resultTrue = passage.addLink(new Link("test3", "3"));
-    assertTrue(resultTrue);
-  }
-
-  // hva gjør denne?
-  /*@Test
-  void addLinksShouldReturnFalse() {
-    links.remove(0);
-    passage.setLinks(links);
-    boolean resultFalse = passage.addLinks(new Link("False test", "123"));
-    assertFalse(resultFalse);
-  }*/
 }

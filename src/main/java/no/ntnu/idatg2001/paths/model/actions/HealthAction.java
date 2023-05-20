@@ -18,10 +18,12 @@ public class HealthAction extends Action {
    * Constructor for the HealthAction class.
    *
    * @param health the amount of health to give the player
+   * @param isPositive whether the action is positive or not
+   * @throws IllegalArgumentException if the health value is negative
    */
   public HealthAction(int health, boolean isPositive) {
-    this.health = health;
-    this.isPositive = isPositive;
+    setHealth(health);
+    setIsPositive(isPositive);
   }
 
   /** Empty constructor for the HealthAction class. Used by JPA. */
@@ -58,18 +60,13 @@ public class HealthAction extends Action {
    * Sets the amount of health the action gives.
    *
    * @param health the amount of health the action gives
+   * @throws IllegalArgumentException if the health value is negative
    */
   public void setHealth(int health) {
+    if (health < 0) {
+      throw new IllegalArgumentException("Health cannot be negative");
+    }
     this.health = health;
-  }
-
-  /**
-   * Adds health to the action.
-   *
-   * @param health the amount of health to add
-   */
-  public void addHealth(int health) {
-    this.health += health;
   }
 
   /** {@inheritDoc} */

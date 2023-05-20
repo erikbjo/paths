@@ -24,9 +24,9 @@ class ScoreGoalTest {
             .build();
     playerFalse = new Player.PlayerBuilder()
             .withName("Test")
-            .withScore(-5)
+            .withScore(0)
             .build();
-    scoreGoal = new ScoreGoal(0);
+    scoreGoal = new ScoreGoal(2);
   }
 
   @Test

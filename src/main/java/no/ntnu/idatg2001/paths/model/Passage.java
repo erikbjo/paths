@@ -1,10 +1,8 @@
 package no.ntnu.idatg2001.paths.model;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A class that represents a Passage that contains a title, content, and a list of links.
@@ -31,14 +29,6 @@ public class Passage {
   @JoinColumn(name = "story_id")
   private Story story;
 
-  public Story getStory() {
-    return story;
-  }
-
-  public void setStory(Story story) {
-    this.story = story;
-  }
-
   /**
    * A constructor that initializes the declared fields for title, content and links.
    *
@@ -51,7 +41,26 @@ public class Passage {
     this.links = new ArrayList<>();
   }
 
+  /** Default constructor for the Passage class. For DB */
   public Passage() {}
+
+  /**
+   * Gets the story that the passage belongs to. Used for DB.
+   *
+   * @return the story that the passage belongs to.
+   */
+  public Story getStory() {
+    return story;
+  }
+
+  /**
+   * Sets the story that the passage belongs to. Used for DB.
+   *
+   * @param story the story that the passage belongs to.
+   */
+  public void setStory(Story story) {
+    this.story = story;
+  }
 
   /**
    * This function returns the title of the book
@@ -62,7 +71,16 @@ public class Passage {
     return title;
   }
 
+  /**
+   * Sets the title of the passage.
+   *
+   * @param title the title of the passage.
+   * @throws IllegalArgumentException if the title is null or empty/blank.
+   */
   public void setTitle(String title) {
+    if (title == null || title.isBlank() || title.isEmpty()) {
+      throw new IllegalArgumentException("Title cannot be null or empty/blank");
+    }
     this.title = title;
   }
 
@@ -75,27 +93,30 @@ public class Passage {
     return content;
   }
 
+  /**
+   * Sets the content of the passage.
+   *
+   * @param content the content of the passage.
+   * @throws IllegalArgumentException if the content is null or empty/blank.
+   */
   public void setContent(String content) {
+    if (content == null || content.isBlank() || content.isEmpty()) {
+      throw new IllegalArgumentException("Content cannot be null or empty/blank");
+    }
     this.content = content;
   }
 
   /**
-   * Adds a link to an arrayList and return true.
+   * Adds a link to the list of links.
    *
    * @param link The link to be added to the list.
-   * @return A boolean value.
    */
-  public boolean addLink(Link link) {
-    boolean success = false;
-    try {
-      //link.setStory(story);
-      links.add(link);
-      success = true;
-    } catch (Exception e) {
-      // TODO: replace sout
-      System.out.println("Error: " + e.getMessage());
+  public void addLink(Link link) {
+    if (link == null) {
+      throw new IllegalArgumentException("Link cannot be null");
     }
-    return success;
+
+    links.add(link);
   }
 
   /**
@@ -107,12 +128,22 @@ public class Passage {
     return links;
   }
 
+  /**
+   * Sets the list of links.
+   *
+   * @param links the list of links.
+   * @throws IllegalArgumentException if the list of links is null or contains null values.
+   */
   public void setLinks(List<Link> links) {
+    if (links == null) {
+      throw new IllegalArgumentException("Links cannot be null");
+    }
+    for (Link link : links) {
+      if (link == null) {
+        throw new IllegalArgumentException("Link cannot be null");
+      }
+    }
     this.links = links;
-    /**
-     * if (links != null && links.size() >= 2) { this.links = new ArrayList<>(links.subList(0, 2));
-     * } else { this.links = links; }
-     */
   }
 
   /**
@@ -124,29 +155,30 @@ public class Passage {
     return !links.isEmpty();
   }
 
+  /**
+   * Returns a string representation of the passage.
+   *
+   * @return A string representation of the passage.
+   */
   @Override
   public String toString() {
     return "Passage{" + "title='" + title + '\'' + ", content='" + content + '}';
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
-  }
-
-  // TODO: implement equals and hashCode
-  //  @Override
-  //  public boolean equals(Object object) {
-  //    if (this == object) return true;
-  //    if (object == null || getClass() != object.getClass()) return false;
-  //    Passage passage = (Passage) object;
-  //    return Objects.equals(id, passage.id);
-  //  }
-
+  /**
+   * Returns the id of the passage. Used for DB.
+   *
+   * @return the id of the passage.
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets the id of the passage. Used for DB.
+   *
+   * @param id the id of the passage.
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -155,9 +187,13 @@ public class Passage {
    * Removes a link from the list of links.
    *
    * @param deadLink The link to be removed.
-   * @throws IllegalArgumentException if the link is not found.
+   * @throws IllegalArgumentException if the link is not found in the list of links or if the link
+   *     is null.
    */
   public void removeLink(Link deadLink) {
+    if (deadLink == null) {
+      throw new IllegalArgumentException("Link cannot be null");
+    }
     if (!links.contains(deadLink)) {
       throw new IllegalArgumentException("Link not found");
     }

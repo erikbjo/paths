@@ -18,10 +18,12 @@ public class GoldAction extends Action {
    * Constructor for the GoldAction class.
    *
    * @param gold the amount of gold to give the player
+   * @param isPositive whether the action is positive or not
+   * @throws IllegalArgumentException if the gold value is negative
    */
   public GoldAction(int gold, boolean isPositive) {
-    this.gold = gold;
-    this.isPositive = isPositive;
+    setGold(gold);
+    setIsPositive(isPositive);
   }
 
   /** Empty constructor for the GoldAction class. Used by JPA. */
@@ -36,6 +38,11 @@ public class GoldAction extends Action {
     return isPositive;
   }
 
+  /**
+   * Sets whether the action is positive or not.
+   *
+   * @param isPositive whether the action is positive or not
+   */
   public void setIsPositive(boolean isPositive) {
     this.isPositive = isPositive;
   }
@@ -49,27 +56,28 @@ public class GoldAction extends Action {
     return gold;
   }
 
+  /**
+   * Sets the amount of gold the action gives.
+   *
+   * @param gold the amount of gold the action gives
+   * @throws IllegalArgumentException if the gold is negative
+   */
   public void setGold(int gold) {
+    if (gold < 0) {
+      throw new IllegalArgumentException("Gold cannot be negative");
+    }
+
     this.gold = gold;
   }
 
-  /**
-   * Adds gold to the action.
-   *
-   * @param gold the amount of gold to add
-   */
-  public void addGold(int gold) {
-    this.gold += gold;
-  }
-
-  /**
-   * Executes the action.
-   *
-   * @param player the player who is performing the action
-   */
+  /** {@inheritDoc} */
   @Override
   public void execute(Player player) {
-    player.addGold(gold);
+    if (getIsPositive()) {
+      player.addGold(getGold());
+    } else {
+      player.removeGold(getGold());
+    }
   }
 
   /** {@inheritDoc} */

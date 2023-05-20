@@ -39,6 +39,7 @@ public class Attributes {
    * @param intelligence the intelligence
    * @param agility the agility
    * @param luck the luck
+   * @throws IllegalArgumentException if any of the attributes are negative
    */
   public Attributes(
       int strength,
@@ -48,6 +49,13 @@ public class Attributes {
       int intelligence,
       int agility,
       int luck) {
+    if (strength < 0
+        || perception < 0
+        || endurance < 0
+        || charisma < 0
+        || intelligence < 0
+        || agility < 0
+        || luck < 0) throw new IllegalArgumentException("Attributes cannot be negative");
     this.strength = strength;
     this.perception = perception;
     this.endurance = endurance;
@@ -91,8 +99,13 @@ public class Attributes {
    * Sets player that owns the attributes.
    *
    * @param player the player that owns the attributes
+   * @throws IllegalArgumentException if player is null
    */
   public void setPlayer(Player player) {
+    if (player == null) {
+      throw new IllegalArgumentException("Player is null");
+    }
+
     this.player = player;
   }
 
@@ -109,8 +122,12 @@ public class Attributes {
    * Sets strength.
    *
    * @param strength the strength
+   * @throws IllegalArgumentException if strength is negative
    */
   public void setStrength(int strength) {
+    if (strength < 0) {
+      throw new IllegalArgumentException("Strength cannot be negative");
+    }
     this.strength = strength;
   }
 
@@ -127,8 +144,12 @@ public class Attributes {
    * Sets perception.
    *
    * @param perception the perception
+   * @throws IllegalArgumentException if perception is negative
    */
   public void setPerception(int perception) {
+    if (perception < 0) {
+      throw new IllegalArgumentException("Perception cannot be negative");
+    }
     this.perception = perception;
   }
 
@@ -145,8 +166,12 @@ public class Attributes {
    * Sets endurance.
    *
    * @param endurance the endurance
+   * @throws IllegalArgumentException if endurance is negative
    */
   public void setEndurance(int endurance) {
+    if (endurance < 0) {
+      throw new IllegalArgumentException("Endurance cannot be negative");
+    }
     this.endurance = endurance;
   }
 
@@ -163,8 +188,12 @@ public class Attributes {
    * Sets charisma.
    *
    * @param charisma the charisma
+   * @throws IllegalArgumentException if charisma is negative
    */
   public void setCharisma(int charisma) {
+    if (charisma < 0) {
+      throw new IllegalArgumentException("Charisma cannot be negative");
+    }
     this.charisma = charisma;
   }
 
@@ -181,8 +210,12 @@ public class Attributes {
    * Sets intelligence.
    *
    * @param intelligence the intelligence
+   * @throws IllegalArgumentException if intelligence is negative
    */
   public void setIntelligence(int intelligence) {
+    if (intelligence < 0) {
+      throw new IllegalArgumentException("Intelligence cannot be negative");
+    }
     this.intelligence = intelligence;
   }
 
@@ -199,8 +232,12 @@ public class Attributes {
    * Sets agility.
    *
    * @param agility the agility
+   * @throws IllegalArgumentException if agility is negative
    */
   public void setAgility(int agility) {
+    if (agility < 0) {
+      throw new IllegalArgumentException("Agility cannot be negative");
+    }
     this.agility = agility;
   }
 
@@ -217,8 +254,12 @@ public class Attributes {
    * Sets luck.
    *
    * @param luck the luck
+   * @throws IllegalArgumentException if luck is negative
    */
   public void setLuck(int luck) {
+    if (luck < 0) {
+      throw new IllegalArgumentException("Luck cannot be negative");
+    }
     this.luck = luck;
   }
 

@@ -68,16 +68,6 @@ class StoryTest {
     assertTrue(story.getPassages().contains(passage4));
   }
 
-  @Test
-  void getLinksConnectedWithPassage() {
-    List<Link> linksConnectedWithPassage1 = story.getLinksConnectedWithPassage(passage1);
-    assertTrue(linksConnectedWithPassage1.contains(link1to2));
-
-    List<Link> linksConnectedWithPassage2 = story.getLinksConnectedWithPassage(passage2);
-    for (Link link : linksConnectedWithPassage2) {
-      assertEquals(link, link2to3);
-    }
-  }
 
   @Test
   void getPassages() {
