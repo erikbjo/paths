@@ -24,9 +24,6 @@ public class NewGameView implements View {
   private final Stage primaryStage;
   private final Button startNewGameButton;
   private final Text informationText;
-  private final Text pathsGameText;
-  private final Button continueButton;
-  private final Button deleteButton;
   private final NewGameController controller;
   private TableView<Player> playersTableView;
   private TableColumn<Player, String> playersTableColumn;
@@ -57,20 +54,16 @@ public class NewGameView implements View {
     BorderPane root = new BorderPane();
     StandardMenuBar menuBar = new StandardMenuBar(primaryStage);
     root.setTop(menuBar);
-    VBox mainVBox = new VBox(50);
+    HBox mainHBox = new HBox();
 
-    mainVBox.setAlignment(Pos.TOP_CENTER);
-    AnchorPane.setTopAnchor(mainVBox, 0.0);
-    AnchorPane.setBottomAnchor(mainVBox, 0.0);
-    AnchorPane.setLeftAnchor(mainVBox, 0.0);
-    AnchorPane.setRightAnchor(mainVBox, 0.0);
+    mainHBox.setAlignment(Pos.TOP_CENTER);
+    AnchorPane.setTopAnchor(mainHBox, 0.0);
+    AnchorPane.setBottomAnchor(mainHBox, 0.0);
+    AnchorPane.setLeftAnchor(mainHBox, 0.0);
+    AnchorPane.setRightAnchor(mainHBox, 0.0);
 
     HBox storiesAndPlayersHBox = new HBox();
-    storiesAndPlayersHBox.setAlignment(Pos.CENTER);
     HBox startNewGameHBox = new HBox();
-    startNewGameHBox.setAlignment(Pos.CENTER);
-    HBox deadLinksAndInformationHBox = new HBox();
-    deadLinksAndInformationHBox.setAlignment(Pos.CENTER);
 
     // VBOXES
     VBox storiesVBox = createStoriesVBox();
@@ -79,32 +72,26 @@ public class NewGameView implements View {
     VBox informationVBox = new VBox();
 
     // TEXTS
-    pathsGameText = new Text();
     informationText = new Text();
 
-    // BUTTONS
-    continueButton = new Button();
-    deleteButton = new Button();
-    HBox ongoingGamesButtonsHBox = new HBox(continueButton, deleteButton);
 
     // ADDING TO VBOXES
     informationVBox.getChildren().addAll();
 
     // ADDING TO HBOXES
     storiesAndPlayersHBox.getChildren().addAll(storiesVBox, playersVBox);
-    deadLinksAndInformationHBox.getChildren().addAll(deadLinksVBox, informationVBox);
 
     // START NEW GAME BUTTON
     startNewGameButton = new Button();
     startNewGameHBox.getChildren().add(startNewGameButton);
 
     // ADD TO MAINVBOX
-    mainVBox
+    mainHBox
         .getChildren()
-        .addAll(
-            pathsGameText, storiesAndPlayersHBox, startNewGameHBox, deadLinksAndInformationHBox);
+        .addAll(storiesAndPlayersHBox, startNewGameHBox);
 
-    root.setCenter(mainVBox);
+    root.setRight(deadLinksVBox);
+    root.setCenter(mainHBox);
 
     updateLanguage();
 
@@ -140,7 +127,6 @@ public class NewGameView implements View {
     deadLinksText.setText(resources.getString("deadLinksText"));
     playersText.setText(resources.getString("playersText"));
     storiesText.setText(resources.getString("storiesText"));
-    pathsGameText.setText(resources.getString("pathsGameText"));
     editStoryButton.setText(resources.getString("editStoryButton"));
     newStoryButton.setText(resources.getString("newStoryButton"));
     deleteStoryButton.setText(resources.getString("deleteStoryButton"));
@@ -150,8 +136,6 @@ public class NewGameView implements View {
     deletePlayerButton.setText(resources.getString("deletePlayerButton"));
     deleteLinkButton.setText(resources.getString("deleteLinkButton"));
     updateDeadLinksButton.setText(resources.getString("updateDeadLinksButton"));
-    continueButton.setText(resources.getString("continueButton"));
-    deleteButton.setText(resources.getString("deleteButton"));
     startNewGameButton.setText(resources.getString("startNewGameButton"));
   }
 

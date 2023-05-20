@@ -27,9 +27,17 @@ public class Passage {
   @Column(name = "id")
   private Long id;
 
-  @ManyToOne
-  @JoinColumn(name = "story_id", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "story_id")
   private Story story;
+
+  public Story getStory() {
+    return story;
+  }
+
+  public void setStory(Story story) {
+    this.story = story;
+  }
 
   /**
    * A constructor that initializes the declared fields for title, content and links.
@@ -44,14 +52,6 @@ public class Passage {
   }
 
   public Passage() {}
-
-  public Story getStory() {
-    return story;
-  }
-
-  public void setStory(Story story) {
-    this.story = story;
-  }
 
   /**
    * This function returns the title of the book
@@ -88,7 +88,7 @@ public class Passage {
   public boolean addLink(Link link) {
     boolean success = false;
     try {
-      link.setStory(story);
+      //link.setStory(story);
       links.add(link);
       success = true;
     } catch (Exception e) {
@@ -149,5 +149,19 @@ public class Passage {
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  /**
+   * Removes a link from the list of links.
+   *
+   * @param deadLink The link to be removed.
+   * @throws IllegalArgumentException if the link is not found.
+   */
+  public void removeLink(Link deadLink) {
+    if (!links.contains(deadLink)) {
+      throw new IllegalArgumentException("Link not found");
+    }
+
+    links.remove(deadLink);
   }
 }

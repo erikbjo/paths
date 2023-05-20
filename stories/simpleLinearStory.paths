@@ -1,0 +1,16 @@
+SimpleStory
+
+::Start
+This is the start
+[Go to the field](You are in a field)
+
+::You are in a field
+You are in a field. What do you do?
+[Dance](Dance)
+
+::Dance
+You dance. You are happy.
+[Walk further](Further)
+
+::Further
+You walk further. You are happy.

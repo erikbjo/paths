@@ -303,7 +303,7 @@ public class NewGameController implements Controller {
                 new ConfirmationAlert(
                     confirmationResources.getString("deleteLinkTitle"),
                     confirmationResources.getString("deleteLinkContentText") + "\n" + deadLink);
-            confirmationAlert.setHeaderText(confirmationResources.getString("confirmationText"));
+            /*confirmationAlert.setHeaderText(confirmationResources.getString("confirmationText"));
             ButtonType okButtonType =
                 new ButtonType(
                     confirmationResources.getString("okButton"), ButtonBar.ButtonData.OK_DONE);
@@ -311,17 +311,18 @@ public class NewGameController implements Controller {
                 new ButtonType(
                     confirmationResources.getString("cancelButton"),
                     ButtonBar.ButtonData.CANCEL_CLOSE);
-            confirmationAlert.getButtonTypes().setAll(okButtonType, cancelButtonType);
+            confirmationAlert.getButtonTypes().setAll(okButtonType, cancelButtonType);*/
 
             Optional<ButtonType> result = confirmationAlert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
               // Remove the link from the story
               // @TODO Fix this
-              deadLinksTableView
-                  .getItems()
-                  .removeAll(deadLinksTableView.getSelectionModel().getSelectedItems());
-              // Remove the link from the database
-              // Or update the story in the database
+              /*deadLink.getStory().getPassagesConnectedWithLink(deadLink).forEach(passage -> {
+                passage.removeLink(deadLink);
+                StoryDAO.getInstance().update(passage.getStory());
+              });*/
+
+              updateDeadLinkTable(deadLinksTableView);
             } else {
               confirmationAlert.close();
             }

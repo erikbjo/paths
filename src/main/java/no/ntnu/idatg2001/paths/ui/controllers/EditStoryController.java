@@ -55,7 +55,6 @@ public class EditStoryController implements Controller {
       passagePanes.clear();
     }
     passagePanes = new HashMap<>();
-    int gap = 200; // Gap between nodes
 
     Queue<PassagePane> queue = new LinkedList<>();
 
@@ -68,83 +67,51 @@ public class EditStoryController implements Controller {
     queue.add(openingPane);
     pane.getChildren().add(openingPane);
 
-    while (!queue.isEmpty()) {
-      PassagePane currentPane = queue.remove();
-      List<Link> links = currentPane.getPassage().getLinks();
-
-      int offsetX = gap;
-
-      for (Link link : links) {
-        List<Passage> linkedPassages = story.getPassagesConnectedWithLink(link);
-
-        for (Passage passage : linkedPassages) {
-          // If the passage is not yet drawn
-          if (!passagePanes.containsKey(passage)) {
-            PassagePane linkedPane = new PassagePane(passage);
-            setActionsForPassagePane(linkedPane);
-            linkedPane.setLayoutX(currentPane.getLayoutX() + offsetX);
-            linkedPane.setLayoutY(currentPane.getLayoutY() + gap);
-
-            passagePanes.put(passage, linkedPane);
-            queue.add(linkedPane);
-            pane.getChildren().add(linkedPane);
-
-            LinkLine linkLine = new LinkLine(link, currentPane, linkedPane);
-            setActionsForLinkLine(linkLine);
-            pane.getChildren().addAll(linkLine, linkLine.getArrows());
-
-            linkLine.toBack();
-            linkLine.getArrows().toBack();
-          } else {
-            LinkLine linkLine = new LinkLine(link, currentPane, passagePanes.get(passage));
-            setActionsForLinkLine(linkLine);
-            pane.getChildren().addAll(linkLine, linkLine.getArrows());
-
-            linkLine.toBack();
-            linkLine.getArrows().toBack();
-          }
-          offsetX += gap;
-        }
-      }
-    }
-
-    AtomicReference<Double> unLinkedPassageX = new AtomicReference<>((double) 200);
-    AtomicReference<Double> unLinkedPassageY = new AtomicReference<>((double) 0);
-    story
-        .getAllPassagesThatDoesNotHaveALinkPointingToThem()
+    story.getPassages()
         .forEach(
             passage -> {
               if (!passagePanes.containsKey(passage)) {
                 PassagePane passagePane = new PassagePane(passage);
                 setActionsForPassagePane(passagePane);
-                passagePane.setLayoutX(unLinkedPassageX.get());
-                passagePane.setLayoutY(unLinkedPassageY.get());
+                passagePane.setLayoutX(0);
+                passagePane.setLayoutY(0);
                 passagePanes.put(passage, passagePane);
-
-                // TODO: add links from unlinked passages to other passages
-                passage
-                    .getLinks()
-                    .forEach(
-                        link -> {
-                          List<Passage> linkedPassages = story.getPassagesConnectedWithLink(link);
-                          for (Passage linkedPassage : linkedPassages) {
-                            if (passagePanes.containsKey(linkedPassage)) {
-                              LinkLine linkLine =
-                                  new LinkLine(link, passagePane, passagePanes.get(linkedPassage));
-                              setActionsForLinkLine(linkLine);
-                              pane.getChildren().addAll(linkLine, linkLine.getArrows());
-
-                              linkLine.toBack();
-                              linkLine.getArrows().toBack();
-                            }
-                          }
-                        });
-
                 pane.getChildren().add(passagePane);
-                unLinkedPassageX.set(unLinkedPassageX.get() + 200);
-                unLinkedPassageY.set(unLinkedPassageY.get() + 50);
+                queue.add(passagePane);
               }
             });
+
+    List<Link> deadLinks = story.getBrokenLinks();
+
+    Map<Integer, Integer> amountOfPassagesAtDepth = new HashMap<>();
+    int gapY = 150;
+    int gapX = 200;
+
+    while (!queue.isEmpty()) {
+      PassagePane passagePane = queue.remove();
+      Passage passage = passagePane.getPassage();
+
+      // DRAW LINKS
+      List<Link> links = passage.getLinks();
+      for (Link link : links) {
+        if (!deadLinks.contains(link)) {
+          LinkLine linkLine =
+              new LinkLine(link, passagePane, passagePanes.get(story.getLinkedPassage(link)));
+          setActionsForLinkLine(linkLine);
+
+          pane.getChildren().addAll(linkLine, linkLine.getArrows());
+
+          linkLine.toBack();
+          linkLine.getArrows().toBack();
+        }
+      }
+
+      // POSITIONING
+      int depth = story.shortestPathFromOpeningPassage(passage) - 1;
+      passagePane.setLayoutX(gapX * depth);
+      passagePane.setLayoutY(gapY * amountOfPassagesAtDepth.getOrDefault(depth, 0));
+      amountOfPassagesAtDepth.put(depth, amountOfPassagesAtDepth.getOrDefault(depth, 0) + 1);
+    }
   }
 
   public void setActionsForLinkLine(LinkLine linkLine) {
@@ -178,49 +145,45 @@ public class EditStoryController implements Controller {
 
     passagePane.setOnMousePressed(
         mouseEvent -> {
-          dragInitialX = mouseEvent.getSceneX();
-          dragInitialY = mouseEvent.getSceneY();
-
-          System.out.println("initialX: " + dragInitialX);
-          System.out.println("initialY: " + dragInitialY);
+          dragInitialX = mouseEvent.getSceneX() - passagePane.getLayoutX();
+          dragInitialY = mouseEvent.getSceneY() - passagePane.getLayoutY();
         });
 
     passagePane.setOnMouseDragged(
         mouseEvent -> {
           if (dragMode) {
-            passagePane.setLayoutX(
-                passagePane.getLayoutX() + mouseEvent.getSceneX() - dragInitialX);
-            passagePane.setLayoutY(
-                passagePane.getLayoutY() + mouseEvent.getSceneY() - dragInitialY);
-          } else if (linkCreationMode) {
-            PassagePane startDrag = null;
-            PassagePane endDrag = null;
-            for (PassagePane passagePane1 : passagePanes.values()) {
-              if ((passagePane1.getLayoutX() < dragInitialX)
-                  && (passagePane1.getLayoutY() + passagePane1.getWidth() > dragInitialX)
-                  && (passagePane1.getLayoutY() < dragInitialY)
-                  && (passagePane1.getLayoutY() + passagePane1.getHeight() > dragInitialY)) {
-                startDrag = passagePane1;
-              } else if ((passagePane1.getLayoutX() < mouseEvent.getSceneX())
-                  && (passagePane1.getLayoutY() + passagePane1.getWidth() > mouseEvent.getSceneX())
-                  && (passagePane1.getLayoutY() < mouseEvent.getSceneY())
-                  && (passagePane1.getLayoutY() + passagePane1.getHeight() > mouseEvent.getSceneY())
-                  && passagePane1 != startDrag) {
-                endDrag = passagePane1;
-              }
-            }
-
-            System.out.println(startDrag);
-            System.out.println(endDrag);
-
-            if (startDrag != null && endDrag != null) {
-              Link link =
-                  new Link("Go to " + endDrag.getTitle().getText(), endDrag.getTitle().getText());
-              startDrag.getPassage().addLink(link);
-              updatePane();
-            }
+            passagePane.setLayoutX(mouseEvent.getSceneX() - dragInitialX);
+            passagePane.setLayoutY(mouseEvent.getSceneY() - dragInitialY);
           }
         });
+    /*else if (linkCreationMode) { // link creation is not used atm.
+      PassagePane startDrag = null;
+      PassagePane endDrag = null;
+      for (PassagePane passagePane1 : passagePanes.values()) {
+        if ((passagePane1.getLayoutX() < dragInitialX)
+            && (passagePane1.getLayoutY() + passagePane1.getWidth() > dragInitialX)
+            && (passagePane1.getLayoutY() < dragInitialY)
+            && (passagePane1.getLayoutY() + passagePane1.getHeight() > dragInitialY)) {
+          startDrag = passagePane1;
+        } else if ((passagePane1.getLayoutX() < mouseEvent.getSceneX())
+            && (passagePane1.getLayoutY() + passagePane1.getWidth() > mouseEvent.getSceneX())
+            && (passagePane1.getLayoutY() < mouseEvent.getSceneY())
+            && (passagePane1.getLayoutY() + passagePane1.getHeight() > mouseEvent.getSceneY())
+            && passagePane1 != startDrag) {
+          endDrag = passagePane1;
+        }
+      }
+
+      System.out.println(startDrag);
+      System.out.println(endDrag);
+
+      if (startDrag != null && endDrag != null) {
+        Link link =
+            new Link("Go to " + endDrag.getTitle().getText(), endDrag.getTitle().getText());
+        startDrag.getPassage().addLink(link);
+        updatePane();
+      }
+    }*/
   }
 
   private void setActionsForScene() {

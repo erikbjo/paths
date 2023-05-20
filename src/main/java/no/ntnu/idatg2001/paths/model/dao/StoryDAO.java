@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import no.ntnu.idatg2001.paths.model.Game;
+import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Story;
 
 /**
@@ -59,13 +60,25 @@ public class StoryDAO implements DAO<Story> {
     }
   }
 
-  /** {@inheritDoc} */
+  /** {@inheritDoc} <br><br>
+   * Remove all links with the story to be removed. This is done to avoid a constraint violation
+   * in the database. Sets all games with the story to be removed to have no story.
+   */
   @Override
   public void remove(Story story) {
     List<Game> gamesWithStory = GameDAO.getInstance().findGamesByStory(story);
     for (Game game : gamesWithStory) {
       game.setStory(null);
       GameDAO.getInstance().update(game);
+    }
+
+    List<Link> linksWithStory = StoryDAO.getInstance().findLinksByStory(story);
+    for (Link link : linksWithStory) {
+      link.setStory(null);
+      em.getTransaction().begin();
+      em.merge(link);
+      em.flush();
+      em.getTransaction().commit();
     }
 
     em.getTransaction().begin();
@@ -107,6 +120,7 @@ public class StoryDAO implements DAO<Story> {
     List<Story> storyList = getAll();
     for (Story story : storyList) {
       System.out.println("Story Details" + " :: " + story.getId() + " :: " + story.getTitle());
+      System.out.println("Links: " + findLinksByStory(story));
     }
   }
 
@@ -119,5 +133,12 @@ public class StoryDAO implements DAO<Story> {
     if (emf.isOpen()) {
       this.emf.close();
     }
+  }
+
+  public List<Link> findLinksByStory(Story story) {
+    TypedQuery<Link> query =
+        this.em.createQuery("SELECT a FROM Link a WHERE a.story = :story", Link.class);
+    query.setParameter("story", story);
+    return query.getResultList();
   }
 }

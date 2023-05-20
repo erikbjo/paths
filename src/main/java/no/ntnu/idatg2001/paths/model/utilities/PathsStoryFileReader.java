@@ -23,6 +23,7 @@ import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
  */
 public class PathsStoryFileReader {
   private static Story story;
+  private static Scanner fileScanner;
 
   /**
    * Reads a story from a file and creates a story object. The story object is then saved to the
@@ -33,7 +34,7 @@ public class PathsStoryFileReader {
    */
   public static void readStoryFromFile(File file) throws IOException {
     try {
-      Scanner fileScanner = new Scanner(file);
+      fileScanner = new Scanner(file);
       story = new Story();
       StoryDAO.getInstance().add(story);
       Map<Link, Passage> passages = story.getPassagesHashMap();
@@ -71,7 +72,8 @@ public class PathsStoryFileReader {
 
                 link = new Link(linkText, linkReference);
 
-                passage.setStory(story);
+                //passage.setStory(story);
+                //link.setStory(story);
                 passage.getLinks().add(link);
               }
             }
@@ -117,7 +119,8 @@ public class PathsStoryFileReader {
                 }
 
                 if (action != null && link != null) {
-                  link.setStory(story);
+                  action.setLink(link);
+                  //link.setStory(story);
                   link.addAction(action);
                 } else {
                   System.out.println("Could not add action to link");
@@ -142,8 +145,10 @@ public class PathsStoryFileReader {
         }
       }
     } catch (Exception e) {
-      StoryDAO.getInstance().remove(story);
+      //StoryDAO.getInstance().remove(story);
       throw new IOException("Could not read file: " + file, e);
+    } finally {
+      fileScanner.close();
     }
   }
 }

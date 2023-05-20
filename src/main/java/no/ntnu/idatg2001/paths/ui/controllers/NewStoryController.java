@@ -17,7 +17,7 @@ import no.ntnu.idatg2001.paths.ui.views.NewStoryView;
 
 public class NewStoryController implements Controller {
   private final Stage stage;
-  private final Story story = new Story("placeholder");
+  private final Story story = new Story();
   private final NewStoryView view;
   private ResourceBundle resources;
 
@@ -149,10 +149,10 @@ public class NewStoryController implements Controller {
       VBox openingVBox,
       VBox mainVBox) {
     story.setTitle(storyTitleTextField.getText());
-    StoryDAO.getInstance().update(story); // Maybe not needed
-    Passage openingPassage =
-        new Passage(
-            openingPassageTitleTextField.getText(), openingPassageContentTextArea.getText());
+    //StoryDAO.getInstance().update(story); // Maybe not needed
+    Passage openingPassage = new Passage();
+    openingPassage.setTitle(openingPassageTitleTextField.getText());
+    openingPassage.setContent(openingPassageContentTextArea.getText());
     story.setOpeningPassage(openingPassage);
     StoryDAO.getInstance().update(story);
     openingVBox.setManaged(false);

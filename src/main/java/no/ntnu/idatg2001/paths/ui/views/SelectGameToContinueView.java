@@ -1,6 +1,7 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javafx.scene.control.Button;
@@ -63,7 +64,15 @@ public class SelectGameToContinueView implements View {
     LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> updateLanguage());
     updateLanguage();
 
+    centerVBox.setId("centerVBox");
+    ongoingGamesTableView.setId("ongoingGamesTableView");
+    buttonHBox.setId("buttonHBox");
+
     stage.getScene().setRoot(root);
+    stage
+        .getScene()
+        .getStylesheets()
+        .add("/css/selectGame.css");
   }
 
   @Override

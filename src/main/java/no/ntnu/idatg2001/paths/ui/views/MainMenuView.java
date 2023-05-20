@@ -67,17 +67,6 @@ public class MainMenuView implements View {
 
     buttonsHBox.getChildren().addAll(continueButton, newGameButton, settingsButton, exitButton);
 
-    Image image =
-        new Image((Objects.requireNonNull(getClass().getResource("/images/PathsTitleScreen.png"))).openStream());
-    BackgroundImage backgroundImage =
-        new BackgroundImage(
-            image,
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundPosition.CENTER,
-            new BackgroundSize(1.0, 1.0, true, true, false, false));
-    root.setBackground(new Background(backgroundImage));
-
     // centerHBox.getChildren().addAll(buttonsHBox);
     AnchorPane.setBottomAnchor(centerHBox, 0.0);
     AnchorPane.setTopAnchor(centerHBox, 0.0);
@@ -99,7 +88,21 @@ public class MainMenuView implements View {
     updateLanguage();
 
     Scene scene = new Scene(root, 1200, 800);
-    scene.getStylesheets().add("cssfiles/mainMenu.css");
+    scene.getStylesheets().add("css/mainMenu.css");
+
+    Image image =
+        new Image(
+            (Objects.requireNonNull(getClass().getResource("/images/PathsTitleScreen.png")))
+                .openStream());
+    BackgroundImage backgroundImage =
+        new BackgroundImage(
+            image,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundPosition.CENTER,
+            new BackgroundSize(1.0, 1.0, true, true, false, false));
+    root.setBackground(new Background(backgroundImage));
+
     stage.setScene(scene);
     stage.show();
   }
