@@ -20,9 +20,10 @@ public class Story {
   private Long id;
 
   @OneToMany(cascade = CascadeType.ALL)
-  @JoinTable(name = "story_passage_mapping",
-          joinColumns = {@JoinColumn(name = "story_id", referencedColumnName = "id")},
-          inverseJoinColumns = {@JoinColumn(name = "passage_id", referencedColumnName = "id")})
+  @JoinTable(
+      name = "story_passage_mapping",
+      joinColumns = {@JoinColumn(name = "story_id", referencedColumnName = "id")},
+      inverseJoinColumns = {@JoinColumn(name = "passage_id", referencedColumnName = "id")})
   @MapKeyJoinColumn(name = "link_id")
   private Map<Link, Passage> passages;
 
@@ -211,5 +212,43 @@ public class Story {
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  /**
+   * This function returns the minimum number of passages needed to traverse from the opening
+   * passage to a given passage.
+   *
+   * @param to The passage to go to.
+   * @return The minimum number of passages.
+   */
+  public int shortestPathFromOpeningPassage(Passage to) {
+    Map<Passage, Passage> previousPassages = new HashMap<>();
+    Queue<Passage> queue = new LinkedList<>();
+    queue.add(openingPassage);
+    previousPassages.put(openingPassage, null);
+
+    while (!queue.isEmpty()) {
+      Passage currentPassage = queue.remove();
+
+      // If we've reached the opening passage, return the number of passages in the path
+      if (currentPassage.equals(to)) {
+        List<Passage> shortestPath = new ArrayList<>();
+        for (Passage passage = to; passage != null; passage = previousPassages.get(passage)) {
+          shortestPath.add(passage);
+        }
+        return shortestPath.size();
+      }
+
+      // Else, add all the linked passages to the queue
+      for (Link link : currentPassage.getLinks()) {
+        Passage linkedPassage = getLinkedPassage(link);
+        if (linkedPassage != null && !previousPassages.containsKey(linkedPassage)) {
+          queue.add(linkedPassage);
+          previousPassages.put(linkedPassage, currentPassage);
+        }
+      }
+    }
+
+    return 0; // No path found
   }
 }
