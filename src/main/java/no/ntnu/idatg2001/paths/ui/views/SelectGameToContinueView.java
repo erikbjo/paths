@@ -72,9 +72,7 @@ public class SelectGameToContinueView implements View {
     stage
         .getScene()
         .getStylesheets()
-        .set(
-            0,
-            Objects.requireNonNull(getClass().getResource("/css/selectGame.css")).toExternalForm());
+        .add("/css/selectGame.css");
   }
 
   @Override

@@ -105,7 +105,7 @@ public class GameView implements View {
     stage
         .getScene()
         .getStylesheets()
-        .set(0, Objects.requireNonNull(getClass().getResource("/css/game.css")).toExternalForm());
+        .add(("/css/game.css"));
   }
 
   public void updateLanguage() {
