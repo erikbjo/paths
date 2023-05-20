@@ -125,7 +125,9 @@ public class Story {
       passages.remove(new Link(this.openingPassage.getTitle(), this.openingPassage.getTitle()));
     }
     this.openingPassage = openingPassage;
-    addPassage(openingPassage);
+    if (!passages.containsValue(openingPassage)) {
+      addPassage(openingPassage);
+    }
   }
 
   /**

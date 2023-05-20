@@ -16,12 +16,12 @@ class GoldGoalTest {
   @BeforeEach
   void setUp() {
     attributes = new Attributes(1, 1, 1, 1, 1, 1, 1);
-    goldGoal = new GoldGoal(0);
+    goldGoal = new GoldGoal(2);
     playerTrue = new Player.PlayerBuilder()
             .withGold(5)
             .build();
     playerFalse = new Player.PlayerBuilder()
-            .withGold(-5)
+            .withGold(0)
             .build();
   }
 

@@ -9,8 +9,6 @@ import no.ntnu.idatg2001.paths.model.items.consumables.BasePotion;
 import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
 import no.ntnu.idatg2001.paths.model.items.equipables.armor.Chest;
 import no.ntnu.idatg2001.paths.model.items.equipables.weapons.Dagger;
-import no.ntnu.idatg2001.paths.model.units.Attributes;
-import no.ntnu.idatg2001.paths.model.units.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,12 +57,13 @@ class PlayerTest {
   }
 
   @Test
-  void addHealth_mustEndInPositiveHealth() throws Exception {
+  void addHealth_mustEndInPositiveHealth() {
     testPlayer.setHealth(20);
-    testPlayer.addHealth(-29);
-
-    System.out.println(testPlayer.getHealth());
-    assertTrue(testPlayer.getHealth() >= 0);
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testPlayer.addHealth(-30);
+        });
   }
 
   @Test
