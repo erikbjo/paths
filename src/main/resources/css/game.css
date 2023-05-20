@@ -1,0 +1,72 @@
+#playerInformationVBox {
+    -fx-background-color: lightgrey;
+    -fx-padding: 10px;
+    -fx-border-color: rgb(4, 241, 234);
+    -fx-border-width: 1px;
+}
+
+#playerInformationVBox > GridPane {
+    -fx-padding: 2px;
+    -fx-pref-width: 100;
+}
+
+#goalInformationVBox {
+    -fx-background-color: lightgrey;
+    -fx-padding: 10px;
+    -fx-border-color: rgb(4, 241, 234);
+    -fx-border-width: 1px;
+}
+
+#goalInformationVBox > GridPane {
+    -fx-padding: 2px;
+}
+
+#leftVBox {
+    -fx-pref-width: 200;
+}
+
+VBox {
+    -fx-alignment: top-center;
+}
+
+GridPane {
+    -fx-alignment: center;
+}
+
+#rootVBox {
+    -fx-alignment: top-center;
+}
+
+#storyHeadlineText {
+    -fx-font-size: 24pt;
+    -fx-font-weight: bold;
+    -fx-fill: black;
+}
+
+#passageTitleText {
+    -fx-font-size: 18pt;
+    -fx-font-weight: bold;
+    -fx-fill: black;
+}
+
+#passageContentTextArea {
+    -fx-pref-width: 500;
+    -fx-font-size: 12pt;
+    -fx-font-weight: normal;
+    -fx-fill: black;
+    -fx-background-color: lightgrey;
+    -fx-border-color: rgb(4, 241, 234);
+    -fx-border-width: 1px;
+}
+
+#linksHBox {
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+
+#linksHBox > Hyperlink {
+    -fx-font-size: 12pt;
+    -fx-font-weight: normal;
+    -fx-fill: black;
+    -fx-text-fill: rgb(0, 190, 185);
+}

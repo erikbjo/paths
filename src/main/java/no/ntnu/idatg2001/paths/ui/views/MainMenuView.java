@@ -99,7 +99,7 @@ public class MainMenuView implements View {
     updateLanguage();
 
     Scene scene = new Scene(root, 1200, 800);
-    scene.getStylesheets().add("cssfiles/mainMenu.css");
+    scene.getStylesheets().add("css/mainMenu.css");
     stage.setScene(scene);
     stage.show();
   }

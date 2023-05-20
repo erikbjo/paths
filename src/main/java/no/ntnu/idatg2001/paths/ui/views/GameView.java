@@ -1,6 +1,7 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -52,7 +53,6 @@ public class GameView implements View {
     // Create a borderpane and a standard menubar
     BorderPane root = new BorderPane();
     root.setTop(new StandardMenuBar(stage));
-    AnchorPane rootAnchorPane = new AnchorPane();
 
     // Create a VBox to hold all the elements
     VBox rootVBox = new VBox(50); // 100 pixels spacing between elements
@@ -76,12 +76,21 @@ public class GameView implements View {
     rootVBox.getChildren().add(passageContentTextArea);
     rootVBox.getChildren().add(linksHBox);
 
-    rootAnchorPane.getChildren().add(rootVBox);
-    root.setCenter(rootAnchorPane);
+    root.setCenter(rootVBox);
 
     VBox leftVBox = new VBox();
     VBox playerInformationVBox = createPlayerInformationVBox();
     VBox goalInformationVBox = createGoalInformationVBox();
+
+    storyHeadlineText.setId("storyHeadlineText");
+    passageTitleText.setId("passageTitleText");
+    passageContentTextArea.setId("passageContentTextArea");
+
+    linksHBox.setId("linksHBox");
+    rootVBox.setId("rootVBox");
+    playerInformationVBox.setId("playerInformationVBox");
+    goalInformationVBox.setId("goalInformationVBox");
+    leftVBox.setId("leftVBox");
 
     leftVBox.getChildren().addAll(playerInformationVBox, goalInformationVBox);
     root.setLeft(leftVBox);
@@ -93,6 +102,10 @@ public class GameView implements View {
     updatePlayerInformation();
 
     stage.getScene().setRoot(root);
+    stage
+        .getScene()
+        .getStylesheets()
+        .set(0, Objects.requireNonNull(getClass().getResource("/css/game.css")).toExternalForm());
   }
 
   public void updateLanguage() {
@@ -158,6 +171,8 @@ public class GameView implements View {
     playerInformationGridPane.add(energyText, 0, 5);
     playerInformationGridPane.add(playerEnergyText, 1, 5);
 
+    setRowAndColumnConstraints(playerInformationGridPane);
+
     playerInformationVBox.getChildren().addAll(playerInformationText, playerInformationGridPane);
     return playerInformationVBox;
   }
@@ -177,6 +192,8 @@ public class GameView implements View {
     goalInformationText = new Text();
 
     goalInformationGridPane = new GridPane();
+    setRowAndColumnConstraints(goalInformationGridPane);
+
     updateGoalInformation();
 
     goalInformationVBox.getChildren().addAll(goalInformationText, goalInformationGridPane);
@@ -208,5 +225,10 @@ public class GameView implements View {
 
       i++;
     }
+  }
+
+  private void setRowAndColumnConstraints(GridPane gridPane) {
+    gridPane.getRowConstraints().add(new RowConstraints(30));
+    gridPane.getColumnConstraints().add(new ColumnConstraints(100));
   }
 }

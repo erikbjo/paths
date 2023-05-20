@@ -72,6 +72,7 @@ public class PathsStoryFileReader {
                 link = new Link(linkText, linkReference);
 
                 passage.setStory(story);
+                link.setStory(story);
                 passage.getLinks().add(link);
               }
             }
