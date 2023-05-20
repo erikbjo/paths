@@ -67,7 +67,7 @@ public class EditStoryController implements Controller {
     queue.add(openingPane);
     pane.getChildren().add(openingPane);
 
-    story.getPassages().stream()
+    story.getPassages()
         .forEach(
             passage -> {
               if (!passagePanes.containsKey(passage)) {
@@ -111,11 +111,6 @@ public class EditStoryController implements Controller {
       passagePane.setLayoutX(gapX * depth);
       passagePane.setLayoutY(gapY * amountOfPassagesAtDepth.getOrDefault(depth, 0));
       amountOfPassagesAtDepth.put(depth, amountOfPassagesAtDepth.getOrDefault(depth, 0) + 1);
-
-      System.out.println("Passage: " + passage.getTitle());
-      System.out.println("Depth: " + depth);
-      System.out.println("X: " + passagePane.getLayoutX());
-      System.out.println("Y: " + passagePane.getLayoutY());
     }
   }
 
@@ -152,9 +147,6 @@ public class EditStoryController implements Controller {
         mouseEvent -> {
           dragInitialX = mouseEvent.getSceneX() - passagePane.getLayoutX();
           dragInitialY = mouseEvent.getSceneY() - passagePane.getLayoutY();
-
-          System.out.println("initialX: " + dragInitialX);
-          System.out.println("initialY: " + dragInitialY);
         });
 
     passagePane.setOnMouseDragged(
