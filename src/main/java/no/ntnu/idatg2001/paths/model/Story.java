@@ -9,7 +9,7 @@ import java.util.*;
  * the passages in the story, and the opening passage.
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen
- * @version 2023.02.02
+ * @version 2023.05.20
  */
 @Entity
 @Table(name = "story")
@@ -33,29 +33,50 @@ public class Story {
 
   private String title;
 
+  /**
+   * This function creates a new story with a title and an opening passage.
+   *
+   * @param title The title of the story.
+   * @param openingPassage The opening passage of the story.
+   * @throws IllegalArgumentException if the title is null, blank or empty.
+   */
   public Story(String title, Passage openingPassage) {
+    if (title == null || title.isBlank() || title.isEmpty()) {
+      throw new IllegalArgumentException("Title cannot be null or blank");
+    }
     this.passages = new HashMap<>();
     this.title = title;
     setOpeningPassage(openingPassage);
   }
 
+  /**
+   * This function creates a new story with a title.
+   *
+   * @param title The title of the story.
+   * @throws IllegalArgumentException if the title is null, blank or empty.
+   */
   public Story(String title) {
+    if (title == null || title.isBlank() || title.isEmpty()) {
+      throw new IllegalArgumentException("Title cannot be null or blank");
+    }
     this.title = title;
     this.passages = new HashMap<>();
     this.openingPassage = null;
   }
 
+  /** Default constructor for the Story class. */
   public Story() {
     this.passages = new HashMap<>();
     this.openingPassage = null;
   }
 
+  /**
+   * Returns the passages hashmap.
+   *
+   * @return The passages hashmap.
+   */
   public Map<Link, Passage> getPassagesHashMap() {
     return passages;
-  }
-
-  public void setPassagesHashMap(Map<Link, Passage> passages) {
-    this.passages = passages;
   }
 
   /**
@@ -67,7 +88,16 @@ public class Story {
     return title;
   }
 
+  /**
+   * This function sets the title of the game.
+   *
+   * @param text The title of the game.
+   * @throws IllegalArgumentException if the title is null, blank or empty.
+   */
   public void setTitle(String text) {
+    if (text == null || text.isBlank() || text.isEmpty()) {
+      throw new IllegalArgumentException("Title cannot be null or blank");
+    }
     this.title = text;
   }
 
@@ -80,7 +110,17 @@ public class Story {
     return openingPassage;
   }
 
+  /**
+   * This function sets the opening passage of the game. If the opening passage is already set, it
+   * will be removed from the passages map.
+   *
+   * @param openingPassage The opening passage of the game.
+   * @throws IllegalArgumentException if the opening passage is null.
+   */
   public void setOpeningPassage(Passage openingPassage) {
+    if (openingPassage == null) {
+      throw new IllegalArgumentException("Opening passage cannot be null");
+    }
     if (this.openingPassage != null) {
       passages.remove(new Link(this.openingPassage.getTitle(), this.openingPassage.getTitle()));
     }
@@ -89,79 +129,49 @@ public class Story {
   }
 
   /**
-   * This function adds a passage to the story
+   * This function adds a passage to the story.
    *
    * @param passage The passage that gets added to the game.
+   * @throws IllegalArgumentException if the passage is null or already exists.
    */
-
-  // Metoden addPassage skal legge til en passasje i passages. Da trenger vi også et Link-objekt.
-  // Dette løser vi ved å opprette en ny link basert på passasjens tittel. Tittelen kan fungere både
-  // som tekst og referanse.
-
-  // • links: linker som kobler denne passasjen mot andre passasjer. En passasje med to eller
-  // flere linker gjør historien ikke-lineær.
-
-  // Diagrammet viser at Link-klassen har tre attributter:
-  // • text: en beskrivende tekstsom indikerer et valg eller en handling i en historie. Teksten
-  // er den delen av linken som vil være synlig for spilleren.
-  // • reference: en streng som entydig identifiserer en passasje (en del av en historie). I
-  // praksis vil dette være tittelen til passasjen man ønsker å referere til.
-  public boolean addPassage(Passage passage) {
-    if (passages.containsValue(passage)) {
-      return false;
-    } else {
-      passage.setStory(this);
-      Link link = new Link(passage.getTitle(), passage.getTitle());
-      link.setStory(this);
-      passages.put(link, passage);
-      return true;
+  public void addPassage(Passage passage) {
+    if (passage == null) {
+      throw new IllegalArgumentException("Passage cannot be null");
     }
+    if (passages.containsValue(passage)) {
+      throw new IllegalArgumentException("Passage already exists");
+    }
+
+    passage.setStory(this);
+    Link link = new Link(passage.getTitle(), passage.getTitle());
+    link.setStory(this);
+    passages.put(link, passage);
   }
 
   /**
-   * This function returns a list of all the links connected to a passage.
+   * This function returns a list of all the passages in the story.
    *
-   * @return A list of all the links connected to a passage.
+   * @return A list of all the passages in the story.
    */
-  public List<Link> getLinksConnectedWithPassage(Passage passage) {
-    // get the passage list of links and return the ones that have the same reference as the
-    // passage title
-    List<Link> links = passage.getLinks();
-    return passages.keySet().stream().filter(links::contains).toList();
-  }
-
-  /**
-   * This function returns a list of all the passages connected to a link.
-   *
-   * @return A list of all the passages connected to a link.
-   */
-  public List<Passage> getPassagesConnectedWithLink(Link link) {
-    return passages.values().stream().filter(passage -> passage.getLinks().contains(link)).toList();
-  }
-
   public List<Passage> getPassages() {
-    // opening passage and passages.values().stream().filter(Objects::nonNull).toList();
     return new ArrayList<>(passages.values());
   }
 
+  /**
+   * This function returns a list of all the passages except for the opening passage.
+   *
+   * @return A list of all the passages except for the opening passage.
+   */
   public List<Passage> getPassagesExceptForOpeningPassage() {
     return passages.values().stream().filter(passage -> !passage.equals(openingPassage)).toList();
   }
 
-  public Link getRealLinkBetweenPassages(Passage passage1, Passage passage2) {
-    return passage1.getLinks().stream()
-        .filter(link -> link.getReference().equals(passage2.getTitle()))
-        .findFirst()
-        .orElse(null);
-  }
-
-  public Passage getSourcePassage(Link link) {
-    return this.getPassages().stream()
-        .filter(passage -> passage.getLinks().contains(link))
-        .findFirst()
-        .orElse(null);
-  }
-
+  /**
+   * This function returns the "proxy" link of a another link.
+   *
+   * @param link The link that you want to get the proxy link of.
+   * @return The proxy link of the given link.
+   */
   public Link reverseLink(Link link) {
     return this.getPassagesHashMap().keySet().stream()
         .filter(l -> l.equals(link))
@@ -169,6 +179,11 @@ public class Story {
         .orElseThrow();
   }
 
+  /**
+   * This function returns a list of all the passages that does not have a link pointing to them.
+   *
+   * @return A list of all the passages that does not have a link pointing to them.
+   */
   public List<Passage> getAllPassagesThatDoesNotHaveALinkPointingToThem() {
     return passages.values().stream()
         .filter(
@@ -181,11 +196,30 @@ public class Story {
         .toList();
   }
 
+  /**
+   * Returns the passage that is linked to the given link.
+   *
+   * @param link The link that is connected to the passage that gets returned.
+   * @return The passage that is linked to the given link.
+   */
   public Passage getLinkedPassage(Link link) {
     return passages.get(link);
   }
 
+  /**
+   * This function removes a passage from the story.
+   *
+   * @param link The link that is connected to the passage that gets removed.
+   * @throws IllegalArgumentException If the link is null or if the link does not exist in the
+   *     story.
+   */
   public void removePassage(Link link) {
+    if (link == null) {
+      throw new IllegalArgumentException("Link cannot be null");
+    }
+    if (!passages.containsKey(link)) {
+      throw new IllegalArgumentException("Link does not exist");
+    }
     passages.remove(link);
   }
 
@@ -201,15 +235,30 @@ public class Story {
         .toList();
   }
 
+  /**
+   * Returns a string representation of the story. Returns the title of the story.
+   *
+   * @return The title of the story.
+   */
   @Override
   public String toString() {
     return title;
   }
 
+  /**
+   * This function returns the id of the story. This is used by the database.
+   *
+   * @return The id of the story.
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets the id of the story. This is used by the database.
+   *
+   * @param id The id of the story.
+   */
   public void setId(Long id) {
     this.id = id;
   }
