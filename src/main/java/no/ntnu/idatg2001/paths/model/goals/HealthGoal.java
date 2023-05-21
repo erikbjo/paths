@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import no.ntnu.idatg2001.paths.model.units.Player;
 
 /**
- * HealthGoal class.
+ * HealthGoal class. Represents a goal that can be fulfilled by the player.
  *
  * @author Erik Bjørnsen and Emil Klevgård-Slåttsveen.
  * @version 2023.02.06
@@ -26,14 +26,19 @@ public class HealthGoal extends Goal {
     this.minimumHealth = minimumHealth;
   }
 
+  /** Default constructor for the HealthGoal class. Used by DB */
   protected HealthGoal() {}
 
   /**
    * Adds health to the minimum health the player must have to fulfill the goal.
    *
    * @param health The amount of health to add.
+   * @throws IllegalArgumentException if the health goal is negative.
    */
   public void addHealthToHealthGoal(int health) {
+    if (minimumHealth + health < 0) {
+      throw new IllegalArgumentException("The health goal cannot be negative.");
+    }
     minimumHealth += health;
   }
 
@@ -50,22 +55,28 @@ public class HealthGoal extends Goal {
     minimumHealth -= health;
   }
 
+  /**
+   * Gets the minimum health the player must have to fulfill the goal.
+   *
+   * @return The minimum health the player must have to fulfill the goal.
+   */
   public int getMinimumHealth() {
     return minimumHealth;
-  }
-
-  public void setMinimumHealth(int minimumHealth) {
-    this.minimumHealth = minimumHealth;
   }
 
   /**
    * Sets the minimum health the player must have to fulfill the goal.
    *
-   * @param health The amount of health to set.
+   * @param minimumHealth The amount of health to set.
+   * @throws IllegalArgumentException if the health goal is negative.
    */
-  public void setHealthToHealthGoal(int health) {
-    minimumHealth = health;
+  public void setMinimumHealth(int minimumHealth) {
+    if (minimumHealth < 0) {
+      throw new IllegalArgumentException("The health goal cannot be negative.");
+    }
+    this.minimumHealth = minimumHealth;
   }
+
 
   /** {@inheritDoc} */
   @Override
