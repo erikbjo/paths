@@ -72,7 +72,11 @@ public class HealthAction extends Action {
   /** {@inheritDoc} */
   @Override
   public void execute(Player player) {
-    player.addHealth(health);
+    if (getIsPositive()) {
+      player.addHealth(getHealth());
+    } else {
+      player.removeHealth(getHealth());
+    }
   }
 
   /** {@inheritDoc} */

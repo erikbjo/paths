@@ -36,8 +36,8 @@ public class Passage {
    * @param content the content of the passage, typically a part of the story.
    */
   public Passage(String title, String content) {
-    this.title = title;
-    this.content = content;
+    setTitle(title);
+    setContent(content);
     this.links = new ArrayList<>();
   }
 
@@ -110,10 +110,14 @@ public class Passage {
    * Adds a link to the list of links.
    *
    * @param link The link to be added to the list.
+   * @throws IllegalArgumentException if the link is null or already exists.
    */
   public void addLink(Link link) {
     if (link == null) {
       throw new IllegalArgumentException("Link cannot be null");
+    }
+    if (links.contains(link)) {
+      throw new IllegalArgumentException("Link already exists");
     }
 
     links.add(link);
@@ -132,7 +136,8 @@ public class Passage {
    * Sets the list of links.
    *
    * @param links the list of links.
-   * @throws IllegalArgumentException if the list of links is null or contains null values.
+   * @throws IllegalArgumentException if the list of links is null or contains null values. Also
+   *     throws an exception if the list of links is empty.
    */
   public void setLinks(List<Link> links) {
     if (links == null) {
@@ -143,7 +148,13 @@ public class Passage {
         throw new IllegalArgumentException("Link cannot be null");
       }
     }
-    this.links = links;
+    if (links.isEmpty()) {
+      throw new IllegalArgumentException("Links cannot be empty");
+    }
+    this.links.clear();
+    for (Link link : links) {
+      addLink(link);
+    }
   }
 
   /**

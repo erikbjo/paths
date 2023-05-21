@@ -17,8 +17,12 @@ public class GoldGoal extends Goal {
    * Constructor for the GoldGoal class.
    *
    * @param minimumGold The minimum gold the player must have to fulfill the goal.
+   * @throws IllegalArgumentException if the minimum gold is negative.
    */
   public GoldGoal(int minimumGold) {
+    if (minimumGold < 0) {
+      throw new IllegalArgumentException("The gold goal cannot be negative.");
+    }
     this.minimumGold = minimumGold;
   }
 
@@ -29,8 +33,12 @@ public class GoldGoal extends Goal {
    * Adds gold to the minimum gold the player must have to fulfill the goal.
    *
    * @param gold The amount of gold to add.
+   * @throws IllegalArgumentException if the gold is negative.
    */
   public void addGoldToGoldGoal(int gold) {
+    if (gold < 0) {
+      throw new IllegalArgumentException("The gold cannot be negative.");
+    }
     minimumGold += gold;
   }
 
@@ -51,8 +59,12 @@ public class GoldGoal extends Goal {
    * Sets the minimum gold the player must have to fulfill the goal.
    *
    * @param gold The amount of gold to set.
+   * @throws IllegalArgumentException if the gold goal is negative.
    */
   public void setGoldToGoldGoal(int gold) {
+    if (gold < 0) {
+      throw new IllegalArgumentException("The gold goal cannot be negative.");
+    }
     minimumGold = gold;
   }
 
@@ -63,15 +75,6 @@ public class GoldGoal extends Goal {
    */
   public int getMinimumGold() {
     return minimumGold;
-  }
-
-  /**
-   * Sets the minimum gold the player must have to fulfill the goal.
-   *
-   * @param minimumGold The amount of gold to set.
-   */
-  public void setMinimumGold(int minimumGold) {
-    this.minimumGold = minimumGold;
   }
 
   /** {@inheritDoc} */

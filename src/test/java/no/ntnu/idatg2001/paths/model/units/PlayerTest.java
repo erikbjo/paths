@@ -77,4 +77,136 @@ class PlayerTest {
     field.setAccessible(true);
     assertEquals(5, field.get(testPlayer), "5");
   }
+
+  @Test
+  void testThatAddIntMethodsThrowsIfIntIsNegative() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testPlayer.addEnergy(-1);
+        });
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testPlayer.addGold(-1);
+        });
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testPlayer.addHealth(-1);
+        });
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testPlayer.addMana(-1);
+        });
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testPlayer.addScore(-1);
+        });
+  }
+
+  @Test
+  void assertThatAddIntMethodsWorksAsExpected() {
+    testPlayer.addEnergy(1);
+    testPlayer.addGold(1);
+    testPlayer.addHealth(1);
+    testPlayer.addMana(1);
+    testPlayer.addScore(1);
+
+    assertEquals(6, testPlayer.getEnergy());
+    assertEquals(6, testPlayer.getGold());
+    assertEquals(6, testPlayer.getHealth());
+    assertEquals(6, testPlayer.getMana());
+    assertEquals(6, testPlayer.getScore());
+  }
+
+  @Test
+  void assertThatSettersThrowsIfIntIsNegative() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testPlayer.setEnergy(-1);
+        });
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testPlayer.setGold(-1);
+        });
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testPlayer.setHealth(-1);
+        });
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testPlayer.setMana(-1);
+        });
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testPlayer.setScore(-1);
+        });
+  }
+
+  @Test
+  void assertThatSettersWorksAsExpected() {
+    testPlayer.setEnergy(1);
+    testPlayer.setGold(1);
+    testPlayer.setHealth(1);
+    testPlayer.setMana(1);
+    testPlayer.setScore(1);
+
+    assertEquals(1, testPlayer.getEnergy());
+    assertEquals(1, testPlayer.getGold());
+    assertEquals(1, testPlayer.getHealth());
+    assertEquals(1, testPlayer.getMana());
+    assertEquals(1, testPlayer.getScore());
+  }
+
+  @Test
+  void assertThatRemoveIntMethodsThrowsIfIntIsNegative() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testPlayer.removeEnergy(-1);
+        });
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testPlayer.removeGold(-1);
+        });
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testPlayer.removeHealth(-1);
+        });
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testPlayer.removeMana(-1);
+        });
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testPlayer.removeScore(-1);
+        });
+  }
+
+  @Test
+  void assertThatRemoveIntMethodsWorksAsExpected() {
+    testPlayer.removeEnergy(1);
+    testPlayer.removeGold(1);
+    testPlayer.removeHealth(1);
+    testPlayer.removeMana(1);
+    testPlayer.removeScore(1);
+
+    assertEquals(4, testPlayer.getEnergy());
+    assertEquals(4, testPlayer.getGold());
+    assertEquals(4, testPlayer.getHealth());
+    assertEquals(4, testPlayer.getMana());
+    assertEquals(4, testPlayer.getScore());
+  }
 }

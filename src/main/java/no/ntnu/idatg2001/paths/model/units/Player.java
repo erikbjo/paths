@@ -274,6 +274,32 @@ public class Player extends Unit {
   }
 
   /**
+   * Adds score to the player.
+   *
+   * @param score The amount of score to add to the player.
+   * @throws IllegalArgumentException if the score is negative.
+   */
+  public void addScore(int score) {
+    if (score < 0) {
+      throw new IllegalArgumentException("Score cannot be negative");
+    }
+    super.setScore(super.getScore() + score);
+  }
+
+  /**
+   * Removes score from the player.
+   *
+   * @param score The amount of score to remove from the player.
+   * @throws IllegalArgumentException if the score is negative.
+   */
+  public void removeScore(int score) {
+    if (score < 0) {
+      throw new IllegalArgumentException("Score cannot be negative");
+    }
+    super.setScore(super.getScore() - score);
+  }
+
+  /**
    * Gets the id of the player.
    *
    * @return the id of the player

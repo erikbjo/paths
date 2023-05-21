@@ -70,7 +70,11 @@ public class ScoreAction extends Action {
   /** {@inheritDoc} */
   @Override
   public void execute(Player player) {
-    player.setScore(player.getScore() + points);
+    if (getIsPositive()) {
+      player.setScore(player.getScore() + getPoints());
+    } else {
+      player.setScore(player.getScore() - getPoints());
+    }
   }
 
   /** {@inheritDoc} */

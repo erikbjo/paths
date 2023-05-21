@@ -17,8 +17,12 @@ public class ScoreGoal extends Goal {
    * Constructor for the ScoreGoal class.
    *
    * @param minimumPoints The minimum points the player must have to fulfill the goal.
+   * @throws IllegalArgumentException if the minimum points is negative.
    */
   public ScoreGoal(int minimumPoints) {
+    if (minimumPoints < 0) {
+      throw new IllegalArgumentException("The score goal cannot be negative.");
+    }
     this.minimumPoints = minimumPoints;
   }
 
@@ -29,8 +33,12 @@ public class ScoreGoal extends Goal {
    * Adds points to the minimum points the player must have to fulfill the goal.
    *
    * @param points The number of points to add.
+   * @throws IllegalArgumentException if the score goal is negative.
    */
   public void addPointsToScoreGoal(int points) {
+    if (minimumPoints + points < 0) {
+      throw new IllegalArgumentException("The score goal cannot be negative.");
+    }
     minimumPoints += points;
   }
 
@@ -49,15 +57,6 @@ public class ScoreGoal extends Goal {
   }
 
   /**
-   * Sets the minimum points the player must have to fulfill the goal.
-   *
-   * @param points The number of points to set.
-   */
-  public void setPointsToScoreGoal(int points) {
-    minimumPoints = points;
-  }
-
-  /**
    * Gets the minimum points the player must have to fulfill the goal.
    *
    * @return The minimum points the player must have to fulfill the goal.
@@ -70,8 +69,12 @@ public class ScoreGoal extends Goal {
    * Sets the minimum points the player must have to fulfill the goal.
    *
    * @param minimumPoints The amount of points to set.
+   * @throws IllegalArgumentException if the score goal is negative.
    */
   public void setMinimumPoints(int minimumPoints) {
+    if (minimumPoints < 0) {
+      throw new IllegalArgumentException("The score goal cannot be negative.");
+    }
     this.minimumPoints = minimumPoints;
   }
 
