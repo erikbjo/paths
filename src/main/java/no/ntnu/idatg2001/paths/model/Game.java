@@ -20,7 +20,7 @@ import no.ntnu.idatg2001.paths.model.units.Player;
 @Entity
 @Table(name = "game")
 public class Game {
-  @OneToMany(mappedBy = "game")
+  @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
   private final List<Goal> goals = new ArrayList<>();
 
   @Id
@@ -246,5 +246,10 @@ public class Game {
         + ", goals="
         + goals.stream().map(Goal::toString).collect(Collectors.joining(", "))
         + '}';
+  }
+
+  /** Method to restart the game. Sets the current passage to the opening passage of the story. */
+  public void restart() {
+    setCurrentPassage(story.getOpeningPassage());
   }
 }
