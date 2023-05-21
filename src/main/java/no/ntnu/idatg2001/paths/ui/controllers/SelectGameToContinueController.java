@@ -1,7 +1,10 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.ResourceBundle;
+
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,11 +30,23 @@ import no.ntnu.idatg2001.paths.ui.views.SelectGameToContinueView;
 public class SelectGameToContinueController implements Controller {
   private final SelectGameToContinueView view;
   private final Stage stage;
+  private ResourceBundle selectGameToContinueResources =
+      ResourceBundle.getBundle(
+          "languages/selectGameToContinue",
+          Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
 
   public SelectGameToContinueController(Stage stage) {
     this.stage = stage;
     this.view = new SelectGameToContinueView(this, stage);
-    LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> view.updateLanguage());
+    LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> updateLanguage());
+  }
+
+  private void updateLanguage() {
+    selectGameToContinueResources =
+        ResourceBundle.getBundle(
+            "languages/selectGameToContinue",
+            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+    view.updateLanguage();
   }
 
   public SelectGameToContinueView getView() {
@@ -50,7 +65,7 @@ public class SelectGameToContinueController implements Controller {
           Game game = cellData.getValue();
           String playerName;
           if (game.getPlayer() == null) {
-            playerName = "No player";
+            playerName = selectGameToContinueResources.getString("noPlayer");
           } else {
             playerName = game.getPlayer().getName();
           }
@@ -63,7 +78,7 @@ public class SelectGameToContinueController implements Controller {
           Game game = cellData.getValue();
           String storyTitle;
           if (game.getStory() == null) {
-            storyTitle = "No story";
+            storyTitle = selectGameToContinueResources.getString("noStory");
           } else {
             storyTitle = game.getStory().getTitle();
           }
@@ -81,14 +96,18 @@ public class SelectGameToContinueController implements Controller {
 
     ongoingGamesGoalsTableColumn.setCellValueFactory(
         cellData -> {
-          Game game = cellData.getValue();
-          List<Goal> goalList = game.getGoals();
-          String totalGoals = String.valueOf(goalList.size());
-          String completedGoals =
-              String.valueOf(
-                  goalList.stream().filter(goal -> goal.isFulfilled(game.getPlayer())).count());
+          if (cellData.getValue().getPlayer() != null) {
+            Game game = cellData.getValue();
+            List<Goal> goalList = game.getGoals();
+            String totalGoals = String.valueOf(goalList.size());
+            String completedGoals =
+                String.valueOf(
+                    goalList.stream().filter(goal -> goal.isFulfilled(game.getPlayer())).count());
 
-          return new ReadOnlyStringWrapper(completedGoals + "/" + totalGoals);
+            return new ReadOnlyStringWrapper(completedGoals + "/" + totalGoals);
+          } else {
+            return new ReadOnlyStringWrapper(selectGameToContinueResources.getString("noPlayer"));
+          }
         });
   }
 

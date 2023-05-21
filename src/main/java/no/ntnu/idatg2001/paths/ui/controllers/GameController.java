@@ -6,6 +6,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import no.ntnu.idatg2001.paths.ui.alerts.ExceptionAlert;
 import no.ntnu.idatg2001.paths.ui.handlers.CurrentGameHandler;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
@@ -50,7 +51,11 @@ public class GameController implements Controller {
 
       hyperlink.setOnAction(
           event -> {
-            CurrentGameHandler.getCurrentGame().go(link);
+            try {
+              CurrentGameHandler.getCurrentGame().go(link);
+            } catch (Exception e) {
+              new ExceptionAlert(e).showAndWait();
+            }
             view.updatePlayerInformation();
             view.updateGoalInformation();
             previousLink = link;
