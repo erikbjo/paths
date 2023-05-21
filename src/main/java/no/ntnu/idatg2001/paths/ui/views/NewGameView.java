@@ -27,8 +27,12 @@ public class NewGameView implements View {
   private final NewGameController controller;
   private TableView<Player> playersTableView;
   private TableColumn<Player, String> playersTableColumn;
+  private TableColumn<Player, Integer> playerScoreTableColumn;
   private TableView<Link> deadLinksTableView;
   private TableColumn<Link, String> deadLinksTableColumn;
+
+  private TableColumn<Link, String> deadLinksStoryTableColumn;
+  private TableColumn<Link, String> deadLinksPassageTableColumn;
   private Text deadLinksText;
   private Text playersText;
   private Text storiesText;
@@ -43,6 +47,10 @@ public class NewGameView implements View {
   private Button importStoryButton;
   private TableView<Story> storiesTableView;
   private TableColumn<Story, String> storiesTableColumn;
+
+  private TableColumn<Story, Integer> passagesAmountTableColumn;
+  private TableColumn<Story, Integer> linksAmountTableColumn;
+  private TableColumn<Story, Integer> brokenLinksAmountTableColumn;
   private Button exportButton;
 
   public NewGameView(NewGameController controller, Stage primaryStage) {
@@ -74,7 +82,6 @@ public class NewGameView implements View {
     // TEXTS
     informationText = new Text();
 
-
     // ADDING TO VBOXES
     informationVBox.getChildren().addAll();
 
@@ -86,9 +93,7 @@ public class NewGameView implements View {
     startNewGameHBox.getChildren().add(startNewGameButton);
 
     // ADD TO MAINVBOX
-    mainHBox
-        .getChildren()
-        .addAll(storiesAndPlayersHBox, startNewGameHBox);
+    mainHBox.getChildren().addAll(storiesAndPlayersHBox, startNewGameHBox);
 
     root.setRight(deadLinksVBox);
     root.setCenter(mainHBox);
@@ -105,7 +110,15 @@ public class NewGameView implements View {
     controller.configureDeadLinksButtons(
         deleteLinkButton, updateDeadLinksButton, deadLinksTableView);
 
-    controller.configureTableColumns(storiesTableColumn, playersTableColumn, deadLinksTableColumn);
+    controller.configureDeadLinksColumns(
+        deadLinksTableColumn, deadLinksStoryTableColumn, deadLinksPassageTableColumn);
+    controller.configureStoryColumns(
+        storiesTableColumn,
+        passagesAmountTableColumn,
+        linksAmountTableColumn,
+        brokenLinksAmountTableColumn);
+    controller.configurePlayerColumns(playersTableColumn, playerScoreTableColumn);
+
     controller.updateAllTables(storiesTableView, playersTableView, deadLinksTableView);
 
     primaryStage.getScene().setRoot(root);
@@ -121,8 +134,14 @@ public class NewGameView implements View {
     playersTableView.setPlaceholder(new Text(resources.getString("noPlayers")));
     deadLinksTableView.setPlaceholder(new Text(resources.getString("noDeadLinks")));
     storiesTableColumn.setText(resources.getString("storiesTableColumn"));
+    passagesAmountTableColumn.setText(resources.getString("passagesAmountTableColumn"));
+    linksAmountTableColumn.setText(resources.getString("linksAmountTableColumn"));
+    brokenLinksAmountTableColumn.setText(resources.getString("brokenLinksAmountTableColumn"));
     playersTableColumn.setText(resources.getString("playersTableColumn"));
+    playerScoreTableColumn.setText(resources.getString("playerScoreTableColumn"));
     deadLinksTableColumn.setText(resources.getString("deadLinksTableColumn"));
+    deadLinksStoryTableColumn.setText(resources.getString("deadLinksStoryTableColumn"));
+    deadLinksPassageTableColumn.setText(resources.getString("deadLinksPassageTableColumn"));
     informationText.setText(resources.getString("informationText"));
     deadLinksText.setText(resources.getString("deadLinksText"));
     playersText.setText(resources.getString("playersText"));
@@ -144,7 +163,16 @@ public class NewGameView implements View {
 
     storiesTableView = new TableView<>();
     storiesTableColumn = new TableColumn<>();
-    storiesTableView.getColumns().add(storiesTableColumn);
+    passagesAmountTableColumn = new TableColumn<>();
+    linksAmountTableColumn = new TableColumn<>();
+    brokenLinksAmountTableColumn = new TableColumn<>();
+    storiesTableView
+        .getColumns()
+        .addAll(
+            storiesTableColumn,
+            passagesAmountTableColumn,
+            linksAmountTableColumn,
+            brokenLinksAmountTableColumn);
 
     storiesText = new Text();
 
@@ -152,14 +180,12 @@ public class NewGameView implements View {
     newStoryButton = new Button();
     deleteStoryButton = new Button();
     importStoryButton = new Button();
-    importStoryButton.setOnAction(
-            event -> controller.onImportStory(storiesTableView)
-    );
+    importStoryButton.setOnAction(event -> controller.onImportStory(storiesTableView));
     exportButton = new Button();
-    exportButton.setOnAction(
-            event -> controller.onExportStory(storiesTableView)
-    );
-    HBox storiesButtonsHBox = new HBox(editStoryButton, newStoryButton, deleteStoryButton, importStoryButton, exportButton);
+    exportButton.setOnAction(event -> controller.onExportStory(storiesTableView));
+    HBox storiesButtonsHBox =
+        new HBox(
+            editStoryButton, newStoryButton, deleteStoryButton, importStoryButton, exportButton);
 
     storiesVBox.getChildren().addAll(storiesText, storiesTableView, storiesButtonsHBox);
 
@@ -171,7 +197,8 @@ public class NewGameView implements View {
 
     playersTableView = new TableView<>();
     playersTableColumn = new TableColumn<>();
-    playersTableView.getColumns().add(playersTableColumn);
+    playerScoreTableColumn = new TableColumn<>();
+    playersTableView.getColumns().addAll(playersTableColumn, playerScoreTableColumn);
 
     playersText = new Text();
 
@@ -188,10 +215,13 @@ public class NewGameView implements View {
   private VBox createDeadLinksVBox() {
     VBox deadLinksVBox = new VBox();
 
-
     deadLinksTableView = new TableView<>();
     deadLinksTableColumn = new TableColumn<>();
-    deadLinksTableView.getColumns().add(deadLinksTableColumn);
+    deadLinksStoryTableColumn = new TableColumn<>();
+    deadLinksPassageTableColumn = new TableColumn<>();
+    deadLinksTableView
+        .getColumns()
+        .addAll(deadLinksTableColumn, deadLinksStoryTableColumn, deadLinksPassageTableColumn);
 
     deadLinksText = new Text();
 

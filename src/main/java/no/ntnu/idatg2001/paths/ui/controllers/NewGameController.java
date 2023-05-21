@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -402,6 +404,54 @@ public class NewGameController implements Controller {
 
     deadLinksTableColumn.setCellValueFactory(new PropertyValueFactory<>("reference"));
     deadLinksTableColumn.setPrefWidth(250);
+  }
+
+  public void configureStoryColumns(
+      TableColumn<Story, String> storiesTableColumn,
+      TableColumn<Story, Integer> passagesAmountTableColumn,
+      TableColumn<Story, Integer> linksAmountTableColumn,
+      TableColumn<Story, Integer> brokenLinksAmountTableColumn) {
+    storiesTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+
+    passagesAmountTableColumn.setCellValueFactory(
+        story -> new SimpleIntegerProperty(story.getValue().getPassages().size()).asObject());
+
+    linksAmountTableColumn.setCellValueFactory(
+        story ->
+            new SimpleIntegerProperty(
+                    story.getValue().getPassages().stream()
+                        .mapToInt(passage -> passage.getLinks().size())
+                        .sum())
+                .asObject());
+
+    brokenLinksAmountTableColumn.setCellValueFactory(
+        story -> new SimpleIntegerProperty(story.getValue().getBrokenLinks().size()).asObject());
+  }
+
+  public void configurePlayerColumns(
+      TableColumn<Player, String> playersTableColumn,
+      TableColumn<Player, Integer> scoreAmountTableColumn) {
+    playersTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+    scoreAmountTableColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
+  }
+
+  public void configureDeadLinksColumns(
+      TableColumn<Link, String> deadLinksTableColumn,
+      TableColumn<Link, String> deadLinksStoryTableColumn,
+      TableColumn<Link, String> deadLinksPassageTableColumn) {
+    deadLinksTableColumn.setCellValueFactory(new PropertyValueFactory<>("reference"));
+
+    deadLinksStoryTableColumn.setCellValueFactory(
+        link -> new SimpleStringProperty(link.getValue().getStory().getTitle()));
+
+    deadLinksPassageTableColumn.setCellValueFactory(
+        link ->
+            new SimpleStringProperty(
+                link.getValue().getStory().getPassages().stream()
+                    .filter(passage -> passage.getLinks().contains(link.getValue()))
+                    .findFirst()
+                    .get()
+                    .getTitle()));
   }
 
   public void onExportStory(TableView<Story> storiesTableView) {
