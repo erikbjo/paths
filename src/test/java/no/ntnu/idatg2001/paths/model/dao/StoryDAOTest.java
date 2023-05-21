@@ -1,4 +1,3 @@
-/* REMOVED UNTIL WE CAN FIGURE OUT THE PERSISTANCE OF MAP
 package no.ntnu.idatg2001.paths.model.dao;
 
 import no.ntnu.idatg2001.paths.model.Passage;
@@ -17,8 +16,13 @@ class StoryDAOTest {
   @BeforeEach
   void setUp() {
     storyDAO = new StoryDAO();
-    testStory = new Story("Test", new Passage("Test", "Test passage"));
+    testStory = new Story();
     storyDAO.add(testStory);
+
+    testStory.setTitle("Test");
+    testStory.setOpeningPassage(new Passage("Test", "Test"));
+
+    storyDAO.update(testStory);
   }
 
   @AfterEach
@@ -47,18 +51,18 @@ class StoryDAOTest {
 
   @Test
   void testUpdate() {
-    testStory.setCurrentPassage(new Passage("Ozzy", "Ozzy passage"));
+    testStory.setOpeningPassage(new Passage("Ozzy", "Ozzy passage"));
     storyDAO.update(testStory);
     Optional<Story> foundStory = storyDAO.find(testStory.getId());
     assertTrue(foundStory.isPresent());
-    assertEquals("Ozzy", foundStory.get().getCurrentPassage().getTitle());
+    assertEquals("Ozzy", foundStory.get().getOpeningPassage().getTitle());
   }
 
   @Test
   void testThatIteratorReturnsAGoodIterator() {
     Iterator<Story> iterator = storyDAO.iterator();
 
-    Story newStory = new Story("New test", new Passage("New test", "New test passage"));
+    Story newStory = new Story();
     storyDAO.add(newStory);
 
     assertTrue(iterator.hasNext());
@@ -66,4 +70,3 @@ class StoryDAOTest {
     storyDAO.remove(newStory);
   }
 }
-*/
