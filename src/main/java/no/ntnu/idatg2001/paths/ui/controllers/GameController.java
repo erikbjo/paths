@@ -114,6 +114,8 @@ public class GameController implements Controller {
 
   public void restartGame() {
     CurrentGameHandler.getCurrentGame().restart();
+    // Creates a new controller instead of having lots of parameters in the method
+    // Hopefully the garbage collector will remove the old controller
     new GameController(stage);
   }
 }
