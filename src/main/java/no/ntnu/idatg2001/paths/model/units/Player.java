@@ -16,16 +16,10 @@ import no.ntnu.idatg2001.paths.model.items.equipables.Equipable;
 @Table(name = "Player")
 @PrimaryKeyJoinColumn(name = "ID")
 public class Player extends Unit {
-  @OneToMany(
-      mappedBy = "player",
-      cascade = {CascadeType.REMOVE, CascadeType.PERSIST},
-      orphanRemoval = true)
+  @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Item> inventory = new ArrayList<>();
 
-  @OneToMany(
-      mappedBy = "player",
-      cascade = {CascadeType.REMOVE, CascadeType.PERSIST},
-      orphanRemoval = true)
+  @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Equipable> equippedItems = new ArrayList<>();
 
   @OneToOne(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)

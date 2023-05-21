@@ -120,7 +120,7 @@ public class PathsStoryFileReader {
 
                 if (action != null && link != null) {
                   action.setLink(link);
-                  //link.setStory(story);
+                  link.setStory(story);
                   link.addAction(action);
                 } else {
                   System.out.println("Could not add action to link");

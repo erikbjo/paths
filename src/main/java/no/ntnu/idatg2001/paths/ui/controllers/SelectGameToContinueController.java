@@ -1,7 +1,9 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -15,6 +17,7 @@ import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.model.dao.GameDAO;
 import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
+import no.ntnu.idatg2001.paths.model.goals.Goal;
 import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.alerts.ConfirmationAlert;
 import no.ntnu.idatg2001.paths.ui.dialogs.ChangePlayerDialog;
@@ -27,12 +30,23 @@ import no.ntnu.idatg2001.paths.ui.views.SelectGameToContinueView;
 public class SelectGameToContinueController implements Controller {
   private final SelectGameToContinueView view;
   private final Stage stage;
+  private ResourceBundle selectGameToContinueResources =
+      ResourceBundle.getBundle(
+          "languages/selectGameToContinue",
+          Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
 
   public SelectGameToContinueController(Stage stage) {
     this.stage = stage;
     this.view = new SelectGameToContinueView(this, stage);
-    LanguageHandler.getObservableIntegerCounter()
-            .addListener((a, b, c) -> view.updateLanguage());
+    LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> updateLanguage());
+  }
+
+  private void updateLanguage() {
+    selectGameToContinueResources =
+        ResourceBundle.getBundle(
+            "languages/selectGameToContinue",
+            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+    view.updateLanguage();
   }
 
   public SelectGameToContinueView getView() {
@@ -42,14 +56,16 @@ public class SelectGameToContinueController implements Controller {
   public void configureGamesTableView(
       TableView<Game> ongoingGamesTableView,
       TableColumn<Game, String> ongoingGamesPlayerTableColumn,
-      TableColumn<Game, String> ongoingGamesStoryTableColumn) {
+      TableColumn<Game, String> ongoingGamesStoryTableColumn,
+      TableColumn<Game, String> ongoingGamesCurrentPassageTableColumn,
+      TableColumn<Game, String> ongoingGamesGoalsTableColumn) {
     ongoingGamesTableView.setPrefWidth(250);
     ongoingGamesPlayerTableColumn.setCellValueFactory(
         cellData -> {
           Game game = cellData.getValue();
           String playerName;
           if (game.getPlayer() == null) {
-            playerName = "No player";
+            playerName = selectGameToContinueResources.getString("noPlayer");
           } else {
             playerName = game.getPlayer().getName();
           }
@@ -62,13 +78,37 @@ public class SelectGameToContinueController implements Controller {
           Game game = cellData.getValue();
           String storyTitle;
           if (game.getStory() == null) {
-            storyTitle = "No story";
+            storyTitle = selectGameToContinueResources.getString("noStory");
           } else {
             storyTitle = game.getStory().getTitle();
           }
           return new ReadOnlyStringWrapper(storyTitle);
         });
     ongoingGamesStoryTableColumn.setPrefWidth(ongoingGamesTableView.getPrefWidth() / 2);
+
+    ongoingGamesCurrentPassageTableColumn.setCellValueFactory(
+        cellData -> {
+          Game game = cellData.getValue();
+          String currentPassageTitle = game.getCurrentPassage().getTitle();
+
+          return new ReadOnlyStringWrapper(currentPassageTitle);
+        });
+
+    ongoingGamesGoalsTableColumn.setCellValueFactory(
+        cellData -> {
+          if (cellData.getValue().getPlayer() != null) {
+            Game game = cellData.getValue();
+            List<Goal> goalList = game.getGoals();
+            String totalGoals = String.valueOf(goalList.size());
+            String completedGoals =
+                String.valueOf(
+                    goalList.stream().filter(goal -> goal.isFulfilled(game.getPlayer())).count());
+
+            return new ReadOnlyStringWrapper(completedGoals + "/" + totalGoals);
+          } else {
+            return new ReadOnlyStringWrapper(selectGameToContinueResources.getString("noPlayer"));
+          }
+        });
   }
 
   public void updateGameTable(TableView<Game> ongoingGamesTableView) {

@@ -76,10 +76,22 @@ public class PlayerDAO implements DAO<Player> {
   /** {@inheritDoc} */
   @Override
   public void update(Player player) {
+    List<Game> gamesWithPlayer = GameDAO.getInstance().findGamesByPlayer(player);
+    for (Game game : gamesWithPlayer) {
+      game.setPlayer(null);
+      GameDAO.getInstance().update(game);
+    }
+
     em.getTransaction().begin();
     em.merge(player);
-    em.flush();
     em.getTransaction().commit();
+
+    Player updatedPlayer = em.find(Player.class, player.getId());
+
+    for (Game game : gamesWithPlayer) {
+      game.setPlayer(updatedPlayer);
+      GameDAO.getInstance().update(game);
+    }
   }
 
   /** {@inheritDoc} */

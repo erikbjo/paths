@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
@@ -39,6 +40,9 @@ public class GameView implements View {
   private Text energyText;
   private GridPane goalInformationGridPane;
   private Text goalInformationText;
+  private Button finishGameButton;
+  private Button saveGameButton;
+  private Button restartGameButton;
 
   public GameView(GameController controller, Stage stage) {
     this.controller = controller;
@@ -102,10 +106,7 @@ public class GameView implements View {
     updatePlayerInformation();
 
     stage.getScene().setRoot(root);
-    stage
-        .getScene()
-        .getStylesheets()
-        .add(("/css/game.css"));
+    stage.getScene().getStylesheets().add(("/css/game.css"));
   }
 
   public void updateLanguage() {
@@ -194,9 +195,36 @@ public class GameView implements View {
     goalInformationGridPane = new GridPane();
     setRowAndColumnConstraints(goalInformationGridPane);
 
+
+    finishGameButton = new Button(resources.getString("finishGameButton"));
+    saveGameButton = new Button(resources.getString("saveGameButton"));
+    restartGameButton = new Button(resources.getString("restartGameButton"));
+
+    finishGameButton.setDisable(true);
+
+    finishGameButton.setOnAction(
+        event -> {
+          controller.finishGame();
+        });
+
+    saveGameButton.setOnAction(
+        event -> {
+          controller.saveGame();
+        });
+
+    restartGameButton.setOnAction(
+        event -> {
+          controller.restartGame();
+        });
+
     updateGoalInformation();
 
-    goalInformationVBox.getChildren().addAll(goalInformationText, goalInformationGridPane);
+    VBox buttonVBox = new VBox();
+    buttonVBox.getChildren().addAll(finishGameButton, saveGameButton, restartGameButton);
+
+    goalInformationVBox
+        .getChildren()
+        .addAll(goalInformationText, goalInformationGridPane, buttonVBox);
     return goalInformationVBox;
   }
 
@@ -222,6 +250,11 @@ public class GameView implements View {
 
       goalInformationGridPane.add(goalNameText, 0, i);
       goalInformationGridPane.add(goalProgressText, 1, i);
+
+      finishGameButton.setDisable(
+          !CurrentGameHandler.getCurrentGame().getGoals().stream()
+              .allMatch(
+                  goal1 -> goal1.isFulfilled(CurrentGameHandler.getCurrentGame().getPlayer())));
 
       i++;
     }

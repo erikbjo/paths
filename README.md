@@ -57,4 +57,4 @@ license [here](https://git.gvk.idi.ntnu.no/course/idatg2001/idatg2001-2023-ws/es
 
 ## 🚧 Project status
 
-The project is currently in development and is not yet ready for release.
+The project is delivered and is no longer being developed.
