@@ -1,9 +1,7 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
 import java.util.Locale;
-import java.util.Objects;
 import java.util.ResourceBundle;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -24,6 +22,8 @@ public class SelectGameToContinueView implements View {
   private final TableView<Game> ongoingGamesTableView;
   private final TableColumn<Game, String> ongoingGamesPlayerTableColumn;
   private final TableColumn<Game, String> ongoingGamesStoryTableColumn;
+  private final TableColumn<Game, String> ongoingGamesCurrentPassageTableColumn;
+  private final TableColumn<Game, String> ongoingGamesGoalsTableColumn;
   private Button continueButton;
   private Button changePlayerButton;
   private Button deleteGameButton;
@@ -47,9 +47,15 @@ public class SelectGameToContinueView implements View {
     ongoingGamesTableView = new TableView<>();
     ongoingGamesPlayerTableColumn = new TableColumn<>();
     ongoingGamesStoryTableColumn = new TableColumn<>();
+    ongoingGamesCurrentPassageTableColumn = new TableColumn<>();
+    ongoingGamesGoalsTableColumn = new TableColumn<>();
     ongoingGamesTableView
         .getColumns()
-        .addAll(ongoingGamesPlayerTableColumn, ongoingGamesStoryTableColumn);
+        .addAll(
+            ongoingGamesPlayerTableColumn,
+            ongoingGamesStoryTableColumn,
+            ongoingGamesCurrentPassageTableColumn,
+            ongoingGamesGoalsTableColumn);
 
     HBox buttonHBox = createButtonsHBox();
 
@@ -57,7 +63,11 @@ public class SelectGameToContinueView implements View {
 
     // CONTROLLER
     controller.configureGamesTableView(
-        ongoingGamesTableView, ongoingGamesPlayerTableColumn, ongoingGamesStoryTableColumn);
+        ongoingGamesTableView,
+        ongoingGamesPlayerTableColumn,
+        ongoingGamesStoryTableColumn,
+        ongoingGamesCurrentPassageTableColumn,
+        ongoingGamesGoalsTableColumn);
     controller.updateGameTable(ongoingGamesTableView);
 
     // Observes when the language is changed, then calls updateLanguage()
@@ -69,10 +79,7 @@ public class SelectGameToContinueView implements View {
     buttonHBox.setId("buttonHBox");
 
     stage.getScene().setRoot(root);
-    stage
-        .getScene()
-        .getStylesheets()
-        .add("/css/selectGame.css");
+    stage.getScene().getStylesheets().add("/css/selectGame.css");
   }
 
   @Override
@@ -86,6 +93,11 @@ public class SelectGameToContinueView implements View {
     continueButton.setText(resources.getString("continueButton"));
     changePlayerButton.setText(resources.getString("changePlayerButton"));
     deleteGameButton.setText(resources.getString("deleteGameButton"));
+
+    ongoingGamesPlayerTableColumn.setText(resources.getString("ongoingGamesPlayerTableColumn"));
+    ongoingGamesStoryTableColumn.setText(resources.getString("ongoingGamesStoryTableColumn"));
+    ongoingGamesCurrentPassageTableColumn.setText(resources.getString("ongoingGamesCurrentPassageTableColumn"));
+    ongoingGamesGoalsTableColumn.setText(resources.getString("ongoingGamesGoalsTableColumn"));
   }
 
   private HBox createButtonsHBox() {
