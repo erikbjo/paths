@@ -315,12 +315,19 @@ public class NewGameController implements Controller {
 
             Optional<ButtonType> result = confirmationAlert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-              // Remove the link from the story
-              // @TODO Fix this
-              /*deadLink.getStory().getPassagesConnectedWithLink(deadLink).forEach(passage -> {
-                passage.removeLink(deadLink);
-                StoryDAO.getInstance().update(passage.getStory());
-              });*/
+              // Expensive operation, but it works
+              StoryDAO.getInstance().getAll().stream()
+                  .filter(
+                      story ->
+                          story.getPassages().stream()
+                              .anyMatch(passage -> passage.getLinks().contains(deadLink)))
+                  .forEach(
+                      story -> {
+                        story.getPassages().stream()
+                            .filter(passage -> passage.getLinks().contains(deadLink))
+                            .forEach(passage -> passage.removeLink(deadLink));
+                        StoryDAO.getInstance().update(story);
+                      });
 
               updateDeadLinkTable(deadLinksTableView);
             } else {
