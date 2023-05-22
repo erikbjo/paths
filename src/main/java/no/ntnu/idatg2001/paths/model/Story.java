@@ -38,11 +38,15 @@ public class Story {
    *
    * @param title The title of the story.
    * @param openingPassage The opening passage of the story.
-   * @throws IllegalArgumentException if the title is null, blank or empty.
+   * @throws IllegalArgumentException if the title is null, blank or empty.Also if the opening
+   *     passage is null.
    */
   public Story(String title, Passage openingPassage) {
     if (title == null || title.isBlank() || title.isEmpty()) {
       throw new IllegalArgumentException("Title cannot be null or blank");
+    }
+    if (openingPassage == null) {
+      throw new IllegalArgumentException("Opening passage cannot be null");
     }
     this.passages = new HashMap<>();
     this.title = title;
