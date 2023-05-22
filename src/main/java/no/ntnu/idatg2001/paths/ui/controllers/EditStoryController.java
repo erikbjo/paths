@@ -20,6 +20,7 @@ public class EditStoryController implements Controller {
   private final Stage stage;
   private final EditStoryView view;
   private Story story;
+  private Story stashedStory;
   private Pane pane;
   private double dragInitialX;
   private double dragInitialY;
@@ -30,6 +31,7 @@ public class EditStoryController implements Controller {
   public EditStoryController(Stage stage, Story story) {
     this.stage = stage;
     this.story = story;
+    this.stashedStory = new Story(story);
     this.storyMap = story.getPassagesHashMap();
     this.view = new EditStoryView(this, stage, story);
     LanguageHandler.getObservableIntegerCounter().addListener((a, b, c) -> view.updateLanguage());
@@ -241,19 +243,13 @@ public class EditStoryController implements Controller {
 
   public void onSaveButtonPressed() {
     StoryDAO.getInstance().update(story);
-    this.story = StoryDAO.getInstance().find(story.getId()).orElse(story);
     updatePane();
   }
 
   public void onLoadButtonPressed() {
-    // WIP
-    double oldStoryId = story.getId();
-    this.story = StoryDAO.getInstance().find(story.getId()).orElse(story);
-    if (oldStoryId != story.getId()) {
-      updatePane();
-    } else {
-      updatePane();
-    }
+    this.story = stashedStory;
+    StoryDAO.getInstance().update(story);
+    updatePane();
   }
 
   public void onBackButtonPressed() {
