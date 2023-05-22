@@ -304,6 +304,6 @@ public class Story {
       }
     }
 
-    return 0; // No path found
+    return 1; // No path found
   }
 }

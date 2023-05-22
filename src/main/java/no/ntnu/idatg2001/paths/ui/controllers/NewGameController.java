@@ -23,6 +23,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.Link;
+import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.model.dao.GameDAO;
 import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
@@ -442,16 +443,26 @@ public class NewGameController implements Controller {
     deadLinksTableColumn.setCellValueFactory(new PropertyValueFactory<>("reference"));
 
     deadLinksStoryTableColumn.setCellValueFactory(
-        link -> new SimpleStringProperty(link.getValue().getStory().getTitle()));
+        link -> {
+          if (link.getValue().getStory() != null) {
+            return new SimpleStringProperty(link.getValue().getStory().getTitle());
+          } else {
+            return new SimpleStringProperty(newGameResources.getString("noStory"));
+          }
+        });
 
     deadLinksPassageTableColumn.setCellValueFactory(
-        link ->
-            new SimpleStringProperty(
+        link -> {
+          if (link.getValue().getStory() != null) {
+            return new SimpleStringProperty(
                 link.getValue().getStory().getPassages().stream()
-                    .filter(passage -> passage.getLinks().contains(link.getValue()))
-                    .findFirst()
-                    .get()
-                    .getTitle()));
+                        .anyMatch(passage -> passage.getLinks().contains(link.getValue()))
+                    ? link.getValue().getStory().getPassages().stream().findFirst().get().getTitle()
+                    : newGameResources.getString("noPassage"));
+          } else {
+            return new SimpleStringProperty(newGameResources.getString("noPassage"));
+          }
+        });
   }
 
   public void onExportStory(TableView<Story> storiesTableView) {

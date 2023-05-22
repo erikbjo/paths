@@ -67,7 +67,8 @@ public class EditStoryController implements Controller {
     queue.add(openingPane);
     pane.getChildren().add(openingPane);
 
-    story.getPassages()
+    story
+        .getPassages()
         .forEach(
             passage -> {
               if (!passagePanes.containsKey(passage)) {
@@ -242,6 +243,7 @@ public class EditStoryController implements Controller {
 
   public void onSaveButtonPressed() {
     StoryDAO.getInstance().update(story);
+    updatePane();
   }
 
   public void onLoadButtonPressed() {
@@ -258,5 +260,27 @@ public class EditStoryController implements Controller {
 
   public void onBackButtonPressed() {
     new NewGameController(stage);
+  }
+
+  public void onDeleteLinkButtonPressed() {
+    DeleteLinkDialog deleteLinkDialog = new DeleteLinkDialog(story);
+    Optional<Link> result = deleteLinkDialog.showAndWait();
+    result.ifPresent(
+        link -> {
+          story.getPassages().stream()
+              .filter(passage -> passage.getLinks().contains(link))
+              .forEach(passage -> passage.getLinks().remove(link));
+          updatePane();
+        });
+  }
+
+  public void onDeletePassageButtonPressed() {
+    DeletePassageDialog deletePassageDialog = new DeletePassageDialog(story);
+    Optional<Passage> result = deletePassageDialog.showAndWait();
+    result.ifPresent(
+        passage -> {
+          story.removePassage(new Link(passage.getTitle(), passage.getTitle()));
+          updatePane();
+        });
   }
 }

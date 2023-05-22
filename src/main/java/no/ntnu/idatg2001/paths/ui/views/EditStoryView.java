@@ -22,6 +22,8 @@ public class EditStoryView implements View {
   private Button saveButton;
   private Button loadButton;
   private Button backButton;
+  private Button deleteLinkButton;
+  private Button deletePassageButton;
 
   public EditStoryView(EditStoryController controller, Stage primaryStage, Story story) {
     this.controller = controller;
@@ -41,16 +43,20 @@ public class EditStoryView implements View {
     root.setBottom(buttonBox);
 
     primaryStage.getScene().setRoot(root);
+
+    updateLanguage();
   }
 
   @Override
   public void updateLanguage() {
     ResourceBundle resources =
-            ResourceBundle.getBundle(
-                    "languages/editStory",
-                    Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+        ResourceBundle.getBundle(
+            "languages/editStory",
+            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
     newLinkButton.setText(resources.getString("newLinkButton"));
+    deleteLinkButton.setText(resources.getString("deleteLinkButton"));
     newPassageButton.setText(resources.getString("newPassageButton"));
+    deletePassageButton.setText(resources.getString("deletePassageButton"));
     saveButton.setText(resources.getString("saveButton"));
     loadButton.setText(resources.getString("loadButton"));
     backButton.setText(resources.getString("backButton"));
@@ -59,24 +65,37 @@ public class EditStoryView implements View {
   private HBox createButtonBox() {
     HBox buttonBox = new HBox();
 
-    newLinkButton = new Button("New Link");
+    newLinkButton = new Button();
     newLinkButton.setOnAction(event -> controller.onNewLinkButtonPressed());
 
-    newPassageButton = new Button("New Passage");
+    deleteLinkButton = new Button();
+    deleteLinkButton.setOnAction(event -> controller.onDeleteLinkButtonPressed());
+
+    newPassageButton = new Button();
     newPassageButton.setOnAction(event -> controller.onNewPassageButtonPressed());
 
-    saveButton = new Button("Save to database");
+    deletePassageButton = new Button();
+    deletePassageButton.setOnAction(event -> controller.onDeletePassageButtonPressed());
+
+    saveButton = new Button();
     saveButton.setOnAction(event -> controller.onSaveButtonPressed());
 
-    loadButton = new Button("Restore from database");
+    loadButton = new Button();
     loadButton.setOnAction(event -> controller.onLoadButtonPressed());
 
-    backButton = new Button("Back");
+    backButton = new Button();
     backButton.setOnAction(event -> controller.onBackButtonPressed());
 
     buttonBox
         .getChildren()
-        .addAll(newLinkButton, newPassageButton, saveButton, loadButton, backButton);
+        .addAll(
+            newLinkButton,
+            deleteLinkButton,
+            newPassageButton,
+            deletePassageButton,
+            saveButton,
+            loadButton,
+            backButton);
 
     return buttonBox;
   }
