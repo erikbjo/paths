@@ -7,17 +7,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
-import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Story;
-import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
-import no.ntnu.idatg2001.paths.model.units.Player;
-import no.ntnu.idatg2001.paths.model.units.Unit;
 import no.ntnu.idatg2001.paths.ui.controllers.GenericDialogController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
 public class ChangeStoryDialog extends Dialog<Story> implements StandardDialog<Story> {
-  private final GenericDialogController controller = new GenericDialogController();
   private final ResourceBundle resources =
       ResourceBundle.getBundle(
           "languages/changeStoryDialog",

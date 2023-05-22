@@ -1,8 +1,6 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
-
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -248,7 +246,7 @@ public class EditStoryController implements Controller {
   }
 
   public void onLoadButtonPressed() {
-      // WIP
+    // WIP
     double oldStoryId = story.getId();
     this.story = StoryDAO.getInstance().find(story.getId()).orElse(story);
     if (oldStoryId != story.getId()) {

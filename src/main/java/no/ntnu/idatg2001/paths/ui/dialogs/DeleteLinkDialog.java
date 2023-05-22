@@ -1,15 +1,13 @@
 package no.ntnu.idatg2001.paths.ui.dialogs;
 
+import java.util.Locale;
+import java.util.Objects;
+import java.util.ResourceBundle;
 import javafx.scene.control.*;
 import javafx.util.Callback;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Story;
-import no.ntnu.idatg2001.paths.model.units.DefaultAttributes;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
-
-import java.util.Locale;
-import java.util.Objects;
-import java.util.ResourceBundle;
 
 public class DeleteLinkDialog extends Dialog<Link> implements StandardDialog {
   private final Story story;
@@ -51,7 +49,8 @@ public class DeleteLinkDialog extends Dialog<Link> implements StandardDialog {
                               .filter(
                                   passage ->
                                       !passage.getLinks().stream()
-                                          .filter(link -> Objects.equals(link.getId(), item.getId()))
+                                          .filter(
+                                              link -> Objects.equals(link.getId(), item.getId()))
                                           .toList()
                                           .isEmpty())
                               .toList()
@@ -89,7 +88,9 @@ public class DeleteLinkDialog extends Dialog<Link> implements StandardDialog {
   }
 
   @Override
-  public void updateLanguage() {}
+  public void updateLanguage() {
+    // User cant update language mid-dialog
+  }
 
   @Override
   public void setDialogLanguage() {

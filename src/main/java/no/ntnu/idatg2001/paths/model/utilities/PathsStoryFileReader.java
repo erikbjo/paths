@@ -106,7 +106,7 @@ public class PathsStoryFileReader {
                             Integer.parseInt(actionValue), Boolean.getBoolean(actionIsPositive));
                   }
                   case "item" -> {
-                    // TODO: FIX THIS
+                    // Not implemented
                     // action = new InventoryAction(actionValue,
                     // Boolean.getBoolean(actionIsPositive));
                   }

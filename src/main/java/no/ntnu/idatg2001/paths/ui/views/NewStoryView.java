@@ -1,9 +1,10 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -15,10 +16,6 @@ import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.ui.controllers.NewStoryController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.standardobjects.StandardMenuBar;
-
-import java.util.Locale;
-import java.util.Random;
-import java.util.ResourceBundle;
 
 public class NewStoryView implements View {
   private final Stage stage;
@@ -34,15 +31,11 @@ public class NewStoryView implements View {
   private Button deleteLinkButton;
   private TableView<Link> linkCreationTableView;
   private TableColumn<Link, String> linkColumn;
-  private TableColumn<Passage, String> startingPassageColumn;
-  private TableView<Passage> startingPassageTableView;
   private Button editPassageButton;
   private Button newPassageButton;
   private Button deletePassageButton;
   private TableView<Passage> passageCreationTableView;
   private TableColumn<Passage, String> passageColumn;
-  private Text titleText;
-  private TextField titleTextField;
   private Button createStoryButton;
   private Text storyTitleText;
   private TextField storyTitleTextField;
@@ -69,10 +62,8 @@ public class NewStoryView implements View {
     openingVBox = createOpeningVBox();
     mainVBox = createMainVBox();
 
-
     rootVBox.getChildren().addAll(openingVBox, mainVBox);
     root.setCenter(rootVBox);
-
 
     // CONTROLLER
     configureTableViews();
@@ -114,7 +105,7 @@ public class NewStoryView implements View {
 
     newPassageButton = new Button();
     newPassageButton.setOnAction(
-        e -> controller.onNewPassageButtonClicked(passageCreationTableView));
+        e -> controller.onNewPassageButtonClicked());
 
     deletePassageButton = new Button();
     deletePassageButton.setOnAction(
@@ -146,40 +137,6 @@ public class NewStoryView implements View {
         new VBox(linkCreationTableView, new HBox(editLinkButton, newLinkButton, deleteLinkButton));
     linkCreationVBox.setAlignment(Pos.TOP_CENTER);
     return linkCreationVBox;
-  }
-
-  private void createTestItems() {
-    Random random = new Random();
-
-    passageCreationTableView
-        .getItems()
-        .add(new Passage("Passage" + random.nextInt(1000), "Text" + random.nextInt(1000)));
-    linkCreationTableView
-        .getItems()
-        .add(new Link("Link" + random.nextInt(1000), "Text" + random.nextInt(1000)));
-  }
-
-  // TO BE DELETED
-  public HBox createLowerHBox() {
-    HBox lowerHBox = new HBox();
-    lowerHBox.setAlignment(Pos.CENTER);
-
-    startingPassageTableView = new TableView<>();
-    startingPassageColumn = new TableColumn<>();
-    startingPassageTableView.getColumns().add(startingPassageColumn);
-    lowerHBox.getChildren().add(startingPassageTableView);
-    return lowerHBox;
-  }
-
-  public void updateStartingPassageTableView() {
-    story
-        .getPassages()
-        .forEach(
-            passage -> {
-              if (!startingPassageTableView.getItems().contains(passage)) {
-                startingPassageTableView.getItems().add(passage);
-              }
-            });
   }
 
   public void configureTableViews() {
@@ -226,8 +183,8 @@ public class NewStoryView implements View {
   }
 
   private VBox createOpeningVBox() {
-    VBox openingVBox = new VBox();
-    openingVBox.setAlignment(Pos.CENTER);
+    VBox tempOpeningVbox = new VBox();
+    tempOpeningVbox.setAlignment(Pos.CENTER);
 
     openingTitleText = new Text();
     storyTitleText = new Text();
@@ -247,11 +204,11 @@ public class NewStoryView implements View {
                 storyTitleTextField,
                 openingPassageTitleTextField,
                 openingPassageContentTextArea,
-                openingVBox,
+                tempOpeningVbox,
                 mainVBox));
     buttonsHBox.getChildren().addAll(openingCancelButton, continueButton);
 
-    openingVBox
+    tempOpeningVbox
         .getChildren()
         .addAll(
             openingTitleText,
@@ -262,14 +219,14 @@ public class NewStoryView implements View {
             openingPassageContentText,
             openingPassageContentTextArea,
             buttonsHBox);
-    return openingVBox;
+    return tempOpeningVbox;
   }
 
   private VBox createMainVBox() {
-    VBox mainVBox = new VBox();
+    VBox tempMainVBox = new VBox();
 
     newStoryText = new Text();
-    mainVBox.getChildren().add(newStoryText);
+    tempMainVBox.getChildren().add(newStoryText);
 
     HBox upperHBox = new HBox();
     upperHBox.setAlignment(Pos.CENTER);
@@ -283,16 +240,15 @@ public class NewStoryView implements View {
     VBox passageCreationVBox = createPassageCreationVBox();
     VBox linkCreationVBox = createLinkCreationVBox();
 
-    //    topTableViewHBox.getChildren().addAll(passageCreationVBox, linkCreationVBox);
     upperHBox.getChildren().addAll(passageCreationVBox, linkCreationVBox, addLinkToPassageButton);
 
-    mainVBox.getChildren().add(upperHBox);
+    tempMainVBox.getChildren().add(upperHBox);
 
     VBox rightVBox = createLowerVBox();
 
-    mainVBox.getChildren().add(rightVBox);
+    tempMainVBox.getChildren().add(rightVBox);
 
-    return mainVBox;
+    return tempMainVBox;
   }
 
   public void updatePassagesTableView() {

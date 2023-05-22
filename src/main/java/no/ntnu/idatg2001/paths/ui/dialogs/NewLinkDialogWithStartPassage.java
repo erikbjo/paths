@@ -20,7 +20,6 @@ public class NewLinkDialogWithStartPassage extends LinkDialog implements Standar
           "languages/newLinkDialog",
           Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
   private final Story story;
-  private TextField referenceTextField;
   private TextField linkTextTextField;
   private Text referenceText;
   private Text linkText;
@@ -34,12 +33,6 @@ public class NewLinkDialogWithStartPassage extends LinkDialog implements Standar
     addComponentsToDialog();
     updateLanguage();
   }
-
-  // TODO: REMOVE THIS
-  //
-  // reference skal være en annen passage sin title,
-  // lag derfor en combobox med alle navnene på passages
-  // i stedet for en textfield
 
   public void initComponents() {
     startingPassageComboBox = new ComboBox<>();

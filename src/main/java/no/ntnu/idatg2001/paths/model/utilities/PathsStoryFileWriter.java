@@ -50,19 +50,18 @@ public class PathsStoryFileWriter {
                   .append("\n");
               link.getActions()
                   .forEach(
-                      action -> {
-                        content
-                            .append("{")
-                            .append(action.getClass().getSimpleName())
-                            .append("}")
-                            .append("<")
-                            .append(action.getActionValue())
-                            .append(">")
-                            .append("(")
-                            .append(action.getActionIsPositive())
-                            .append(")")
-                            .append("\n");
-                      });
+                      action ->
+                          content
+                              .append("{")
+                              .append(action.getClass().getSimpleName())
+                              .append("}")
+                              .append("<")
+                              .append(action.getActionValue())
+                              .append(">")
+                              .append("(")
+                              .append(action.getActionIsPositive())
+                              .append(")")
+                              .append("\n"));
             });
 
     // ALL OTHER PASSAGES
@@ -90,19 +89,18 @@ public class PathsStoryFileWriter {
                             .append("\n");
                         link.getActions()
                             .forEach(
-                                action -> {
-                                  content
-                                      .append("{")
-                                      .append(action.getClass().getSimpleName())
-                                      .append("}")
-                                      .append("<")
-                                      .append(action.getActionValue())
-                                      .append(">")
-                                      .append("(")
-                                      .append(action.getActionIsPositive())
-                                      .append(")")
-                                      .append("\n");
-                                });
+                                action ->
+                                    content
+                                        .append("{")
+                                        .append(action.getClass().getSimpleName())
+                                        .append("}")
+                                        .append("<")
+                                        .append(action.getActionValue())
+                                        .append(">")
+                                        .append("(")
+                                        .append(action.getActionIsPositive())
+                                        .append(")")
+                                        .append("\n"));
                       });
             });
 

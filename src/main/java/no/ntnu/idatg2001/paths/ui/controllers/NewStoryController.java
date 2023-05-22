@@ -19,7 +19,6 @@ public class NewStoryController implements Controller {
   private final Stage stage;
   private final Story story = new Story();
   private final NewStoryView view;
-  private ResourceBundle resources;
 
   public NewStoryController(Stage stage) {
     this.stage = stage;
@@ -41,10 +40,9 @@ public class NewStoryController implements Controller {
             passageCreationTableView.getItems().add(newPassage);
           });
     }
-    // TODO: ADD FEEDBACK DIALOG HERE
   }
 
-  public void onNewPassageButtonClicked(TableView<Passage> passageCreationTableView) {
+  public void onNewPassageButtonClicked() {
     NewPassageDialog newPassageDialog = new NewPassageDialog();
 
     Optional<Passage> result = newPassageDialog.showAndWait();
@@ -60,7 +58,6 @@ public class NewStoryController implements Controller {
       Passage passage = passageCreationTableView.getSelectionModel().getSelectedItem();
       passageCreationTableView.getItems().remove(passage);
     }
-    // TODO: ADD FEEDBACK DIALOG HERE
   }
 
   public void onEditLinkButtonClicked(TableView<Link> linkCreationTableView) {
@@ -94,7 +91,7 @@ public class NewStoryController implements Controller {
 
   public void onAddLinkToPassageButtonClicked(
       TableView<Passage> passageCreationTableView, TableView<Link> linkCreationTableView) {
-    if (passageCreationTableView.getSelectionModel().getSelectedItems().size() > 0
+    if (passageCreationTableView.getSelectionModel().getSelectedItems().isEmpty()
         && linkCreationTableView.getSelectionModel().getSelectedItems().size() == 1) {
 
       Link link = linkCreationTableView.getSelectionModel().getSelectedItems().get(0);
@@ -107,7 +104,6 @@ public class NewStoryController implements Controller {
       passageCreationTableView.getSelectionModel().clearSelection();
       linkCreationTableView.getSelectionModel().clearSelection();
 
-      // view.updateStartingPassageTableView();
       view.updatePassagesTableView();
       StoryDAO.getInstance().update(story);
     }
@@ -119,8 +115,6 @@ public class NewStoryController implements Controller {
 
       new NewGameController(stage);
     } catch (Exception e) {
-      //            ExceptionAlert alert = new ExceptionAlert(e);
-      //            alert.showAndWait();
       e.printStackTrace();
     }
   }

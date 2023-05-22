@@ -83,11 +83,11 @@ public class CreateGoalsForNewGameDialog extends Dialog<List<Goal>>
     goalRemoveColumn.setText(resources.getString("goalRemoveColumn"));
 
     goalTypeComboBox
-            .getItems()
-            .addAll(
-                    resources.getString("goalTypeComboBoxHealth"),
-                    resources.getString("goalTypeComboBoxGold"),
-                    resources.getString("goalTypeComboBoxScore"));
+        .getItems()
+        .addAll(
+            resources.getString("goalTypeComboBoxHealth"),
+            resources.getString("goalTypeComboBoxGold"),
+            resources.getString("goalTypeComboBoxScore"));
     addGoalButton.setText(resources.getString("addGoalButton"));
 
     healthText.setText(resources.getString("healthText"));
@@ -129,15 +129,15 @@ public class CreateGoalsForNewGameDialog extends Dialog<List<Goal>>
     goalValueColumn.setCellValueFactory(
         actionStringCellDataFeatures ->
             new ReadOnlyStringWrapper(
-                Objects.requireNonNull(actionStringCellDataFeatures.getValue()).getGoalValue().toString()));
+                Objects.requireNonNull(actionStringCellDataFeatures.getValue())
+                    .getGoalValue()
+                    .toString()));
 
     goalRemoveColumn.setCellFactory(
         new Callback<>() {
           @Override
           public TableCell<Goal, Void> call(TableColumn<Goal, Void> actionVoidTableColumn) {
             return new TableCell<>() {
-              // private final Button removeButton = new
-              // Button(resources.getString("removeButton"));
               private final Button removeButton = new Button(resources.getString("removeButton"));
 
               {
@@ -276,7 +276,7 @@ public class CreateGoalsForNewGameDialog extends Dialog<List<Goal>>
     Text inventoryText = new Text();
     ComboBox<String> inventoryComboBox = new ComboBox<>();
 
-    // TODO: IMPLEMENT INVENTORY ACTIONS
+    // Not yet implemented
 
     return inventoryActionsVBox;
   }

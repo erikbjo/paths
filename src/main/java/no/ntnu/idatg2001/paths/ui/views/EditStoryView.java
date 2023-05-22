@@ -1,5 +1,7 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
@@ -10,9 +12,6 @@ import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.ui.controllers.EditStoryController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.standardobjects.StandardMenuBar;
-
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class EditStoryView implements View {
   private final Story story;

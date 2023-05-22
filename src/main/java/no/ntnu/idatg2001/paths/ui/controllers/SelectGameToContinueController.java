@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -137,7 +136,6 @@ public class SelectGameToContinueController implements Controller {
     if (PlayerDAO.getInstance().getAll().isEmpty()) {
       ConfirmationAlert confirmationAlert =
           new ConfirmationAlert(
-              // TODO: MAKE THIS LANGUAGE INDEPENDENT
               "No player",
               "There are no players in the database. Do you want to create a new player?");
       Optional<ButtonType> result = confirmationAlert.showAndWait();
@@ -165,7 +163,6 @@ public class SelectGameToContinueController implements Controller {
     if (StoryDAO.getInstance().getAll().isEmpty()) {
       ConfirmationAlert confirmationAlert =
           new ConfirmationAlert(
-              // TODO: MAKE THIS LANGUAGE INDEPENDENT
               "No story",
               "There are no stories in the database. Do you want to create a new story?");
       Optional<ButtonType> result = confirmationAlert.showAndWait();

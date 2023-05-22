@@ -1,7 +1,6 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -39,8 +38,6 @@ public class EditPlayerView implements View {
   private final Stage primaryStage;
   private VBox leftVBox;
   private VBox rightVBox;
-  private GridPane cheatsGridPane;
-  private GridPane playerGridPane;
   private GridPane attributesGridPane;
   private Text playerText;
   private Text cheatsText;
@@ -121,13 +118,10 @@ public class EditPlayerView implements View {
   }
 
   private HBox createButtonsHBox() {
-    HBox buttonsHBox = new HBox();
+    HBox tempButtonsHBox = new HBox();
 
     cancelButton = new Button();
-    cancelButton.setOnAction(
-        event -> {
-          new NewGameController(primaryStage);
-        });
+    cancelButton.setOnAction(event -> new NewGameController(primaryStage));
 
     saveButton = new Button();
     saveButton.setOnAction(
@@ -136,9 +130,9 @@ public class EditPlayerView implements View {
           new NewGameController(primaryStage);
         });
 
-    buttonsHBox.getChildren().addAll(cancelButton, saveButton);
+    tempButtonsHBox.getChildren().addAll(cancelButton, saveButton);
 
-    return buttonsHBox;
+    return tempButtonsHBox;
   }
 
   private VBox createLeftVBox() {
@@ -148,13 +142,13 @@ public class EditPlayerView implements View {
     playerText = new Text();
     leftVBox.getChildren().add(playerText);
 
-    playerGridPane = createPlayerGridPane();
+    GridPane playerGridPane = createPlayerGridPane();
     leftVBox.getChildren().add(playerGridPane);
 
     cheatsText = new Text();
     leftVBox.getChildren().add(cheatsText);
 
-    cheatsGridPane = createCheatsGridPane();
+    GridPane cheatsGridPane = createCheatsGridPane();
     leftVBox.getChildren().add(cheatsGridPane);
 
     return leftVBox;
@@ -215,40 +209,40 @@ public class EditPlayerView implements View {
   }
 
   private GridPane createCheatsGridPane() {
-    GridPane cheatsGridPane = new GridPane();
+    GridPane tempCheatsGridPane = new GridPane();
 
     ColumnConstraints col1 = new ColumnConstraints(100, 100, Double.MAX_VALUE);
     ColumnConstraints col2 = new ColumnConstraints(100, 100, Double.MAX_VALUE);
-    cheatsGridPane.getColumnConstraints().addAll(col1, col2);
+    tempCheatsGridPane.getColumnConstraints().addAll(col1, col2);
 
     for (int i = 0; i < 2; i++) {
       RowConstraints row = new RowConstraints(30, 30, Double.MAX_VALUE);
-      cheatsGridPane.getRowConstraints().add(row);
+      tempCheatsGridPane.getRowConstraints().add(row);
     }
 
     goldText = new Text("Gold");
-    cheatsGridPane.add(goldText, 0, 0);
+    tempCheatsGridPane.add(goldText, 0, 0);
     goldField = new TextField();
-    cheatsGridPane.add(goldField, 1, 0);
+    tempCheatsGridPane.add(goldField, 1, 0);
 
     scoreText = new Text("Score");
-    cheatsGridPane.add(scoreText, 0, 1);
+    tempCheatsGridPane.add(scoreText, 0, 1);
     scoreField = new TextField();
-    cheatsGridPane.add(scoreField, 1, 1);
+    tempCheatsGridPane.add(scoreField, 1, 1);
 
-    return cheatsGridPane;
+    return tempCheatsGridPane;
   }
 
   private GridPane createAttributesGridPane() {
-    GridPane attributesGridPane = new GridPane();
+    GridPane tempAttributesGridPane = new GridPane();
 
     ColumnConstraints col1 = new ColumnConstraints(100, 100, Double.MAX_VALUE);
     ColumnConstraints col2 = new ColumnConstraints(100, 100, Double.MAX_VALUE);
-    attributesGridPane.getColumnConstraints().addAll(col1, col2);
+    tempAttributesGridPane.getColumnConstraints().addAll(col1, col2);
 
     for (int i = 0; i < 7; i++) {
       RowConstraints row = new RowConstraints(30, 30, Double.MAX_VALUE);
-      attributesGridPane.getRowConstraints().add(row);
+      tempAttributesGridPane.getRowConstraints().add(row);
     }
 
     strengthText = new Text();
@@ -267,22 +261,22 @@ public class EditPlayerView implements View {
     agilityTextField = new TextField();
     luckTextField = new TextField();
 
-    attributesGridPane.add(strengthText, 0, 0);
-    attributesGridPane.add(strengthTextField, 1, 0);
-    attributesGridPane.add(perceptionText, 0, 1);
-    attributesGridPane.add(perceptionTextField, 1, 1);
-    attributesGridPane.add(enduranceText, 0, 2);
-    attributesGridPane.add(enduranceTextField, 1, 2);
-    attributesGridPane.add(charismaText, 0, 3);
-    attributesGridPane.add(charismaTextField, 1, 3);
-    attributesGridPane.add(intelligenceText, 0, 4);
-    attributesGridPane.add(intelligenceTextField, 1, 4);
-    attributesGridPane.add(agilityText, 0, 5);
-    attributesGridPane.add(agilityTextField, 1, 5);
-    attributesGridPane.add(luckText, 0, 6);
-    attributesGridPane.add(luckTextField, 1, 6);
+    tempAttributesGridPane.add(strengthText, 0, 0);
+    tempAttributesGridPane.add(strengthTextField, 1, 0);
+    tempAttributesGridPane.add(perceptionText, 0, 1);
+    tempAttributesGridPane.add(perceptionTextField, 1, 1);
+    tempAttributesGridPane.add(enduranceText, 0, 2);
+    tempAttributesGridPane.add(enduranceTextField, 1, 2);
+    tempAttributesGridPane.add(charismaText, 0, 3);
+    tempAttributesGridPane.add(charismaTextField, 1, 3);
+    tempAttributesGridPane.add(intelligenceText, 0, 4);
+    tempAttributesGridPane.add(intelligenceTextField, 1, 4);
+    tempAttributesGridPane.add(agilityText, 0, 5);
+    tempAttributesGridPane.add(agilityTextField, 1, 5);
+    tempAttributesGridPane.add(luckText, 0, 6);
+    tempAttributesGridPane.add(luckTextField, 1, 6);
 
-    return attributesGridPane;
+    return tempAttributesGridPane;
   }
 
   @Override

@@ -6,6 +6,10 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class VolumeHandler {
   private static final IntegerProperty volume = new SimpleIntegerProperty();
 
+  public static void initialize() {
+    volume.set(100);
+  }
+
   public static int getCurrentVolume() {
     return volume.get();
   }

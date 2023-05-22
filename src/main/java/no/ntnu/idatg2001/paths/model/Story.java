@@ -1,7 +1,6 @@
 package no.ntnu.idatg2001.paths.model;
 
 import jakarta.persistence.*;
-import java.io.*;
 import java.util.*;
 
 /**
@@ -184,7 +183,6 @@ public class Story {
         .findFirst()
         .orElseThrow();
   }
-
 
   /**
    * Returns the passage that is linked to the given link.

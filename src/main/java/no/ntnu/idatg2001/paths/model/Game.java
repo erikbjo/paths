@@ -201,9 +201,7 @@ public class Game {
     if (availableLinks.contains(link)) {
       link.getActions()
           .forEach(
-              action -> {
-                action.execute(player);
-              });
+              action -> action.execute(player));
 
       Link reversedLink = story.reverseLink(link);
       setCurrentPassage(story.getPassagesHashMap().get(reversedLink));

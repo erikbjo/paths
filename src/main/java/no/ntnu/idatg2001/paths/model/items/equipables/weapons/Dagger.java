@@ -2,7 +2,6 @@ package no.ntnu.idatg2001.paths.model.items.equipables.weapons;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 
 /**
  * The Dagger class represents a dagger in the game. It extends the Weapon class.
@@ -25,6 +24,6 @@ public class Dagger extends Weapon {
     super(name, itemScore, goldValue, damage);
   }
 
-    /** Used by DB */
+  /** Used by DB */
   protected Dagger() {}
 }

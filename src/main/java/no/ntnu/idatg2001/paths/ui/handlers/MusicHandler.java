@@ -2,15 +2,13 @@ package no.ntnu.idatg2001.paths.ui.handlers;
 
 import java.net.URL;
 
-import javafx.beans.property.IntegerProperty;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import no.ntnu.idatg2001.paths.ui.alerts.ExceptionAlert;
 
 public class MusicHandler {
   private static MediaPlayer mediaPlayer;
-  private IntegerProperty volume;
-    private static final String musicFilePath = "/music/";
+    private static final String MUSIC_FILE_PATH = "/music/";
 
   private MusicHandler() {}
 
@@ -27,7 +25,7 @@ public class MusicHandler {
   public static void playMusic(String musicFile) {
     stopCurrentMusic();
     try {
-      URL resource = MusicHandler.class.getResource(musicFilePath + musicFile);
+      URL resource = MusicHandler.class.getResource(MUSIC_FILE_PATH + musicFile);
       assert resource != null;
       Media media = new Media(resource.toString());
       mediaPlayer = new MediaPlayer(media);
@@ -44,6 +42,7 @@ public class MusicHandler {
     try {
       mediaPlayer.stop();
     } catch (Exception ignored) {
+      // Do nothing
     }
   }
 }

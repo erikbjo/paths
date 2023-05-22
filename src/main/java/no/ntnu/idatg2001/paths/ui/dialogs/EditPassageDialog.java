@@ -14,7 +14,8 @@ import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 public class EditPassageDialog extends Dialog<Passage> implements StandardDialog<Passage> {
   private final Passage passage;
   private final GenericDialogController controller = new GenericDialogController();
-  private final ResourceBundle resources = ResourceBundle.getBundle(
+  private final ResourceBundle resources =
+      ResourceBundle.getBundle(
           "languages/editPassageDialog",
           Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
   private TextField titleTextField;

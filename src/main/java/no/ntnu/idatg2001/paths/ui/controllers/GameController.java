@@ -7,12 +7,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.dao.GameDAO;
 import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
-import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
 import no.ntnu.idatg2001.paths.ui.alerts.ExceptionAlert;
 import no.ntnu.idatg2001.paths.ui.handlers.CurrentGameHandler;
-import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.views.GameView;
 

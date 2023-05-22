@@ -1,15 +1,9 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
@@ -83,12 +77,6 @@ public class EditPlayerController implements Controller {
   public void updateLanguage() {
     updateShowAttributesGridPaneButton();
     updateDefaultAttributesComboBox();
-
-    /*for (Map.Entry<String, DefaultAttributes> entry : defaultAttributesMap.entrySet()) {
-      String key = entry.getKey();
-      DefaultAttributes value = entry.getValue();
-      defaultAttributesComboBox.getItems().set(value.ordinal(), DefaultAttributes.valueOf(key));
-    }*/
 
     view.updateLanguage();
   }
