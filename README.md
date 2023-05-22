@@ -1,6 +1,6 @@
 ## 🚀 Paths
 
-[![](https://img.shields.io/badge/Version-2.0-white)]()
+[![](https://img.shields.io/badge/Version-2.1-white)]()
 [![](https://img.shields.io/badge/Language-Java-yellow)]()
 [![](https://img.shields.io/badge/Language-CSS-purple)]()
 [![](https://img.shields.io/badge/Database-DerbyDB-green)]()
