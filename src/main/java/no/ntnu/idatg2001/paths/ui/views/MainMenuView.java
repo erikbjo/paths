@@ -57,17 +57,12 @@ public class MainMenuView implements View {
     buttonsHBox.setPadding(new Insets(5, 5, 5, 5));
 
     continueButton = new Button();
-    continueButton.setPrefWidth(buttonsHBox.getPrefWidth());
     newGameButton = new Button();
-    newGameButton.setPrefWidth(buttonsHBox.getPrefWidth());
     settingsButton = new Button();
-    settingsButton.setPrefWidth(buttonsHBox.getPrefWidth());
     exitButton = new Button();
-    exitButton.setPrefWidth(buttonsHBox.getPrefWidth());
 
     buttonsHBox.getChildren().addAll(continueButton, newGameButton, settingsButton, exitButton);
 
-    // centerHBox.getChildren().addAll(buttonsHBox);
     AnchorPane.setBottomAnchor(centerHBox, 0.0);
     AnchorPane.setTopAnchor(centerHBox, 0.0);
     AnchorPane.setLeftAnchor(centerHBox, 0.0);
