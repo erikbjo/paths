@@ -62,6 +62,7 @@ public class NewLinkDialogWithStartPassage extends LinkDialog implements Standar
         Link newLink =
             new Link(linkTextTextField.getText(), referenceComboBox.getValue().getTitle());
         startingPassageComboBox.getValue().addLink(newLink);
+        super.getActionsTableView().getItems().forEach(newLink::addAction);
 
         return newLink;
       }

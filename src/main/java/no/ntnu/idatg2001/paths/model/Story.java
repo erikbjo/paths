@@ -53,6 +53,25 @@ public class Story {
   }
 
   /**
+   * Copy constructor for the Story class. Creates a new story with the same title, passages and
+   * opening passage as the story passed in.
+   *
+   * @param story The story to copy.
+   * @throws IllegalArgumentException if the story is null.
+   */
+  public Story(Story story) {
+    if (story == null) {
+      throw new IllegalArgumentException("Story cannot be null");
+    }
+    this.title = story.getTitle();
+    this.passages = new HashMap<>();
+    this.openingPassage = story.getOpeningPassage();
+    for (Link link : story.getPassagesHashMap().keySet()) {
+      this.passages.put(link, story.getPassagesHashMap().get(link));
+    }
+  }
+
+  /**
    * This function creates a new story with a title.
    *
    * @param title The title of the story.

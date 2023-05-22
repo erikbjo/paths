@@ -2,6 +2,8 @@ package no.ntnu.idatg2001.paths.ui.controllers;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
@@ -10,6 +12,7 @@ import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.dao.GameDAO;
 import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
+import no.ntnu.idatg2001.paths.model.units.Player;
 import no.ntnu.idatg2001.paths.ui.alerts.ExceptionAlert;
 import no.ntnu.idatg2001.paths.ui.handlers.CurrentGameHandler;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
@@ -109,10 +112,11 @@ public class GameController implements Controller {
   public void saveGame() {
     GameDAO.getInstance().update(CurrentGameHandler.getCurrentGame());
     PlayerDAO.getInstance().update(CurrentGameHandler.getCurrentGame().getPlayer());
+    CurrentGameHandler.updateCurrentGame();
   }
 
   public void restartGame() {
-    CurrentGameHandler.getCurrentGame().restart();
+    CurrentGameHandler.restartGame();
     // Creates a new controller instead of having lots of parameters in the method
     // Hopefully the garbage collector will remove the old controller
     new GameController(stage);

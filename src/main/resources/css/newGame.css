@@ -2,25 +2,50 @@
 
 }
 
-Text {
-    -fx-alignment: center;
-    -fx-font: 24pt;
+#storiesVBox > VBox {
+    -fx-spacing: 10;
 }
 
-#playersVBox {
+#storiesVBox > VBox > HBox {
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
 
+
+#playersVBox {
+    -fx-spacing: 10;
+}
+
+#playersVBox > VBox {
+    -fx-spacing: 10;
+}
+
+#playersVBox > HBox {
+    -fx-alignment: center;
+    -fx-spacing: 10;
 }
 
 #deadLinksVBox {
+    -fx-spacing: 10;
+}
 
+#deadLinksVBox > VBox {
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+
+#deadLinksVBox > HBox {
+    -fx-alignment: center;
+    -fx-spacing: 10;
 }
 
 #startNewGameHBox {
-
+    -fx-alignment: center;
+    -fx-spacing: 10;
 }
 
 VBox {
-    -fx-alignment: center;
+    -fx-alignment: top-center;
     -fx-padding: 10;
 }
 
@@ -37,6 +62,16 @@ TableView {
 }
 
 #mainHBox {
-    -fx-alignment: center;
+    -fx-alignment: top-center;
     -fx-spacing: 20;
+}
+
+VBox {
+    -fx-alignment: top-center;
+    -fx-padding: 10;
+}
+
+Button {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
 }

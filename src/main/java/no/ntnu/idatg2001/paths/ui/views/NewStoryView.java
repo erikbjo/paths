@@ -25,7 +25,6 @@ public class NewStoryView implements View {
   private final Story story;
   private Text newStoryText;
   private Button cancelButton;
-  private Button addLinkToPassageButton;
   private Button editLinkButton;
   private Button newLinkButton;
   private Button deleteLinkButton;
@@ -162,7 +161,6 @@ public class NewStoryView implements View {
     editLinkButton.setText(resources.getString("editLinkButton"));
     newLinkButton.setText(resources.getString("newLinkButton"));
     deleteLinkButton.setText(resources.getString("deleteLinkButton"));
-    addLinkToPassageButton.setText(resources.getString("addLinkToPassageButton"));
     createStoryButton.setText(resources.getString("createStoryButton"));
     cancelButton.setText(resources.getString("cancelButton"));
     linkCreationTableView.setPlaceholder(new Text(resources.getString("linkCreationTableView")));
@@ -231,16 +229,11 @@ public class NewStoryView implements View {
     HBox upperHBox = new HBox();
     upperHBox.setAlignment(Pos.CENTER);
 
-    addLinkToPassageButton = new Button();
-    addLinkToPassageButton.setOnAction(
-        event ->
-            controller.onAddLinkToPassageButtonClicked(
-                passageCreationTableView, linkCreationTableView));
 
     VBox passageCreationVBox = createPassageCreationVBox();
     VBox linkCreationVBox = createLinkCreationVBox();
 
-    upperHBox.getChildren().addAll(passageCreationVBox, linkCreationVBox, addLinkToPassageButton);
+    upperHBox.getChildren().addAll(passageCreationVBox, linkCreationVBox);
 
     tempMainVBox.getChildren().add(upperHBox);
 

@@ -43,6 +43,28 @@ public class Player extends Unit {
   }
 
   /**
+   * Copy constructor for the Player class. Creates a new player with the same attributes as the
+   * given player.
+   *
+   * @param player the player to copy
+   * @throws IllegalArgumentException if the player is null
+   */
+  public Player(Player player) {
+    if (player == null) {
+      throw new IllegalArgumentException("Player cannot be null");
+    }
+    this.name = player.getName();
+    super.setHealth(player.getHealth());
+    super.setMana(player.getMana());
+    super.setEnergy(player.getEnergy());
+    super.setScore(player.getScore());
+    super.setGold(player.getGold());
+    this.inventory = player.getInventory();
+    this.equippedItems = player.getEquippedItems();
+    this.attributes = player.getAttributes();
+  }
+
+  /**
    * Gets the inventory.
    *
    * @return the inventory

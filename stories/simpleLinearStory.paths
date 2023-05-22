@@ -3,14 +3,23 @@ SimpleStory
 ::Start
 This is the start
 [Go to the field](You are in a field)
+{GoldAction}<2>(true)
+{HealthAction}<3>(true)
+{HealthAction}<3>(true)
 
 ::You are in a field
 You are in a field. What do you do?
 [Dance](Dance)
+{GoldAction}<2>(true)
+{HealthAction}<3>(true)
+{HealthAction}<3>(true)
 
 ::Dance
 You dance. You are happy.
 [Walk further](Further)
+{GoldAction}<2>(true)
+{HealthAction}<3>(true)
+{HealthAction}<3>(true)
 
 ::Further
 You walk further. You are happy.

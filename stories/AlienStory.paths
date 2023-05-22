@@ -3,52 +3,100 @@ Alien Story
 ::Your room
 You are in your room. You have a bed, a desk, and a dresser. You can go to the kitchen, the bathroom, or the living room.
 [Go to the kitchen](The kitchen)
+{GoldAction}<2>(true)
+{HealthAction}<3>(true)
+{HealthAction}<3>(true)
 [Go to the bathroom](The bathroom)
+{GoldAction}<2>(true)
+{HealthAction}<3>(true)
+{HealthAction}<3>(true)
 [Go to the living room](The living room)
+{GoldAction}<2>(true)
+{HealthAction}<3>(true)
+{HealthAction}<3>(true)
 
 ::The kitchen
 You are in the kitchen. You have a fridge, a stove, and a sink. You can go to the living room or the bathroom.
 [Go to the living room](The living room)
+{GoldAction}<1>(true)
+{HealthAction}<1>(true)
+{HealthAction}<1>(true)
 [Go to the bathroom](The bathroom)
+{GoldAction}<1>(true)
+{HealthAction}<1>(true)
+{HealthAction}<1>(true)
 
 ::The bathroom
 You are in the bathroom. You have a toilet, a sink, and a shower. You can go to the kitchen or the living room.
 [Go to the kitchen](The kitchen)
+{GoldAction}<2>(true)
+{HealthAction}<3>(true)
+{HealthAction}<3>(true)
 [Go to the living room](The living room)
 
 ::The living room
 As you step into the living room, you hear a loud crash. You look around and see a large, green alien. It is holding a ray gun. It points the ray gun at you and says, "Take me to your leader."
 [Take the alien to your leader](The leader)
+{GoldAction}<2>(false)
+{HealthAction}<3>(false)
+{HealthAction}<3>(false)
 
 ::The leader
 You take the alien to your leader. The alien is not happy with your leader. It shoots your leader with its ray gun. Your leader dies. The alien then shoots you with its ray gun. You die.
 [What?](The end)
+{GoldAction}<2>(true)
+{HealthAction}<3>(true)
+{HealthAction}<3>(true)
 
 ::The end
 You are dead. You have died.
 [What?](The other end)
+{GoldAction}<2>(false)
+{HealthAction}<3>(false)
+{HealthAction}<3>(false)
 
 ::The other end
 I said you are dead. You have died.
 [What?](The other other end)
+{GoldAction}<2>(true)
+{HealthAction}<3>(true)
+{HealthAction}<3>(true)
 
 ::The other other end
 Okay maybe you are not dead. But you are not alive either. You are in a state of limbo.
 [What?](The other other other end)
+{GoldAction}<2>(true)
+{HealthAction}<3>(true)
+{HealthAction}<3>(true)
 
 ::The other other other end
 You are in a state of limbo. You are neither alive nor dead. You are stuck in limbo forever.
 [What?](The other other other other end)
+{GoldAction}<2>(false)
+{HealthAction}<3>(false)
+{HealthAction}<3>(false)
 
 ::The other other other other end
 You are stuck in limbo forever. You are neither alive nor dead. You are stuck in limbo forever.
 [What?](The other other other other other end)
+{GoldAction}<2>(true)
+{HealthAction}<3>(true)
+{HealthAction}<3>(true)
 
 ::The other other other other other end
 You are stuck in limbo forever. You are neither alive nor dead. You are stuck in limbo forever.
 [What?](The other other other other other end)
+{GoldAction}<2>(true)
+{HealthAction}<3>(true)
+{HealthAction}<3>(true)
 [Stop this please](The other other other other other other end)
+{GoldAction}<2>(false)
+{HealthAction}<3>(false)
+{HealthAction}<3>(true)
 
 ::The other other other other other other end
 Okay you got woken up by your alarm clock. You are alive. You are not dead. You are not stuck in limbo forever.
 [Cool thanks](The kitchen)
+{GoldAction}<2>(true)
+{HealthAction}<3>(true)
+{HealthAction}<3>(true)
