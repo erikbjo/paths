@@ -112,18 +112,11 @@ public class GameController implements Controller {
   public void saveGame() {
     GameDAO.getInstance().update(CurrentGameHandler.getCurrentGame());
     PlayerDAO.getInstance().update(CurrentGameHandler.getCurrentGame().getPlayer());
+    CurrentGameHandler.updateCurrentGame();
   }
 
   public void restartGame() {
-    // Find the old player object in DB then update the game object with the "new" player object
-    Long oldId = CurrentGameHandler.getCurrentGame().getPlayer().getId();
-    Optional<Player> oldPlayer = PlayerDAO.getInstance().find(oldId);
-    oldPlayer.ifPresent(CurrentGameHandler.getCurrentGame()::setPlayer);
-
-    // Update DB
-    saveGame();
-
-    CurrentGameHandler.getCurrentGame().restart();
+    CurrentGameHandler.restartGame();
     // Creates a new controller instead of having lots of parameters in the method
     // Hopefully the garbage collector will remove the old controller
     new GameController(stage);
