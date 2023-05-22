@@ -45,7 +45,7 @@ public class PathsStoryFileReader {
       String pattern = "(?s)::(.*?)(?=::|$)";
 
       if (firstLine) {
-        String title = fileScanner.next();
+        String title = fileScanner.nextLine();
         story.setTitle(title);
         StoryDAO.getInstance().update(story);
         firstLine = false;
