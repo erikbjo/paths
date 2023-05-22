@@ -121,6 +121,13 @@ public class NewGameView implements View {
 
     controller.updateAllTables(storiesTableView, playersTableView, deadLinksTableView);
 
+    mainHBox.setId("mainHBox");
+    storiesVBox.setId("storiesVBox");
+    playersVBox.setId("playersVBox");
+    deadLinksVBox.setId("deadLinksVBox");
+    startNewGameHBox.setId("startNewGameHBox");
+
+    primaryStage.getScene().getStylesheets().add("css/newGame.css");
     primaryStage.getScene().setRoot(root);
   }
 
