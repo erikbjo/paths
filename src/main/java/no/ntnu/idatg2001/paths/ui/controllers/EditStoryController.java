@@ -243,18 +243,18 @@ public class EditStoryController implements Controller {
 
   public void onSaveButtonPressed() {
     StoryDAO.getInstance().update(story);
+    this.story = StoryDAO.getInstance().find(story.getId()).orElse(story);
     updatePane();
   }
 
   public void onLoadButtonPressed() {
-    // TODO: FIX THIS, THE REFRESH IS NOT WORKING
+      // WIP
     double oldStoryId = story.getId();
     this.story = StoryDAO.getInstance().find(story.getId()).orElse(story);
     if (oldStoryId != story.getId()) {
       updatePane();
     } else {
       updatePane();
-      System.out.println("Story not found");
     }
   }
 
