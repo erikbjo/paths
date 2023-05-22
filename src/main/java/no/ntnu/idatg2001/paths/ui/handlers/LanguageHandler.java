@@ -6,8 +6,9 @@ import no.ntnu.idatg2001.paths.model.Languages;
 
 public class LanguageHandler {
 
+  private LanguageHandler() {}
+
   private static final IntegerProperty observableIntegerCounter = new SimpleIntegerProperty();
-  // standard language
   private static Languages currentLanguage = Languages.ENGLISH;
 
   public static IntegerProperty getObservableIntegerCounter() {

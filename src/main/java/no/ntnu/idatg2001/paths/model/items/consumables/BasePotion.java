@@ -12,7 +12,6 @@ public class BasePotion extends Potion {
   private final int energy;
   private final int health;
   private final int mana;
-  private String name;
 
   /**
    * Constructor for the BasePotion class.
@@ -30,7 +29,7 @@ public class BasePotion extends Potion {
     this.mana = mana;
     this.energy = energy;
   }
-  
+
   /**
    * Use the potion.
    *

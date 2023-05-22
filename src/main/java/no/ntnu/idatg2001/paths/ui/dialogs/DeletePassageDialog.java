@@ -1,15 +1,12 @@
 package no.ntnu.idatg2001.paths.ui.dialogs;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.scene.control.*;
 import javafx.util.Callback;
-import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
-
-import java.util.Locale;
-import java.util.Objects;
-import java.util.ResourceBundle;
 
 public class DeletePassageDialog extends Dialog<Passage> implements StandardDialog {
 
@@ -78,7 +75,9 @@ public class DeletePassageDialog extends Dialog<Passage> implements StandardDial
   }
 
   @Override
-  public void updateLanguage() {}
+  public void updateLanguage() {
+    // User cant update language mid-dialog
+  }
 
   @Override
   public void setDialogLanguage() {

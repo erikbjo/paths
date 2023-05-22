@@ -4,7 +4,7 @@ import no.ntnu.idatg2001.paths.model.Game;
 
 public class CurrentGameHandler {
 
-  // for testing i think maybe
+  private CurrentGameHandler() {}
   private static Game currentGame;
 
   public static Game getCurrentGame() {

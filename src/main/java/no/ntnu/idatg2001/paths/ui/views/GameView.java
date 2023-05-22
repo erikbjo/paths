@@ -1,7 +1,6 @@
 package no.ntnu.idatg2001.paths.ui.views;
 
 import java.util.Locale;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -123,6 +122,9 @@ public class GameView implements View {
     energyText.setText(resources.getString("energyText"));
     playerInformationText.setText(resources.getString("playerInformationText"));
     goalInformationText.setText(resources.getString("goalInformationText"));
+    finishGameButton.setText(resources.getString("finishGameButton"));
+    saveGameButton.setText(resources.getString("saveGameButton"));
+    restartGameButton.setText(resources.getString("restartGameButton"));
   }
 
   public HBox getLinksHBox() {
@@ -195,27 +197,17 @@ public class GameView implements View {
     goalInformationGridPane = new GridPane();
     setRowAndColumnConstraints(goalInformationGridPane);
 
-
     finishGameButton = new Button(resources.getString("finishGameButton"));
     saveGameButton = new Button(resources.getString("saveGameButton"));
     restartGameButton = new Button(resources.getString("restartGameButton"));
 
     finishGameButton.setDisable(true);
 
-    finishGameButton.setOnAction(
-        event -> {
-          controller.finishGame();
-        });
+    finishGameButton.setOnAction(event -> controller.finishGame());
 
-    saveGameButton.setOnAction(
-        event -> {
-          controller.saveGame();
-        });
+    saveGameButton.setOnAction(event -> controller.saveGame());
 
-    restartGameButton.setOnAction(
-        event -> {
-          controller.restartGame();
-        });
+    restartGameButton.setOnAction(event -> controller.restartGame());
 
     updateGoalInformation();
 

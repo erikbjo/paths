@@ -7,8 +7,6 @@ import no.ntnu.idatg2001.paths.model.Link;
 
 public class LinkLine extends Line {
 
-  private static final String ARROW = "M 0 0 L 1 0.5 L 0 1 z";
-
   private final Text linkText; // might be useless, might be useful for hover text
   private final Group arrows;
   private Link link;
@@ -45,7 +43,6 @@ public class LinkLine extends Line {
       endYProperty().addListener((observable, oldValue, newValue) -> updateArrow(arrow, t));
     }
 
-    // TODO: ADD STYLE CHANGES FOR USABILITY, LIKE GLOW ON HOVER ETC
 
     this.setOnMouseEntered(
         mouseEvent -> {

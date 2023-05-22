@@ -21,7 +21,6 @@ public class EditLinkDialog extends LinkDialog implements StandardDialog<Link> {
           "languages/editLinkDialog",
           Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
   private final Story story;
-  private TextField referenceTextField;
   private TextField linkTextTextField;
   private Text referenceText;
   private Text linkText;

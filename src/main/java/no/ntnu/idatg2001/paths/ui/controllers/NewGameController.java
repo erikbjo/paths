@@ -23,7 +23,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.Link;
-import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.model.dao.GameDAO;
 import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
@@ -306,15 +305,6 @@ public class NewGameController implements Controller {
                 new ConfirmationAlert(
                     confirmationResources.getString("deleteLinkTitle"),
                     confirmationResources.getString("deleteLinkContentText") + "\n" + deadLink);
-            /*confirmationAlert.setHeaderText(confirmationResources.getString("confirmationText"));
-            ButtonType okButtonType =
-                new ButtonType(
-                    confirmationResources.getString("okButton"), ButtonBar.ButtonData.OK_DONE);
-            ButtonType cancelButtonType =
-                new ButtonType(
-                    confirmationResources.getString("cancelButton"),
-                    ButtonBar.ButtonData.CANCEL_CLOSE);
-            confirmationAlert.getButtonTypes().setAll(okButtonType, cancelButtonType);*/
 
             Optional<ButtonType> result = confirmationAlert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -468,19 +458,15 @@ public class NewGameController implements Controller {
   public void onExportStory(TableView<Story> storiesTableView) {
     if (!storiesTableView.getSelectionModel().isEmpty()) {
       DirectoryChooser directoryChooser = new DirectoryChooser();
-      // TODO: MAKE THIS LANGUAGE INDEPENDENT
-      directoryChooser.setTitle("Select a directory to export to");
 
       Optional<File> result = Optional.ofNullable(directoryChooser.showDialog(stage));
       if (result.isPresent()) {
-        // TODO: MAKE IT SO THAT THE FILE IS NOT OVERWRITTEN AND THAT THE USER IS WARNED
-        // ALSO MAKE IT WRITE TO THE DIRECTORY
+        // Not yet implemented
         File directory = result.get();
         Story selectedStory = storiesTableView.getSelectionModel().getSelectedItem();
         PathsStoryFileWriter.writeStoryToFile(selectedStory);
       }
     } else {
-      // TODO: warning
       System.out.println("no story selected");
     }
   }

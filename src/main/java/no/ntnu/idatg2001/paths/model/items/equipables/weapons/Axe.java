@@ -2,7 +2,6 @@ package no.ntnu.idatg2001.paths.model.items.equipables.weapons;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 
 /**
  * The Axe class represents an axe in the game. It extends the Weapon class.
@@ -25,6 +24,6 @@ public class Axe extends Weapon {
     super(name, itemScore, goldValue, damage);
   }
 
-    /** Used by DB */
+  /** Used by DB */
   protected Axe() {}
 }

@@ -56,7 +56,6 @@ public class NewPassageDialog extends Dialog<Passage> {
   private Callback<ButtonType, Passage> createPlayerCallback() {
     return buttonType -> {
       if (buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
-        // TODO: MAKE THIS MAKE USE OF BUILDER MAYBE
         return new Passage(titleTextField.getText(), contentTextArea.getText());
       }
       return null;

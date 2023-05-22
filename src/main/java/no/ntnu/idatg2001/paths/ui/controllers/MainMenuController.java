@@ -1,5 +1,6 @@
 package no.ntnu.idatg2001.paths.ui.controllers;
 
+import java.io.IOException;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -7,8 +8,6 @@ import no.ntnu.idatg2001.paths.model.dao.GameDAO;
 import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
 import no.ntnu.idatg2001.paths.ui.views.MainMenuView;
-
-import java.io.IOException;
 
 public class MainMenuController implements Controller {
   private final Stage stage;
@@ -25,11 +24,7 @@ public class MainMenuController implements Controller {
   }
 
   public void configureContinueButton(Button continueButton) {
-    if (GameDAO.getInstance().getAll().isEmpty()) {
-      continueButton.setDisable(true);
-    } else {
-      continueButton.setDisable(false);
-    }
+      continueButton.setDisable(GameDAO.getInstance().getAll().isEmpty());
     continueButton.setOnAction(event -> new SelectGameToContinueController(stage));
   }
 

@@ -304,6 +304,7 @@ public class Player extends Unit {
    *
    * @return the id of the player
    */
+  @Override
   public Long getId() {
     return super.getId();
   }

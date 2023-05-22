@@ -5,9 +5,9 @@ import java.util.ResourceBundle;
 import javafx.event.Event;
 import no.ntnu.idatg2001.paths.model.Languages;
 import no.ntnu.idatg2001.paths.model.utilities.SettingsFileWriterReader;
+import no.ntnu.idatg2001.paths.ui.dialogs.SettingsDialog;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.handlers.VolumeHandler;
-import no.ntnu.idatg2001.paths.ui.dialogs.SettingsDialog;
 
 public class SettingsController {
   private final SettingsDialog view;
@@ -19,8 +19,9 @@ public class SettingsController {
     volume = VolumeHandler.getCurrentVolume();
     ResourceBundle resources =
         ResourceBundle.getBundle(
-            "languages/messages", Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
-    
+            "languages/messages",
+            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+
     view = new SettingsDialog(this, resources);
   }
 
@@ -31,7 +32,6 @@ public class SettingsController {
   public int getVolume() {
     return volume;
   }
-
 
   public void saveSettings() {
     language = view.getLanguage();

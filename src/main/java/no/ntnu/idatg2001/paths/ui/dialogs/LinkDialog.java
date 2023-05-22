@@ -20,7 +20,6 @@ import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
 public abstract class LinkDialog extends Dialog<Link> {
 
-  private final GenericDialogController controller = new GenericDialogController();
   private final ResourceBundle resources =
       ResourceBundle.getBundle(
           "languages/newLinkDialog",
@@ -105,8 +104,6 @@ public abstract class LinkDialog extends Dialog<Link> {
           @Override
           public TableCell<Action, Void> call(TableColumn<Action, Void> actionVoidTableColumn) {
             return new TableCell<>() {
-              // private final Button removeButton = new
-              // Button(resources.getString("removeButton"));
               private final Button removeButton = new Button(resources.getString("removeButton"));
 
               {
@@ -265,7 +262,7 @@ public abstract class LinkDialog extends Dialog<Link> {
     Text inventoryText = new Text();
     ComboBox<String> inventoryComboBox = new ComboBox<>();
 
-    // TODO: IMPLEMENT INVENTORY ACTIONS
+    // Not yet implemented
 
     return inventoryActionsVBox;
   }

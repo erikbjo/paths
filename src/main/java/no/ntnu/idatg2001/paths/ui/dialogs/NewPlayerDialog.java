@@ -96,7 +96,6 @@ public class NewPlayerDialog extends Dialog<Player> {
     private Callback<ButtonType, Player> createPlayerCallback() {
         return buttonType -> {
             if (buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
-                // TODO: MAKE THIS MAKE USE OF BUILDER MAYBE
                 Player player =
                     new Player.PlayerBuilder()
                         .withName(playerNameTextField.getText())

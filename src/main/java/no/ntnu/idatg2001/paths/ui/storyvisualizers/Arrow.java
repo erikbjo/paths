@@ -1,9 +1,5 @@
 package no.ntnu.idatg2001.paths.ui.storyvisualizers;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.DoubleProperty;
-import javafx.scene.Group;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
 public class Arrow extends Polygon {

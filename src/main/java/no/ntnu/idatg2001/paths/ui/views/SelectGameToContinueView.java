@@ -96,7 +96,8 @@ public class SelectGameToContinueView implements View {
 
     ongoingGamesPlayerTableColumn.setText(resources.getString("ongoingGamesPlayerTableColumn"));
     ongoingGamesStoryTableColumn.setText(resources.getString("ongoingGamesStoryTableColumn"));
-    ongoingGamesCurrentPassageTableColumn.setText(resources.getString("ongoingGamesCurrentPassageTableColumn"));
+    ongoingGamesCurrentPassageTableColumn.setText(
+        resources.getString("ongoingGamesCurrentPassageTableColumn"));
     ongoingGamesGoalsTableColumn.setText(resources.getString("ongoingGamesGoalsTableColumn"));
   }
 

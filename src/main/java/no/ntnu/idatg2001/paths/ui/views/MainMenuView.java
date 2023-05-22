@@ -18,6 +18,7 @@ import no.ntnu.idatg2001.paths.model.dao.PlayerDAO;
 import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
 import no.ntnu.idatg2001.paths.ui.controllers.MainMenuController;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
+import no.ntnu.idatg2001.paths.ui.handlers.MusicHandler;
 
 public class MainMenuView implements View {
   private final MainMenuController controller;
@@ -97,6 +98,8 @@ public class MainMenuView implements View {
             BackgroundPosition.CENTER,
             new BackgroundSize(1.0, 1.0, true, true, false, false));
     root.setBackground(new Background(backgroundImage));
+
+    MusicHandler.playMusic("pathsTheme.mp3");
 
     stage.setScene(scene);
     stage.show();
