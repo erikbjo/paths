@@ -150,6 +150,7 @@ public class NewGameView implements View {
     newStoryButton.setText(resources.getString("newStoryButton"));
     deleteStoryButton.setText(resources.getString("deleteStoryButton"));
     importStoryButton.setText(resources.getString("importStoryButton"));
+    exportButton.setText(resources.getString("exportButton"));
     editPlayerButton.setText(resources.getString("editPlayerButton"));
     newPlayerButton.setText(resources.getString("newPlayerButton"));
     deletePlayerButton.setText(resources.getString("deletePlayerButton"));
@@ -185,9 +186,11 @@ public class NewGameView implements View {
     exportButton.setOnAction(event -> controller.onExportStory(storiesTableView));
     HBox storiesButtonsHBox =
         new HBox(
-            editStoryButton, newStoryButton, deleteStoryButton, importStoryButton, exportButton);
+            editStoryButton, newStoryButton, deleteStoryButton);
+    HBox importExportHBox = new HBox(importStoryButton, exportButton);
+    VBox allStoryButtonsVBox = new VBox(storiesButtonsHBox, importExportHBox);
 
-    storiesVBox.getChildren().addAll(storiesText, storiesTableView, storiesButtonsHBox);
+    storiesVBox.getChildren().addAll(storiesText, storiesTableView, allStoryButtonsVBox);
 
     return storiesVBox;
   }

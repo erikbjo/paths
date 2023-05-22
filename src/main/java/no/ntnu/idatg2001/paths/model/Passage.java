@@ -42,7 +42,9 @@ public class Passage {
   }
 
   /** Default constructor for the Passage class. For DB */
-  public Passage() {}
+  public Passage() {
+    this.links = new ArrayList<>();
+  }
 
   /**
    * Gets the story that the passage belongs to. Used for DB.
