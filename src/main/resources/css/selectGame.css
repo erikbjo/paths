@@ -24,3 +24,8 @@
     -fx-spacing: 10;
     -fx-alignment: center;
 }
+
+Button {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+}

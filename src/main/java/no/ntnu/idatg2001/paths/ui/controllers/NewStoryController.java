@@ -8,10 +8,7 @@ import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.model.dao.StoryDAO;
-import no.ntnu.idatg2001.paths.ui.dialogs.EditLinkDialog;
-import no.ntnu.idatg2001.paths.ui.dialogs.EditPassageDialog;
-import no.ntnu.idatg2001.paths.ui.dialogs.NewLinkDialog;
-import no.ntnu.idatg2001.paths.ui.dialogs.NewPassageDialog;
+import no.ntnu.idatg2001.paths.ui.dialogs.*;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.views.NewStoryView;
 
@@ -76,9 +73,10 @@ public class NewStoryController implements Controller {
   }
 
   public void onNewLinkButtonClicked(TableView<Link> linkCreationTableView) {
-    NewLinkDialog newLinkDialog = new NewLinkDialog(story);
+    NewLinkDialogWithStartPassage newLinkDialogWithStartPassage =
+        new NewLinkDialogWithStartPassage(story);
 
-    Optional<Link> result = newLinkDialog.showAndWait();
+    Optional<Link> result = newLinkDialogWithStartPassage.showAndWait();
     result.ifPresent(link -> linkCreationTableView.getItems().add(link));
   }
 
@@ -86,26 +84,6 @@ public class NewStoryController implements Controller {
     if (linkCreationTableView.getSelectionModel().getSelectedItems().size() == 1) {
       Link link = linkCreationTableView.getSelectionModel().getSelectedItem();
       linkCreationTableView.getItems().remove(link);
-    }
-  }
-
-  public void onAddLinkToPassageButtonClicked(
-      TableView<Passage> passageCreationTableView, TableView<Link> linkCreationTableView) {
-    if (passageCreationTableView.getSelectionModel().getSelectedItems().isEmpty()
-        && linkCreationTableView.getSelectionModel().getSelectedItems().size() == 1) {
-
-      Link link = linkCreationTableView.getSelectionModel().getSelectedItems().get(0);
-
-      passageCreationTableView
-          .getSelectionModel()
-          .getSelectedItems()
-          .forEach(passage -> passage.addLink(link));
-
-      passageCreationTableView.getSelectionModel().clearSelection();
-      linkCreationTableView.getSelectionModel().clearSelection();
-
-      view.updatePassagesTableView();
-      StoryDAO.getInstance().update(story);
     }
   }
 
