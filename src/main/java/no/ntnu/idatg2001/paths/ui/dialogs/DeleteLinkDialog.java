@@ -1,15 +1,14 @@
 package no.ntnu.idatg2001.paths.ui.dialogs;
 
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Dialog;
+import javafx.scene.control.*;
 import javafx.util.Callback;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Story;
+import no.ntnu.idatg2001.paths.model.units.DefaultAttributes;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class DeleteLinkDialog extends Dialog<Link> implements StandardDialog {
@@ -35,9 +34,41 @@ public class DeleteLinkDialog extends Dialog<Link> implements StandardDialog {
     linkComboBox
         .getItems()
         .addAll(
-            story.getPassages().stream()
-                .flatMap(passage -> passage.getLinks().stream())
-                .toList());
+            story.getPassages().stream().flatMap(passage -> passage.getLinks().stream()).toList());
+
+    Callback<ListView<Link>, ListCell<Link>> cellFactory =
+        comboBox ->
+            new ListCell<>() {
+              @Override
+              protected void updateItem(Link item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                  setText(null);
+                } else {
+                  setText(
+                      resources.getString("start")
+                          + story.getPassages().stream()
+                              .filter(
+                                  passage ->
+                                      !passage.getLinks().stream()
+                                          .filter(link -> Objects.equals(link.getId(), item.getId()))
+                                          .toList()
+                                          .isEmpty())
+                              .toList()
+                              .get(0)
+                              .getTitle()
+                          + ", "
+                          + resources.getString("text")
+                          + item.getText()
+                          + ", "
+                          + resources.getString("end")
+                          + item.getReference());
+                }
+              }
+            };
+
+    linkComboBox.setCellFactory(cellFactory);
+    linkComboBox.setButtonCell(cellFactory.call(null));
 
     setResultConverter(createCallback());
   }
