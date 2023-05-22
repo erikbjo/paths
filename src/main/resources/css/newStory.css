@@ -1,26 +1,24 @@
-VBox > Text {
-    -fx-font-smoothing-type: lcd;
-    -fx-fill: linear-gradient(to top, black, darkslategrey);
-    -fx-font-size: 36pt;
-    -fx-font-family: "Arial Black", fantasy;
-    -fx-font-weight: bold;
-    -fx-text-transform: uppercase;
+#rootVBox {
+    -fx-alignment: top-center;
+    -fx-pref-width: 800;
+    -fx-max-width: 1000;
+    -fx-padding: 20;
 }
 
-VBox > HBox > VBox > Text {
-    -fx-font-smoothing-type: lcd;
-    -fx-fill: black;
-    -fx-font-size: 12pt;
-    -fx-font-family: "Arial Black", sans-serif;
-    -fx-font-weight: normal;
-}
-
-Button {
-    -fx-border-width: 1;
-    -fx-border-color: black;
-}
-
-VBox > HBox > VBox > HBox {
-    -fx-alignment: center;
+#openingVBox {
+    -fx-alignment: top-center;
     -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+#openingVBox {
+    -fx-alignment: top-center;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+#headlineText {
+    -fx-font-size: 24pt;
+    -fx-font-weight: bold;
+    -fx-fill: black;
 }
