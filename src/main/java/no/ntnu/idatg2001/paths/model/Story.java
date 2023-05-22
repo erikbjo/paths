@@ -185,22 +185,6 @@ public class Story {
         .orElseThrow();
   }
 
-  /**
-   * This function returns a list of all the passages that does not have a link pointing to them.
-   *
-   * @return A list of all the passages that does not have a link pointing to them.
-   */
-  public List<Passage> getAllPassagesThatDoesNotHaveALinkPointingToThem() {
-    return passages.values().stream()
-        .filter(
-            passage ->
-                passages.values().stream()
-                    .noneMatch(
-                        p ->
-                            p.getLinks()
-                                .contains(new Link(passage.getTitle(), passage.getTitle()))))
-        .toList();
-  }
 
   /**
    * Returns the passage that is linked to the given link.
@@ -275,8 +259,12 @@ public class Story {
    *
    * @param to The passage to go to.
    * @return The minimum number of passages.
+   * @throws IllegalArgumentException If the passage is null.
    */
   public int shortestPathFromOpeningPassage(Passage to) {
+    if (to == null) {
+      throw new IllegalArgumentException("Passage cannot be null");
+    }
     Map<Passage, Passage> previousPassages = new HashMap<>();
     Queue<Passage> queue = new LinkedList<>();
     queue.add(openingPassage);
