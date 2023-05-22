@@ -1,9 +1,6 @@
 package no.ntnu.idatg2001.paths.ui.dialogs;
 
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Dialog;
+import javafx.scene.control.*;
 import javafx.util.Callback;
 import no.ntnu.idatg2001.paths.model.Link;
 import no.ntnu.idatg2001.paths.model.Passage;
@@ -11,6 +8,7 @@ import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class DeletePassageDialog extends Dialog<Passage> implements StandardDialog {
@@ -35,6 +33,31 @@ public class DeletePassageDialog extends Dialog<Passage> implements StandardDial
   public void initComponents() {
     passageComboBox = new ComboBox<>();
     passageComboBox.getItems().addAll(story.getPassages());
+
+    Callback<ListView<Passage>, ListCell<Passage>> cellFactory =
+        comboBox ->
+            new ListCell<>() {
+              @Override
+              protected void updateItem(Passage item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                  setText(null);
+                } else {
+                  setText(
+                      resources.getString("itemTitle")
+                          + item.getTitle()
+                          + ", "
+                          + resources.getString("itemContent")
+                          + item.getContent()
+                          + ", "
+                          + resources.getString("itemAmountOfLinks")
+                          + item.getLinks().size());
+                }
+              }
+            };
+
+    passageComboBox.setCellFactory(cellFactory);
+    passageComboBox.setButtonCell(cellFactory.call(null));
 
     setResultConverter(createCallback());
   }
