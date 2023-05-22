@@ -39,13 +39,13 @@ class StoryTest {
     link3to4 = new Link("Link 3-4", passage4.getTitle());
 
     passage1.addLink(link1to2);
+    passage1.addLink(link1to3);
     passage2.addLink(link2to3);
     passage3.addLink(link3to4);
 
     story = new Story("Test story", passage1);
     story.addPassage(passage2);
     story.addPassage(passage3);
-    // story.addPassage(passage4);
   }
 
   @AfterEach
@@ -63,11 +63,28 @@ class StoryTest {
   }
 
   @Test
+  void assertThatSetOpeningPassageThrowsOnNull() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          story.setOpeningPassage(null);
+        });
+  }
+
+  @Test
   void addPassage() {
     story.addPassage(passage4);
     assertTrue(story.getPassages().contains(passage4));
   }
 
+  @Test
+  void addPassageThrowsOnNull() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          story.addPassage(null);
+        });
+  }
 
   @Test
   void getPassages() {
@@ -77,8 +94,49 @@ class StoryTest {
   }
 
   @Test
-  void removePassage() {}
+  void removePassage() {
+    story.removePassage(link1to2);
+    assertFalse(story.getPassages().contains(passage2));
+  }
 
   @Test
-  void getBrokenLinks() {}
+    void removePassageThrowsOnNull() {
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> {
+            story.removePassage(null);
+            });
+    }
+
+  @Test
+  void getBrokenLinksReturnsABrokenLink() {
+    Link brokenLink = new Link("Broken link", "This is a broken link");
+    story.addPassage(passage4);
+    passage4.addLink(brokenLink);
+    System.out.println(story.getBrokenLinks());
+    assertTrue(story.getBrokenLinks().contains(brokenLink));
+  }
+
+  @Test
+    void getBrokenLinksReturnsNoBrokenLinks() {
+        story.addPassage(passage4);
+        assertFalse(story.getBrokenLinks().contains(link3to4));
+    }
+
+    @Test
+  void assertGetAmountOfLinksToPassages() {
+    assertEquals(2, story.shortestPathFromOpeningPassage(passage2));
+    assertEquals(2, story.shortestPathFromOpeningPassage(passage3));
+    story.addPassage(passage4);
+    assertEquals(3, story.shortestPathFromOpeningPassage(passage4));
+    }
+
+    @Test
+  void assertShortestPathThrowsOnNull() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          story.shortestPathFromOpeningPassage(null);
+        });
+  }
 }

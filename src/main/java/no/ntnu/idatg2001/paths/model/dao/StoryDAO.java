@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import no.ntnu.idatg2001.paths.model.Game;
 import no.ntnu.idatg2001.paths.model.Link;
+import no.ntnu.idatg2001.paths.model.Passage;
 import no.ntnu.idatg2001.paths.model.Story;
 
 /**
@@ -60,9 +61,11 @@ public class StoryDAO implements DAO<Story> {
     }
   }
 
-  /** {@inheritDoc} <br><br>
-   * Remove all links with the story to be removed. This is done to avoid a constraint violation
-   * in the database. Sets all games with the story to be removed to have no story.
+  /**
+   * {@inheritDoc} <br>
+   * <br>
+   * Remove all links with the story to be removed. This is done to avoid a constraint violation in
+   * the database. Sets all games with the story to be removed to have no story.
    */
   @Override
   public void remove(Story story) {
@@ -77,6 +80,15 @@ public class StoryDAO implements DAO<Story> {
       link.setStory(null);
       em.getTransaction().begin();
       em.merge(link);
+      em.flush();
+      em.getTransaction().commit();
+    }
+
+    List<Passage> passagesWithStory = StoryDAO.getInstance().findPassagesByStory(story);
+    for (Passage passage : passagesWithStory) {
+      passage.setStory(null);
+      em.getTransaction().begin();
+      em.merge(passage);
       em.flush();
       em.getTransaction().commit();
     }
@@ -135,9 +147,28 @@ public class StoryDAO implements DAO<Story> {
     }
   }
 
+  /**
+   * Finds all links with the given story.
+   *
+   * @param story the story to find links for
+   * @return a list of all links with the given story
+   */
   public List<Link> findLinksByStory(Story story) {
     TypedQuery<Link> query =
         this.em.createQuery("SELECT a FROM Link a WHERE a.story = :story", Link.class);
+    query.setParameter("story", story);
+    return query.getResultList();
+  }
+
+  /**
+   * Finds all passages with the given story.
+   *
+   * @param story the story to find passages for
+   * @return a list of all passages with the given story
+   */
+  public List<Passage> findPassagesByStory(Story story) {
+    TypedQuery<Passage> query =
+        this.em.createQuery("SELECT a FROM Passage a WHERE a.story = :story", Passage.class);
     query.setParameter("story", story);
     return query.getResultList();
   }

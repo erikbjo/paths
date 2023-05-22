@@ -1,0 +1,42 @@
+#storiesVBox {
+
+}
+
+Text {
+    -fx-alignment: center;
+    -fx-font: 24pt;
+}
+
+#playersVBox {
+
+}
+
+#deadLinksVBox {
+
+}
+
+#startNewGameHBox {
+
+}
+
+VBox {
+    -fx-alignment: center;
+    -fx-padding: 10;
+}
+
+TableView {
+    -fx-background-color: transparent;
+    -fx-border-color: rgb(4, 241, 234);
+    -fx-border-width: 1px;
+    -fx-font-size: 12px;
+    -fx-text-fill: white;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: rgb(0, 190, 185);
+}
+
+#mainHBox {
+    -fx-alignment: center;
+    -fx-spacing: 20;
+}

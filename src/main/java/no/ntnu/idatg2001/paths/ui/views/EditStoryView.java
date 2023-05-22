@@ -8,11 +8,22 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.ui.controllers.EditStoryController;
+import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.standardobjects.StandardMenuBar;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class EditStoryView implements View {
   private final Story story;
   private final EditStoryController controller;
+  private Button newLinkButton;
+  private Button newPassageButton;
+  private Button saveButton;
+  private Button loadButton;
+  private Button backButton;
+  private Button deleteLinkButton;
+  private Button deletePassageButton;
 
   public EditStoryView(EditStoryController controller, Stage primaryStage, Story story) {
     this.controller = controller;
@@ -32,32 +43,59 @@ public class EditStoryView implements View {
     root.setBottom(buttonBox);
 
     primaryStage.getScene().setRoot(root);
+
+    updateLanguage();
   }
 
   @Override
-  public void updateLanguage() {}
+  public void updateLanguage() {
+    ResourceBundle resources =
+        ResourceBundle.getBundle(
+            "languages/editStory",
+            Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+    newLinkButton.setText(resources.getString("newLinkButton"));
+    deleteLinkButton.setText(resources.getString("deleteLinkButton"));
+    newPassageButton.setText(resources.getString("newPassageButton"));
+    deletePassageButton.setText(resources.getString("deletePassageButton"));
+    saveButton.setText(resources.getString("saveButton"));
+    loadButton.setText(resources.getString("loadButton"));
+    backButton.setText(resources.getString("backButton"));
+  }
 
   private HBox createButtonBox() {
     HBox buttonBox = new HBox();
 
-    Button newLinkButton = new Button("New Link");
+    newLinkButton = new Button();
     newLinkButton.setOnAction(event -> controller.onNewLinkButtonPressed());
 
-    Button newPassageButton = new Button("New Passage");
+    deleteLinkButton = new Button();
+    deleteLinkButton.setOnAction(event -> controller.onDeleteLinkButtonPressed());
+
+    newPassageButton = new Button();
     newPassageButton.setOnAction(event -> controller.onNewPassageButtonPressed());
 
-    Button saveButton = new Button("Save to database");
+    deletePassageButton = new Button();
+    deletePassageButton.setOnAction(event -> controller.onDeletePassageButtonPressed());
+
+    saveButton = new Button();
     saveButton.setOnAction(event -> controller.onSaveButtonPressed());
 
-    Button loadButton = new Button("Restore from database");
+    loadButton = new Button();
     loadButton.setOnAction(event -> controller.onLoadButtonPressed());
 
-    Button backButton = new Button("Back");
+    backButton = new Button();
     backButton.setOnAction(event -> controller.onBackButtonPressed());
 
     buttonBox
         .getChildren()
-        .addAll(newLinkButton, newPassageButton, saveButton, loadButton, backButton);
+        .addAll(
+            newLinkButton,
+            deleteLinkButton,
+            newPassageButton,
+            deletePassageButton,
+            saveButton,
+            loadButton,
+            backButton);
 
     return buttonBox;
   }

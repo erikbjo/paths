@@ -64,24 +64,15 @@ public class NewStoryView implements View {
     BorderPane root = new BorderPane();
     StandardMenuBar menuBar = new StandardMenuBar(stage, story);
     root.setTop(menuBar);
-    AnchorPane rootAnchorPane = new AnchorPane();
-
+    VBox rootVBox = new VBox();
 
     openingVBox = createOpeningVBox();
     mainVBox = createMainVBox();
 
-    // AnchorPane.setTopAnchor(mainVBox, 0.0);
-    // AnchorPane.setBottomAnchor(mainVBox, 0.0);
-    // AnchorPane.setLeftAnchor(mainVBox, 0.0);
-    // AnchorPane.setRightAnchor(mainVBox, 0.0);
 
-    rootAnchorPane.getChildren().addAll(openingVBox, mainVBox);
-    root.setCenter(rootAnchorPane);
+    rootVBox.getChildren().addAll(openingVBox, mainVBox);
+    root.setCenter(rootVBox);
 
-    // TODO: REMOVE THIS BUTTON
-    Button createTestItemsButton = new Button("Create test items");
-    createTestItemsButton.setOnAction(e -> createTestItems());
-    root.setBottom(createTestItemsButton);
 
     // CONTROLLER
     configureTableViews();
@@ -89,23 +80,26 @@ public class NewStoryView implements View {
 
     updateLanguage();
 
+    rootVBox.setId("rootVBox");
+    openingVBox.setId("openingVBox");
+    mainVBox.setId("mainVBox");
+    openingTitleText.setId("headlineText");
+    newStoryText.setId("headlineText");
+
+    stage.getScene().getStylesheets().add("css/newStory.css");
     stage.getScene().setRoot(root);
   }
 
-  public VBox createRightVBox() {
+  public VBox createLowerVBox() {
     VBox rightVBox = new VBox();
-    rightVBox.setAlignment(Pos.CENTER);
 
-    titleText = new Text();
-    titleTextField = new TextField();
     createStoryButton = new Button();
-    createStoryButton.setOnAction(
-        e -> controller.onCreateStoryButtonClicked());
+    createStoryButton.setOnAction(e -> controller.onCreateStoryButtonClicked());
 
     cancelButton = new Button();
     cancelButton.setOnAction(e -> controller.onCancelButtonClicked());
 
-    rightVBox.getChildren().addAll(titleText, titleTextField, createStoryButton, cancelButton);
+    rightVBox.getChildren().addAll(createStoryButton, cancelButton);
     return rightVBox;
   }
 
@@ -205,8 +199,6 @@ public class NewStoryView implements View {
             "languages/newStory",
             Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
     newStoryText.setText(resources.getString("newStoryText"));
-    titleText.setText(resources.getString("titleText"));
-    titleTextField.setPromptText(resources.getString("titleTextField"));
     editPassageButton.setText(resources.getString("editPassageButton"));
     newPassageButton.setText(resources.getString("newPassageButton"));
     deletePassageButton.setText(resources.getString("deletePassageButton"));
@@ -259,16 +251,17 @@ public class NewStoryView implements View {
                 mainVBox));
     buttonsHBox.getChildren().addAll(openingCancelButton, continueButton);
 
-
-    openingVBox.getChildren().addAll(
-        openingTitleText,
-        storyTitleText,
-        storyTitleTextField,
-        openingPassageTitleText,
-        openingPassageTitleTextField,
-        openingPassageContentText,
-        openingPassageContentTextArea,
-        buttonsHBox);
+    openingVBox
+        .getChildren()
+        .addAll(
+            openingTitleText,
+            storyTitleText,
+            storyTitleTextField,
+            openingPassageTitleText,
+            openingPassageTitleTextField,
+            openingPassageContentText,
+            openingPassageContentTextArea,
+            buttonsHBox);
     return openingVBox;
   }
 
@@ -281,12 +274,11 @@ public class NewStoryView implements View {
     HBox upperHBox = new HBox();
     upperHBox.setAlignment(Pos.CENTER);
 
-    VBox leftVBox = new VBox();
-
     addLinkToPassageButton = new Button();
     addLinkToPassageButton.setOnAction(
         event ->
-            controller.onAddLinkToPassageButtonClicked(passageCreationTableView, linkCreationTableView));
+            controller.onAddLinkToPassageButtonClicked(
+                passageCreationTableView, linkCreationTableView));
 
     VBox passageCreationVBox = createPassageCreationVBox();
     VBox linkCreationVBox = createLinkCreationVBox();
@@ -296,7 +288,7 @@ public class NewStoryView implements View {
 
     mainVBox.getChildren().add(upperHBox);
 
-    VBox rightVBox = createRightVBox();
+    VBox rightVBox = createLowerVBox();
 
     mainVBox.getChildren().add(rightVBox);
 

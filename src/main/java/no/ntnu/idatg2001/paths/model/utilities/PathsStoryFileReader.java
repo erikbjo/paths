@@ -53,7 +53,7 @@ public class PathsStoryFileReader {
 
       while (fileScanner.findWithinHorizon(pattern, 0) != null) {
         StringBuilder content = new StringBuilder();
-        Passage passage = new Passage(null, null);
+        Passage passage = new Passage();
         Link link = null;
 
         MatchResult matchResult = fileScanner.match();
@@ -145,7 +145,7 @@ public class PathsStoryFileReader {
         }
       }
     } catch (Exception e) {
-      //StoryDAO.getInstance().remove(story);
+      StoryDAO.getInstance().remove(story);
       throw new IOException("Could not read file: " + file, e);
     } finally {
       fileScanner.close();

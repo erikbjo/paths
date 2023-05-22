@@ -38,11 +38,15 @@ public class Story {
    *
    * @param title The title of the story.
    * @param openingPassage The opening passage of the story.
-   * @throws IllegalArgumentException if the title is null, blank or empty.
+   * @throws IllegalArgumentException if the title is null, blank or empty.Also if the opening
+   *     passage is null.
    */
   public Story(String title, Passage openingPassage) {
     if (title == null || title.isBlank() || title.isEmpty()) {
       throw new IllegalArgumentException("Title cannot be null or blank");
+    }
+    if (openingPassage == null) {
+      throw new IllegalArgumentException("Opening passage cannot be null");
     }
     this.passages = new HashMap<>();
     this.title = title;
@@ -181,22 +185,6 @@ public class Story {
         .orElseThrow();
   }
 
-  /**
-   * This function returns a list of all the passages that does not have a link pointing to them.
-   *
-   * @return A list of all the passages that does not have a link pointing to them.
-   */
-  public List<Passage> getAllPassagesThatDoesNotHaveALinkPointingToThem() {
-    return passages.values().stream()
-        .filter(
-            passage ->
-                passages.values().stream()
-                    .noneMatch(
-                        p ->
-                            p.getLinks()
-                                .contains(new Link(passage.getTitle(), passage.getTitle()))))
-        .toList();
-  }
 
   /**
    * Returns the passage that is linked to the given link.
@@ -271,8 +259,12 @@ public class Story {
    *
    * @param to The passage to go to.
    * @return The minimum number of passages.
+   * @throws IllegalArgumentException If the passage is null.
    */
   public int shortestPathFromOpeningPassage(Passage to) {
+    if (to == null) {
+      throw new IllegalArgumentException("Passage cannot be null");
+    }
     Map<Passage, Passage> previousPassages = new HashMap<>();
     Queue<Passage> queue = new LinkedList<>();
     queue.add(openingPassage);
@@ -300,6 +292,6 @@ public class Story {
       }
     }
 
-    return 0; // No path found
+    return 1; // No path found
   }
 }
