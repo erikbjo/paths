@@ -145,7 +145,6 @@ public class PathsStoryFileReader {
         }
       }
     } catch (Exception e) {
-      e.printStackTrace();
       StoryDAO.getInstance().remove(story);
       throw new IOException("Could not read file: " + file, e);
     } finally {

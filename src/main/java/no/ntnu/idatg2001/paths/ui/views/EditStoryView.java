@@ -8,11 +8,20 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import no.ntnu.idatg2001.paths.model.Story;
 import no.ntnu.idatg2001.paths.ui.controllers.EditStoryController;
+import no.ntnu.idatg2001.paths.ui.handlers.LanguageHandler;
 import no.ntnu.idatg2001.paths.ui.standardobjects.StandardMenuBar;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class EditStoryView implements View {
   private final Story story;
   private final EditStoryController controller;
+  private Button newLinkButton;
+  private Button newPassageButton;
+  private Button saveButton;
+  private Button loadButton;
+  private Button backButton;
 
   public EditStoryView(EditStoryController controller, Stage primaryStage, Story story) {
     this.controller = controller;
@@ -35,24 +44,34 @@ public class EditStoryView implements View {
   }
 
   @Override
-  public void updateLanguage() {}
+  public void updateLanguage() {
+    ResourceBundle resources =
+            ResourceBundle.getBundle(
+                    "languages/editStory",
+                    Locale.forLanguageTag(LanguageHandler.getCurrentLanguage().getLocalName()));
+    newLinkButton.setText(resources.getString("newLinkButton"));
+    newPassageButton.setText(resources.getString("newPassageButton"));
+    saveButton.setText(resources.getString("saveButton"));
+    loadButton.setText(resources.getString("loadButton"));
+    backButton.setText(resources.getString("backButton"));
+  }
 
   private HBox createButtonBox() {
     HBox buttonBox = new HBox();
 
-    Button newLinkButton = new Button("New Link");
+    newLinkButton = new Button("New Link");
     newLinkButton.setOnAction(event -> controller.onNewLinkButtonPressed());
 
-    Button newPassageButton = new Button("New Passage");
+    newPassageButton = new Button("New Passage");
     newPassageButton.setOnAction(event -> controller.onNewPassageButtonPressed());
 
-    Button saveButton = new Button("Save to database");
+    saveButton = new Button("Save to database");
     saveButton.setOnAction(event -> controller.onSaveButtonPressed());
 
-    Button loadButton = new Button("Restore from database");
+    loadButton = new Button("Restore from database");
     loadButton.setOnAction(event -> controller.onLoadButtonPressed());
 
-    Button backButton = new Button("Back");
+    backButton = new Button("Back");
     backButton.setOnAction(event -> controller.onBackButtonPressed());
 
     buttonBox
