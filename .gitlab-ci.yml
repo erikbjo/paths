@@ -1,6 +1,6 @@
 variables:
   MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
-  GITLAB_API_TOKEN: vtWxX9j7b76rQ_ucQryj
+  GITLAB_API_TOKEN: xxx
 
 image: maven:3.8.5-openjdk-17
 
