@@ -5,8 +5,10 @@
 [![](https://img.shields.io/badge/Language-CSS-purple)]()
 [![](https://img.shields.io/badge/Database-DerbyDB-green)]()
 
-Paths is a game engine for a choice-based and interactive story telling. It is written in Java and is an exam-project
+Paths is a game engine for choice-based and interactive story telling. It is written in Java and is an exam-project
 for the course "Programming 2" at NTNU.
+
+_The project is finished and archived._
 
 ## 💾 Installation
 
@@ -21,8 +23,7 @@ mvn javafx:run
 
 ## 📦 Releases
 
-See
-releases [here](https://git.gvk.idi.ntnu.no/course/idatg2001/idatg2001-2023-ws/eslatte/mappevudering-idatg2001-gruppe-3/-/releases).
+See releases
 
 ## 🎮 Usage
 
@@ -53,7 +54,7 @@ The application is currently a closed project and is therefore not open for cont
 ## 📜 License
 
 See
-license [here](https://git.gvk.idi.ntnu.no/course/idatg2001/idatg2001-2023-ws/eslatte/mappevudering-idatg2001-gruppe-3/-/blob/main/LICENSE).
+license
 
 ## 🚧 Project status
 
